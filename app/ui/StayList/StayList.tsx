@@ -1,8 +1,8 @@
-import { Stay } from "../../model/stay.model";
+import { Stay, StaySmall } from "../../model/stay.model";
 import StayPreview from "../StayPreview/StayPreview";
 import styles from "./StayList.module.scss";
 interface Props {
-  stays: Stay[];
+  stays: StaySmall[];
 }
 
 export default function StayList({ stays }: Props) {
