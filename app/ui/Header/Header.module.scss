@@ -1,0 +1,21 @@
+.header {
+  width: 100%;
+  height: 4rem;
+  display: grid;
+  grid-template-columns: 20% 40% 20%;
+  grid-template-rows: 100%;
+  .logo {
+    display: flex;
+    align-items: center;
+    grid-area: 1/1/2/2;
+    h2 {
+      font-weight: 700;
+      color: $main-pink;
+    }
+    svg {
+      width: 2rem;
+      height: 2rem;
+      fill: $main-pink;
+    }
+  }
+}
