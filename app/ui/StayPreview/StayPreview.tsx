@@ -1,8 +1,8 @@
 import Image from "next/image";
-import {  StaySmall } from "../../model/stay.model";
+import { StaySmall } from "../../model/stay.model";
 import { LikeSVG, RatingSVG } from "../svgs/svgs";
 import { faker } from "@faker-js/faker";
-import styles from "./StayList.module.scss";
+import styles from "./StayPreview.module.scss";
 
 interface Props {
   stay: StaySmall;
@@ -15,14 +15,17 @@ export default function StayPreview({ stay }: Props) {
 
   return (
     <li className={styles.stayPreview}>
-      <LikeSVG />
-      <Image src={image} layout="responsive" objectFit="cover" alt=""></Image>
+      <LikeSVG className={styles.likeSvg} />
+      <div className={styles.imgCon}>
+
+      <Image src={image} fill={true} alt="" className={styles.image}></Image>
+      </div>
       <div className={styles.infoHead}>
         <h3>
           {city}, {country}
         </h3>
         <div className={styles.rating}>
-          <RatingSVG />
+          <RatingSVG className={styles.ratingSvg} />
           <h5>{roundNum}</h5>
         </div>
       </div>

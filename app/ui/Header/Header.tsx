@@ -1,8 +1,9 @@
+"use client";
 import { useEffect, useRef, useState } from "react";
 import { LogoSVG } from "../svgs/svgs";
 import { User } from "../User/User";
-import StaySearch from "../stay-search";
-import styles from "./StayFilter.module.scss";
+import styles from "./Header.module.scss";
+import { StaySearch } from "../StaySearch/StaySearch";
 
 export default function Header() {
   const [isActive, setIsActive] = useState(false);

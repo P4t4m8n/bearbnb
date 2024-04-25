@@ -35,57 +35,121 @@ export default function StayFilter() {
           className={styles.scrollBtn}
           onClick={() => onScrollBy(-1)}
         >
-          <ScrollBySVG />
+          <ScrollBySVG className={styles.svg} />
         </button>
       )}
-      <ul className={styles.types}>
+      <ul ref={elTypes} className={styles.types}>
         <li>
-          <Image src="/0.jpeg" alt="" layout="fill" objectFit="cover"></Image>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
           <h5>National parks</h5>
         </li>
         <li>
-          <Image src="/0.jpeg" alt="" layout="fill" objectFit="cover"></Image>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
           <h5>National parks</h5>
         </li>
         <li>
-          <Image src="/0.jpeg" alt="" layout="fill" objectFit="cover"></Image>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
           <h5>National parks</h5>
         </li>
         <li>
-          <Image src="/0.jpeg" alt="" layout="fill" objectFit="cover"></Image>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
           <h5>National parks</h5>
         </li>
         <li>
-          <Image src="/0.jpeg" alt="" layout="fill" objectFit="cover"></Image>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
           <h5>National parks</h5>
         </li>
         <li>
-          <Image src="/0.jpeg" alt="" layout="fill" objectFit="cover"></Image>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
           <h5>National parks</h5>
         </li>
         <li>
-          <Image src="/0.jpeg" alt="" layout="fill" objectFit="cover"></Image>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
           <h5>National parks</h5>
         </li>
         <li>
-          <Image src="/0.jpeg" alt="" layout="fill" objectFit="cover"></Image>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
           <h5>National parks</h5>
         </li>
         <li>
-          <Image src="/0.jpeg" alt="" layout="fill" objectFit="cover"></Image>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
           <h5>National parks</h5>
         </li>
         <li>
-          <Image src="/0.jpeg" alt="" layout="fill" objectFit="cover"></Image>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
           <h5>National parks</h5>
         </li>
         <li>
-          <Image src="/0.jpeg" alt="" layout="fill" objectFit="cover"></Image>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
           <h5>National parks</h5>
         </li>
       </ul>
       <button className={styles.scrollBtn} onClick={() => onScrollBy(1)}>
-        <ScrollBySVG />
+        <ScrollBySVG className={styles.svg} />
       </button>
       <button className={styles.filterBtn}>
         <FilterSVG />

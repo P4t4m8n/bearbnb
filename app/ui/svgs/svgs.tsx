@@ -1,25 +1,28 @@
-export function LikeSVG() {
+interface Props {
+  className: string;
+}
+export function LikeSVG({ className }: Props) {
   return (
     <svg
       viewBox="0 0 32 32"
       aria-hidden="true"
       role="presentation"
       focusable="false"
-      className="like-svg"
+      className={className}
     >
       <path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"></path>
     </svg>
   );
 }
 
-export function RatingSVG() {
+export function RatingSVG({ className }: Props) {
   return (
     <svg
       viewBox="0 0 32 32"
       aria-hidden="true"
       role="presentation"
       focusable="false"
-      className="rating-svg"
+      className={className}
     >
       <path
         fillRule="evenodd"
@@ -54,21 +57,21 @@ export function SearchSVG() {
   );
 }
 
-export function GlobeSVG() {
+export function GlobeSVG({ className }: Props) {
   return (
     <svg
       viewBox="0 0 16 16"
       aria-hidden="true"
       role="presentation"
       focusable="false"
-      className="globe"
+      className={className}
     >
       <path d="M8 .25a7.77 7.77 0 0 1 7.75 7.78 7.75 7.75 0 0 1-7.52 7.72h-.25A7.75 7.75 0 0 1 .25 8.24v-.25A7.75 7.75 0 0 1 8 .25zm1.95 8.5h-3.9c.15 2.9 1.17 5.34 1.88 5.5H8c.68 0 1.72-2.37 1.93-5.23zm4.26 0h-2.76c-.09 1.96-.53 3.78-1.18 5.08A6.26 6.26 0 0 0 14.17 9zm-9.67 0H1.8a6.26 6.26 0 0 0 3.94 5.08 12.59 12.59 0 0 1-1.16-4.7l-.03-.38zm1.2-6.58-.12.05a6.26 6.26 0 0 0-3.83 5.03h2.75c.09-1.83.48-3.54 1.06-4.81zm2.25-.42c-.7 0-1.78 2.51-1.94 5.5h3.9c-.15-2.9-1.18-5.34-1.89-5.5h-.07zm2.28.43.03.05a12.95 12.95 0 0 1 1.15 5.02h2.75a6.28 6.28 0 0 0-3.93-5.07z"></path>
     </svg>
   );
 }
 
-export function HamburgerSVG() {
+export function HamburgerSVG({ className }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -76,6 +79,7 @@ export function HamburgerSVG() {
       aria-hidden="true"
       role="presentation"
       focusable="false"
+      className={className}
     >
       <g fill="black">
         <path d="M2 16h28M2 24h28M2 8h28"></path>
@@ -84,7 +88,7 @@ export function HamburgerSVG() {
   );
 }
 
-export function AvatarSVG() {
+export function AvatarSVG({ className }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -92,6 +96,7 @@ export function AvatarSVG() {
       aria-hidden="true"
       role="presentation"
       focusable="false"
+      className={className}
     >
       <path d="M16 .7C7.56.7.7 7.56.7 16S7.56 31.3 16 31.3 31.3 24.44 31.3 16 24.44.7 16 .7zm0 28c-4.02 0-7.6-1.88-9.93-4.81a12.43 12.43 0 0 1 6.45-4.4A6.5 6.5 0 0 1 9.5 14a6.5 6.5 0 0 1 13 0 6.51 6.51 0 0 1-3.02 5.5 12.42 12.42 0 0 1 6.45 4.4A12.67 12.67 0 0 1 16 28.7z"></path>
     </svg>
@@ -106,6 +111,7 @@ export function FilterSVG() {
       aria-hidden="true"
       role="presentation"
       focusable="false"
+      stroke="4"
     >
       <path
         fill="none"
@@ -115,7 +121,7 @@ export function FilterSVG() {
   );
 }
 
-export function ScrollBySVG() {
+export function ScrollBySVG({ className }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

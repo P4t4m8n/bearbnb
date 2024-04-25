@@ -1,4 +1,4 @@
-.stay-preview {
+.stayPreview {
   background: white;
   transition: transform 0.2s;
   border-radius: 8px;
@@ -23,13 +23,15 @@
     font-weight: 600;
     font-size: 1rem;
   }
-  img {
-    border-radius: 8px;
+  .imgCon {
+    position: relative;
     padding-bottom: 4px;
     aspect-ratio: 1;
-    object-fit: cover;
+    .image {
+      border-radius: 8px;
+    }
   }
-  .like-svg {
+  .likeSvg {
     position: absolute;
     width: 1.5rem;
     aspect-ratio: 1;
@@ -39,7 +41,7 @@
     stroke-width: 0.15rem;
     fill: gray;
   }
-  .info-head {
+  .infoHead {
     display: flex;
     justify-content: space-between;
     .rating {
@@ -47,7 +49,7 @@
       align-items: center;
       gap: 0.3rem;
 
-      .rating-svg {
+      .ratingSvg {
         width: 0.8rem;
         aspect-ratio: 1;
       }

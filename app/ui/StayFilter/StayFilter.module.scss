@@ -37,7 +37,8 @@
       :active {
         opacity: 1;
       }
-      img {
+      .imgCon {
+        position: relative;
         aspect-ratio: 1;
         height: 1.5rem;
       }
@@ -48,7 +49,7 @@
       rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   }
 
-  .scroll-btn {
+  .scrollBtn {
     width: 1.75rem;
     aspect-ratio: 1;
     border-radius: 100vw;
@@ -64,10 +65,10 @@
     stroke: currentcolor;
   }
 
-  .filter-btn {
+  .filterBtn {
     display: flex;
 
-    border-radius: $border-radius-1-2;
+    border-radius: 0.5rem;
     height: 3rem;
     align-items: center;
     gap: 0.5rem;

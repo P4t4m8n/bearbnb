@@ -11,9 +11,9 @@ export default async function Home() {
 
   if (!stays) return;
   return (
-    <main className=" ">
+    <>
       <StayFilter />
       <StayList stays={stays} />
-    </main>
+    </>
   );
 }

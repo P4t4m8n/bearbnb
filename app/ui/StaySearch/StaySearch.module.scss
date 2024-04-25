@@ -1,3 +1,5 @@
+@import "../../styles/abstracts/variables";
+
 .search {
   justify-self: center;
   grid-area: 2/1/-1/-1;
@@ -11,7 +13,7 @@
   display: grid;
   grid-template-columns: minmax(5%, 1fr) 20% 20% minmax(5%, 20%) auto;
   gap: 2px;
-  .search-btn {
+  .searchBtn {
     width: 3rem;
     aspect-ratio: 1;
     justify-self: end;
@@ -29,7 +31,7 @@
       stroke-width: 4;
     }
   }
-  .input-btn {
+  .inputBtn {
     height: inherit;
     display: flex;
     width: fit-content;

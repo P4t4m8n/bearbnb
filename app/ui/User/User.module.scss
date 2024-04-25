@@ -1,3 +1,5 @@
+@import "../../styles/abstracts/variables";
+
 .user {
   display: flex;
   grid-area: 1/3/2/-1;
@@ -5,7 +7,7 @@
   justify-self: flex-end;
   gap: 1rem;
 
-  .svg-btn {
+  .svgBtn {
     padding: 0.7rem;
     border-radius: $border-radius-2;
     &:hover {
@@ -19,7 +21,7 @@
     font-weight: lighter;
     font-size: 0.9rem;
   }
-  .user-profile {
+  .userProfile {
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
       rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
     border-radius: $border-radius-2;
@@ -30,7 +32,7 @@
     display: flex;
     gap: 1rem;
     align-items: center;
-    svg {
+    .svg {
       &:first-of-type {
         width: 1rem;
         fill: $svg-fill-black;
@@ -40,7 +42,6 @@
       }
       &:nth-of-type(2) {
         fill: $svg-fill-gary;
-
         width: 1.9rem;
       }
     }

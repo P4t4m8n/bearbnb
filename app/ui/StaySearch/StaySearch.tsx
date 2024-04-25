@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
 import { SearchSVG } from "../svgs/svgs";
-import styles from "./StayList.module.scss";
+import styles from "./StaySearch.module.scss";
 
 export function StaySearch() {
   const handleSearch = (ev: ChangeEvent<HTMLInputElement>) => {
@@ -13,7 +13,7 @@ export function StaySearch() {
         <span>Where</span>
         <input
           placeholder="Search destinations"
-          value="{searchQuery}"
+          value=""
           onChange={handleSearch}
         />
       </div>

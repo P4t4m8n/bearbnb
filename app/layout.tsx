@@ -1,6 +1,13 @@
 import Header from "./ui/Header/Header";
-import '@/app/ui/global.css';
+import { Mulish } from "next/font/google";
+import "./styles/main.scss";
+import styles from "./layout.module.scss";
 
+const mulish = Mulish({
+  weight: ["200", "300", "400", "500", "600", "700"],
+  style: ["normal"],
+  subsets: ["cyrillic"],
+});
 
 export default function RootLayout({
   children,
@@ -9,9 +16,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className=" flex flex-col" >
-      <Header/>
-        {children}</body>
+      <body className={mulish.className}>
+        <section className={styles.main}>
+          <Header />
+          {children}
+        </section>
+      </body>
     </html>
   );
 }
