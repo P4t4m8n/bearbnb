@@ -2,6 +2,8 @@ import Image from "next/image";
 import { Stay } from "../../model/stay.model";
 import { LikeSVG, RatingSVG } from "../svgs/svgs";
 import { faker } from "@faker-js/faker";
+import styles from "./StayList.module.scss";
+
 interface Props {
   stay: Stay;
 }
@@ -12,7 +14,7 @@ export default function StayPreview({ stay }: Props) {
   const distance = faker.number.int({ min: 10, max: 1200 });
 
   return (
-    <li className="stay-preview">
+    <li className={styles.stayPreview}>
       <LikeSVG />
       <Image
         src={images[0].url}
@@ -20,18 +22,18 @@ export default function StayPreview({ stay }: Props) {
         objectFit="cover"
         alt=""
       ></Image>
-      <div className="info-head">
+      <div className={styles.infoHead}>
         <h3>
           {city}, {country}
         </h3>
-        <div className="rating">
+        <div className={styles.rating}>
           <RatingSVG />
           <h5>{roundNum}</h5>
         </div>
       </div>
       <h6>{distance} kilometers away</h6>
       <h6>May 7-12</h6>
-      <div className="price">
+      <div className={styles.price}>
         <h3>{price}$</h3>
         <h5>night</h5>
       </div>

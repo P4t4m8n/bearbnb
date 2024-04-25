@@ -1,0 +1,67 @@
+.stay-preview {
+  background: white;
+  transition: transform 0.2s;
+  border-radius: 8px;
+  max-width: 320px;
+  position: relative;
+  display: grid;
+  font-size: 1rem;
+  &:hover {
+    transform: translateY(-5px);
+  }
+  div,
+  h6 {
+    padding-inline: 2px;
+  }
+  h5 {
+    font-weight: lighter;
+    font-size: 1rem;
+  }
+  h3 {
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
+      "Helvetica Neue", sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  img {
+    border-radius: 8px;
+    padding-bottom: 4px;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+  .like-svg {
+    position: absolute;
+    width: 1.5rem;
+    aspect-ratio: 1;
+    right: 5%;
+    top: 5%;
+    stroke: white;
+    stroke-width: 0.15rem;
+    fill: gray;
+  }
+  .info-head {
+    display: flex;
+    justify-content: space-between;
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+
+      .rating-svg {
+        width: 0.8rem;
+        aspect-ratio: 1;
+      }
+    }
+  }
+  h6 {
+    display: flex;
+    font-size: 0.95rem;
+    font-weight: lighter;
+    color: rgb(81, 81, 81);
+  }
+  .price {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+}
