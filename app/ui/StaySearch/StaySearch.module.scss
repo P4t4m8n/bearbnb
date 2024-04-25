@@ -1,0 +1,76 @@
+.search {
+  justify-self: center;
+  grid-area: 2/1/-1/-1;
+  align-items: center;
+  width: 60vw;
+  height: 4rem;
+  transition: width 0.5s ease-in-out;
+  padding-right: 0.5rem;
+  border-radius: $border-radius-2;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  display: grid;
+  grid-template-columns: minmax(5%, 1fr) 20% 20% minmax(5%, 20%) auto;
+  gap: 2px;
+  .search-btn {
+    width: 3rem;
+    aspect-ratio: 1;
+    justify-self: end;
+    border-radius: 100vw;
+    background-color: $main-pink;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 1rem;
+      display: block;
+      fill: none;
+      stroke: white;
+      stroke-width: 4;
+    }
+  }
+  .input-btn {
+    height: inherit;
+    display: flex;
+    width: fit-content;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6px 12px 4px 10px;
+    border-radius: $border-radius-2;
+    width: 100%;
+    position: relative;
+    &:hover {
+      background-color: rgb(245, 245, 240);
+      cursor: pointer;
+    }
+
+    &:not(:nth-child(4))::after {
+      content: "";
+      display: block;
+      height: 40px;
+      width: 2px;
+      background-repeat: no-repeat;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='100%25' width='1'%3E%3Cline x1='0' y1='0' x2='0' y2='100%25' style='stroke%3Argb(0%2C0%2C0)%3Bstroke-width%3A1' /%3E%3C/svg%3E");
+      position: absolute;
+      right: 0;
+      top: 20%;
+      opacity: 1;
+      transform: translateX(50%);
+    }
+  }
+  &:hover div::after {
+    opacity: 0;
+  }
+  span {
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  input,
+  p {
+    font-weight: 300;
+    font-size: 0.9rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
