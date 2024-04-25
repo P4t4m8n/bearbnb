@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs https//pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate https//pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Stay {
+  id         String    @id @default(uuid())
+  name       String
+  type       String
+  images     Image[]
+  price      Float
+  summary    String
+  capacity   Int
+  amenities  Amenity[]
+  labels     Label[]
+  hostId     String
+  host       User      @relation(fields: [hostId], references: [id])
+  locationId String    @unique
+  location   Location  @relation(fields: [locationId], references: [id])
+  reviews    Review[]
+  likes      Like[]
+  rating     Float
+}
+
+model Review {
+  id     String @id @default(uuid())
+  stayId String
+  stay   Stay   @relation(fields: [stayId], references: [id])
+  text   String
+  rate   Int
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id       String   @id @default(uuid())
+  fullname String
+  email    String   @unique
+  stays    Stay[]
+  imgUrl   String
+  review   Review[]
+  likes    Like[]
+}
+
+model Location {
+  id          String @id @default(uuid())
+  country     String
+  countryCode String
+  city        String
+  address     String
+  lat         Float
+  lng         Float
+  stay        Stay?
+}
+
+model Amenity {
+  id    String @id @default(uuid())
+  name  String
+  stays Stay[]
+}
+
+model Label {
+  id    String @id @default(uuid())
+  name  String
+  stays Stay[]
+}
+
+model Like {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+  stayId String
+  stay   Stay   @relation(fields: [stayId], references: [id])
+}
+
+model Image {
+  id     String @id @default(uuid())
+  url    String
+  stayId String
+  stay   Stay   @relation(fields: [stayId], references: [id])
+}
