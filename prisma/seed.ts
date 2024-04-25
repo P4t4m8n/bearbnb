@@ -30,13 +30,17 @@ async function main() {
         price: parseFloat(faker.commerce.price()),
         summary: faker.commerce.productDescription(),
         capacity: faker.number.int({ min: 1, max: 12 }),
-        rating: faker.number.float({ min: 0, max: 5 }),
         hostId: user.id,
         locationId: location.id,
         images: {
           create: [
-            { url: faker.image.urlLoremFlickr({ category: "apartment" }) },
-            { url: faker.image.urlLoremFlickr({ category: "apartment" }) },
+            { url: "https://source.unsplash.com/featured/?home,apartment" },
+            { url: "https://source.unsplash.com/featured/?home,apartment" },
+            { url: "https://source.unsplash.com/featured/?home,apartment" },
+            { url: "https://source.unsplash.com/featured/?home,apartment" },
+            { url: "https://source.unsplash.com/featured/?home,apartment" },
+            { url: "https://source.unsplash.com/featured/?home,apartment" },
+            { url: "https://source.unsplash.com/featured/?home,apartment" },
           ],
         },
         amenities: {
@@ -48,21 +52,31 @@ async function main() {
       },
     });
 
-    const review = await prisma.review.create({
-      data: {
-        text: faker.lorem.sentence(),
-        rate: faker.number.int({ min: 1, max: 5 }),
-        userId: user.id,
-        stayId: stay.id,
-      },
-    });
+    const reviews = [];
+    for (let i = 0; i < 10; i++) {
+      const review = await prisma.review.create({
+        data: {
+          text: faker.lorem.sentence(),
+          rate: faker.number.int({ min: 1, max: 5 }),
+          userId: user.id,
+          stayId: stay.id,
+        },
+      });
+      reviews.push(review);
+    }
 
-    const like = await prisma.like.create({
-      data: {
-        userId: user.id,
-        stayId: stay.id,
-      },
-    });
+    const likes = [];
+    for (let i = 0; i < 10; i++) {
+      const like = await prisma.like.create({
+        data: {
+          userId: user.id,
+          stayId: stay.id,
+        },
+      });
+      likes.push(like);
+    }
+
+    
   }
 }
 
