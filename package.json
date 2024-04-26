@@ -11,7 +11,6 @@
   "dependencies": {
     "@prisma/client": "^5.13.0",
     "@prisma/extension-accelerate": "^1.0.0",
-    "axios": "^1.6.8",
     "faker": "^5.5.3",
     "ioredis": "^5.4.1",
     "next": "14.2.3",
