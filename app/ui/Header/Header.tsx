@@ -4,6 +4,8 @@ import { LogoSVG } from "../svgs/svgs";
 import { User } from "../User/User";
 import styles from "./Header.module.scss";
 import { StaySearch } from "../StaySearch/StaySearch";
+import Link from "next/link";
+import { throttle } from "@/app/util/throttle";
 
 export default function Header() {
   const [isActive, setIsActive] = useState(false);
@@ -13,36 +15,37 @@ export default function Header() {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
       requestAnimationFrame(() => {
-        if (currentScroll > 10 && lastScrollTop.current <= 10) {
+        if (currentScroll > 45 && lastScrollTop.current <= 45) {
           setIsActive(true);
-        } else if (currentScroll <= 10 && lastScrollTop.current > 10) {
+        } else if (currentScroll <= 45 && lastScrollTop.current > 45) {
           setIsActive(false);
         }
         lastScrollTop.current = currentScroll;
       });
     };
 
-    window.addEventListener("scroll", handleScroll);
+    const throttledHandleScroll = throttle(handleScroll, 100);
+    window.addEventListener("scroll", throttledHandleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", throttledHandleScroll);
     };
   }, []);
 
   const headerClass = `${styles.header} ${isActive ? styles.scroll : ""}`;
   return (
     <section className={headerClass}>
-      <div className={styles.logo}>
+      <Link href={"/"} className={styles.logo}>
         <LogoSVG />
         <h2>airbnb</h2>
-      </div>
+      </Link>
       <div className={styles.placeHolder}>
         <span>Stays</span>
         <span>Experiences</span>
         <span>Online Experiences</span>
       </div>
       <User />
-      <StaySearch />
+      <StaySearch isActive={isActive} />
     </section>
   );
 }

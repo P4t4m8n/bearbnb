@@ -2,13 +2,17 @@ import { ChangeEvent } from "react";
 import { SearchSVG } from "../svgs/svgs";
 import styles from "./StaySearch.module.scss";
 
-export function StaySearch() {
+interface Props {
+  isActive: boolean;
+}
+export function StaySearch({ isActive }: Props) {
+  const scrollClass = `${styles.search} ${isActive ? styles.scroll : ""}`;
   const handleSearch = (ev: ChangeEvent<HTMLInputElement>) => {
     console.log("ev:", ev);
   };
 
   return (
-    <div className={styles.search}>
+    <div className={scrollClass}>
       <div className={styles.inputBtn}>
         <span>Where</span>
         <input
