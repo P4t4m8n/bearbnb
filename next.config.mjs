@@ -7,6 +7,16 @@ const nextConfig = {
         hostname: "source.unsplash.com",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "acloudflare-ipfs.com",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        port: "",
+      },
     ],
   },
 };

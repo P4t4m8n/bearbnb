@@ -6,11 +6,15 @@ import {
   DoubleBedSVG,
   LikeSVG,
   RatingSVG,
+  ScrollBySVG,
   SelfCheckInSVG,
   ShareSVG,
   WifiSVG,
 } from "../../ui/svgs/svgs";
 import styles from "./Details.module.scss";
+import { faker } from "@faker-js/faker";
+import RoomList from "@/app/ui/Details/RoomList/RoomLIst";
+import AmentiasList from "@/app/ui/Details/AmentiasList/AmentiasList";
 
 interface Props {
   params: any;
@@ -25,8 +29,10 @@ export default async function StayDetails({ params }: any) {
   const stay = await getStayById(id);
 
   if (!stay) return <div>Loading</div>;
-  const { name, rating, price, location, summary } = stay as Stay;
+  const { name, rating, price, location } = stay as Stay;
+  const summary = faker.lorem.paragraphs(10);
   const images: ImagesUrl[] = stay.images;
+  const avatar = "https://avatars.githubusercontent.com/u/97165289";
   return (
     <section className={styles.details}>
       <header>
@@ -37,7 +43,7 @@ export default async function StayDetails({ params }: any) {
             <span>Share</span>
           </button>
           <button>
-            <LikeSVG className="svg" />
+            <LikeSVG className="" />
             <span>Save</span>
           </button>
         </div>
@@ -49,75 +55,61 @@ export default async function StayDetails({ params }: any) {
           </li>
         ))}
       </ul>
-      <section className={styles.detailsInfo}>
-        <div className={styles.detailsHero}>
-          <header>
-            <h2>{location.address}</h2>
-            <h2>{", " + location.country}</h2>
-          </header>
-          <div className={styles.stayInfo}>
-            <h3>2 guests</h3>
-            <h3>1 bedroom</h3>
-            <h3>1 bed</h3>
-            <h3>1 bath</h3>
+      <div className={styles.con}>
+        <section className={styles.detailsInfo}>
+          <div className={styles.detailsHero}>
+            <header>
+              <h2>{location.address}</h2>
+              <h2>{", " + location.country}</h2>
+            </header>
+            <div className={styles.stayInfo}>
+              <h3>2 guests</h3>
+              <h3>1 bedroom</h3>
+              <h3>1 bed</h3>
+              <h3>1 bath</h3>
+            </div>
+            <div className={styles.rating}>
+              <RatingSVG className="" />
+              <p>{rating}</p>
+              <a> 228 reviews</a>
+            </div>
           </div>
-          <div className={styles.rating}>
-            <RatingSVG className="" />
-            <p>{rating}</p>
-            <a> 228 reviews</a>
+
+          <div className={styles.host}>
+            <div>
+              <Image src={avatar} fill={true} alt=""></Image>
+            </div>
+            <p>Hosted by Bobo</p>
+            <p>9 years hosting</p>
           </div>
-        </div>
 
-        <div className={styles.host}>
-          <AvatarSVG className="" />
-          <p>Hosted by Bobo</p>
-          <p>Superhost . 9 years hosting</p>
-        </div>
+          <ul className={styles.highlights}>
+            <li>
+              <SelfCheckInSVG />
+              <p>Self check-in</p>
+              <p>Check yourself in with the keypad.</p>
+            </li>
+            <li>
+              <SelfCheckInSVG />
+              <p>Self check-in</p>
+              <p>Check yourself in with the keypad.</p>
+            </li>
+          </ul>
+          <div className={styles.about}>
+            <h1>About this place</h1>
+            <p className="description">{summary}</p>
+            <button>
+              <span>Show more</span>
+              <ScrollBySVG className="" />
+            </button>
+          </div>
+          <RoomList />
+          <AmentiasList />
 
-        <ul>
-          <li>
-            <SelfCheckInSVG />
-            <h4>Self check-in</h4>
-            <h5>Check yourself in with the keypad.</h5>
-          </li>
-          <li>
-            <SelfCheckInSVG />
-            <h4>Self check-in</h4>
-            <h5>Check yourself in with the keypad.</h5>
-          </li>
-        </ul>
-        <p className="description">{summary}</p>
-        <ul>
-          <h2> Where you’ll sleep</h2>
-          <li>
-            <DoubleBedSVG />
-            <h4>Bedroom</h4>
-            <h5>1 double bed</h5>
-          </li>
-        </ul>
-
-        <ul>
-          <h2>What this place offers</h2>
-          <li>
-            <WifiSVG />
-            <h3>Wifi</h3>
-          </li>
-          <li>
-            <WifiSVG />
-            <h3>Wifi</h3>
-          </li>
-          <li>
-            <WifiSVG />
-            <h3>Wifi</h3>
-          </li>
-          <li>
-            <WifiSVG />
-            <h3>Wifi</h3>
-          </li>
-          <button>show all 42 amenities</button>
-        </ul>
-        <div className="calenderCon"></div>
-      </section>
+          <div className="calenderCon"></div>
+        </section>
+        <section className={styles.book}></section>
+      </div>
     </section>
   );
 }

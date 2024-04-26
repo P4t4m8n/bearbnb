@@ -129,6 +129,7 @@ export function ScrollBySVG({ className }: Props) {
       aria-hidden="true"
       role="presentation"
       focusable="false"
+      // className={className}
       // style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"
     >
       <path fill="none" d="m12 4 11.3 11.3a1 1 0 0 1 0 1.4L12 28"></path>
@@ -144,7 +145,6 @@ export function ShareSVG() {
       aria-hidden="true"
       role="presentation"
       focusable="false"
-      // style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 2; overflow: visible;"
     >
       <path
         d="m27 18v9c0 1.1046-.8954 2-2 2h-18c-1.10457 0-2-.8954-2-2v-9m11-15v21m-10-11 9.2929-9.29289c.3905-.39053 1.0237-.39053 1.4142 0l9.2929 9.29289"

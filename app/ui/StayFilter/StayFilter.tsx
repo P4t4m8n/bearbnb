@@ -4,28 +4,11 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { FilterSVG, ScrollBySVG } from "../svgs/svgs";
 import styles from "./StayFilter.module.scss";
+import { useScroll } from "@/app/hooks/useScroll";
 
 export default function StayFilter() {
   const elTypes = useRef<HTMLUListElement>(null);
-  const [backVisible, setBackVisible] = useState(false);
-
-  const onScrollBy = (dir: number) => {
-    if (!elTypes.current) return;
-
-    elTypes.current.scrollBy({
-      left: 100 * dir,
-      behavior: "smooth",
-    });
-
-    // Delay the check to allow the scroll to complete
-    setTimeout(() => {
-      if (elTypes.current && elTypes.current.scrollLeft > 0) {
-        setBackVisible(true);
-      } else {
-        setBackVisible(false);
-      }
-    }, 200);
-  };
+  const [backVisible, onScrollBy] = useScroll(elTypes);
 
   return (
     <div className={styles.filter}>

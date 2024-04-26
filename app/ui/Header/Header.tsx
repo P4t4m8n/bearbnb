@@ -14,17 +14,18 @@ export default function Header() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
+      console.log("currentScroll:", currentScroll)
       requestAnimationFrame(() => {
-        if (currentScroll > 45 && lastScrollTop.current <= 45) {
+        if (currentScroll > 100 && lastScrollTop.current <= 100) {
           setIsActive(true);
-        } else if (currentScroll <= 45 && lastScrollTop.current > 45) {
+        } else if (currentScroll <= 100 && lastScrollTop.current > 100) {
           setIsActive(false);
         }
         lastScrollTop.current = currentScroll;
       });
     };
 
-    const throttledHandleScroll = throttle(handleScroll, 100);
+    const throttledHandleScroll = throttle(handleScroll, 50);
     window.addEventListener("scroll", throttledHandleScroll);
 
     return () => {

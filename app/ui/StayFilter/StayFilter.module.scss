@@ -1,7 +1,7 @@
 .filter {
   display: flex;
   position: sticky;
-  top: 7.5rem;
+  top: 6rem;
   z-index: 5;
   gap: 1rem;
   background-color: white;
@@ -9,6 +9,7 @@
   align-items: center;
   min-height: 5rem;
   justify-content: space-between;
+  width: 100%;
 
   .types {
     width: 90%;

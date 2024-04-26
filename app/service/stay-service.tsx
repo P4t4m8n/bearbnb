@@ -4,7 +4,9 @@ import { getCache, setCache } from "./cache";
 import { throws } from "assert";
 import { error } from "console";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  log: ["query", "info", "warn", "error"],
+});
 
 export async function getSmallStays(): Promise<StaySmall[] | undefined> {
   const cacheKey: string = "staysData";
@@ -33,7 +35,7 @@ export async function getSmallStays(): Promise<StaySmall[] | undefined> {
     });
 
     if (!stays) throw new Error("Unable to load");
-console.log('********')
+    console.log("********");
     const mappedStays = stays.map(
       (stay: {
         id: any;
@@ -66,9 +68,13 @@ console.log('********')
 }
 
 export async function getStayById(stayId: string): Promise<any> {
-  console.log("stayId:", stayId);
+  const cacheKey: string = "details";
+
   try {
-    const stay = await prisma.stay.findUnique({
+    let stay = await getCache(cacheKey);
+    if (stay) return stay;
+
+    stay = await prisma.stay.findUnique({
       where: { id: stayId },
       include: {
         images: {
@@ -97,9 +103,10 @@ export async function getStayById(stayId: string): Promise<any> {
 
     stay.rating =
       stay.reviews.length > 0
-        ? stay.reviews.reduce((acc, curr) => acc + curr.rate, 0) /
+        ? stay.reviews.reduce((acc: number, curr: any) => acc + curr.rate, 0) /
           stay.reviews.length
         : 0;
+    await setCache(cacheKey, stay);
 
     return stay;
   } catch (error) {

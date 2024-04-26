@@ -80,7 +80,7 @@
 .scroll {
   grid-area: 1/2/2/3;
   height: 3rem;
-  width: 50vw;
+  width: 40vw;
   grid-template-columns: minmax(5%, 1fr) 20% minmax(5%, 20%) auto;
   .searchBtn {
     width: 2.5rem;

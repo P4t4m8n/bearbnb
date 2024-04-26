@@ -1,0 +1,23 @@
+.amentiasList {
+  width: 100%;
+  max-height: calc(6 * 1.5rem + 5rem);
+  overflow: hidden;
+  ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(50%, 50%));
+    grid-template-rows: repeat(auto-fit, 1fr);
+    gap: 0.5rem;
+    li {
+      gap: 1rem;
+      h3 {
+        font-size: 1rem;
+        font-weight: 300;
+      }
+      display: flex;
+      svg {
+        width: 1.5rem;
+        aspect-ratio: 1;
+      }
+    }
+  }
+}
