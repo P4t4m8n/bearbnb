@@ -19,7 +19,6 @@ body {
   min-height: 100vh;
   box-sizing: border-box;
   padding-inline: 2.5rem;
-  padding-block: 1rem;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -60,4 +59,8 @@ li {
 }
 li {
   list-style: none;
+}
+a {
+  text-decoration: none;
+  color: inherit;
 }
