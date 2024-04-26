@@ -24,6 +24,13 @@ export interface User {
   likes: Like[];
 }
 
+export interface UserSmall {
+  id: string;
+  fullname: string;
+  email: string;
+  imgUrl: string;
+}
+
 export interface Location {
   id: string;
   country: string;
@@ -57,25 +64,25 @@ export interface Stay {
   id: string;
   name: string;
   type: string;
-  images: Image[];
+  images: string[];
   price: number;
   summary: string;
   capacity: number;
-  amenities: Amenity[];
-  labels: Label[];
-  hostId: string;
-  host: User;
+  amenities: string[];
+  labels: string[];
+  hostId?: string;
+  host?: User;
   locationId: string;
   location: Location;
-  reviews: Review[];
-  likes: Like[];
+  reviews?: Review[];
+  likes?: Like[];
   rating: number;
 }
 
 export interface StaySmall {
   id: string;
   type: string;
-  image:string
+  image: string;
   price: number;
   locationId: string;
   location: Location;
