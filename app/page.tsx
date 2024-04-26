@@ -11,9 +11,9 @@ export default async function Home() {
 
   if (!stays) return;
   return (
-    <>
+    <div style={{ position: "relative" }}>
       <StayFilter />
       <StayList stays={stays} />
-    </>
+    </div>
   );
 }
