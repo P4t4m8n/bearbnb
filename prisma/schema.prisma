@@ -24,7 +24,7 @@ model Stay {
   amenities  Amenity[]
   labels     Label[]
   hostId     String
-  host       User      @relation(fields: [hostId], references: [id])
+  host       User      @relation(fields: [hostId], references: [id], onDelete: Cascade)
   locationId String    @unique
   location   Location  @relation(fields: [locationId], references: [id])
   reviews    Review[]

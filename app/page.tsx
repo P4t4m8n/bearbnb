@@ -7,7 +7,9 @@ export default async function Home() {
   let stays: StaySmall[] | undefined = [];
   try {
     stays = await getSmallStays();
-  } catch (error) {}
+  } catch (error) {
+    console.error("error:", error);
+  }
 
   if (!stays) return;
   return (

@@ -15,6 +15,7 @@ import styles from "./Details.module.scss";
 import { faker } from "@faker-js/faker";
 import RoomList from "@/app/ui/Details/RoomList/RoomLIst";
 import AmentiasList from "@/app/ui/Details/AmentiasList/AmentiasList";
+import { Calendar } from "@/app/ui/Calendar/Calendar";
 
 interface Props {
   params: any;
@@ -106,7 +107,7 @@ export default async function StayDetails({ params }: any) {
           <RoomList />
           <AmentiasList />
 
-          <div className="calenderCon"></div>
+          <Calendar date={new Date()} />
         </section>
         <section className={styles.book}></section>
       </div>
