@@ -5,7 +5,6 @@ interface Props {
 }
 
 export default function MonthGrid({ date }: Props) {
-  console.log("date:", date);
   // const monthStart = new Date(
   //   date.getFullYear(),
   //   date.getMonth(),

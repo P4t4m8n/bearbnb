@@ -17,12 +17,76 @@ datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
+
 }
 
 enum Beds {
   double
   single
   crib
+}
+
+enum Amenities {
+  Wifi
+  Heating
+  AirConditioning
+  Washer
+  Dryer
+  Iron
+  Essentials
+  HotWater
+  TV
+  Refrigerator
+  Microwave
+  CoffeeMaker
+  CookingBasics
+  Oven
+  Stove
+  Dishwasher
+  DishesAndSilverware
+  Kitchen
+  SmokeAlarm
+  CarbonMonoxideAlarm
+  FirstAidKit
+  FireExtinguisher
+  BedroomLock
+  HighChair
+  BabySafetyGates
+  BabysitterRecommendations
+  FreeParkingOnPremises
+  PaidParkingOffPremises
+  PaidParkingOnPremises
+  Elevator
+  WheelchairAccessible
+  BbqGrill
+  PatioOrBalcony
+  GardenOrBackyard
+  PrivateEntrance
+  Gym
+  Pool
+  HotTub
+  Sauna
+  LongTermStaysAllowed
+  LuggageDropoffAllowed
+  CleaningBeforeCheckout
+  PetsAllowed
+  BoardGames
+  BooksAndReadingMaterial
+  SmartTV
+  DedicatedWorkspace
+}
+
+enum AmenitiesType {
+  Basic
+  Kitchen
+  Safety
+  Family
+  Parking_and_Accessibility
+  Outdoor
+  Fitness
+  Additional
+  Pets
+  Entertainment
 }
 
 model Stay {
@@ -40,11 +104,12 @@ model Stay {
   locationId  String    @unique
   location    Location  @relation(fields: [locationId], references: [id])
   images      Image[]
-  amenities   Amenity[]
+  amenities   Amenity[] @relation("StayAmenities")
   labels      Label[]
   reviews     Review[]
   likes       Like[]
   bedrooms    BedRoom[]
+  Booking     Booking[]
 }
 
 model Review {
@@ -61,10 +126,12 @@ model Profile {
   id         String    @id @default(uuid())
   isOwner    Boolean
   ownerSince DateTime?
+  supabaseId String    @unique
   stays      Stay[]
   review     Review[]
   likes      Like[]
-  supabaseId String    @unique
+  bookings   Booking[] @relation("booker")
+  hosting    Booking[] @relation("host")
 
   @@map("User")
 }
@@ -81,24 +148,17 @@ model Location {
 }
 
 model Amenity {
-  id    String @id @default(uuid())
-  name  String
-  stays Stay[]
+  id    String    @id @default(uuid())
+  name  Amenities
+  stays Stay[]    @relation("StayAmenities")
 }
 
 model BedRoom {
   id     String  @id @default(uuid())
-  beds   Bed[]
+  beds   Beds[]
   images Image[]
   stayId String
   stay   Stay    @relation(fields: [stayId], references: [id])
-}
-
-model Bed {
-  id        String  @id @default(uuid())
-  type      Beds
-  room      BedRoom @relation(fields: [bedRoomId], references: [id])
-  bedRoomId String
 }
 
 model Label {
@@ -122,4 +182,18 @@ model Image {
   stay   Stay?    @relation(fields: [stayId], references: [id])
   Room   BedRoom? @relation(fields: [roomId], references: [id])
   roomId String?
+}
+
+model Booking {
+  id          String   @id @default(uuid())
+  stayId      String?
+  stay        Stay?    @relation(fields: [stayId], references: [id])
+  userId      String
+  user        Profile  @relation("booker", fields: [userId], references: [id])
+  hostId      String
+  host        Profile  @relation("host", fields: [hostId], references: [id])
+  price       Float
+  checkIn     DateTime
+  checkOut    DateTime
+  bookingTIme DateTime
 }

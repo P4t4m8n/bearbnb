@@ -6,9 +6,9 @@ import LoginPage from "./login/page";
 
 export default async function Home() {
   let stays: StaySmall[] | undefined = [];
+
   try {
     stays = await getSmallStays();
-    console.log("stays:", stays)
   } catch (error) {
     console.error("error:", error);
   }
@@ -18,7 +18,7 @@ export default async function Home() {
     <>
       <StayFilter />
       <StayList stays={stays} />
-      <LoginPage/>
+      <LoginPage />
     </>
   );
 }

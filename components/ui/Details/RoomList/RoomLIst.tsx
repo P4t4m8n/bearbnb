@@ -18,7 +18,6 @@ export default function RoomList() {
   const totalWidthInRem = numberOfLis * liWidth + gap * (numberOfLis - 1);
   const ulStyle = { maxWidth: `${totalWidthInRem}rem` };
 
-  console.log("ulStyle:", ulStyle);
   return (
     <div className={styles.rooms}>
       <h2> Where you’ll sleep</h2>

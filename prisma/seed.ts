@@ -1,18 +1,17 @@
 import { faker } from "@faker-js/faker";
 import { prisma } from "./prisma";
-import { Beds } from "@prisma/client";
+import { Amenities } from "@prisma/client";
 
 async function main() {
-  for (let i = 0; i < 10; i++) {
-    const user = await prisma.profile.create({
-      data: {
-        fullname: faker.person.fullName(),
-        email: faker.internet.email(),
-        imgUrl: "https://source.unsplash.com/random/?profile",
-        isOwner: true,
-        ownerSince: new Date(faker.date.past({ years: 5 })),
-      },
-    });
+  const amenities = await prisma.amenity.findMany();
+  const user = await prisma.profile.create({
+    data: {
+      isOwner: true,
+      ownerSince: new Date(faker.date.past({ years: 5 })),
+      supabaseId: "7d8442ae-dfd6-4d0e-b1ed-6ac0f8b500df",
+    },
+  });
+  for (let i = 0; i < 2; i++) {
 
     const location = await prisma.location.create({
       data: {
@@ -54,30 +53,19 @@ async function main() {
             { url: "https://source.unsplash.com/random/?home,apartment" },
           ],
         },
-        amenities: {
-          create: [{ name: "Wi-Fi" }, { name: "Air Conditioning" }],
+        bedrooms: {
+          create: [
+            {
+              beds: ["double", "single"],
+            },
+            { beds: ["double", "single", "double"] },
+          ],
         },
-        labels: {
-          create: [{ name: "New" }, { name: "Sale" }],
+        amenities: {
+          connect: [...amenities],
         },
       },
     });
-
-    for (let i = 0; i < 5; i++) {
-      await prisma.bedRoom.create({
-        data: {
-          beds: {
-            create: [{ type: Beds.double }, { type: Beds.single }],
-          },
-          images: {
-            create: [
-              { url: "https://source.unsplash.com/random/?bedroom,sleep" },
-            ],
-          },
-          stayId: stay.id,
-        },
-      });
-    }
 
     for (let i = 0; i < 10; i++) {
       await prisma.review.create({

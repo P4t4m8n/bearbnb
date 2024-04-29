@@ -5,15 +5,34 @@ import Image from "next/image";
 import Link from "next/link";
 import { clientSupabase } from "@/util/supabase/client";
 import { useUserStore } from "@/store/useUserStore";
+import { Session } from "@supabase/supabase-js";
 
 export function User() {
   const [open, setOpen] = useState(false);
   const { user, setUser } = useUserStore();
   console.log("user:", user);
 
+  useEffect(() => {
+    const loadUser = async () => {
+      const { data } = await clientSupabase.auth.getSession();
+      if (data.session) console.log("_user!!!!!!!!:", data.session.user);
+    };
+
+    loadUser();
+  }, []);
+
+ 
+
   const onLogout = async (ev: MouseEvent<HTMLButtonElement>) => {
+    console.log("ev:", ev);
     ev.preventDefault();
-    await clientSupabase.auth.signOut();
+    try {
+      const test = await clientSupabase.auth.signOut();
+      console.log("error:", test);
+      // if (error) throw new Error(error.message);
+    } catch (error) {
+      console.error("error:", error);
+    }
   };
 
   return (

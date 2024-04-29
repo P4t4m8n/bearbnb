@@ -6,6 +6,11 @@ import styles from "./Header.module.scss";
 import { StaySearch } from "../StaySearch/StaySearch";
 import Link from "next/link";
 import { throttle } from "@/util/throttle";
+import { UserSmall } from "@/model/stay.model";
+
+interface Props {
+  _user: UserSmall | null;
+}
 
 export default function Header() {
   const [isActive, setIsActive] = useState(false);
@@ -14,7 +19,6 @@ export default function Header() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
-      console.log("currentScroll:", currentScroll);
       requestAnimationFrame(() => {
         if (currentScroll > 100 && lastScrollTop.current <= 100) {
           setIsActive(true);

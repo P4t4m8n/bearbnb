@@ -4,14 +4,19 @@ import { UserSmall } from "@/model/stay.model";
 import { useUserStore } from "@/store/useUserStore";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Router } from "next/router";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, MouseEvent, useEffect, useRef, useState } from "react";
 
 type Props = {
-  login: (fromData: FormData) => Promise<UserSmall>;
-  signup: (romData: FormData) => Promise<UserSmall>;
+  logInWithPassword: (fromData: FormData) => Promise<UserSmall>;
+  signUpWithPassword: (romData: FormData) => Promise<UserSmall>;
+  signInWIthSocial: (type: "google" | "facebook") => Promise<string>;
 };
 
-export default function Modal({ login, signup }: Props) {
+export default function Modal({
+  logInWithPassword,
+  signUpWithPassword,
+  signInWIthSocial,
+}: Props) {
   const searchParams = useSearchParams();
   const [isLogin, setIsLogin] = useState(false);
   const { setUser } = useUserStore();
@@ -33,24 +38,36 @@ export default function Modal({ login, signup }: Props) {
     router.push("/");
   };
 
-  const clickOk = async (ev: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     const formData = new FormData(ev.currentTarget);
-    let user :UserSmall;
+    let user: UserSmall;
     if (isLogin) {
-      user = await login(formData);
+      user = await logInWithPassword(formData);
     } else {
-      user = await signup(formData);
+      user = await signUpWithPassword(formData);
     }
     setUser(user);
     closeModal();
+  };
+
+  const onSocialLogin = async (
+    ev: MouseEvent<HTMLButtonElement>,
+    type: "google" | "facebook"
+  ) => {
+    ev.preventDefault();
+    const url = await signInWIthSocial(type);
+    console.log("url:", url)
+    window.location.href = url;
+    // setUser(_user);
+    // closeModal();
   };
 
   const modal: JSX.Element | null =
     showModal === "y" ? (
       <dialog ref={modalRef}>
         <button onClick={closeModal}>X</button>
-        <form onSubmit={clickOk}>
+        <form onSubmit={onSubmit}>
           {!isLogin && (
             <>
               <input
@@ -77,8 +94,14 @@ export default function Modal({ login, signup }: Props) {
           />
           <button type="submit">Submit</button>
         </form>
+        <button onClick={(ev) => onSocialLogin(ev, "facebook")}>
+          Continue with Facebook
+        </button>
+        <button onClick={(ev) => onSocialLogin(ev, "google")}>
+          Continue with Google
+        </button>
         <button onClick={() => setIsLogin(!isLogin)}>
-          {isLogin ? "Login" : "Signup"}
+          {!isLogin ? "Login" : "Signup"}
         </button>
       </dialog>
     ) : null;

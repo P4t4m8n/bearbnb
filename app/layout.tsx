@@ -9,19 +9,21 @@ const mulish = Mulish({
   subsets: ["cyrillic"],
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+ 
+
   return (
     <html lang="en">
       <body className={mulish.className}>
-          <section className={styles.main}>
-            <Header />
+        <section className={styles.main}>
+          <Header />
 
-            {children}
-          </section>
+          {children}
+        </section>
       </body>
     </html>
   );

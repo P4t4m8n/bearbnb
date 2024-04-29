@@ -1,22 +1,22 @@
 import Modal from "@/components/ui/User/Login/Modal/Modal";
 import { UserSmall } from "@/model/stay.model";
 import { prisma } from "@/prisma/prisma";
+import { faker } from "@faker-js/faker";
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 export default function LoginPage() {
-  const signUp = async (formData: FormData): Promise<UserSmall> => {
+  const signUpWithPassword = async (formData: FormData): Promise<UserSmall> => {
     "use server";
+    const supabase = createServerActionClient({
+      cookies,
+    });
 
     const firstName = formData.get("firstName");
     const lastName = formData.get("lastName");
     const dob = formData.get("dob");
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
-
-    const supabase = createServerActionClient({
-      cookies,
-    });
 
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -26,6 +26,7 @@ export default function LoginPage() {
           firstName,
           lastName,
           dob,
+          imgUrl: faker.image.avatar(),
         },
         emailRedirectTo: `http://localhost:3000/auth/callback`,
       },
@@ -48,18 +49,19 @@ export default function LoginPage() {
       firstName: data.user.user_metadata.firstName,
       email: data.user.email || "",
       likes: [],
+      imgUrl: data.user.user_metadata.imgUrl,
     };
   };
 
-  const logIn = async (formData: FormData) => {
+  const logInWithPassword = async (formData: FormData): Promise<UserSmall> => {
     "use server";
-
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
 
     const supabase = createServerActionClient({
       cookies,
     });
+
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -79,8 +81,36 @@ export default function LoginPage() {
       lastName: data.user.user_metadata.lastName,
       firstName: data.user.user_metadata.firstName,
       email: data.user.email || "",
+      imgUrl: data.user.user_metadata.imgUrl,
       likes: [],
     };
   };
-  return <Modal login={logIn} signup={signUp}></Modal>;
+
+  const signInWithSocial = async (
+    type: "google" | "facebook"
+  ): Promise<string> => {
+    "use server";
+    const supabase = createServerActionClient({
+      cookies,
+    });
+    const origin = headers().get("origin");
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${origin}/api/auth/callback`,
+      },
+    });
+    if (error || !data.url) {
+      throw new Error(error?.message || "no url");
+    }
+    return data.url;
+  };
+  return (
+    <Modal
+      logInWithPassword={logInWithPassword}
+      signUpWithPassword={signUpWithPassword}
+      signInWIthSocial={signInWithSocial}
+    ></Modal>
+  );
 }

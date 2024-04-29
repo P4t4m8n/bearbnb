@@ -29,7 +29,6 @@ export async function getSmallStays(): Promise<StaySmall[] | undefined> {
     });
 
     if (!stays) throw new Error("Unable to load");
-    console.log("********");
     const mappedStays = stays.map(
       (stay: {
         id: any;
