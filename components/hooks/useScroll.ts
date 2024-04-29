@@ -3,7 +3,6 @@ import { useState } from "react";
 export const useScroll = (
   ref: React.RefObject<HTMLUListElement> | null
 ): [boolean, (dir: number) => void] => {
-  console.log("el:", ref);
   const [backVisible, setBackVisible] = useState(false);
 
   const onScrollBy = (dir: number) => {

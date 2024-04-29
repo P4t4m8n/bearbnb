@@ -1,0 +1,28 @@
+@import "../../../../styles/abstracts/mixin";
+
+.host {
+  display: grid;
+  grid-template-columns: 3rem auto;
+  grid-template-rows: 1.5rem 1.5rem;
+  column-gap: 1rem;
+  @include bordered-padding;
+  div {
+    grid-area: 1/1/-1/2;
+    position: relative;
+    width: 3rem;
+    border-radius: 100vw;
+    aspect-ratio: 1;
+    img {
+      border-radius: inherit;
+    }
+  }
+  p {
+    &:first-of-type {
+      font-weight: 700;
+    }
+    &:last-of-type {
+      opacity: 0.7;
+      font-size: 0.9rem;
+    }
+  }
+}

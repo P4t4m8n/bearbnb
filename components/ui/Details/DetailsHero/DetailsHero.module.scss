@@ -1,0 +1,59 @@
+@import "../../../../styles/abstracts/mixin";
+
+.detailsHero {
+  border-bottom: 1px solid gainsboro;
+  padding-bottom: 1rem;
+  display: grid;
+  header {
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 400;
+      @include text-overflow-ellipsis;
+    }
+    display: flex;
+    gap: .2rem;
+  }
+  div {
+    &:first-of-type {
+      display: flex;
+      gap: 1rem;
+      line-height: 1;
+      h3 {
+        position: relative;
+        font-weight: 300;
+        font-size: 1.1rem;
+
+        &:not(:first-of-type)::before {
+          font-size: 0.5rem;
+          position: absolute;
+          left: -0.5rem;
+          top: 50%;
+          transform: translateY(-50%);
+          content: "•";
+        }
+      }
+    }
+    &:last-of-type {
+      display: flex;
+      gap: 0.5rem;
+      line-height: 2.5;
+      font-weight: 700;
+      svg {
+        width: 1rem;
+      }
+      a {
+        margin-left: 0.3rem;
+        position: relative;
+        text-decoration: underline;
+        &::before {
+          font-size: 0.5rem;
+          position: absolute;
+          left: -0.5rem;
+          top: 50%;
+          transform: translateY(-50%);
+          content: "•";
+        }
+      }
+    }
+  }
+}

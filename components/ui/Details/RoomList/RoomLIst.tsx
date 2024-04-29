@@ -1,5 +1,5 @@
 "use client";
-import { useScroll } from "@/app/hooks/useScroll";
+import { useScroll } from "@/components/hooks/useScroll";
 // interface Props{
 //     rooms:
 // }
@@ -32,7 +32,7 @@ export default function RoomList() {
           <ScrollBySVG className={styles.svg} />
         </button>
       )}
-      <ul  ref={elRooms}>
+      <ul ref={elRooms}>
         <li>
           <DoubleBedSVG />
           <p>Bedroom</p>

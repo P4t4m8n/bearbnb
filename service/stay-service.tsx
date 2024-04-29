@@ -1,12 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/prisma/prisma";
 import { Stay, StaySmall } from "../model/stay.model";
 import { getCache, setCache } from "./cache";
-import { throws } from "assert";
-import { error } from "console";
-
-const prisma = new PrismaClient({
-  log: ["query", "info", "warn", "error"],
-});
 
 export async function getSmallStays(): Promise<StaySmall[] | undefined> {
   const cacheKey: string = "staysData";
@@ -67,47 +61,69 @@ export async function getSmallStays(): Promise<StaySmall[] | undefined> {
   }
 }
 
-export async function getStayById(stayId: string): Promise<any> {
+export async function getStayById(stayId: string): Promise<Stay> {
   const cacheKey: string = "details";
+  console.log("!");
 
   try {
     let stay = await getCache(cacheKey);
-    if (stay) return stay;
+    if (!stay) {
+      stay = await prisma.stay.findUnique({
+        where: { id: stayId },
+        include: {
+          images: {
+            take: 5,
+            select: {
+              id: true,
+              url: true,
+            },
+          },
+          host: {
+            select: {
+              id: true,
+              ownerSince: true,
+            },
+          },
 
-    stay = await prisma.stay.findUnique({
-      where: { id: stayId },
-      include: {
-        images: {
-          take: 5,
-          select: {
-            url: true,
+          amenities: {
+            select: {
+              name: true,
+            },
+          },
+          labels: {
+            select: {
+              name: true,
+            },
+          },
+          location: true,
+          reviews: true,
+          likes: true,
+          bedrooms: {
+            select: {
+              beds: {
+                select: {
+                  type: true,
+                },
+              },
+              images: true,
+            },
           },
         },
-        amenities: {
-          select: {
-            name: true,
-          },
-        },
-        labels: {
-          select: {
-            name: true,
-          },
-        },
-        location: true,
-        reviews: true,
-        likes: true,
-      },
-    });
+      });
 
-    if (!stay) throw new Error("Stay not found");
+      if (!stay) throw new Error("Stay not found");
 
-    stay.rating =
-      stay.reviews.length > 0
-        ? stay.reviews.reduce((acc: number, curr: any) => acc + curr.rate, 0) /
-          stay.reviews.length
-        : 0;
-    await setCache(cacheKey, stay);
+      
+      stay.rating =
+        stay.reviews && stay.reviews.length > 0
+          ? stay.reviews.reduce(
+              (acc: number, curr: any) => acc + curr.rate,
+              0
+            ) / stay.reviews.length
+          : 0;
 
+      await setCache(cacheKey, stay);
+    }
     return stay;
   } catch (error) {
     console.error("Failed to retrieve stay:", error);

@@ -8,48 +8,65 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Beds {
+  double
+  single
+  crib
 }
 
 model Stay {
-  id         String    @id @default(uuid())
-  name       String
-  type       String
-  images     Image[]
-  price      Float
-  summary    String
-  capacity   Int
-  amenities  Amenity[]
-  labels     Label[]
-  hostId     String
-  host       User      @relation(fields: [hostId], references: [id], onDelete: Cascade)
-  locationId String    @unique
-  location   Location  @relation(fields: [locationId], references: [id])
-  reviews    Review[]
-  likes      Like[]
-  rating     Float
+  id          String    @id @default(uuid())
+  name        String
+  type        String
+  price       Float
+  summary     String
+  description String?
+  capacity    Int
+  baths       Int?
+  uniqueRooms String[]
+  hostId      String
+  host        Profile   @relation(fields: [hostId], references: [id], onDelete: Cascade)
+  locationId  String    @unique
+  location    Location  @relation(fields: [locationId], references: [id])
+  images      Image[]
+  amenities   Amenity[]
+  labels      Label[]
+  reviews     Review[]
+  likes       Like[]
+  bedrooms    BedRoom[]
 }
 
 model Review {
-  id     String @id @default(uuid())
+  id     String  @id @default(uuid())
   stayId String
-  stay   Stay   @relation(fields: [stayId], references: [id])
+  stay   Stay    @relation(fields: [stayId], references: [id])
   text   String
   rate   Int
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   Profile @relation(fields: [userId], references: [id])
 }
 
-model User {
-  id       String   @id @default(uuid())
-  fullname String
-  email    String   @unique
-  stays    Stay[]
-  imgUrl   String
-  review   Review[]
-  likes    Like[]
+model Profile {
+  id         String    @id @default(uuid())
+  isOwner    Boolean
+  ownerSince DateTime?
+  stays      Stay[]
+  review     Review[]
+  likes      Like[]
+  supabaseId String    @unique
+
+  @@map("User")
 }
 
 model Location {
@@ -69,6 +86,21 @@ model Amenity {
   stays Stay[]
 }
 
+model BedRoom {
+  id     String  @id @default(uuid())
+  beds   Bed[]
+  images Image[]
+  stayId String
+  stay   Stay    @relation(fields: [stayId], references: [id])
+}
+
+model Bed {
+  id        String  @id @default(uuid())
+  type      Beds
+  room      BedRoom @relation(fields: [bedRoomId], references: [id])
+  bedRoomId String
+}
+
 model Label {
   id    String @id @default(uuid())
   name  String
@@ -76,16 +108,18 @@ model Label {
 }
 
 model Like {
-  id     String @id @default(uuid())
+  id     String  @id @default(uuid())
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   Profile @relation(fields: [userId], references: [id])
   stayId String
-  stay   Stay   @relation(fields: [stayId], references: [id])
+  stay   Stay    @relation(fields: [stayId], references: [id])
 }
 
 model Image {
-  id     String @id @default(uuid())
+  id     String   @id @default(uuid())
   url    String
-  stayId String
-  stay   Stay   @relation(fields: [stayId], references: [id])
+  stayId String?
+  stay   Stay?    @relation(fields: [stayId], references: [id])
+  Room   BedRoom? @relation(fields: [roomId], references: [id])
+  roomId String?
 }

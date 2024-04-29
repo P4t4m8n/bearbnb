@@ -1,7 +1,8 @@
-export interface Image {
+import { Beds } from "@prisma/client";
+
+export interface ImageModel {
   id: string;
   url: string;
-  stayId: string;
 }
 
 export interface Amenity {
@@ -16,9 +17,12 @@ export interface Label {
 
 export interface User {
   id: string;
-  fullname: string;
+  firstName: string;
+  lastName: string;
   email: string;
   imgUrl: string;
+  isOwner: boolean;
+  ownerSince?: Date;
   stays: Stay[];
   reviews: Review[];
   likes: Like[];
@@ -26,9 +30,13 @@ export interface User {
 
 export interface UserSmall {
   id: string;
-  fullname: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  imgUrl: string;
+  imgUrl?: string;
+  isOwner: boolean;
+  ownerSince?: Date;
+  likes: Like[];
 }
 
 export interface Location {
@@ -60,23 +68,35 @@ export interface Like {
   stay: Stay;
 }
 
+export interface BedRoom {
+  beds: Bed[];
+  images: string[];
+}
+
+export interface Bed {
+  type: Beds;
+}
+
 export interface Stay {
   id: string;
   name: string;
   type: string;
-  images: string[];
+  images: ImageModel[];
   price: number;
   summary: string;
+  description?: string;
   capacity: number;
   amenities: string[];
+  baths?: number;
+  uniqueRooms?: string[];
   labels: string[];
-  hostId?: string;
-  host?: User;
+  host: UserSmall;
   locationId: string;
   location: Location;
   reviews?: Review[];
   likes?: Like[];
   rating: number;
+  bedrooms: BedRoom[];
 }
 
 export interface StaySmall {

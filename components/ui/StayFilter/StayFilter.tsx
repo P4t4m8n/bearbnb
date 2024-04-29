@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { FilterSVG, ScrollBySVG } from "../svgs/svgs";
 import styles from "./StayFilter.module.scss";
-import { useScroll } from "@/app/hooks/useScroll";
+import { useScroll } from "@/components/hooks/useScroll";
 
 export default function StayFilter() {
   const elTypes = useRef<HTMLUListElement>(null);

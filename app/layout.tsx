@@ -1,6 +1,6 @@
-import Header from "./ui/Header/Header";
+import Header from "../components/ui/Header/Header";
 import { Mulish } from "next/font/google";
-import "./styles/main.scss";
+import "../styles/main.scss";
 import styles from "./layout.module.scss";
 
 const mulish = Mulish({
@@ -17,10 +17,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={mulish.className}>
-        <section className={styles.main}>
-          <Header />
-          {children}
-        </section>
+          <section className={styles.main}>
+            <Header />
+
+            {children}
+          </section>
       </body>
     </html>
   );

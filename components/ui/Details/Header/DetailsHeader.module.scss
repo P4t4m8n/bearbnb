@@ -1,0 +1,25 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  h1 {
+    font-size: 1.5rem;
+  }
+  svg {
+    width: 1rem;
+    aspect-ratio: 1;
+    stroke: currentcolor;
+    stroke-width: 2;
+    fill: white;
+  }
+  div {
+    display: flex;
+  }
+  button {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  span {
+    text-decoration: underline;
+  }
+}

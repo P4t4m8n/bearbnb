@@ -1,88 +1,68 @@
-import Image from "next/image";
-import { Stay } from "../../model/stay.model";
-import { getStayById } from "../../service/stay-service";
-import {
-  AvatarSVG,
-  DoubleBedSVG,
-  LikeSVG,
-  RatingSVG,
-  ScrollBySVG,
-  SelfCheckInSVG,
-  ShareSVG,
-  WifiSVG,
-} from "../../ui/svgs/svgs";
+import { BedRoom } from "../../../model/stay.model";
+import { getStayById } from "../../../service/stay-service";
+import { ScrollBySVG, SelfCheckInSVG } from "../../../components/ui/svgs/svgs";
 import styles from "./Details.module.scss";
-import { faker } from "@faker-js/faker";
-import RoomList from "@/app/ui/Details/RoomList/RoomLIst";
-import AmentiasList from "@/app/ui/Details/AmentiasList/AmentiasList";
-import { Calendar } from "@/app/ui/Calendar/Calendar";
+import RoomList from "@/components/ui/Details/RoomList/RoomLIst";
+import AmentiasList from "@/components/ui/Details/AmentiasList/AmentiasList";
+import { Calendar } from "@/components/ui/Calendar/Calendar";
+import { DetailsHeader } from "@/components/ui/Details/Header/DetailsHeader";
+import { ImageList } from "@/components/ui/Details/ImageList/ImageList";
+import { DetailsHero } from "@/components/ui/Details/DetailsHero/DetailsHero";
+import { HostSmall } from "@/components/ui/Details/HostSmall/HostSmall";
 
 interface Props {
   params: any;
 }
 
-interface ImagesUrl {
-  url: string;
-}
-export default async function StayDetails({ params }: any) {
+export default async function StayDetails({ params }: Props) {
   const { id } = params;
 
   const stay = await getStayById(id);
 
   if (!stay) return <div>Loading</div>;
-  const { name, rating, price, location } = stay as Stay;
-  const summary = faker.lorem.paragraphs(10);
-  const images: ImagesUrl[] = stay.images;
-  const avatar = "https://avatars.githubusercontent.com/u/97165289";
+  const {
+    name,
+    rating,
+    price,
+    location,
+    host,
+    images,
+    capacity,
+    description,
+    bedrooms,
+    baths,
+    reviews,
+    likes,
+  } = stay;
+  const { fullname, imgUrl } = host;
+  const ownerSince = new Date(host.ownerSince);
+  const currentDate = new Date();
+  const years = ownerSince
+    ? currentDate.getFullYear() - ownerSince.getFullYear()
+    : 0;
+  const numberOfBeds = bedrooms.reduce(
+    (acc: number, bedroom: BedRoom): number => {
+      return acc + (bedroom.beds ? bedroom.beds.length : 0);
+    },
+    0
+  );
   return (
     <section className={styles.details}>
-      <header>
-        <h1>{name}</h1>
-        <div>
-          <button>
-            <ShareSVG />
-            <span>Share</span>
-          </button>
-          <button>
-            <LikeSVG className="" />
-            <span>Save</span>
-          </button>
-        </div>
-      </header>
-      <ul className={styles.detailsImgs}>
-        {images.map((img, idx) => (
-          <li key={idx}>
-            <Image src={img.url} fill={true} alt=""></Image>
-          </li>
-        ))}
-      </ul>
+      <DetailsHeader name={name} />
+      <ImageList images={images} />
       <div className={styles.con}>
         <section className={styles.detailsInfo}>
-          <div className={styles.detailsHero}>
-            <header>
-              <h2>{location.address}</h2>
-              <h2>{", " + location.country}</h2>
-            </header>
-            <div className={styles.stayInfo}>
-              <h3>2 guests</h3>
-              <h3>1 bedroom</h3>
-              <h3>1 bed</h3>
-              <h3>1 bath</h3>
-            </div>
-            <div className={styles.rating}>
-              <RatingSVG className="" />
-              <p>{rating}</p>
-              <a> 228 reviews</a>
-            </div>
-          </div>
-
-          <div className={styles.host}>
-            <div>
-              <Image src={avatar} fill={true} alt=""></Image>
-            </div>
-            <p>Hosted by Bobo</p>
-            <p>9 years hosting</p>
-          </div>
+          <DetailsHero
+            capacity={capacity}
+            numOfBedrooms={bedrooms.length}
+            numberOfBeds={numberOfBeds}
+            baths={baths || 0}
+            rating={rating}
+            reviewsLength={reviews?.length || 0}
+            country={location.country}
+            address={location.address}
+          />
+          <HostSmall imgUrl={imgUrl} fullname={fullname} years={years} />
 
           <ul className={styles.highlights}>
             <li>
@@ -96,9 +76,10 @@ export default async function StayDetails({ params }: any) {
               <p>Check yourself in with the keypad.</p>
             </li>
           </ul>
+
           <div className={styles.about}>
             <h1>About this place</h1>
-            <p className="description">{summary}</p>
+            <p className="description">{description}</p>
             <button>
               <span>Show more</span>
               <ScrollBySVG className="" />
@@ -106,7 +87,6 @@ export default async function StayDetails({ params }: any) {
           </div>
           <RoomList />
           <AmentiasList />
-
           <Calendar date={new Date()} />
         </section>
         <section className={styles.book}></section>

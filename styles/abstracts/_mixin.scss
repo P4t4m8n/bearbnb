@@ -1,0 +1,14 @@
+@mixin bordered-padding {
+  border-bottom: 1px solid gainsboro;
+  padding-block: 1rem;
+}
+
+@mixin text-overflow-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+@mixin text-overflow-ellipsis-warp {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
