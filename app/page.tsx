@@ -9,6 +9,7 @@ export default async function Home() {
 
   try {
     stays = await getSmallStays();
+    console.log("stays:", stays)
   } catch (error) {
     console.error("error:", error);
   }

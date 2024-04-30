@@ -1,6 +1,41 @@
+@import "./variables";
+
 @mixin bordered-padding {
   border-bottom: 1px solid gainsboro;
   padding-block: 1rem;
+}
+@mixin bordered {
+  border-bottom: 1px solid gainsboro;
+  padding-bottom: 1rem;
+}
+@mixin border-1 {
+  border: 1px solid gainsboro;
+}
+@mixin border-1-top {
+  border: 1px solid gainsboro;
+  border-top: none;
+}
+@mixin border-1-bottom {
+  border: 1px solid gainsboro;
+  border-bottom: none;
+}
+
+@mixin border-radius-no-bottom {
+  border-radius: $border-radius-1-2 $border-radius-1-2 0 0;
+}
+@mixin border-radius-no-top {
+  border-radius: 0 0 $border-radius-1-2 $border-radius-1-2;
+}
+
+@mixin border-pseudo {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid #ccc; /* Full border around the element */
+  box-sizing: border-box;
 }
 
 @mixin text-overflow-ellipsis {
@@ -11,4 +46,8 @@
 @mixin text-overflow-ellipsis-warp {
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@mixin soft-box-shadow {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }

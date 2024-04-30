@@ -1,16 +1,18 @@
 import { AvatarSVG, GlobeSVG, HamburgerSVG } from "../svgs/svgs";
 import styles from "./User.module.scss";
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { clientSupabase } from "@/util/supabase/client";
 import { useUserStore } from "@/store/useUserStore";
 import { Session } from "@supabase/supabase-js";
+import Modal from "./Modal/Modal";
+import { useModal } from "@/components/hooks/useModal";
 
 export function User() {
-  const [open, setOpen] = useState(false);
   const { user, setUser } = useUserStore();
-  console.log("user:", user);
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const [open, setModal] = useModal(modalRef);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -21,15 +23,11 @@ export function User() {
     loadUser();
   }, []);
 
- 
-
   const onLogout = async (ev: MouseEvent<HTMLButtonElement>) => {
-    console.log("ev:", ev);
     ev.preventDefault();
     try {
-      const test = await clientSupabase.auth.signOut();
-      console.log("error:", test);
-      // if (error) throw new Error(error.message);
+      const { error } = await clientSupabase.auth.signOut();
+      if (error) throw new Error(error.message);
     } catch (error) {
       console.error("error:", error);
     }
@@ -41,30 +39,30 @@ export function User() {
       <button className={styles.svgBtn}>
         <GlobeSVG className={styles.globe} />
       </button>
-      {user && (
-        <button onClick={() => setOpen(!open)} className={styles.userProfile}>
-          <HamburgerSVG className={styles.svg} />
-          {user.imgUrl ? (
-            <Image src={user.imgUrl} width={32} height={32} alt=""></Image>
-          ) : (
-            <AvatarSVG className={styles.svg} />
-          )}
-        </button>
-      )}
-      {!user && (
-        <button onClick={() => setOpen(!open)} className={styles.userProfile}>
-          <HamburgerSVG className={styles.svg} />
-          <AvatarSVG className={styles.svg} />
-        </button>
-      )}
 
-      {open && (
-        <ul>
-          <Link href={"/login?showDialog=y"}> Login</Link>
-          <button onClick={onLogout}>Logout</button>
-          <li></li>
-        </ul>
-      )}
+      <button onClick={() => setModal(true)} className={styles.userProfile}>
+        {user ? (
+          <>
+            <HamburgerSVG className={styles.svg} />
+            {user.imgUrl ? (
+              <Image src={user.imgUrl} width={32} height={32} alt=""></Image>
+            ) : (
+              <AvatarSVG className={styles.svg} />
+            )}
+          </>
+        ) : (
+          <>
+            <HamburgerSVG className={styles.svg} />
+            <AvatarSVG className={styles.svg} />
+          </>
+        )}
+
+        {open && (
+          <div ref={modalRef} className={styles.modalCon}>
+            <Modal onLogout={onLogout} isUser={!!user} />
+          </div>
+        )}
+      </button>
     </div>
   );
 }

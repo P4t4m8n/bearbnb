@@ -3,8 +3,8 @@
 import { UserSmall } from "@/model/stay.model";
 import { useUserStore } from "@/store/useUserStore";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Router } from "next/router";
 import { FormEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import styles from "./Modal.module.scss";
 
 type Props = {
   logInWithPassword: (fromData: FormData) => Promise<UserSmall>;
@@ -57,7 +57,7 @@ export default function Modal({
   ) => {
     ev.preventDefault();
     const url = await signInWIthSocial(type);
-    console.log("url:", url)
+    console.log("url:", url);
     window.location.href = url;
     // setUser(_user);
     // closeModal();
@@ -65,20 +65,23 @@ export default function Modal({
 
   const modal: JSX.Element | null =
     showModal === "y" ? (
-      <dialog ref={modalRef}>
-        <button onClick={closeModal}>X</button>
+      <dialog className={styles.modal} ref={modalRef}>
+        <header>
+          <button onClick={closeModal}>X</button>
+          <h3>Log in or sign up</h3>
+        </header>
         <form onSubmit={onSubmit}>
           {!isLogin && (
             <>
               <input
-                placeholder="Last name"
-                name="lastName"
+                placeholder="First name"
+                name="firstName"
                 type="text"
                 required
               />
               <input
-                placeholder="First name"
-                name="firstName"
+                placeholder="Last name"
+                name="lastName"
                 type="text"
                 required
               />
@@ -94,12 +97,12 @@ export default function Modal({
           />
           <button type="submit">Submit</button>
         </form>
-        <button onClick={(ev) => onSocialLogin(ev, "facebook")}>
+        {/* <button onClick={(ev) => onSocialLogin(ev, "facebook")}>
           Continue with Facebook
         </button>
         <button onClick={(ev) => onSocialLogin(ev, "google")}>
           Continue with Google
-        </button>
+        </button> */}
         <button onClick={() => setIsLogin(!isLogin)}>
           {!isLogin ? "Login" : "Signup"}
         </button>
