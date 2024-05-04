@@ -10,7 +10,7 @@
   padding-top: 1rem;
   z-index: 5;
   row-gap: 0.5rem;
-  width: 100%;
+  min-width: $max-width-padding;
   padding-bottom: 1rem;
   background-color: white;
   &::after {
@@ -159,9 +159,10 @@
 
 @media (max-width: 650px) {
   .header {
-    width: 100%;
-    gap: 1rem;
-    grid-template-columns: 10% 60% 15%;
+    min-width: calc(100svw - 1.5rem);
+    gap: 0.5rem;
+    grid-template-columns: 10% 60% 20%;
+    justify-content: space-around;
 
     .logo {
       padding-right: 0;

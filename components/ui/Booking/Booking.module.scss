@@ -1,0 +1,154 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixin";
+
+.booking {
+  border-radius: $border-radius-1-2;
+  display: grid;
+  max-height: 28rem;
+  width: 100%;
+  gap: 1rem;
+  padding: 1.5rem;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
+  border: 1px solid rgb(221, 221, 221);
+
+  header {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-end;
+  }
+  h1 {
+    font-size: 1.3rem;
+  }
+  h3 {
+    font-weight: 300;
+  }
+  span {
+    font-size: 0.6rem;
+    font-weight: 700;
+  }
+  .bookBtn {
+    background-color: $main-pink;
+    width: 100%;
+    min-height: 3rem;
+    border-radius: $border-radius-1-2;
+    background-image: radial-gradient(
+      rgb(255, 56, 92) 0%,
+      rgb(230, 30, 77) 27.5%,
+      rgb(227, 28, 95) 40%,
+      rgb(215, 4, 102) 57.5%,
+      rgb(189, 30, 89) 75%,
+      rgb(189, 30, 89) 100%
+    );
+    color: white;
+  }
+
+  .bookingInfo {
+    @include border-1;
+    border-color: rgb(34, 34, 34);
+    position: relative;
+    max-height: 7rem;
+    display: grid;
+    grid-template-rows: 50% 50%;
+    justify-items: start;
+    border-radius: $border-radius-1-2;
+    .dates {
+      display: grid;
+      grid-template-columns: 50% 50%;
+      padding: 0.5rem;
+      text-align: left;
+      width: 100%;
+      // justify-content: space-between;
+      align-content: center;
+      @include border-1-bottom-only;
+      border-color: rgb(34, 34, 34);
+      div {
+        span {
+          font-weight: 700;
+        }
+        p {
+          font-weight: 400;
+          font-size: 0.9rem;
+        }
+        &:first-of-type {
+          @include border-1-right-only;
+          border-color: rgb(34, 34, 34);
+        }
+        &:last-of-type {
+          padding-left: 0.5rem;
+        }
+      }
+    }
+
+    .calendarCon {
+      padding: 0.5rem;
+      position: absolute;
+      background-color: white;
+      right: -5%;
+      top: 50%;
+      width: 110%;
+      height: fit-content;
+      box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
+      @include border-1;
+      border-radius: $border-radius-1-2;
+    }
+  }
+
+  .price {
+    display: flex;
+    font-size: 1rem;
+    justify-content: space-between;
+    &:nth-of-type(3) {
+      @include bordered-padding;
+    }
+  }
+}
+
+.bookingSmall {
+  padding-block: 1rem;
+  min-width: calc(100svw - 2rem);
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  background-color: white;
+  z-index: 10;
+  bottom: 0;
+
+  .smallDates {
+    display: grid;
+    div {
+      display: flex;
+      gap: 0.3rem;
+      align-items: center;
+    }
+    h2 {
+      &:first-of-type {
+        font-weight: 700;
+      }
+      font-size: 1rem;
+      &:last-of-type {
+        text-decoration: underline;
+        font-weight: 500;
+      }
+      &:nth-of-type(2) {
+        font-weight: 500;
+        text-decoration: none;
+      }
+    }
+  }
+  button {
+    background-color: $main-pink;
+    width: 40%;
+    min-height: 3rem;
+    border-radius: $border-radius-1-2;
+    background-image: radial-gradient(
+      rgb(255, 56, 92) 0%,
+      rgb(230, 30, 77) 27.5%,
+      rgb(227, 28, 95) 40%,
+      rgb(215, 4, 102) 57.5%,
+      rgb(189, 30, 89) 75%,
+      rgb(189, 30, 89) 100%
+    );
+    color: white;
+    font-weight: 600;
+  }
+}

@@ -62,7 +62,6 @@ export async function getSmallStays(): Promise<StaySmall[] | undefined> {
 
 export async function getStayById(stayId: string): Promise<Stay> {
   const cacheKey: string = "details";
-  console.log("!");
 
   try {
     let stay = await getCache(cacheKey);
@@ -81,6 +80,9 @@ export async function getStayById(stayId: string): Promise<Stay> {
             select: {
               id: true,
               ownerSince: true,
+              firstName: true,
+              lastName: true,
+              imgUrl: true,
             },
           },
 
@@ -99,11 +101,7 @@ export async function getStayById(stayId: string): Promise<Stay> {
           likes: true,
           bedrooms: {
             select: {
-              beds: {
-                select: {
-                  type: true,
-                },
-              },
+              beds: true,
               images: true,
             },
           },
@@ -112,7 +110,6 @@ export async function getStayById(stayId: string): Promise<Stay> {
 
       if (!stay) throw new Error("Stay not found");
 
-      
       stay.rating =
         stay.reviews && stay.reviews.length > 0
           ? stay.reviews.reduce(
@@ -129,3 +126,19 @@ export async function getStayById(stayId: string): Promise<Stay> {
     throw error;
   }
 }
+
+// export function stayToSmallStay(stay: Stay): StaySmall {
+//   return {
+//     id: stay.id,
+//     type: stay.type,
+//     image: stay.images[0]?.url || "",
+//     price: stay.price,
+//     locationId: stay.locationId,
+//     location: stay.location,
+//     rating:
+//       stay.reviews && stay.reviews.length > 0
+//         ? stay.reviews.reduce((acc, curr) => acc + curr.rate, 0) /
+//           stay.reviews.length
+//         : 0,
+//   };
+// }

@@ -1,3 +1,5 @@
+import { Stay, StaySmall } from "@/model/stay.model";
+
 export function debounce<F extends (...args: any[]) => any>(
   func: F,
   delay: number = 2000
@@ -11,55 +13,70 @@ export function debounce<F extends (...args: any[]) => any>(
 }
 
 export function make_id(length = 5): string {
-    let txt = "";
-    const possible =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for (let i = 0; i < length; i++) {
-      txt += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return txt;
+  let txt = "";
+  const possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (let i = 0; i < length; i++) {
+    txt += possible.charAt(Math.floor(Math.random() * possible.length));
   }
-  
-  export function makeLorem(size = 100): string {
-    const words = [
-      "The sky",
-      "above",
-      "the port",
-      "was",
-      "the color of television",
-      "tuned",
-      "to",
-      "a dead channel",
-      ".",
-      "All",
-      "this happened",
-      "more or less",
-      ".",
-      "I",
-      "had",
-      "the story",
-      "bit by bit",
-      "from various people",
-      "and",
-      "as generally",
-      "happens",
-      "in such cases",
-      "each time",
-      "it",
-      "was",
-      "a different story",
-      ".",
-      "It",
-      "was",
-      "a pleasure",
-      "to",
-      "burn",
-    ];
-    let txt = "";
-    while (size > 0) {
-      size--;
-      txt += words[Math.floor(Math.random() * words.length)] + " ";
-    }
-    return txt;
+  return txt;
+}
+
+export function makeLorem(size = 100): string {
+  const words = [
+    "The sky",
+    "above",
+    "the port",
+    "was",
+    "the color of television",
+    "tuned",
+    "to",
+    "a dead channel",
+    ".",
+    "All",
+    "this happened",
+    "more or less",
+    ".",
+    "I",
+    "had",
+    "the story",
+    "bit by bit",
+    "from various people",
+    "and",
+    "as generally",
+    "happens",
+    "in such cases",
+    "each time",
+    "it",
+    "was",
+    "a different story",
+    ".",
+    "It",
+    "was",
+    "a pleasure",
+    "to",
+    "burn",
+  ];
+  let txt = "";
+  while (size > 0) {
+    size--;
+    txt += words[Math.floor(Math.random() * words.length)] + " ";
   }
-  
+  return txt;
+}
+
+export function stayToSmallStay(stay: Stay): StaySmall {
+  return {
+    id: stay.id,
+    type: stay.type,
+    image: stay.images[0]?.url || "",
+    price: stay.price,
+    locationId: stay.locationId,
+    location: stay.location,
+    rating:
+      stay.reviews && stay.reviews.length > 0
+        ? stay.reviews.reduce((acc, curr) => acc + curr.rate, 0) /
+          stay.reviews.length
+        : 0,
+  };
+}

@@ -3,16 +3,19 @@ import styles from "./HostSmall.module.scss";
 
 interface Props {
   imgUrl: string;
-  fullname: string;
+  firstName: string;
+  lastName: string;
   years: number;
 }
-export function HostSmall({ imgUrl, fullname, years }: Props) {
+export function HostSmall({ imgUrl, lastName, firstName, years }: Props) {
   return (
     <div className={styles.host}>
       <div>
         <Image src={imgUrl} fill={true} alt=""></Image>
       </div>
-      <p>Hosted by {fullname}</p>
+      <p>
+        Hosted by {lastName} {firstName}
+      </p>
       <p>{years} years hosting</p>
     </div>
   );

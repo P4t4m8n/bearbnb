@@ -17,7 +17,6 @@ datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
-
 }
 
 enum Beds {
@@ -102,7 +101,7 @@ model Stay {
   hostId      String
   host        Profile   @relation(fields: [hostId], references: [id], onDelete: Cascade)
   locationId  String    @unique
-  location    Location  @relation(fields: [locationId], references: [id])
+  location    Location  @relation(fields: [locationId], references: [id], onDelete: Cascade)
   images      Image[]
   amenities   Amenity[] @relation("StayAmenities")
   labels      Label[]
@@ -124,9 +123,13 @@ model Review {
 
 model Profile {
   id         String    @id @default(uuid())
+  supabaseId String    @unique
   isOwner    Boolean
   ownerSince DateTime?
-  supabaseId String    @unique
+  firstName  String
+  lastName   String
+  imgUrl     String
+  dob        DateTime
   stays      Stay[]
   review     Review[]
   likes      Like[]
@@ -193,7 +196,11 @@ model Booking {
   hostId      String
   host        Profile  @relation("host", fields: [hostId], references: [id])
   price       Float
+  adults      Int
+  children    Int?
+  infants     Int?
+  pets        Int?
   checkIn     DateTime
   checkOut    DateTime
-  bookingTIme DateTime
+  bookingTime DateTime
 }

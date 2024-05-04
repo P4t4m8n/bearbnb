@@ -1,6 +1,10 @@
+@import "../../../../styles/abstracts/variables";
+
 .header {
   display: flex;
   justify-content: space-between;
+  box-sizing: border-box;
+  min-width: $max-width-padding;
   h1 {
     font-size: 1.5rem;
   }
@@ -21,5 +25,35 @@
   }
   span {
     text-decoration: underline;
+  }
+}
+
+@media (max-width: 650px) {
+  .header {
+    position: absolute;
+    min-width: calc(100svw - 2rem);
+    top: 2%;
+    right: 2%;
+    z-index: 5;
+    justify-content: flex-end;
+    h1 {
+      display: none;
+    }
+
+    div {
+      gap: 1rem;
+      button {
+        background-color: white;
+        min-width: 1rem;
+        aspect-ratio: 1;
+        border-radius: 100vw;
+        svg {
+          stroke-width: 3;
+        }
+        span {
+          display: none;
+        }
+      }
+    }
   }
 }

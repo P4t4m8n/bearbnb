@@ -11,7 +11,7 @@ export function ImageList({ images }: Props) {
     <ul className={styles.imageList}>
       {images.map((img, idx) => (
         <li key={idx}>
-          <Image src={img.url} fill={true} alt=""></Image>
+          <Image src={img.url}  fill={true} alt=""></Image>
         </li>
       ))}
     </ul>

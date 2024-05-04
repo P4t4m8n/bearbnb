@@ -8,7 +8,6 @@ interface Props {
 export function StaySearch({ isActive }: Props) {
   const scrollClass = `${styles.search} ${isActive ? styles.scroll : ""}`;
   const handleSearch = (ev: ChangeEvent<HTMLInputElement>) => {
-    console.log("ev:", ev);
   };
 
   return (

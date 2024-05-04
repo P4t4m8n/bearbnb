@@ -86,7 +86,7 @@ export interface Stay {
   summary: string;
   description?: string;
   capacity: number;
-  amenities: string[];
+  amenities: { name: string }[];
   baths?: number;
   uniqueRooms?: string[];
   labels: string[];
@@ -107,4 +107,40 @@ export interface StaySmall {
   locationId: string;
   location: Location;
   rating: number;
+}
+
+export interface BookingModel {
+  id?: string;
+  stay: StaySmall | null;
+  user: UserSmall | null;
+  host: UserSmall | null;
+  price: number;
+  checkIn: Date | null;
+  checkOut: Date | null;
+  bookingTime: Date | null;
+  adults: number;
+  children: number;
+  infants: number;
+  pets: number;
+}
+
+export interface BookingDTO {
+  stayId: string;
+  userId: string;
+  hostId: string;
+  price: number;
+  adults: number;
+  children: number;
+  infants: number;
+  pets: number;
+  checkIn: Date;
+  checkOut: Date;
+  bookingTime: Date;
+}
+
+export interface GuestsModel {
+  adults: number;
+  children: number;
+  infants: number;
+  pets: number;
 }

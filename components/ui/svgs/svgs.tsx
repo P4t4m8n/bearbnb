@@ -121,7 +121,7 @@ export function FilterSVG() {
   );
 }
 
-export function ScrollBySVG({ className }: Props) {
+export function ScrollBySVG({ className = "" }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -129,8 +129,7 @@ export function ScrollBySVG({ className }: Props) {
       aria-hidden="true"
       role="presentation"
       focusable="false"
-      // className={className}
-      // style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"
+      className={className}
     >
       <path fill="none" d="m12 4 11.3 11.3a1 1 0 0 1 0 1.4L12 28"></path>
     </svg>
@@ -184,6 +183,21 @@ export function DoubleBedSVG() {
   );
 }
 
+export const SingleBedSVG = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 32 32"
+      aria-hidden="true"
+      role="presentation"
+      focusable="false"
+      // style="display: block; height: 24px; width: 24px; fill: currentcolor;"
+    >
+      <path d="M24 4a2 2 0 0 1 2 1.85v7.99l1.85 5.54a3 3 0 0 1 .11.46l.03.24.01.24V30h-2v-2H6v2H4v-9.68a3 3 0 0 1 .09-.71l.06-.23L6 13.84V6a2 2 0 0 1 1.7-1.98l.15-.01L8 4zm2 18H6v4h20zm-1.39-6H7.4l-1.34 4h19.9zM24 6H8v8h3v-4a2 2 0 0 1 1.85-2H19a2 2 0 0 1 2 1.85V14h3zm-5 4h-6v4h6z"></path>
+    </svg>
+  );
+};
+
 export function WifiSVG() {
   return (
     <svg
@@ -195,6 +209,34 @@ export function WifiSVG() {
       // style="display: block; height: 24px; width: 24px; fill: currentcolor;"
     >
       <path d="M16 20.33a3.67 3.67 0 1 1 0 7.34 3.67 3.67 0 0 1 0-7.34zm0 2a1.67 1.67 0 1 0 0 3.34 1.67 1.67 0 0 0 0-3.34zM16 15a9 9 0 0 1 8.04 4.96l-1.51 1.51a7 7 0 0 0-13.06 0l-1.51-1.51A9 9 0 0 1 16 15zm0-5.33c4.98 0 9.37 2.54 11.94 6.4l-1.45 1.44a12.33 12.33 0 0 0-20.98 0l-1.45-1.45A14.32 14.32 0 0 1 16 9.66zm0-5.34c6.45 0 12.18 3.1 15.76 7.9l-1.43 1.44a17.64 17.64 0 0 0-28.66 0L.24 12.24c3.58-4.8 9.3-7.9 15.76-7.9z"></path>
+    </svg>
+  );
+}
+
+export function PlusSVG() {
+  return (
+    <svg
+      viewBox="0 0 12 12"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      role="presentation"
+      focusable="false"
+    >
+      <path d="m6.75.75v4.5h4.5v1.5h-4.5v4.5h-1.5v-4.5h-4.5v-1.5h4.5v-4.5z"></path>
+    </svg>
+  );
+}
+
+export function MinusSVG() {
+  return (
+    <svg
+      viewBox="0 0 12 12"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      role="presentation"
+      focusable="false"
+    >
+      <path d="m.75 6.75h10.5v-1.5h-10.5z"></path>
     </svg>
   );
 }

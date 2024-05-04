@@ -1,22 +1,41 @@
 "use client";
 import { useScroll } from "@/components/hooks/useScroll";
-// interface Props{
-//     rooms:
-// }
+interface Props {
+  bedrooms: { beds: any[]; images: any[] }[];
+}
 
-import { DoubleBedSVG, ScrollBySVG } from "../../svgs/svgs";
+import { DoubleBedSVG, ScrollBySVG, SingleBedSVG } from "../../svgs/svgs";
 import styles from "./RoomList.module.scss";
 import { useRef } from "react";
 
-export default function RoomList() {
+export default function RoomList({ bedrooms }: Props) {
   const elRooms = useRef<HTMLUListElement>(null);
   const [backVisible, onScrollBy] = useScroll(elRooms);
 
-  const numberOfLis = 3;
-  const liWidth = 12.5; // in rem
-  const gap = 1; // in rem
-  const totalWidthInRem = numberOfLis * liWidth + gap * (numberOfLis - 1);
-  const ulStyle = { maxWidth: `${totalWidthInRem}rem` };
+  function transformBedrooms() {
+    return bedrooms.map((bedroom) => {
+      // Count the number of each type of bed
+      const bedCounts = bedroom.beds.reduce((acc, bed) => {
+        acc[bed] = (acc[bed] || 0) + 1;
+        return acc;
+      }, {});
+
+      // Format the bed description based on the counts
+      const formattedBeds = Object.keys(bedCounts).map((bedType) => {
+        return `${bedCounts[bedType]} ${bedType} bed${
+          bedCounts[bedType] > 1 ? "s" : ""
+        }`;
+      });
+
+      // Return the transformed bedroom object
+      return {
+        bedCounts,
+        beds: formattedBeds,
+        images: bedroom.images,
+      };
+    });
+  }
+  const formattedBedrooms = transformBedrooms();
 
   return (
     <div className={styles.rooms}>
@@ -32,40 +51,22 @@ export default function RoomList() {
         </button>
       )}
       <ul ref={elRooms}>
-        <li>
-          <DoubleBedSVG />
-          <p>Bedroom</p>
-          <p>1 double bed</p>
-        </li>
-        <li>
-          <DoubleBedSVG />
-          <p>Bedroom</p>
-          <p>1 double bed</p>
-        </li>
-        <li>
-          <DoubleBedSVG />
-          <p>Bedroom</p>
-          <p>1 double bed</p>
-        </li>
-        <li>
-          <DoubleBedSVG />
-          <p>Bedroom</p>
-          <p>1 double bed</p>
-        </li>
-        <li>
-          <DoubleBedSVG />
-          <p>Bedroom</p>
-          <p>1 double bed</p>
-        </li>
-        <li>
-          <DoubleBedSVG />
-          <p>Bedroom</p>
-          <p>1 double bed</p>
-        </li>
+        {formattedBedrooms.map((room, idx) => (
+          <li key={idx}>
+            <div>
+              {room.bedCounts.double && <DoubleBedSVG />}
+              {room.bedCounts.single && <SingleBedSVG />}
+            </div>
+            <p>Bedroom</p>
+            <p>{room.beds.join(",")}</p>
+          </li>
+        ))}
       </ul>
-      <button className={styles.right} onClick={() => onScrollBy(1)}>
-        <ScrollBySVG className={styles.svg} />
-      </button>
+      {RoomList.length > 2 && (
+        <button className={styles.right} onClick={() => onScrollBy(1)}>
+          <ScrollBySVG className={styles.svg} />
+        </button>
+      )}
     </div>
   );
 }

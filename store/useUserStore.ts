@@ -1,4 +1,3 @@
-// store/useUserStore.js
 import { UserSmall } from "@/model/stay.model";
 import { create } from "zustand";
 

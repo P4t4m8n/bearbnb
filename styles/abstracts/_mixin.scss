@@ -11,6 +11,9 @@
 @mixin border-1 {
   border: 1px solid gainsboro;
 }
+@mixin border-2 {
+  border: 1px solid rgb(34, 34, 34);
+}
 @mixin border-1-top {
   border: 1px solid gainsboro;
   border-top: none;
@@ -18,6 +21,18 @@
 @mixin border-1-bottom {
   border: 1px solid gainsboro;
   border-bottom: none;
+}
+@mixin border-1-bottom-only {
+  border-bottom: 1px solid gainsboro;
+}
+@mixin border-1-bottom-only {
+  border-bottom: 1px solid gainsboro;
+}
+@mixin border-1-left-only {
+  border-left: 1px solid gainsboro;
+}
+@mixin border-1-right-only {
+  border-right: 1px solid gainsboro;
 }
 
 @mixin border-radius-no-bottom {
@@ -50,4 +65,8 @@
 
 @mixin soft-box-shadow {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+@mixin grid-columns($cols) {
+  grid-template-columns: repeat($cols, minmax(0, 1fr));
 }

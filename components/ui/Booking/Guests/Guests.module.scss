@@ -1,0 +1,77 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixin";
+
+.guests {
+  grid-area: 2/1/-1/-1;
+  border: none;
+  display: flex;
+  grid-template-columns: auto auto;
+  font-size: 0.9rem;
+  width: 100%;
+  position: relative;
+
+  .total {
+    border: none;
+    display: grid;
+    min-height: 100%;
+    text-align: left;
+    width: 100%;
+    span {
+      display: flex;
+      align-items: center;
+    }
+  }
+  svg {
+    width: 1rem;
+    fill: black;
+    stroke: black;
+    stroke-width: 4;
+    transform: rotate(90deg);
+    align-self: center;
+  }
+
+  ul {
+    position: absolute;
+    top: 101%;
+    left: -2.5%;
+    padding: 2.5%;
+    background-color: white;
+    width: 105%;
+    min-height: fit-content;
+    li {
+      display: flex;
+      justify-content: space-between;
+      div {
+        &:last-of-type {
+          display: flex;
+          align-self: center;
+          gap: 0.5rem;
+          align-items: center;
+          button {
+            width: 2rem;
+            border-radius: 100vw;
+            aspect-ratio: 1;
+            border: 1px solid rgb(221, 221, 221);
+            display: flex;
+            justify-content: center;
+            svg {
+              width: 0.75rem;
+              aspect-ratio: 1;
+              stroke-width: 0.5;
+              stroke: rgb(158, 158, 158);
+              transform: rotate(180deg);
+            }
+
+            &:disabled {
+              opacity: 0.3;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .rotate {
+    transform: rotate(-90deg) ;
+  }
+}

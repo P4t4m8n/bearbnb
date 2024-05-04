@@ -6,8 +6,9 @@
   grid-template-rows: repeat(2, 1fr);
   gap: 0.5rem;
   height: 50vh;
-  width: 100%;
   border-radius: 1rem;
+  min-width: $max-width-padding;
+  justify-self: center;
   li {
     border-radius: 1rem;
     position: relative;
@@ -35,6 +36,29 @@
       grid-area: 2/4/-1/-1;
       img {
         border-bottom-right-radius: $border-radius-1;
+      }
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .imageList {
+    display: flex;
+    // max-width: calc(100svw - 2rem);
+    width:100%;
+
+    li:not(:first-of-type) {
+      display: none;
+    }
+    li {
+      &:first-of-type {
+        display: block;
+        min-width: 100%;
+        min-height: 50svh;
+        border-radius: $border-radius-1-2;
+        img {
+          border-radius: $border-radius-1-2 !important;
+        }
       }
     }
   }

@@ -8,20 +8,24 @@ import { useUserStore } from "@/store/useUserStore";
 import { Session } from "@supabase/supabase-js";
 import Modal from "./Modal/Modal";
 import { useModal } from "@/components/hooks/useModal";
+import { UserSmall } from "@/model/stay.model";
 
-export function User() {
+interface Props {
+  _user: UserSmall | null | undefined;
+}
+
+export function User({ _user }: Props) {
   const { user, setUser } = useUserStore();
   const modalRef = useRef<HTMLDivElement | null>(null);
-  const [open, setModal] = useModal(modalRef);
+  const [open, setModal] = useModal(modalRef, null);
 
   useEffect(() => {
     const loadUser = async () => {
-      const { data } = await clientSupabase.auth.getSession();
-      if (data.session) console.log("_user!!!!!!!!:", data.session.user);
+      if (_user) setUser({ ..._user });
     };
 
     loadUser();
-  }, []);
+  }, [_user, setUser]);
 
   const onLogout = async (ev: MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault();

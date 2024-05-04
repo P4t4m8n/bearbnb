@@ -2,17 +2,15 @@ import { faker } from "@faker-js/faker";
 import { prisma } from "./prisma";
 import { Amenities } from "@prisma/client";
 
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function main() {
   const amenities = await prisma.amenity.findMany();
-  const user = await prisma.profile.create({
-    data: {
-      isOwner: true,
-      ownerSince: new Date(faker.date.past({ years: 5 })),
-      supabaseId: "7d8442ae-dfd6-4d0e-b1ed-6ac0f8b500df",
-    },
-  });
-  for (let i = 0; i < 2; i++) {
-
+  const user = { id: "e534d3ce-6779-4012-9e0a-08ffaaf913bf" };
+  for (let i = 0; i < 50; i++) {
+    await delay(1);
     const location = await prisma.location.create({
       data: {
         country: faker.location.country(),
@@ -67,25 +65,29 @@ async function main() {
       },
     });
 
-    for (let i = 0; i < 10; i++) {
-      await prisma.review.create({
-        data: {
-          text: faker.lorem.sentence(),
-          rate: faker.number.int({ min: 1, max: 5 }),
-          userId: user.id,
-          stayId: stay.id,
-        },
-      });
-    }
+    const reviews = Array(10)
+      .fill(null)
+      .map(() => ({
+        text: faker.lorem.sentence(),
+        rate: faker.number.int({ min: 1, max: 5 }),
+        userId: user.id,
+        stayId: stay.id,
+      }));
 
-    for (let i = 0; i < 10; i++) {
-      await prisma.like.create({
-        data: {
-          userId: user.id,
-          stayId: stay.id,
-        },
-      });
-    }
+    await prisma.review.createMany({
+      data: reviews,
+    });
+
+    const likes = Array(10)
+      .fill(null)
+      .map(() => ({
+        userId: user.id,
+        stayId: stay.id,
+      }));
+
+    await prisma.like.createMany({
+      data: likes,
+    });
   }
 }
 

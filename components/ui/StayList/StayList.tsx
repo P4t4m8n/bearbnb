@@ -1,4 +1,4 @@
-import { Stay, StaySmall } from "../../model/stay.model";
+import { StaySmall } from "@/model/stay.model";
 import StayPreview from "../StayPreview/StayPreview";
 import styles from "./StayList.module.scss";
 interface Props {

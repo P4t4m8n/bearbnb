@@ -6,6 +6,7 @@
   align-items: center;
   justify-self: flex-end;
   gap: 1rem;
+  box-sizing: border-box;
 
   .svgBtn {
     padding: 0.7rem;
@@ -15,7 +16,7 @@
     }
   }
   .globe {
-    width: 1rem;
+    min-width: 1rem;
   }
   h3 {
     font-weight: lighter;
@@ -108,5 +109,16 @@
 @media (max-width: 650px) {
   .user {
     justify-self: auto;
+    button {
+      &:not(:last-of-type) {
+        display: none;
+      }
+      &:last-of-type {
+        min-width: 4rem;
+        svg {
+          display: none !important;
+        }
+      }
+    }
   }
 }

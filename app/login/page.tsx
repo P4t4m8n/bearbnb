@@ -6,15 +6,16 @@ import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { cookies, headers } from "next/headers";
 
 export default function LoginPage() {
+  ///////////////////////////////////////////////////
   const signUpWithPassword = async (formData: FormData): Promise<UserSmall> => {
     "use server";
     const supabase = createServerActionClient({
       cookies,
     });
 
-    const firstName = formData.get("firstName");
-    const lastName = formData.get("lastName");
-    const dob = formData.get("dob");
+    const firstName = formData.get("firstName") as string;
+    const lastName = formData.get("lastName") as string;
+    const dob = formData.get("dob") as string;
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
@@ -22,12 +23,6 @@ export default function LoginPage() {
       email,
       password,
       options: {
-        data: {
-          firstName,
-          lastName,
-          dob,
-          imgUrl: faker.image.avatar(),
-        },
         emailRedirectTo: `http://localhost:3000/auth/callback`,
       },
     });
@@ -39,20 +34,24 @@ export default function LoginPage() {
       data: {
         isOwner: false,
         supabaseId: data.user.id,
+        firstName,
+        lastName,
+        dob: new Date(dob),
+        imgUrl: faker.image.avatar(),
       },
     });
     const { isOwner, id } = profile;
     return {
       isOwner,
       id,
-      lastName: data.user.user_metadata.lastName,
-      firstName: data.user.user_metadata.firstName,
+      lastName: profile.lastName,
+      firstName: profile.firstName,
       email: data.user.email || "",
       likes: [],
-      imgUrl: data.user.user_metadata.imgUrl,
+      imgUrl: profile.imgUrl,
     };
   };
-
+  ///////////////////////////////////////////////////
   const logInWithPassword = async (formData: FormData): Promise<UserSmall> => {
     "use server";
 
@@ -69,23 +68,23 @@ export default function LoginPage() {
     });
     if (error) throw new Error(error.message);
 
-    const _user = await prisma.profile.findUnique({
+    const profile = await prisma.profile.findUnique({
       where: { supabaseId: data.user.id },
     });
 
-    if (!_user) throw new Error("no profile");
+    if (!profile) throw new Error("no profile");
 
     return {
-      isOwner: _user.isOwner,
-      id: _user.id,
-      lastName: data.user.user_metadata.lastName,
-      firstName: data.user.user_metadata.firstName,
+      isOwner: profile.isOwner,
+      id: profile.id,
+      lastName: profile.lastName,
+      firstName: profile.firstName,
       email: data.user.email || "",
-      imgUrl: data.user.user_metadata.imgUrl,
+      imgUrl: profile.imgUrl,
       likes: [],
     };
   };
-
+  ///////////////////////////////////////////////////
   const signInWithSocial = async (
     type: "google" | "facebook"
   ): Promise<string> => {
