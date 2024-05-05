@@ -10,7 +10,7 @@ interface Props {
   date: Date;
   bookings?: BookingModalSmall[];
   isSearch?: boolean;
-  onDateSearch?: (date: Date) => void;
+  onDateSearch?: (date: Date | null) => void;
 }
 
 export function Calendar({
@@ -24,8 +24,8 @@ export function Calendar({
   const elCalendar = useRef<HTMLDivElement>(null);
   const isStart = useRef<boolean>(true);
 
-  const onBookDateClick = (date: Date) => {
-    
+  const onBookDateClick = (date: Date | null) => {
+    if (!date) return;
     if (isStart.current) {
       if (booking.checkOut && date >= booking.checkOut)
         setBooking({ ...booking, checkIn: date, checkOut: null });
@@ -35,7 +35,6 @@ export function Calendar({
       setBooking({ ...booking, checkOut: date });
       isStart.current = true;
     }
-    
   };
 
   const switchMonth = (dir: number) => {

@@ -7,7 +7,7 @@ interface Props {
   checkIn: Date | null;
   checkOut: Date | null;
   bookings?: BookingModalSmall[];
-  onDateClick: (date: Date) => void;
+  onDateClick: (date: Date | null) => void;
   onMonthChange: (dir: number) => void;
 }
 
@@ -24,13 +24,12 @@ export default function MonthGrid({
   onDateClick,
   onMonthChange,
 }: Props) {
-  console.log("bookings:", bookings)
+  console.log("bookings:", bookings);
   //////////////////////////////////////////////////////////////////////
   const monthEnd = new Date(date.getFullYear(), date.getMonth() + 1, 0);
   const daysInMonth = monthEnd.getDate();
   const daysName = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-  
   const getMonthGrid = (date: Date) => {
     const days: DateObj[] = [];
     const today = new Date();
@@ -80,7 +79,7 @@ export default function MonthGrid({
     return days;
   };
 
-  const dateClick = (date: Date) => {
+  const dateClick = (date: Date | null) => {
     onDateClick(date);
   };
 
@@ -125,6 +124,7 @@ export default function MonthGrid({
           </li>
         ))}
       </ul>
+      <button onClick={() => dateClick(null)}>Clear</button>
     </section>
   );
 }

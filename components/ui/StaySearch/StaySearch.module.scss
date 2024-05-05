@@ -1,4 +1,5 @@
 @import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixin";
 
 .search {
   justify-self: center;
@@ -31,7 +32,7 @@
       stroke-width: 4;
     }
   }
-  
+
   .input {
     min-height: 100%;
     padding: 6px 12px 4px 10px;
@@ -118,31 +119,65 @@
   }
 }
 
+.calendarCon {
+  position: absolute;
+  background-color: white;
+  min-height: fit-content;
+  z-index: 10;
+  padding: 0.5rem;
+  top: 100%;
+  height: fit-content;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
+  @include border-1;
+  border-radius: $border-radius-1-2;
+  section {
+    section {
+      div {
+        flex-direction: row !important;
+      }
+    }
+  }
+}
+
 .scroll {
   grid-area: 1/2/2/3;
   height: 3rem;
   width: 40vw;
-  grid-template-columns: minmax(5%, 1fr) 20% minmax(5%, 20%) auto;
+  grid-template-columns: minmax(5%, 1fr) 25% minmax(5%, 20%) auto;
   .searchBtn {
     width: 2.5rem;
   }
-  .inputBtn {
-    &:not(:nth-child(4))::after {
+  .input {
+    &:not(:nth-child(2))::after {
       height: 30px;
       top: 20%;
     }
   }
 
   button {
-    &:nth-of-type(2) {
-      display: none;
+    div {
+      &:nth-of-type(2) {
+        display: none;
+      }
+      &:first-of-type::after {
+        display: none !important ;
+      }
     }
+
     &:last-of-type {
       width: 2.5rem;
     }
   }
   span {
     display: none;
+  }
+  .dates {
+    // background-color: red;
+    min-width: 100% !important;
+    &::after {
+      top: 20% !important;
+      height: 30px !important;
+    }
   }
 }
 

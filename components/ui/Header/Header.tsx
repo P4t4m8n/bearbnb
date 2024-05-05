@@ -20,9 +20,9 @@ export default function Header({ _user }: Props) {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
       requestAnimationFrame(() => {
-        if (currentScroll > 1 ) {
+        if (currentScroll > 100 ) {
           setIsActive(true);
-        } else if (currentScroll <= 1 ) {
+        } else if (currentScroll <= 100 ) {
           setIsActive(false);
         }
         lastScrollTop.current = currentScroll;

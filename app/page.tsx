@@ -5,6 +5,7 @@ import LoginPage from "./login/page";
 import { getSmallStays } from "@/service/stay.server";
 
 export default async function Home({ searchParams }: { searchParams: any }) {
+  console.log("searchParams:", searchParams);
   let stays: StaySmall[] | undefined = [];
   const searchObj: SearchBY = {
     dates: {
@@ -13,7 +14,7 @@ export default async function Home({ searchParams }: { searchParams: any }) {
     },
     priceRange: { start: 1, end: 999999999999 },
     location: "",
-    name: "",
+    name: searchParams.name||'',
   };
   try {
     stays = await getSmallStays(searchObj);
