@@ -10,6 +10,7 @@ import { useModal } from "@/components/hooks/useModal";
 import { Guests } from "./Guests/Guests";
 import { useUserStore } from "@/store/useUserStore";
 import { stayToSmallStay } from "@/service/util";
+import { useRouter } from "next/navigation";
 
 interface Props {
   price: number;
@@ -28,19 +29,25 @@ export default function Booking({ price, stay, saveBooking }: Props) {
   const { booking, setBooking } = useBookingStore();
   const { user, setUser } = useUserStore();
   const [isWindowSmall, setIsWindowSmall] = useState(false);
+  const router = useRouter();
 
-  const modalRef = useRef<HTMLDivElement | null>(null);
-  const [open, setModal] = useModal(modalRef, null);
+  const calendarModalRef = useRef<HTMLDivElement | null>(null);
+  const [calenderOpen, setCalenderOpen] = useModal(calendarModalRef, null);
+
+  const bookingConfirmModalRef = useRef<HTMLDivElement | null>(null);
+  const [isBookingConfirm, setIsBookingConfirm] = useModal(
+    calendarModalRef,
+    null
+  );
 
   useEffect(() => {
-    handleResize()
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  },[]);
+  }, []);
 
   const handleResize = () => {
     const { width } = getWindowDimensions();
-    console.log("width:", width)
     if (width <= 650) {
       setIsWindowSmall(true);
       return;
@@ -66,6 +73,7 @@ export default function Booking({ price, stay, saveBooking }: Props) {
     const _host = stay.host;
     const _user = user;
     if (!_user) return alert("no user");
+
     setBooking({
       ...booking,
       stay: _stay,
@@ -73,13 +81,9 @@ export default function Booking({ price, stay, saveBooking }: Props) {
       user: _user,
       price: diffInDays * price,
     });
-    saveBooking({
-      ...booking,
-      stay: _stay,
-      host: _host,
-      user: _user,
-      price: diffInDays * price,
-    });
+console.log('1')
+    router.push("/booking");
+    // setIsBookingConfirm(true);
   };
 
   const diffInDays =
@@ -119,7 +123,10 @@ export default function Booking({ price, stay, saveBooking }: Props) {
             <h3>night</h3>
           </header>
           <div className={styles.bookingInfo}>
-            <button onClick={() => setModal(true)} className={styles.dates}>
+            <button
+              onClick={() => setCalenderOpen(true)}
+              className={styles.dates}
+            >
               <div>
                 <span>CHECK-IN</span>
                 <p>
@@ -137,9 +144,12 @@ export default function Booking({ price, stay, saveBooking }: Props) {
               </div>
             </button>
             <Guests setGuests={setGuests} guests={guests} />
-            {open && (
-              <div ref={modalRef} className={styles.calendarCon}>
-                <Calendar date={booking.checkIn || new Date()} />
+            {calenderOpen && (
+              <div ref={calendarModalRef} className={styles.calendarCon}>
+                <Calendar
+                  bookings={stay.booking}
+                  date={booking.checkIn || new Date()}
+                />
               </div>
             )}
           </div>
@@ -162,7 +172,10 @@ export default function Booking({ price, stay, saveBooking }: Props) {
       )}
       {isWindowSmall && (
         <section className={styles.bookingSmall}>
-          <div className={styles.smallDates} onClick={() => setModal(true)}>
+          <div
+            className={styles.smallDates}
+            onClick={() => setCalenderOpen(true)}
+          >
             <div>
               <h2>{diffInDays < 0 ? "Add dates for prices" : `$${price}`}</h2>
               <h2>night</h2>

@@ -32,6 +32,7 @@ export function User({ _user }: Props) {
     try {
       const { error } = await clientSupabase.auth.signOut();
       if (error) throw new Error(error.message);
+      setUser(null);
     } catch (error) {
       console.error("error:", error);
     }

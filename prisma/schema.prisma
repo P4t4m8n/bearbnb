@@ -4,10 +4,6 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate https//pris.ly/cli/accelerate-init
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 // datasource db {
 //   provider = "postgresql"
 //   url      = env("DATABASE_URL")
@@ -17,6 +13,11 @@ datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
 
 enum Beds {
@@ -108,13 +109,13 @@ model Stay {
   reviews     Review[]
   likes       Like[]
   bedrooms    BedRoom[]
-  Booking     Booking[]
+  booking     Booking[]
 }
 
 model Review {
   id     String  @id @default(uuid())
   stayId String
-  stay   Stay    @relation(fields: [stayId], references: [id])
+  stay   Stay    @relation(fields: [stayId], references: [id] )
   text   String
   rate   Int
   userId String
@@ -161,7 +162,7 @@ model BedRoom {
   beds   Beds[]
   images Image[]
   stayId String
-  stay   Stay    @relation(fields: [stayId], references: [id])
+  stay   Stay    @relation(fields: [stayId], references: [id], onDelete: Cascade)
 }
 
 model Label {
@@ -173,17 +174,17 @@ model Label {
 model Like {
   id     String  @id @default(uuid())
   userId String
-  user   Profile @relation(fields: [userId], references: [id])
+  user   Profile @relation(fields: [userId], references: [id], onDelete: Cascade)
   stayId String
-  stay   Stay    @relation(fields: [stayId], references: [id])
+  stay   Stay    @relation(fields: [stayId], references: [id], onDelete: Cascade)
 }
 
 model Image {
   id     String   @id @default(uuid())
   url    String
   stayId String?
-  stay   Stay?    @relation(fields: [stayId], references: [id])
-  Room   BedRoom? @relation(fields: [roomId], references: [id])
+  stay   Stay?    @relation(fields: [stayId], references: [id], onDelete: Cascade)
+  Room   BedRoom? @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId String?
 }
 

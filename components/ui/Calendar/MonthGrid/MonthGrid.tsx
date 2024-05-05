@@ -1,3 +1,4 @@
+import { BookingModalSmall } from "@/model/stay.model";
 import { ScrollBySVG } from "../../svgs/svgs";
 import styles from "./MonthGrid.module.scss";
 
@@ -5,24 +6,33 @@ interface Props {
   date: Date;
   checkIn: Date | null;
   checkOut: Date | null;
+  bookings?: BookingModalSmall[];
   onDateClick: (date: Date) => void;
   onMonthChange: (dir: number) => void;
+}
+
+interface DateObj {
+  dateObj: Date;
+  style: string;
 }
 
 export default function MonthGrid({
   date,
   checkIn,
   checkOut,
+  bookings,
   onDateClick,
   onMonthChange,
 }: Props) {
+  console.log("bookings:", bookings)
   //////////////////////////////////////////////////////////////////////
   const monthEnd = new Date(date.getFullYear(), date.getMonth() + 1, 0);
   const daysInMonth = monthEnd.getDate();
   const daysName = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
+  
   const getMonthGrid = (date: Date) => {
-    const days = [];
+    const days: DateObj[] = [];
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -59,6 +69,14 @@ export default function MonthGrid({
 
       days.push(arrDate);
     }
+
+    bookings?.forEach((booking) => {
+      const idx = booking.checkIn.getDate();
+      const jdx = booking.checkOut.getDate() - 1;
+      for (let i = idx; i < jdx; i++) {
+        days[i].style = `${styles.passDate}`;
+      }
+    });
     return days;
   };
 

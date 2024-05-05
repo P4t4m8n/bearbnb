@@ -9,10 +9,10 @@ export async function middleware(req: NextRequest) {
 
   const supabase = createMiddlewareClient({ req, res });
 
-  if (pathname === "/login") {
-    const returnUrl = req.nextUrl.clone(); 
-    returnUrl.pathname = "/"; 
-    returnUrl.searchParams.set("showDialog", "y"); 
+  if (pathname === "/login" || pathname === "/booking") {
+    const returnUrl = req.nextUrl.clone();
+    returnUrl.pathname = "/";
+    returnUrl.searchParams.set("showDialog", "y");
 
     return NextResponse.redirect(returnUrl);
   }

@@ -57,7 +57,6 @@ export default function Modal({
   ) => {
     ev.preventDefault();
     const url = await signInWIthSocial(type);
-    console.log("url:", url);
     window.location.href = url;
     // setUser(_user);
     // closeModal();

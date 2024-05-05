@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, MouseEvent } from "react";
 
 export const useModal = (
-  ref: React.RefObject<HTMLDivElement>,
+  ref: React.RefObject<HTMLDivElement|HTMLButtonElement>,
   callBack: null | (() => void)
 ): [boolean, React.Dispatch<React.SetStateAction<boolean>>] => {
   const [open, setOpen] = useState(false);

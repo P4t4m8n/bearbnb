@@ -11,7 +11,7 @@ import { HostSmall } from "@/components/ui/Details/HostSmall/HostSmall";
 import Booking from "@/components/ui/Booking/Booking";
 import { prisma } from "@/prisma/prisma";
 import { z } from "zod";
-import { getStayById } from "@/service/stay-service";
+import { getStayById } from "@/service/stay.server";
 
 interface Props {
   params: any;
@@ -158,7 +158,7 @@ export default async function StayDetails({ params }: Props) {
           </div>
           <RoomList bedrooms={bedrooms} />
           <AmentiasList amenities={amenities} />
-          <Calendar date={new Date()} />
+          <Calendar bookings={stay.booking} date={new Date()} />
         </section>
         <section className={styles.calendarCon}>
           <Booking saveBooking={saveBooking} price={price} stay={stay} />

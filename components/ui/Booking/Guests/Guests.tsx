@@ -13,7 +13,6 @@ export function Guests({ guests, setGuests }: Props) {
   const modalRef = useRef(null);
 
   const onClose = () => {
-    console.log("guestsState:", guestsState);
     // setGuests(guestsState);
   };
   const [open, setModal] = useModal(modalRef, onClose);

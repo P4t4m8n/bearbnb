@@ -8,7 +8,8 @@ function delay(ms: number) {
 
 async function main() {
   const amenities = await prisma.amenity.findMany();
-  const user = { id: "e534d3ce-6779-4012-9e0a-08ffaaf913bf" };
+  const host = { id: "26e34c90-561c-4ef6-80b7-bdc12915606f" };
+  const user = { id: "e6b1bd84-5d83-4a7a-bf1a-76d49f12edd5" };
   for (let i = 0; i < 50; i++) {
     await delay(1);
     const location = await prisma.location.create({
@@ -30,7 +31,7 @@ async function main() {
         summary: faker.commerce.productDescription(),
         description: faker.lorem.paragraphs(10),
         capacity: faker.number.int({ min: 1, max: 12 }),
-        hostId: user.id,
+        hostId: host.id,
         locationId: location.id,
         images: {
           create: [
@@ -87,6 +88,31 @@ async function main() {
 
     await prisma.like.createMany({
       data: likes,
+    });
+
+    const startDate = new Date();
+    const bookings = Array(10)
+      .fill(null)
+      .map((_, index) => {
+        const checkIn = new Date(
+          startDate.getTime() + index * (4 * 24 * 60 * 60 * 1000)
+        ); // 4 days in milliseconds
+        const checkOut = new Date(checkIn.getTime() + 4 * 24 * 60 * 60 * 1000);
+
+        return {
+          userId: user.id,
+          hostId: host.id,
+          stayId: stay.id,
+          price: 100,
+          adults: 2, 
+          checkIn: checkIn,
+          checkOut: checkOut,
+          bookingTime: new Date(), 
+        };
+      });
+
+    await prisma.booking.createMany({
+      data: bookings,
     });
   }
 }

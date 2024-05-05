@@ -6,6 +6,7 @@ import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { cookies, headers } from "next/headers";
 import { prisma } from "@/prisma/prisma";
 import { getLoggedInUser } from "@/service/user.service";
+import ConfirmBooking from "./booking/page";
 
 const mulish = Mulish({
   weight: ["200", "300", "400", "500", "600", "700"],
@@ -31,6 +32,7 @@ export default async function RootLayout({
 
           {children}
         </section>
+        <ConfirmBooking />
       </body>
     </html>
   );

@@ -97,6 +97,7 @@ export interface Stay {
   likes?: Like[];
   rating: number;
   bedrooms: BedRoom[];
+  booking: BookingModalSmall[];
 }
 
 export interface StaySmall {
@@ -124,6 +125,12 @@ export interface BookingModel {
   pets: number;
 }
 
+export interface BookingModalSmall {
+  checkIn: Date;
+  checkOut: Date;
+  id: string;
+}
+
 export interface BookingDTO {
   stayId: string;
   userId: string;
@@ -143,4 +150,11 @@ export interface GuestsModel {
   children: number;
   infants: number;
   pets: number;
+}
+
+export interface SearchBY {
+  dates: { start: Date | null; end: Date | null };
+  name: string;
+  location: string;
+  priceRange: { start: number; end: number };
 }

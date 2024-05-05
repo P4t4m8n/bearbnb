@@ -1,14 +1,22 @@
 import StayFilter from "@/components/ui/StayFilter/StayFilter";
 import StayList from "@/components/ui/StayList/StayList";
-import { StaySmall } from "@/model/stay.model";
+import { SearchBY, StaySmall } from "@/model/stay.model";
 import LoginPage from "./login/page";
-import { getSmallStays } from "@/service/stay-service";
+import { getSmallStays } from "@/service/stay.server";
 
-export default async function Home() {
+export default async function Home({ searchParams }: { searchParams: any }) {
   let stays: StaySmall[] | undefined = [];
-
+  const searchObj: SearchBY = {
+    dates: {
+      start: searchParams.startDate ? new Date(searchParams.startDate) : null,
+      end: searchParams.endDate ? new Date(searchParams.endDate) : null,
+    },
+    priceRange: { start: 1, end: 999999999999 },
+    location: "",
+    name: "",
+  };
   try {
-    stays = await getSmallStays();
+    stays = await getSmallStays(searchObj);
   } catch (error) {
     console.error("error:", error);
   }
