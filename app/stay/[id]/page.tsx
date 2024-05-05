@@ -22,67 +22,6 @@ export default async function StayDetails({ params }: Props) {
 
   const stay = await getStayById(id);
 
-  const saveBooking = async (booking: BookingModel) => {
-    "use server";
-    const bookingSchema = z
-      .object({
-        stayId: z.string(),
-        userId: z.string(),
-        hostId: z.string(),
-        price: z
-          .number()
-          .min(0, { message: "Price must be a non-negative number." }),
-        adults: z
-          .number()
-          .min(1, { message: "At least one adult must be specified." }),
-        children: z.number().min(0).default(0),
-        infants: z.number().min(0).default(0),
-        pets: z.number().min(0).default(0),
-        checkIn: z.date(),
-        checkOut: z.date(),
-        bookingTime: z.date(),
-      })
-      .refine((data) => data.checkIn < data.checkOut, {
-        message: "Check-in date must be before check-out date.",
-      });
-
-    const bookingDTO: BookingDTO = {
-      stayId: booking.stay?.id!,
-      userId: booking.user?.id!,
-      hostId: booking.host?.id!,
-      price: booking.price,
-      adults: booking.adults,
-      children: booking.children,
-      infants: booking.infants,
-      pets: booking.pets,
-      checkIn: booking.checkIn!,
-      checkOut: booking.checkOut!,
-      bookingTime: new Date(),
-    };
-    const parsedBooking = bookingSchema.parse(bookingDTO);
-
-    try {
-      const newBooking = await prisma.booking.create({
-        data: {
-          stayId: parsedBooking.stayId,
-          userId: parsedBooking.userId,
-          hostId: parsedBooking.hostId,
-          price: parsedBooking.price,
-          adults: parsedBooking.adults,
-          children: parsedBooking.children,
-          infants: parsedBooking.infants,
-          pets: parsedBooking.pets,
-          checkIn: parsedBooking.checkIn,
-          checkOut: parsedBooking.checkOut,
-          bookingTime: new Date(),
-        },
-      });
-      return newBooking;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   if (!stay) return <div>Loading</div>;
 
   const {
@@ -161,7 +100,7 @@ export default async function StayDetails({ params }: Props) {
           <Calendar bookings={stay.booking} date={new Date()} />
         </section>
         <section className={styles.calendarCon}>
-          <Booking saveBooking={saveBooking} price={price} stay={stay} />
+          <Booking price={price} stay={stay} />
         </section>
       </div>
     </section>

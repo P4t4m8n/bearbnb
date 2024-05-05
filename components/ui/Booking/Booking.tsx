@@ -11,11 +11,11 @@ import { Guests } from "./Guests/Guests";
 import { useUserStore } from "@/store/useUserStore";
 import { stayToSmallStay } from "@/service/util";
 import { useRouter } from "next/navigation";
+import { getDefaultDates } from "@/service/stay.service";
 
 interface Props {
   price: number;
   stay: Stay;
-  saveBooking: (booking: BookingModel) => void;
 }
 const getWindowDimensions = () => {
   const { innerWidth: width, innerHeight: height } = window;
@@ -25,7 +25,7 @@ const getWindowDimensions = () => {
   };
 };
 
-export default function Booking({ price, stay, saveBooking }: Props) {
+export default function Booking({ price, stay }: Props) {
   const { booking, setBooking } = useBookingStore();
   const { user, setUser } = useUserStore();
   const [isWindowSmall, setIsWindowSmall] = useState(false);
@@ -33,12 +33,6 @@ export default function Booking({ price, stay, saveBooking }: Props) {
 
   const calendarModalRef = useRef<HTMLDivElement | null>(null);
   const [calenderOpen, setCalenderOpen] = useModal(calendarModalRef, null);
-
-  const bookingConfirmModalRef = useRef<HTMLDivElement | null>(null);
-  const [isBookingConfirm, setIsBookingConfirm] = useModal(
-    calendarModalRef,
-    null
-  );
 
   useEffect(() => {
     handleResize();
@@ -79,17 +73,18 @@ export default function Booking({ price, stay, saveBooking }: Props) {
       stay: _stay,
       host: _host,
       user: _user,
-      price: diffInDays * price,
+      price: price,
     });
-console.log('1')
     router.push("/booking");
-    // setIsBookingConfirm(true);
   };
 
   const diffInDays =
     booking.checkIn && booking.checkOut
       ? daysBetweenDates(booking.checkIn, booking.checkOut)
-      : -1;
+      : daysBetweenDates(
+          stay.firstAvailableDate![0],
+          stay.firstAvailableDate![2]
+        );
 
   const guests = {
     adults: booking.adults,
@@ -97,20 +92,9 @@ console.log('1')
     infants: booking.infants,
     pets: booking.pets,
   };
-  const formatCheckIn = {
-    day: booking.checkIn?.getDate().toString().padStart(2, "0"),
-    month: booking.checkIn
-      ? (booking.checkIn?.getMonth() + 1).toString().padStart(2, "0")
-      : 1,
-    year: booking.checkIn?.getFullYear(),
-  };
-  const formatCheckOut = {
-    day: booking.checkOut?.getDate().toString().padStart(2, "0"),
-    month: booking.checkOut
-      ? (booking.checkOut?.getMonth() + 1).toString().padStart(2, "0")
-      : 1,
-    year: booking.checkOut?.getFullYear(),
-  };
+
+  const { formatCheckIn, formatCheckOut } = getDefaultDates(stay, booking);
+
   const monthName =
     booking.checkIn?.toLocaleString("default", { month: "long" }) || "";
 

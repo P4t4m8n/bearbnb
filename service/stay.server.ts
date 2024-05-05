@@ -18,6 +18,10 @@ interface QueryStay {
     lng: number;
   };
   reviews: { rate: number }[];
+  booking: {
+    checkIn: any;
+    checkOut: any;
+  }[];
 }
 
 export async function getSmallStays(
@@ -33,7 +37,7 @@ export async function getSmallStays(
     //     lte: filters?.priceRange.start,
     //     gte: filters?.priceRange.end,
     //   };
-    if ((filters?.dates?.start && filters.dates.start) && filters?.dates?.end) {
+    if (filters?.dates?.start && filters.dates.start && filters?.dates?.end) {
       queryFilters.booking = {
         none: {
           OR: [
@@ -45,7 +49,7 @@ export async function getSmallStays(
         },
       };
     }
-    console.log("queryFilters:", filters?.dates.start);
+    // console.log("queryFilters:", filters?.dates.start);
 
     const stays = await prisma.stay.findMany({
       where: queryFilters,
@@ -66,6 +70,12 @@ export async function getSmallStays(
             rate: true,
           },
         },
+        booking: {
+          select: {
+            checkIn: true,
+            checkOut: true,
+          },
+        },
       },
     });
 
@@ -77,6 +87,10 @@ export async function getSmallStays(
       price: stay.price,
       locationId: stay.locationId,
       location: stay.location,
+      firstAvailableDate: findFirstThreeConsecutiveDaysAfterDate(
+        new Date(),
+        stay.booking
+      ),
       rating:
         stay.reviews && stay.reviews.length > 0
           ? stay.reviews.reduce((acc, curr) => acc + curr.rate, 0) /
@@ -95,7 +109,6 @@ export async function getStayById(stayId: string): Promise<Stay> {
   const cacheKey: string = "details";
 
   try {
-   
     const stay = (await prisma.stay.findUnique({
       where: { id: stayId },
       include: {
@@ -150,6 +163,7 @@ export async function getStayById(stayId: string): Promise<Stay> {
         ? stay.reviews.reduce((acc: number, curr: any) => acc + curr.rate, 0) /
           stay.reviews.length
         : 0;
+        stay.firstAvailableDate = findFirstThreeConsecutiveDaysAfterDate(new Date(),stay.booking)
 
     // await setCache(cacheKey, stay);
     // }
@@ -175,3 +189,43 @@ export async function getStayById(stayId: string): Promise<Stay> {
 //         : 0,
 //   };
 // }
+
+function findFirstThreeConsecutiveDaysAfterDate(
+  targetDate: Date,
+  bookings: { checkIn: Date; checkOut: Date }[]
+): Date[] {
+  // Helper to add days to a date
+  function addDays(date: Date, days: number): Date {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
+
+  // Helper to check if a date is within any booking intervals
+  function isDateAvailable(
+    date: Date,
+    bookings: { checkIn: Date; checkOut: Date }[]
+  ): boolean {
+    return !bookings.some(
+      (booking) => date >= booking.checkIn && date <= booking.checkOut
+    );
+  }
+
+  // Start searching from the day after the target date
+  let currentDate = addDays(targetDate, 1);
+
+  // Loop until we find three consecutive available days
+  while (true) {
+    if (
+      isDateAvailable(currentDate, bookings) &&
+      isDateAvailable(addDays(currentDate, 1), bookings) &&
+      isDateAvailable(addDays(currentDate, 2), bookings)
+    ) {
+      // Return the sequence of three available days as an array
+      return [currentDate, addDays(currentDate, 1), addDays(currentDate, 2)];
+    }
+
+    // Move to the next day and repeat the check
+    currentDate = addDays(currentDate, 1);
+  }
+}

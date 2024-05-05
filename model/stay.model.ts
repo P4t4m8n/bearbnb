@@ -98,6 +98,8 @@ export interface Stay {
   rating: number;
   bedrooms: BedRoom[];
   booking: BookingModalSmall[];
+  firstAvailableDate?: Date[] | null;
+
 }
 
 export interface StaySmall {
@@ -108,6 +110,7 @@ export interface StaySmall {
   locationId: string;
   location: Location;
   rating: number;
+  firstAvailableDate?: Date[] | null;
 }
 
 export interface BookingModel {

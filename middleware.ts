@@ -9,13 +9,21 @@ export async function middleware(req: NextRequest) {
 
   const supabase = createMiddlewareClient({ req, res });
 
-  if (pathname === "/login" || pathname === "/booking") {
+  if (pathname === "/login") {
     const returnUrl = req.nextUrl.clone();
     returnUrl.pathname = "/";
     returnUrl.searchParams.set("showDialog", "y");
 
     return NextResponse.redirect(returnUrl);
   }
+  else if (pathname === "/booking") {
+    const returnUrl = req.nextUrl.clone();
+    returnUrl.pathname = "/";
+    returnUrl.searchParams.set("confirmBooking", "y");
+
+    return NextResponse.redirect(returnUrl);
+  }
+
   await supabase.auth.getSession();
 
   return res;
