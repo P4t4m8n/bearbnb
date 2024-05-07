@@ -1,0 +1,35 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixin";
+
+.about {
+  display: grid;
+  padding-block: 2rem;
+  gap: 1rem;
+  max-width: 100%;
+  @media (max-width: 850px) {
+    max-width: 380px;
+  }
+  p {
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    @include text-overflow-ellipsis-warp;
+    line-height: 1.5;
+    height: calc(1.5em * 6);
+  }
+  button {
+    width: fit-content;
+    padding: 0;
+    display: flex;
+    span {
+      text-decoration: underline;
+    }
+    svg {
+      width: 0.8rem;
+      stroke: currentColor;
+      padding-top: 0.3rem;
+      align-self: center;
+      stroke-width: 2;
+    }
+  }
+}

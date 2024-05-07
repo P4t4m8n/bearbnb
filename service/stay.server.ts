@@ -158,6 +158,13 @@ export async function getStayById(stayId: string): Promise<Stay> {
             checkOut: true,
           },
         },
+        highlights: {
+          select: {
+            title: true,
+            description: true,
+            icon: true,
+          },
+        },
       },
     })) as unknown as Stay;
 

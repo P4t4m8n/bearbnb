@@ -6,6 +6,7 @@ interface Props {
   highlights: HighLightsModel[];
 }
 export default function HighLights({ highlights }: Props) {
+  console.log("highlights:", highlights);
   return (
     <ul className={styles.highlights}>
       {highlights.map((highlight, idx) => (
@@ -14,8 +15,8 @@ export default function HighLights({ highlights }: Props) {
             path={highlight.icon.path}
             viewBox={highlight.icon.viewBox}
           />
-          <h3>{highlight.title}</h3>
-          <h4>{highlight.description}</h4>
+          <p>{highlight.title}</p>
+          <p>{highlight.description}</p>
         </li>
       ))}
     </ul>

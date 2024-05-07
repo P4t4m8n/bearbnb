@@ -47,6 +47,7 @@ export default async function StayDetails({ params }: Props) {
     baths,
     reviews,
     amenities,
+    highlights,
     likes,
   } = stay;
   const { firstName, imgUrl, lastName, ownerSince } = host;
@@ -83,7 +84,7 @@ export default async function StayDetails({ params }: Props) {
             lastName={lastName}
             years={years}
           />
-          <HighLights highlights={stay.highlights} />
+          <HighLights highlights={highlights} />
           <About description={stay.description || ""} />
           <RoomList bedrooms={bedrooms} />
           <AmentiasList amenities={amenities} />
