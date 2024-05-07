@@ -5,6 +5,7 @@ import { getCache, setCache } from "./cache";
 interface QueryStay {
   id: string;
   type: string;
+  name: string;
   images: { url: string }[];
   price: number;
   locationId: string;
@@ -49,13 +50,13 @@ export async function getSmallStays(
         },
       };
     }
-    // console.log("queryFilters:", filters?.dates.start);
 
     const stays = await prisma.stay.findMany({
       where: queryFilters,
       select: {
         id: true,
         type: true,
+        name: true,
         images: {
           take: 1,
           select: {
@@ -82,14 +83,16 @@ export async function getSmallStays(
     if (!stays) throw new Error("Unable to load");
     const mappedStays = stays.map((stay: QueryStay) => ({
       id: stay.id,
+      name: stay.name,
       type: stay.type,
       image: stay.images[0]?.url || "",
       price: stay.price,
       locationId: stay.locationId,
       location: stay.location,
-      firstAvailableDate: findFirstThreeConsecutiveDaysAfterDate(
+      firstAvailableDate: findFirstConsecutiveDaysAfterDate(
         new Date(),
-        stay.booking
+        stay.booking,
+        3
       ),
       rating:
         stay.reviews && stay.reviews.length > 0
@@ -106,6 +109,7 @@ export async function getSmallStays(
 }
 
 export async function getStayById(stayId: string): Promise<Stay> {
+  "use server";
   const cacheKey: string = "details";
 
   try {
@@ -163,7 +167,11 @@ export async function getStayById(stayId: string): Promise<Stay> {
         ? stay.reviews.reduce((acc: number, curr: any) => acc + curr.rate, 0) /
           stay.reviews.length
         : 0;
-        stay.firstAvailableDate = findFirstThreeConsecutiveDaysAfterDate(new Date(),stay.booking)
+    stay.firstAvailableDate = findFirstConsecutiveDaysAfterDate(
+      new Date(),
+      stay.booking,
+      3
+    );
 
     // await setCache(cacheKey, stay);
     // }
@@ -174,25 +182,27 @@ export async function getStayById(stayId: string): Promise<Stay> {
   }
 }
 
-// export function stayToSmallStay(stay: Stay): StaySmall {
-//   return {
-//     id: stay.id,
-//     type: stay.type,
-//     image: stay.images[0]?.url || "",
-//     price: stay.price,
-//     locationId: stay.locationId,
-//     location: stay.location,
-//     rating:
-//       stay.reviews && stay.reviews.length > 0
-//         ? stay.reviews.reduce((acc, curr) => acc + curr.rate, 0) /
-//           stay.reviews.length
-//         : 0,
-//   };
-// }
+export function stayToSmallStay(stay: Stay): StaySmall {
+  return {
+    id: stay.id,
+    name: stay.name,
+    type: stay.type,
+    image: stay.images[0]?.url || "",
+    price: stay.price,
+    locationId: stay.locationId,
+    location: stay.location,
+    rating:
+      stay.reviews && stay.reviews.length > 0
+        ? stay.reviews.reduce((acc, curr) => acc + curr.rate, 0) /
+          stay.reviews.length
+        : 0,
+  };
+}
 
-function findFirstThreeConsecutiveDaysAfterDate(
+function findFirstConsecutiveDaysAfterDate(
   targetDate: Date,
-  bookings: { checkIn: Date; checkOut: Date }[]
+  bookings: { checkIn: Date; checkOut: Date }[],
+  numberOfDays: number // This parameter specifies the number of consecutive days needed
 ): Date[] {
   // Helper to add days to a date
   function addDays(date: Date, days: number): Date {
@@ -214,15 +224,22 @@ function findFirstThreeConsecutiveDaysAfterDate(
   // Start searching from the day after the target date
   let currentDate = addDays(targetDate, 1);
 
-  // Loop until we find three consecutive available days
+  // Loop until we find the required number of consecutive available days
   while (true) {
-    if (
-      isDateAvailable(currentDate, bookings) &&
-      isDateAvailable(addDays(currentDate, 1), bookings) &&
-      isDateAvailable(addDays(currentDate, 2), bookings)
-    ) {
-      // Return the sequence of three available days as an array
-      return [currentDate, addDays(currentDate, 1), addDays(currentDate, 2)];
+    let allDaysAvailable = true;
+    let dates = [];
+
+    for (let i = 0; i < numberOfDays; i++) {
+      const nextDay = addDays(currentDate, i);
+      if (!isDateAvailable(nextDay, bookings)) {
+        allDaysAvailable = false;
+        break;
+      }
+      dates.push(nextDay);
+    }
+
+    if (allDaysAvailable) {
+      return dates;
     }
 
     // Move to the next day and repeat the check

@@ -1,4 +1,9 @@
-import { BookingModel, SearchBY, Stay } from "@/model/stay.model";
+import {
+  BookingModel,
+  LocationSmall,
+  SearchBY,
+  Stay,
+} from "@/model/stay.model";
 
 export const getEmptyFilter = (): SearchBY => {
   return {
@@ -44,4 +49,37 @@ export const getDefaultDates = (
   };
 
   return { formatCheckIn, formatCheckOut };
+};
+
+export const formatDatesToRange = (
+  dates: Date[] | null | undefined
+): string => {
+  if (!dates) return "";
+
+  // Sort dates just in case they are not in order
+  dates.sort((a, b) => a.getTime() - b.getTime());
+
+  // Extract the year, month, and day from the first date
+  const firstDate = dates[0];
+  const endDate = dates[dates.length - 1];
+
+  // Format month and day
+  const options: Intl.DateTimeFormatOptions = {
+    month: "long",
+    day: "numeric",
+  };
+  const locale = "en-US"; //  locale format
+
+  const month = new Intl.DateTimeFormat(locale, { month: "long" }).format(
+    firstDate
+  );
+  const startDay = new Intl.DateTimeFormat(locale, { day: "numeric" }).format(
+    firstDate
+  );
+  const endDay = new Intl.DateTimeFormat(locale, { day: "numeric" }).format(
+    endDate
+  );
+
+  // Build the final string
+  return `${month} ${startDay} - ${endDay}`;
 };

@@ -24,7 +24,6 @@ export default function MonthGrid({
   onDateClick,
   onMonthChange,
 }: Props) {
-  console.log("bookings:", bookings);
   //////////////////////////////////////////////////////////////////////
   const monthEnd = new Date(date.getFullYear(), date.getMonth() + 1, 0);
   const daysInMonth = monthEnd.getDate();

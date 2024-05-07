@@ -1,33 +1,16 @@
 import { Beds } from "@prisma/client";
-
 export interface ImageModel {
   id: string;
   url: string;
 }
-
 export interface Amenity {
   id: string;
   name: string;
 }
-
 export interface Label {
   id: string;
   name: string;
 }
-
-export interface User {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  imgUrl: string;
-  isOwner: boolean;
-  ownerSince?: Date;
-  stays: Stay[];
-  reviews: Review[];
-  likes: Like[];
-}
-
 export interface UserSmall {
   id: string;
   firstName: string;
@@ -38,18 +21,22 @@ export interface UserSmall {
   ownerSince?: Date;
   likes: Like[];
 }
-
-export interface Location {
+export interface User extends UserSmall {
+  stays: Stay[];
+  reviews: Review[];
+}
+export interface LocationSmall {
+  lat: number;
+  lng: number;
+}
+export interface Location extends LocationSmall {
   id: string;
   country: string;
   countryCode: string;
   city: string;
   address: string;
-  lat: number;
-  lng: number;
   stay?: Stay;
 }
-
 export interface Review {
   id: string;
   text: string;
@@ -59,7 +46,6 @@ export interface Review {
   stayId: string;
   stay: Stay;
 }
-
 export interface Like {
   id: string;
   userId: string;
@@ -67,41 +53,13 @@ export interface Like {
   stayId: string;
   stay: Stay;
 }
-
 export interface BedRoom {
   beds: Bed[];
   images: string[];
 }
-
 export interface Bed {
   type: Beds;
 }
-
-export interface Stay {
-  id: string;
-  name: string;
-  type: string;
-  images: ImageModel[];
-  price: number;
-  summary: string;
-  description?: string;
-  capacity: number;
-  amenities: { name: string }[];
-  baths?: number;
-  uniqueRooms?: string[];
-  labels: string[];
-  host: UserSmall;
-  locationId: string;
-  location: Location;
-  reviews?: Review[];
-  likes?: Like[];
-  rating: number;
-  bedrooms: BedRoom[];
-  booking: BookingModalSmall[];
-  firstAvailableDate?: Date[] | null;
-
-}
-
 export interface StaySmall {
   id: string;
   type: string;
@@ -110,30 +68,41 @@ export interface StaySmall {
   locationId: string;
   location: Location;
   rating: number;
+  name: string;
   firstAvailableDate?: Date[] | null;
 }
-
-export interface BookingModel {
+export interface Stay extends StaySmall {
+  images: ImageModel[];
+  summary: string;
+  description?: string;
+  capacity: number;
+  amenities: { name: string }[];
+  baths?: number;
+  uniqueRooms?: string[];
+  labels: string[];
+  host: UserSmall;
+  reviews?: Review[];
+  likes?: Like[];
+  bedrooms: BedRoom[];
+  booking: BookingModalSmall[];
+  highlights: HighLightsModel[];
+}
+export interface BookingModalSmall {
+  checkIn: Date;
+  checkOut: Date;
   id?: string;
+}
+export interface BookingModel extends BookingModalSmall {
   stay: StaySmall | null;
   user: UserSmall | null;
   host: UserSmall | null;
   price: number;
-  checkIn: Date | null;
-  checkOut: Date | null;
   bookingTime: Date | null;
   adults: number;
   children: number;
   infants: number;
   pets: number;
 }
-
-export interface BookingModalSmall {
-  checkIn: Date;
-  checkOut: Date;
-  id: string;
-}
-
 export interface BookingDTO {
   stayId: string;
   userId: string;
@@ -147,17 +116,26 @@ export interface BookingDTO {
   checkOut: Date;
   bookingTime: Date;
 }
-
 export interface GuestsModel {
   adults: number;
   children: number;
   infants: number;
   pets: number;
 }
-
 export interface SearchBY {
   dates: { start: Date | null; end: Date | null };
   name: string;
   location: string;
   priceRange: { start: number; end: number };
+}
+export interface HighLightsModel {
+  id: string;
+  title: string;
+  description: string;
+  icon: SvgIconModel;
+  stayId: string;
+}
+export interface SvgIconModel {
+  path: string;
+  viewBox: string;
 }

@@ -3,7 +3,6 @@
 //   timeout: number
 // ): ((...args: Parameters<T>) => void) => {
 //   let ready: boolean = true;
-//   console.log("ready:", ready)
 
 //   return (...args: Parameters<T>): void => {
 //     if (!ready) {

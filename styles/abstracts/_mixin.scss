@@ -68,3 +68,40 @@
 @mixin grid-columns($cols) {
   grid-template-columns: repeat($cols, minmax(0, 1fr));
 }
+
+@mixin bookingBtn() {
+  background-color: $main-pink;
+  width: 100%;
+  min-height: 3rem;
+  border-radius: $border-radius-1-2;
+  background-image: radial-gradient(
+    rgb(255, 56, 92) 0%,
+    rgb(230, 30, 77) 27.5%,
+    rgb(227, 28, 95) 40%,
+    rgb(215, 4, 102) 57.5%,
+    rgb(189, 30, 89) 75%,
+    rgb(189, 30, 89) 100%
+  );
+  color: white;
+}
+
+@mixin skeleton {
+  border-radius: $border-radius-1-2;
+  overflow: hidden;
+  background: #e0e0e0;
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    transform: translateX(-100%);
+    animation: shimmer 2s infinite;
+    background-image: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    );
+  }
+}

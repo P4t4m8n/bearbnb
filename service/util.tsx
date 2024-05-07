@@ -69,6 +69,7 @@ export function stayToSmallStay(stay: Stay): StaySmall {
   return {
     id: stay.id,
     type: stay.type,
+    name: stay.name,
     image: stay.images[0]?.url || "",
     price: stay.price,
     locationId: stay.locationId,

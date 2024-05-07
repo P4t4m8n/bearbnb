@@ -16,13 +16,13 @@ export async function middleware(req: NextRequest) {
 
     return NextResponse.redirect(returnUrl);
   }
-  else if (pathname === "/booking") {
-    const returnUrl = req.nextUrl.clone();
-    returnUrl.pathname = "/";
-    returnUrl.searchParams.set("confirmBooking", "y");
+  // else if (pathname === "/booking") {
+  //   const returnUrl = req.nextUrl.clone();
+  //   returnUrl.pathname = "/";
+  //   returnUrl.searchParams.set("confirmBooking", "y");
 
-    return NextResponse.redirect(returnUrl);
-  }
+  //   return NextResponse.redirect(returnUrl);
+  // }
 
   await supabase.auth.getSession();
 

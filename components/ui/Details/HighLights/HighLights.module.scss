@@ -1,0 +1,31 @@
+.highlights {
+  border-bottom: 1px solid gainsboro;
+  padding-block: 1rem;
+  display: grid;
+  gap: 1rem;
+  @media (max-width: 850px) {
+    max-width: 380px;
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: 1.5rem auto;
+    grid-template-rows: 1.5rem 1.5rem;
+    column-gap: 1.5rem;
+    svg {
+      grid-area: 1/1/-1/2;
+      align-self: center;
+      width: 1.5rem;
+      aspect-ratio: 1;
+    }
+    p {
+      &:first-of-type {
+        font-weight: 700;
+      }
+      &:last-of-type {
+        font-size: 0.9rem;
+        opacity: 0.7;
+      }
+    }
+  }
+}

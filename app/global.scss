@@ -1,0 +1,14 @@
+body:has(.ConfirmBookingModal_bookingModal__eZKxT) {
+  .ConfirmBookingModal_bookingModal__eZKxT,
+  .ConfirmBookingModal_bookingModal__eZKxT * {
+    pointer-events: all;
+  }
+  :not(
+      .ConfirmBookingModal_bookingModal__eZKxT,
+      .ConfirmBookingModal_bookingModal__eZKxT *
+    ) {
+    pointer-events: none;
+  }
+}
+
+

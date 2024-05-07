@@ -12,11 +12,14 @@ import { useUserStore } from "@/store/useUserStore";
 import { stayToSmallStay } from "@/service/util";
 import { useRouter } from "next/navigation";
 import { getDefaultDates } from "@/service/stay.service";
+import ConfirmBookingModal from "./ConfirmBookingModal/ConfrimBookingModal";
 
 interface Props {
   price: number;
   stay: Stay;
+  onSaveBooking: (booking: BookingModel) => void;
 }
+
 const getWindowDimensions = () => {
   const { innerWidth: width, innerHeight: height } = window;
   return {
@@ -25,16 +28,25 @@ const getWindowDimensions = () => {
   };
 };
 
-export default function Booking({ price, stay }: Props) {
+export default function Booking({ price, stay, onSaveBooking }: Props) {
   const { booking, setBooking } = useBookingStore();
   const { user, setUser } = useUserStore();
   const [isWindowSmall, setIsWindowSmall] = useState(false);
-  const router = useRouter();
 
   const calendarModalRef = useRef<HTMLDivElement | null>(null);
   const [calenderOpen, setCalenderOpen] = useModal(calendarModalRef, null);
+  const [bookingModal, setBookingModal] = useState(false);
+
+  const test = useRef(false);
 
   useEffect(() => {
+    if (!booking.checkIn) {
+      setBooking({
+        ...booking,
+        checkIn: stay.firstAvailableDate![0],
+        checkOut: stay.firstAvailableDate![2],
+      });
+    }
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -50,6 +62,7 @@ export default function Booking({ price, stay }: Props) {
   };
 
   const daysBetweenDates = (date1: Date, date2: Date) => {
+    if (!date1 || !date2) return 0;
     const oneDay = 1000 * 60 * 60 * 24;
     const diffInTime = Math.abs(date2.getTime() - date1.getTime());
     const diffInDays = Math.ceil(diffInTime / oneDay);
@@ -68,14 +81,20 @@ export default function Booking({ price, stay }: Props) {
     const _user = user;
     if (!_user) return alert("no user");
 
-    setBooking({
+    const updatedBooking = {
       ...booking,
       stay: _stay,
       host: _host,
       user: _user,
       price: price,
-    });
-    router.push("/booking");
+    };
+    test.current = true;
+    setBooking(updatedBooking);
+    setBookingModal(true);
+  };
+
+  const confirmModalHelper = () => {
+    setBookingModal(false);
   };
 
   const diffInDays =
@@ -171,6 +190,11 @@ export default function Booking({ price, stay }: Props) {
           </button>
         </section>
       )}
+      <ConfirmBookingModal
+        confirmModalHelper={confirmModalHelper}
+        toOpen={bookingModal}
+        saveBooking={onSaveBooking}
+      />
     </>
   );
 }

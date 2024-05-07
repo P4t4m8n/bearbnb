@@ -1,5 +1,4 @@
-import { BookingDTO, BookingModel } from "../../../model/stay.model";
-import { ScrollBySVG, SelfCheckInSVG } from "../../../components/ui/svgs/svgs";
+import { BookingModel } from "../../../model/stay.model";
 import styles from "./Details.module.scss";
 import RoomList from "@/components/ui/Details/RoomList/RoomLIst";
 import AmentiasList from "@/components/ui/Details/AmentiasList/AmentiasList";
@@ -9,9 +8,12 @@ import { ImageList } from "@/components/ui/Details/ImageList/ImageList";
 import { DetailsHero } from "@/components/ui/Details/DetailsHero/DetailsHero";
 import { HostSmall } from "@/components/ui/Details/HostSmall/HostSmall";
 import Booking from "@/components/ui/Booking/Booking";
-import { prisma } from "@/prisma/prisma";
-import { z } from "zod";
 import { getStayById } from "@/service/stay.server";
+import { saveBooking } from "@/service/booking.server";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import HighLights from "@/components/ui/Details/HighLights/HighLights";
+import About from "@/components/ui/Details/About/About";
 
 interface Props {
   params: any;
@@ -21,6 +23,14 @@ export default async function StayDetails({ params }: Props) {
   const { id } = params;
 
   const stay = await getStayById(id);
+
+  const onSaveBooking = async (booking: BookingModel) => {
+    "use server";
+    const origin = headers().get("origin");
+    const savedBooking = await saveBooking(booking);
+    if (!savedBooking) throw new Error("unable to save");
+    redirect(`${origin}/booking/${savedBooking?.id}`);
+  };
 
   if (!stay) return <div>Loading</div>;
 
@@ -73,34 +83,14 @@ export default async function StayDetails({ params }: Props) {
             lastName={lastName}
             years={years}
           />
-
-          <ul className={styles.highlights}>
-            <li>
-              <SelfCheckInSVG />
-              <p>Self check-in</p>
-              <p>Check yourself in with the keypad.</p>
-            </li>
-            <li>
-              <SelfCheckInSVG />
-              <p>Self check-in</p>
-              <p>Check yourself in with the keypad.</p>
-            </li>
-          </ul>
-
-          <div className={styles.about}>
-            <h1>About this place</h1>
-            <p className="description">{description}</p>
-            <button>
-              <span>Show more</span>
-              <ScrollBySVG />
-            </button>
-          </div>
+          <HighLights highlights={stay.highlights} />
+          <About description={stay.description || ""} />
           <RoomList bedrooms={bedrooms} />
           <AmentiasList amenities={amenities} />
           <Calendar bookings={stay.booking} date={new Date()} />
         </section>
         <section className={styles.calendarCon}>
-          <Booking price={price} stay={stay} />
+          <Booking onSaveBooking={onSaveBooking} price={price} stay={stay} />
         </section>
       </div>
     </section>

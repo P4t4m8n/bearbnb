@@ -2,14 +2,11 @@ import Header from "../components/ui/Header/Header";
 import { Mulish } from "next/font/google";
 import "../styles/main.scss";
 import styles from "./layout.module.scss";
-import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
-import { cookies, headers } from "next/headers";
-import { prisma } from "@/prisma/prisma";
 import { getLoggedInUser } from "@/service/user.service";
-import ConfirmBooking from "./booking/page";
+import "./global.scss";
 
 const mulish = Mulish({
-  weight: ["200", "300", "400", "500", "600", "700"],
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900", "1000"],
   style: ["normal"],
   subsets: ["cyrillic"],
 });
@@ -19,20 +16,19 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = createServerActionClient({
-    cookies,
-  });
   const user = await getLoggedInUser();
 
   return (
     <html lang="en">
-      <body style={{ maxWidth: "100vw" }} className={mulish.className}>
+      <body
+        style={{ maxWidth: "100vw" }}
+        className={`${mulish.className} ${styles.body}`}
+      >
         <section className={styles.main}>
           <Header _user={user} />
-
+          
           {children}
         </section>
-        <ConfirmBooking />
       </body>
     </html>
   );

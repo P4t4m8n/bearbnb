@@ -1,0 +1,122 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixin";
+
+.bookingModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  width: 80vw;
+  height: 75vh;
+  display: grid;
+  column-gap: 4rem;
+  row-gap: 1rem;
+  grid-template-columns: calc(50% - 2rem) calc(50% - 2rem);
+  grid-template-rows: 20% 60% 10%;
+  background-color: white;
+  padding: 2rem 4rem 2rem 4rem;
+  border-radius: $border-radius-1;
+  box-shadow: 0px 10px 3000px 1500px rgba(0, 0, 0, 0.5);
+
+  header {
+    display: grid;
+    gap: 0.75rem;
+    grid-area: 1/1/2/-1;
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+    }
+  }
+  .bookingInfo {
+    grid-area: 2/1/3/2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+    .datesGuests {
+      display: grid;
+      gap: 0.25rem;
+      @include border-1-bottom-only;
+      padding-bottom: 0.25rem;
+      margin-bottom: 0.5rem;
+      div {
+        display: grid;
+        gap: 0.1rem;
+      }
+    }
+    .priceDetails {
+      display: grid;
+      gap: 0.25rem;
+      @include border-1-bottom-only;
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
+      h3 {
+        margin-bottom: 0.25rem;
+      }
+      div {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+    .total {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  .imageBox {
+    grid-area: 2/2/3/-1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 1rem 2rem 1rem;
+    gap: 1rem;
+    background-color: rgb(251, 251, 251);
+    border-radius: $border-radius-1;
+    @include soft-box-shadow;
+    .imgCon {
+      box-sizing: border-box;
+      width: 100%;
+      border-radius: $border-radius-1;
+
+      aspect-ratio: 1;
+      position: relative;
+      img {
+        border-radius: $border-radius-1;
+      }
+    }
+    h5 {
+      align-self: flex-start;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+  }
+  .actions {
+    width: 100%;
+    align-content: center;
+    display: flex;
+    justify-content: center;
+    grid-area: 3/1/-1/-1;
+    gap: 10%;
+    button {
+      @include bookingBtn;
+      width: 10rem;
+      &:first-of-type {
+        background-image: none;
+        background-color: gray;
+      }
+    }
+  }
+  h3 {
+    font-size: 1rem;
+    font-weight: 800;
+  }
+  h4 {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+}

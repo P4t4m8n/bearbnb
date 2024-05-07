@@ -1,15 +1,14 @@
 import { faker } from "@faker-js/faker";
 import { prisma } from "./prisma";
-import { Amenities } from "@prisma/client";
-
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+// import { Amenities } from "@prisma/client";
 
 async function main() {
+  const host = { id: "cbc295d4-d098-4106-be39-dd755867cc9f" };
+  const user = { id: "5eb1b4e4-5c9a-4535-afd3-b4d1b0d51a8c" };
+
   const amenities = await prisma.amenity.findMany();
-  const host = { id: "26e34c90-561c-4ef6-80b7-bdc12915606f" };
-  const user = { id: "e6b1bd84-5d83-4a7a-bf1a-76d49f12edd5" };
+  const svgs = await prisma.svgIcon.findMany();
+
   for (let i = 0; i < 50; i++) {
     await delay(1);
     const location = await prisma.location.create({
@@ -35,21 +34,21 @@ async function main() {
         locationId: location.id,
         images: {
           create: [
-            { url: "https://source.unsplash.com/random/?home,apartment" },
-            { url: "https://source.unsplash.com/random/?home,apartment" },
-            { url: "https://source.unsplash.com/random/?home,apartment" },
-            { url: "https://source.unsplash.com/random/?home,apartment" },
-            { url: "https://source.unsplash.com/random/?home,apartment" },
-            { url: "https://source.unsplash.com/random/?home,apartment" },
-            { url: "https://source.unsplash.com/random/?home,apartment" },
-            { url: "https://source.unsplash.com/random/?home,apartment" },
-            { url: "https://source.unsplash.com/random/?home,apartment" },
-            { url: "https://source.unsplash.com/random/?home,apartment" },
-            { url: "https://source.unsplash.com/random/?home,apartment" },
-            { url: "https://source.unsplash.com/random/?home,apartment" },
-            { url: "https://source.unsplash.com/random/?home,apartment" },
-            { url: "https://source.unsplash.com/random/?home,apartment" },
-            { url: "https://source.unsplash.com/random/?home,apartment" },
+            { url: "https://source.unsplash.com/random/?home,apartment,house" },
+            { url: "https://source.unsplash.com/random/?home,apartment,house" },
+            { url: "https://source.unsplash.com/random/?home,apartment,house" },
+            { url: "https://source.unsplash.com/random/?home,apartment,house" },
+            { url: "https://source.unsplash.com/random/?home,apartment,house" },
+            { url: "https://source.unsplash.com/random/?home,apartment,house" },
+            { url: "https://source.unsplash.com/random/?home,apartment,house" },
+            { url: "https://source.unsplash.com/random/?home,apartment,house" },
+            { url: "https://source.unsplash.com/random/?home,apartment,house" },
+            { url: "https://source.unsplash.com/random/?home,apartment,house" },
+            { url: "https://source.unsplash.com/random/?home,apartment,house" },
+            { url: "https://source.unsplash.com/random/?home,apartment,house" },
+            { url: "https://source.unsplash.com/random/?home,apartment,house" },
+            { url: "https://source.unsplash.com/random/?home,apartment,house" },
+            { url: "https://source.unsplash.com/random/?home,apartment,house" },
           ],
         },
         bedrooms: {
@@ -74,7 +73,6 @@ async function main() {
         userId: user.id,
         stayId: stay.id,
       }));
-
     await prisma.review.createMany({
       data: reviews,
     });
@@ -85,7 +83,6 @@ async function main() {
         userId: user.id,
         stayId: stay.id,
       }));
-
     await prisma.like.createMany({
       data: likes,
     });
@@ -98,22 +95,30 @@ async function main() {
           startDate.getTime() + index * (4 * 24 * 60 * 60 * 1000)
         ); // 4 days in milliseconds
         const checkOut = new Date(checkIn.getTime() + 4 * 24 * 60 * 60 * 1000);
-
         return {
           userId: user.id,
           hostId: host.id,
           stayId: stay.id,
           price: 100,
-          adults: 2, 
+          adults: 2,
           checkIn: checkIn,
           checkOut: checkOut,
-          bookingTime: new Date(), 
+          bookingTime: new Date(),
         };
       });
-
     await prisma.booking.createMany({
       data: bookings,
     });
+
+    const highlights = Array(3)
+      .fill(null)
+      .map((_, idx) => ({
+        title: faker.commerce.product(),
+        description: faker.commerce.product(),
+        iconId: svgs[idx].id,
+        stayId: stay.id,
+      }));
+    await prisma.highlight.createMany({ data: highlights });
   }
 }
 
@@ -125,3 +130,7 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
