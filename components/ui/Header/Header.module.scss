@@ -9,7 +9,6 @@
   top: 0;
   padding-top: 1rem;
   z-index: 5;
-  row-gap: 0.5rem;
   min-width: $max-width-padding;
   padding-bottom: 1rem;
   background-color: white;
@@ -48,6 +47,8 @@
 }
 
 .scroll {
+  height: 6rem;
+
   .placeHolder {
     display: none;
     grid-template-rows: auto;

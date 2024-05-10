@@ -1,16 +1,19 @@
-import { SearchBY, StaySmall } from "@/model/stay.model";
-import StayPreview from "../StayPreview/StayPreview";
+import { SearchBY } from "@/model/stay.model";
 import styles from "./StayList.module.scss";
+import { getSmallStays } from "@/service/stay.server";
+import LoadMore from "../LoadMore/LoadMore";
 import { Suspense } from "react";
 import StayListSkeleton from "../skeletons/StayListSkeleton/StayListSkeleton";
-import { getSmallStays } from "@/service/stay.server";
 interface Props {
-  // stays: StaySmall[];
-  searchParams: any;
+  searchParams: {
+    startDate: string;
+    endDate: string;
+    name: string;
+  };
 }
 
 export default async function StayList({ searchParams }: Props) {
-  let stays: StaySmall[] | undefined = [];
+  let stays: React.JSX.Element[] | undefined = [];
 
   const searchObj: SearchBY = {
     dates: {
@@ -27,12 +30,9 @@ export default async function StayList({ searchParams }: Props) {
     console.error("error:", error);
   }
   return (
-    <Suspense fallback={<StayListSkeleton />}>
-      <ul className={styles.stayList}>
-        {stays!.map((stay) => (
-          <StayPreview key={stay.id} stay={stay} />
-        ))}
-      </ul>
-    </Suspense>
+    <ul className={styles.stayList}>
+      {stays}
+      <LoadMore />
+    </ul>
   );
 }

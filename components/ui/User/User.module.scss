@@ -10,6 +10,8 @@
 
   .svgBtn {
     padding: 0.7rem;
+    font-size:1em;
+    // max-height: 3rem;
     border-radius: $border-radius-2;
     &:hover {
       background-color: rgb(245, 245, 240);

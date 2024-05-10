@@ -41,10 +41,7 @@ export function User({ _user }: Props) {
   return (
     <div className={styles.user}>
       <button className={styles.svgBtn}>Airbnb your home</button>
-      <button className={styles.svgBtn}>
-        <GlobeSVG className={styles.globe} />
-      </button>
-
+   
       <button onClick={() => setModal(true)} className={styles.userProfile}>
         {user ? (
           <>
