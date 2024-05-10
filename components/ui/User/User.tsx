@@ -40,7 +40,7 @@ export function User({ _user }: Props) {
 
   return (
     <div className={styles.user}>
-      <button className={styles.svgBtn}>Airbnb your home</button>
+      <button className={styles.svgBtn + styles.placeHolder}>Airbnb your home</button>
    
       <button onClick={() => setModal(true)} className={styles.userProfile}>
         {user ? (

@@ -23,15 +23,17 @@ export default function Modal({
 
   const modalRef = useRef<null | HTMLDialogElement>(null);
   const showModal = searchParams.get("showDialog");
+  const _isLogin = searchParams.has("login");
   const router = useRouter();
 
   useEffect(() => {
     if (showModal === "y") {
       modalRef.current?.showModal();
+      setIsLogin(_isLogin);
     } else {
       modalRef.current?.close();
     }
-  }, [showModal]);
+  }, [showModal, _isLogin]);
 
   const closeModal = () => {
     modalRef.current?.close();

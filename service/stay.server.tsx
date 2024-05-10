@@ -34,7 +34,6 @@ export async function getSmallStays(
   filters?: SearchBY,
   page?: number
 ): Promise<React.JSX.Element[] | undefined> {
-  console.log("page:", page)
   try {
     // Build dynamic where clause based on filters
     const queryFilters: any = {};

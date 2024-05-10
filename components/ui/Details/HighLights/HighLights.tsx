@@ -6,7 +6,6 @@ interface Props {
   highlights: HighLightsModel[];
 }
 export default function HighLights({ highlights }: Props) {
-  console.log("highlights:", highlights);
   return (
     <ul className={styles.highlights}>
       {highlights.map((highlight, idx) => (

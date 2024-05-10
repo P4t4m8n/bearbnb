@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { MouseEvent } from "react";
-import styles from './Model.module.scss'
+import styles from "./Model.module.scss";
 
 interface Props {
   onLogout: (ev: MouseEvent<HTMLButtonElement>) => void;
@@ -12,10 +12,10 @@ export default function Modal({ onLogout, isUser }: Props) {
       {!isUser ? (
         <ul className={styles.modalNoUser}>
           <li>
-            <Link href={"/login"}>Log in</Link>
+            <Link href={{ pathname: "/login", query: "login" }}>Log in</Link>
           </li>
           <li>
-            <Link href={"/login"}>Sign up</Link>
+            <Link href={{ pathname: "/login", query: "signup" }}>Sign up</Link>
           </li>
           <li>
             <Link href={"/"}>Air Bnb your home</Link>

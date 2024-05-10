@@ -33,7 +33,6 @@ export default function LoadMore() {
     if (container) {
       const observer = new IntersectionObserver(
         async (entries) => {
-          console.log("entries[0]:", entries[0]);
           if (entries[0].isIntersecting) {
             setLoading(true);
             const _stays = await getSmallStays(searchObj, page);
