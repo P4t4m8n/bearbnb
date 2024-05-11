@@ -34,55 +34,61 @@ export async function getSmallStays(
   filters?: SearchBY,
   page?: number
 ): Promise<React.JSX.Element[] | undefined> {
+  const cacheKey: string = "stays";
+
   try {
-    // Build dynamic where clause based on filters
-    const queryFilters: any = {};
-    if (filters?.name) queryFilters.name = filters.name;
-    if (filters?.dates?.start && filters.dates.start && filters?.dates?.end) {
-      queryFilters.booking = {
-        none: {
-          OR: [
-            {
-              checkIn: { lte: filters.dates.start },
-              checkOut: { gte: filters.dates.end },
+    let stays = await getCache("stays");
+    if (!stays || !stays.length) {
+      // Build dynamic where clause based on filters
+      const queryFilters: any = {};
+      if (filters?.name) queryFilters.name = filters.name;
+      if (filters?.dates?.start && filters.dates.start && filters?.dates?.end) {
+        queryFilters.booking = {
+          none: {
+            OR: [
+              {
+                checkIn: { lte: filters.dates.start },
+                checkOut: { gte: filters.dates.end },
+              },
+            ],
+          },
+        };
+      }
+
+      stays = await prisma.stay.findMany({
+        skip: (page || 0) * NUMBER_PER_PAGE,
+        take: NUMBER_PER_PAGE,
+        where: queryFilters,
+        select: {
+          id: true,
+          type: true,
+          name: true,
+          images: {
+            take: 1,
+            select: {
+              url: true,
             },
-          ],
+          },
+          price: true,
+          locationId: true,
+          location: true,
+          reviews: {
+            select: {
+              rate: true,
+            },
+          },
+          booking: {
+            select: {
+              checkIn: true,
+              checkOut: true,
+            },
+          },
         },
-      };
+      });
+
+      if (!stays) throw new Error("Unable to load");
+      setCache(cacheKey, stays);
     }
-
-    const stays = await prisma.stay.findMany({
-      skip: (page || 0) * NUMBER_PER_PAGE,
-      take: NUMBER_PER_PAGE,
-      where: queryFilters,
-      select: {
-        id: true,
-        type: true,
-        name: true,
-        images: {
-          take: 1,
-          select: {
-            url: true,
-          },
-        },
-        price: true,
-        locationId: true,
-        location: true,
-        reviews: {
-          select: {
-            rate: true,
-          },
-        },
-        booking: {
-          select: {
-            checkIn: true,
-            checkOut: true,
-          },
-        },
-      },
-    });
-
-    if (!stays) throw new Error("Unable to load");
     const mappedStays = stays.map((stay: QueryStay) => {
       const staySmall: StaySmall = {
         id: stay.id,

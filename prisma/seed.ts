@@ -33,23 +33,9 @@ async function main() {
         hostId: host.id,
         locationId: location.id,
         images: {
-          create: [
-            { url: "https://source.unsplash.com/random/?home,apartment,house" },
-            { url: "https://source.unsplash.com/random/?home,apartment,house" },
-            { url: "https://source.unsplash.com/random/?home,apartment,house" },
-            { url: "https://source.unsplash.com/random/?home,apartment,house" },
-            { url: "https://source.unsplash.com/random/?home,apartment,house" },
-            { url: "https://source.unsplash.com/random/?home,apartment,house" },
-            { url: "https://source.unsplash.com/random/?home,apartment,house" },
-            { url: "https://source.unsplash.com/random/?home,apartment,house" },
-            { url: "https://source.unsplash.com/random/?home,apartment,house" },
-            { url: "https://source.unsplash.com/random/?home,apartment,house" },
-            { url: "https://source.unsplash.com/random/?home,apartment,house" },
-            { url: "https://source.unsplash.com/random/?home,apartment,house" },
-            { url: "https://source.unsplash.com/random/?home,apartment,house" },
-            { url: "https://source.unsplash.com/random/?home,apartment,house" },
-            { url: "https://source.unsplash.com/random/?home,apartment,house" },
-          ],
+          create: Array.from({ length: 15 }, (_, i) => ({
+            url: `https://source.unsplash.com/random/?home,apartment,house&sig=${Date.now()}${i}`,
+          })),
         },
         bedrooms: {
           create: [
@@ -88,7 +74,7 @@ async function main() {
     });
 
     const startDate = new Date();
-    const bookings = Array(10)
+    const bookings = Array(3)
       .fill(null)
       .map((_, index) => {
         const checkIn = new Date(

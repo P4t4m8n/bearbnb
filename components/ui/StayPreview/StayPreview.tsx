@@ -5,6 +5,7 @@ import Link from "next/link";
 import { StaySmall } from "@/model/stay.model";
 import { formatDatesToRange } from "@/service/stay.service";
 import dynamic from "next/dynamic";
+import LikeButton from "../Buttons/LikeButton/LikeButton";
 
 const Distance = dynamic(() => import("./Distance/Distance"), { ssr: false });
 
@@ -21,7 +22,7 @@ export default function StayPreview({ stay }: Props) {
   return (
     <li className={styles.stayPreview}>
       <Link href={`stay/${id}`}>
-        <LikeSVG className={styles.likeSvg} />
+        <LikeButton stayId={stay.id} />
         <div className={styles.imgCon}>
           <Image
             src={image}

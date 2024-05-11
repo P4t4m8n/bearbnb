@@ -55,7 +55,7 @@ export default function LoadMore() {
         observer.disconnect();
       };
     }
-  });
+  },[]);
 
   return (
     <>

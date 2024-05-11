@@ -49,9 +49,7 @@ export interface Review {
 export interface Like {
   id: string;
   userId: string;
-  user: User;
   stayId: string;
-  stay: Stay;
 }
 export interface BedRoom {
   beds: Bed[];

@@ -6,10 +6,12 @@
   position: relative;
   display: grid;
   font-size: 1rem;
+  padding: 1px;
+
   &:hover {
-    transform: translateY(-5px);
+    animation: glowing 1.5s infinite alternate;
+
   }
-  div,
   h6 {
     padding-inline: 2px;
   }
@@ -31,16 +33,7 @@
       border-radius: 8px;
     }
   }
-  .likeSvg {
-    position: absolute;
-    width: 1.5rem;
-    aspect-ratio: 1;
-    right: 5%;
-    top: 5%;
-    stroke: white;
-    stroke-width: 0.15rem;
-    fill: gray;
-  }
+  
   .infoHead {
     display: flex;
     justify-content: space-between;
@@ -65,5 +58,13 @@
     display: flex;
     gap: 0.5rem;
     align-items: center;
+  }
+}
+@keyframes glowing {
+  from {
+    box-shadow: 0 0 5px transparent;
+  }
+  to {
+    box-shadow: 0 0 5px blue;
   }
 }

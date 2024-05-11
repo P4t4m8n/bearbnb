@@ -2,8 +2,7 @@ import { SearchBY } from "@/model/stay.model";
 import styles from "./StayList.module.scss";
 import { getSmallStays } from "@/service/stay.server";
 import LoadMore from "../LoadMore/LoadMore";
-import { Suspense } from "react";
-import StayListSkeleton from "../skeletons/StayListSkeleton/StayListSkeleton";
+import { getCache, setCache } from "@/service/cache";
 interface Props {
   searchParams: {
     startDate: string;

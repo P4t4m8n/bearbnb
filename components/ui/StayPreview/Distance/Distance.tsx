@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import { LocationSmall } from "@/model/stay.model";
-import styles from "./Distance.module.scss";
 import { useParams } from "next/navigation";
 import {
   calculateDistance,
