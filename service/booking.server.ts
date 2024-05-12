@@ -1,9 +1,11 @@
-import { BookingDTO, BookingModel } from "@/model/stay.model";
+"use server";
+
+import { BookingDTO, BookingModel, TripModel } from "@/model/stay.model";
 import { prisma } from "@/prisma/prisma";
 import { z } from "zod";
+import { getCache, setCache } from "./cache";
 
 export const saveBooking = async (booking: BookingModel) => {
-  "use server";
   const bookingSchema = z
     .object({
       stayId: z.string(),
@@ -64,7 +66,6 @@ export const saveBooking = async (booking: BookingModel) => {
 };
 
 export const getBookingById = async (bookingId: string): Promise<any> => {
-  "use server";
   try {
     const booking = await prisma.booking.findUniqueOrThrow({
       where: { id: bookingId },
@@ -74,6 +75,51 @@ export const getBookingById = async (bookingId: string): Promise<any> => {
         host: true,
       },
     });
+    return booking;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getUserTrips = async (
+  userId: string
+): Promise<TripModel[] | undefined> => {
+  try {
+    const cachedTrips = await getCache(userId);
+    if(cachedTrips) return cachedTrips
+    const bookings = await prisma.booking.findMany({
+      where: { userId: userId },
+      select: {
+        checkIn: true,
+        checkOut: true,
+        id: true,
+        stay: {
+          select: {
+            images: {
+              take: 1,
+              select: {
+                url: true,
+              },
+            },
+            location: { select: { city: true } },
+          },
+        },
+        host: { select: { firstName: true } },
+      },
+    });
+    const trips = bookings.map((booking) => {
+      return {
+        checkIn: booking.checkIn,
+        checkOut: booking.checkOut,
+        image: booking.stay!.images[0].url,
+        city: booking.stay!.location.city,
+        hostName: booking.host.firstName,
+        id: booking.id,
+      };
+    });
+    setCache(userId, trips);
+
+    return trips;
   } catch (error) {
     console.error(error);
   }

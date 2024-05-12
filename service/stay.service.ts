@@ -81,5 +81,5 @@ export const formatDatesToRange = (
   );
 
   // Build the final string
-  return `${month} ${startDay} - ${endDay}`;
+  return `${month} ${startDay}-${endDay}`;
 };

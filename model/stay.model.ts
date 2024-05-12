@@ -22,8 +22,10 @@ export interface UserSmall {
   likes: Like[];
 }
 export interface User extends UserSmall {
-  stays: Stay[];
-  reviews: Review[];
+  stays?: StaySmall[] | null;
+  reviews?: Review[] | null;
+  bookings?: BookingModel[] | null;
+  hosting?: BookingModel[] | null;
 }
 export interface LocationSmall {
   lat: number;
@@ -89,6 +91,11 @@ export interface BookingModalSmall {
   checkIn: Date;
   checkOut: Date;
   id?: string;
+}
+export interface TripModel extends BookingModalSmall {
+  image: string;
+  city: string;
+  hostName: string;
 }
 export interface BookingModel extends BookingModalSmall {
   stay: StaySmall | null;

@@ -40,8 +40,10 @@ export function User({ _user }: Props) {
 
   return (
     <div className={styles.user}>
-      <button className={styles.svgBtn + styles.placeHolder}>Airbnb your home</button>
-   
+      <button className={styles.svgBtn + styles.placeHolder}>
+        Airbnb your home
+      </button>
+
       <button onClick={() => setModal(true)} className={styles.userProfile}>
         {user ? (
           <>
@@ -61,7 +63,7 @@ export function User({ _user }: Props) {
 
         {open && (
           <div ref={modalRef} className={styles.modalCon}>
-            <Modal onLogout={onLogout} isUser={!!user} />
+            <Modal onLogout={onLogout} userId={user?.id} />
           </div>
         )}
       </button>

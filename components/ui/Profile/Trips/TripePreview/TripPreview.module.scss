@@ -1,0 +1,38 @@
+@import "../../../../../styles/abstracts/variables";
+@import "../../../../../styles/abstracts/mixin";
+
+.trip {
+  padding: 1rem;
+  display: flex;
+  flex: 1 1 250px;
+  gap: 1rem;
+  min-width: fit-content;
+  background-color: inherit;
+  transition: background-color 0.5s ease-in-out;
+  border-radius: $border-radius-1-2;
+  &:hover {
+    cursor: pointer;
+    background-color: rgb(255, 243, 246);
+  }
+  .imgCon {
+    height: 4rem;
+    aspect-ratio: 1;
+    position: relative;
+    img {
+      border-radius: $border-radius-1-2;
+    }
+  }
+
+  .info {
+    h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      @include text-overflow-ellipsis;
+    }
+    h3 {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: $svg-fill-gary;
+    }
+  }
+}

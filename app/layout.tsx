@@ -2,7 +2,7 @@ import Header from "../components/ui/Header/Header";
 import { Mulish } from "next/font/google";
 import "../styles/main.scss";
 import styles from "./layout.module.scss";
-import { getLoggedInUser } from "@/service/user.service";
+import { getSmallLoggedInUser } from "@/service/user.server";
 import "./global.scss";
 
 const mulish = Mulish({
@@ -16,7 +16,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getLoggedInUser();
+   const user = await getSmallLoggedInUser();
 
   return (
     <html lang="en">

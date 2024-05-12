@@ -4,12 +4,12 @@ import styles from "./Model.module.scss";
 
 interface Props {
   onLogout: (ev: MouseEvent<HTMLButtonElement>) => void;
-  isUser: boolean;
+  userId: string | undefined;
 }
-export default function Modal({ onLogout, isUser }: Props) {
+export default function Modal({ onLogout, userId }: Props) {
   return (
     <>
-      {!isUser ? (
+      {!userId ? (
         <ul className={styles.modalNoUser}>
           <li>
             <Link href={{ pathname: "/login", query: "login" }}>Log in</Link>
@@ -30,7 +30,7 @@ export default function Modal({ onLogout, isUser }: Props) {
             <Link href={"/"}>Messages</Link>
           </li>
           <li>
-            <Link href={"/login"}>Trips</Link>
+            <Link href={{ pathname: "trips/", query: userId }}>Trips</Link>
           </li>
           <li>
             <Link href={"/login"}>WIshlist</Link>
