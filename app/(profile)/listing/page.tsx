@@ -1,4 +1,4 @@
-import { getSmallStays } from "@/service/stay.server";
+import { getSmallStaysJSX } from "@/service/stay.server";
 import { serverSupabase } from "@/util/supabase/server";
 import { getHostListing } from "@/service/booking.server";
 import ListingIndex from "@/components/ui/Profile/Listing/ListingIndex";

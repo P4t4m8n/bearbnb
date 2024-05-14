@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { getSmallStays } from "@/service/stay.server";
+import { getSmallStaysJSX } from "@/service/stay.server";
 import { useParams } from "next/navigation";
 import { SearchBY } from "@/model/stay.model";
 import StayPreviewSkeleton from "../skeletons/StayPreviewSkeleton/StayPreviewSkeleton";
@@ -35,7 +35,7 @@ export default function LoadMore() {
         async (entries) => {
           if (entries[0].isIntersecting) {
             setLoading(true);
-            const _stays = await getSmallStays(searchObj, page);
+            const _stays = await getSmallStaysJSX(searchObj, page);
             if (_stays) setStays((prev) => [...prev, ..._stays]);
             page++;
             setLoading(false);

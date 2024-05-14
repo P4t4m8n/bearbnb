@@ -1,6 +1,6 @@
 import { SearchBY } from "@/model/stay.model";
 import styles from "./StayList.module.scss";
-import { getSmallStays } from "@/service/stay.server";
+import { getSmallStaysJSX } from "@/service/stay.server";
 import LoadMore from "../LoadMore/LoadMore";
 import { getCache, setCache } from "@/service/cache";
 interface Props {
@@ -24,7 +24,7 @@ export default async function StayList({ searchParams }: Props) {
     name: searchParams.name || "",
   };
   try {
-    stays = await getSmallStays(searchObj);
+    stays = await getSmallStaysJSX(searchObj);
   } catch (error) {
     console.error("error:", error);
   }

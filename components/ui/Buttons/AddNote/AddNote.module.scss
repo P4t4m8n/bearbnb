@@ -1,0 +1,93 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixin";
+
+.addNote {
+  display: flex;
+  width: 100%;
+  background-color: rgb(240, 240, 240);
+  border-radius: $border-radius-1-2;
+  font-weight: 600;
+  padding-inline: .5rem;
+
+  align-items: center;
+  button {
+    color: rgb(102, 102, 102);
+    text-decoration: underline;
+    min-width: fit-content;
+    font-size: 1rem;
+    min-height: 2.5rem;
+    text-align: left;
+    padding-left: 1rem;
+    align-self: flex-end;
+    justify-self: flex-end;
+  }
+  .text {
+    @include text-overflow-ellipsis;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 999;
+  width: 25rem;
+  display: grid;
+  background-color: white;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 10px 3000px 1500px rgba(0, 0, 0, 0.5);
+  border-radius: $border-radius-1-2;
+  .hero {
+    @include bordered;
+    display: flex;
+    margin-bottom: 1rem;
+    button {
+      width: 10%;
+      font-weight: 600;
+      padding: 1rem 1.5rem 0 1.5rem;
+    }
+    h2 {
+      width: 80%;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 800;
+      padding: 1rem 1.5rem 0 1.5rem;
+    }
+  }
+
+  .textCon {
+    max-width: calc(25rem - 4rem);
+    margin: 2rem;
+    textarea {
+      padding: 1rem;
+      max-width: 100%;
+      resize: none;
+    }
+    h5 {
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    button {
+      background-color: gray;
+      width: 6rem;
+      height: 3rem;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: $border-radius-1-2;
+      &:first-child {
+        color: black;
+        background-color: white;
+      }
+      &:last-child {
+        color: white;
+        background-color: black;
+      }
+    }
+  }
+}

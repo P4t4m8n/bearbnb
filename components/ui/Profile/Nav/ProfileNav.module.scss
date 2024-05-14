@@ -1,0 +1,23 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixin";
+
+.profileNav {
+  padding-top: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  a {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    background-color: $main-link;
+    color: white;
+    width: 7rem;
+    border-radius: $border-radius-1-2;
+    min-height: 3rem;
+  }
+  .active {
+    background-color: $main-active;
+  }
+}

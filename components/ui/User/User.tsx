@@ -16,6 +16,7 @@ export function User({ _user }: Props) {
   const { user, setUser } = useUserStore();
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [open, setModal] = useModal(modalRef, null);
+  console.log("open:", open);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -34,6 +35,10 @@ export function User({ _user }: Props) {
     } catch (error) {
       console.error("error:", error);
     }
+  };
+
+  const closeModal = () => {
+    console.log("close modal");
   };
 
   return (
@@ -66,6 +71,7 @@ export function User({ _user }: Props) {
               isOwner={user?.isOwner}
               onLogout={onLogout}
               userId={user?.id}
+              closeModal={closeModal}
             />
           </div>
         )}

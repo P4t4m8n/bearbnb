@@ -16,7 +16,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-   const user = await getSmallLoggedInUser();
+  const user = await getSmallLoggedInUser();
 
   return (
     <html lang="en">
@@ -26,7 +26,7 @@ export default async function RootLayout({
       >
         <section className={styles.main}>
           <Header _user={user} />
-          
+
           {children}
         </section>
       </body>

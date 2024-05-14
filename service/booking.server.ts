@@ -80,7 +80,7 @@ export const saveBooking = async (
     if (!updatedBooking?.id) throw new Error("Booking not created");
     return updatedBooking;
   } catch (error) {
-    console.log("error:", error);
+    console.error("error:", error);
   }
 };
 
@@ -214,7 +214,6 @@ export const getHostListing = async (
 };
 
 const updateBooking = async (booking: BookingDTO): Promise<BookingDTO> => {
-  console.log("booking:", booking)
   const updatedBooking = await prisma.booking.update({
     where: { id: booking.id },
     data: {

@@ -43,9 +43,8 @@ export default function ListingCard({ listing, idx, onUpdateListing }: Props) {
         listingState,
         isConfirmed ? "confirmed" : "canceled"
       );
-      console.log("t:", t);
     } catch (error) {
-      console.log("error:", error);
+      console.error("error:", error);
       setListingState({
         ...listingState,
         status: prevStatus,

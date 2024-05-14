@@ -172,6 +172,7 @@ model Label {
 
 model Like {
   id     String  @id @default(uuid())
+  notes  String?
   userId String
   user   Profile @relation(fields: [userId], references: [id], onDelete: Cascade)
   stayId String

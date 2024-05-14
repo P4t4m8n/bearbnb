@@ -6,7 +6,7 @@ import { getCache, setCache } from "./cache";
 import StayPreview from "../components/ui/StayPreview/StayPreview";
 import { findFirstConsecutiveDaysAfterDate } from "./util";
 
-interface QueryStay {
+export interface QueryStay {
   id: string;
   type: string;
   name: string;
@@ -30,89 +30,14 @@ interface QueryStay {
 }
 
 const NUMBER_PER_PAGE = 8;
-export async function getSmallStays(
+export async function getSmallStaysJSX(
   filters?: SearchBY,
   page?: number
 ): Promise<React.JSX.Element[] | undefined> {
-  const cacheKey: string = "stays";
-
   try {
-    let stays = await getCache("stays");
-    if (!stays || !stays.length) {
-      // Build dynamic where clause based on filters
-      const queryFilters: any = {};
-      if (filters?.name) queryFilters.name = filters.name;
-      if (filters?.host) queryFilters.hostId = filters.host;
-      if (filters?.dates?.start && filters.dates.start && filters?.dates?.end) {
-        queryFilters.booking = {
-          none: {
-            OR: [
-              {
-                checkIn: { lte: filters.dates.start },
-                checkOut: { gte: filters.dates.end },
-              },
-            ],
-          },
-        };
-      }
-
-      stays = await prisma.stay.findMany({
-        skip: (page || 0) * NUMBER_PER_PAGE,
-        take: NUMBER_PER_PAGE,
-        where: queryFilters,
-        select: {
-          id: true,
-          type: true,
-          name: true,
-          images: {
-            take: 1,
-            select: {
-              url: true,
-            },
-          },
-          price: true,
-          locationId: true,
-          location: true,
-          reviews: {
-            select: {
-              rate: true,
-            },
-          },
-          booking: {
-            select: {
-              checkIn: true,
-              checkOut: true,
-            },
-          },
-        },
-      });
-
-      if (!stays) throw new Error("Unable to load");
-      setCache(cacheKey, stays);
-    }
-    const mappedStays = stays.map((stay: QueryStay) => {
-      const staySmall: StaySmall = {
-        id: stay.id,
-        name: stay.name,
-        type: stay.type,
-        image: stay.images[0]?.url || "",
-        price: stay.price,
-        locationId: stay.locationId,
-        location: stay.location,
-        firstAvailableDate: findFirstConsecutiveDaysAfterDate(
-          new Date(),
-          stay.booking,
-          3
-        ),
-        rating:
-          stay.reviews && stay.reviews.length > 0
-            ? stay.reviews.reduce((acc, curr) => acc + curr.rate, 0) /
-              stay.reviews.length
-            : 0,
-      };
-      return <StayPreview key={staySmall.id} stay={staySmall} />;
-    });
-
+    const stays = await getSmallStaysData(filters, page);
+    if (!stays) throw new Error("Failed to fetch stays");
+    const mappedStays = queryStayToStallSmallJSX(stays);
     return mappedStays;
   } catch (error) {
     console.error("Failed to fetch stays:", error);
@@ -201,3 +126,97 @@ export async function getStayById(stayId: string): Promise<Stay> {
     throw error;
   }
 }
+
+const getSmallStaysData = async (
+  searchBy?: SearchBY,
+  page?: number
+): Promise<QueryStay[] | undefined> => {
+  const cacheKey: string = "stays";
+
+  try {
+    // Build dynamic where clause based on filters
+    const queryFilters: any = {};
+    if (searchBy?.name) queryFilters.name = searchBy.name;
+    if (searchBy?.host) queryFilters.hostId = searchBy.host;
+    if (
+      searchBy?.dates?.start &&
+      searchBy.dates.start &&
+      searchBy?.dates?.end
+    ) {
+      queryFilters.booking = {
+        none: {
+          OR: [
+            {
+              checkIn: { lte: searchBy.dates.start },
+              checkOut: { gte: searchBy.dates.end },
+            },
+          ],
+        },
+      };
+    }
+
+    const stays = await prisma.stay.findMany({
+      skip: (page || 0) * NUMBER_PER_PAGE,
+      take: NUMBER_PER_PAGE,
+      where: queryFilters,
+      select: {
+        id: true,
+        type: true,
+        name: true,
+        images: {
+          take: 1,
+          select: {
+            url: true,
+          },
+        },
+        price: true,
+        locationId: true,
+        location: true,
+        reviews: {
+          select: {
+            rate: true,
+          },
+        },
+        booking: {
+          select: {
+            checkIn: true,
+            checkOut: true,
+          },
+        },
+      },
+    });
+
+    if (!stays) throw new Error("Unable to load");
+    setCache(cacheKey, stays);
+    return stays;
+  } catch (error) {
+    console.error("error:", error);
+  }
+};
+
+export const queryStayToStallSmallJSX = (
+  queryStay: QueryStay[]
+): React.JSX.Element[] => {
+  return queryStay.map((stay: QueryStay) => {
+    const staySmall: StaySmall = {
+      id: stay.id,
+      name: stay.name,
+      type: stay.type,
+      image: stay.images[0]?.url || "",
+      price: stay.price,
+      locationId: stay.locationId,
+      location: stay.location,
+      firstAvailableDate: findFirstConsecutiveDaysAfterDate(
+        new Date(),
+        stay.booking,
+        3
+      ),
+      rating:
+        stay.reviews && stay.reviews.length > 0
+          ? stay.reviews.reduce((acc, curr) => acc + curr.rate, 0) /
+            stay.reviews.length
+          : 0,
+    };
+    return <StayPreview key={staySmall.id} stay={staySmall} />;
+  });
+};

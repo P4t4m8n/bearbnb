@@ -7,8 +7,15 @@ interface Props {
   userId: string | undefined;
   isOwner?: boolean;
   authId?: string;
+  closeModal: () => void;
 }
-export default function Modal({ onLogout, userId, isOwner, authId }: Props) {
+export default function Modal({
+  onLogout,
+  userId,
+  isOwner,
+  authId,
+  closeModal,
+}: Props) {
   return (
     <>
       {!userId ? (
@@ -28,21 +35,37 @@ export default function Modal({ onLogout, userId, isOwner, authId }: Props) {
         </ul>
       ) : (
         <ul className={styles.modalUser}>
+          <li onClick={closeModal}>xxxx</li>
           <li>
             <Link href={"/"}>Messages</Link>
           </li>
-          <li>
-            <Link href={{ pathname: "trips/", query: userId }}>Trips</Link>
+          <li onClick={closeModal}>
+            <Link href={{ pathname: "trips/", query: { userId, authId } }}>
+              Trips
+            </Link>
           </li>
           <li>
-            <Link href={"/Wishlist"}>Wishlist</Link>
+            <Link href={{ pathname: "wishlist/", query: { userId, authId } }}>
+              Wishlist
+            </Link>
           </li>
           {isOwner && (
-            <li>
-              <Link href={{ pathname: "/listing", query: { userId, authId } }}>
-                Mange listing
-              </Link>
-            </li>
+            <>
+              <li>
+                <Link
+                  href={{ pathname: "/listing", query: { userId, authId } }}
+                >
+                  Mange bookings
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={{ pathname: "/myStays", query: { userId, authId } }}
+                >
+                  Mange assets
+                </Link>
+              </li>
+            </>
           )}
           <li>
             <Link href={"/login"}>Account</Link>

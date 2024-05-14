@@ -1,4 +1,5 @@
 import {
+  BedRoom,
   BookingModel,
   LocationSmall,
   SearchBY,
@@ -82,4 +83,30 @@ export const formatDatesToRange = (
 
   // Build the final string
   return `${month} ${startDay}-${endDay}`;
+};
+
+export const transformBedrooms = (
+  bedrooms: { beds: any[]; images?: any[] }[]
+) => {
+  return bedrooms.map((bedroom) => {
+    // Count the number of each type of bed
+    const bedCounts = bedroom.beds.reduce((acc, bed) => {
+      acc[bed] = (acc[bed] || 0) + 1;
+      return acc;
+    }, {});
+
+    // Format the bed description based on the counts
+    const formattedBeds = Object.keys(bedCounts).map((bedType) => {
+      return `${bedCounts[bedType]} ${bedType} bed${
+        bedCounts[bedType] > 1 ? "s" : ""
+      }`;
+    });
+
+    // Return the transformed bedroom object
+    return {
+      bedCounts,
+      beds: formattedBeds,
+      images: bedroom.images,
+    };
+  });
 };

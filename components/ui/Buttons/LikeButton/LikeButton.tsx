@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./LikeButton.module.scss";
 import { LikeSVG } from "../../svgs/svgs";
 import { useUserStore } from "@/store/useUserStore";
-import { updateLIke } from "@/service/like.server";
+import { updateLike } from "@/service/like.server";
 import { Like } from "@/model/stay.model";
 
 interface Props {
@@ -27,9 +27,15 @@ export default function LikeButton({ stayId }: Props) {
 
   const onLike = async (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault();
+
     if (!user) return alert("Please login to like");
-    const response = await updateLIke(liked?.id, stayId, user.id);
-    setLiked(response);
+
+    try {
+      const response = await updateLike(liked?.id, stayId, user.id);
+      setLiked(response);
+    } catch (error) {
+      console.error("error:", error);
+    }
   };
 
   const buttonClass = `${styles.likeButton} ${
