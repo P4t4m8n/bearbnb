@@ -14,9 +14,10 @@ export async function getSmallLoggedInUser(): Promise<UserSmall | undefined> {
   const { data } = await supabase.auth.getUser();
 
   if (data && data.user) {
-    // const cacheKey: string = "userData";
-    // let profile = await getCache(cacheKey);
-    let profile = null;
+
+    const cacheKey: string = "userData";
+    let profile = await getCache(cacheKey);
+    // let profile = null;
     if (!profile)
       profile = await prisma.profile.findUnique({
         where: { supabaseId: data.user.id },
@@ -25,8 +26,8 @@ export async function getSmallLoggedInUser(): Promise<UserSmall | undefined> {
         },
       });
     if (!profile) throw new Error("no profile");
-    // setCache(cacheKey, profile);
-    const { isOwner, id, lastName, firstName, imgUrl, likes } = profile;
+    setCache(cacheKey, profile);
+    const { isOwner, id, lastName, firstName, imgUrl, likes,supabaseId } = profile;
     user = {
       isOwner: isOwner,
       id: id,
@@ -35,6 +36,7 @@ export async function getSmallLoggedInUser(): Promise<UserSmall | undefined> {
       email: data.user.email || "",
       imgUrl: imgUrl,
       likes,
+      authId:supabaseId
     };
   }
 
@@ -48,9 +50,9 @@ export async function getLoggedInUser(): Promise<User | undefined> {
     cookies,
   });
   const { data } = await supabase.auth.getUser();
-
+  
   if (!data || !data.user) throw new Error("no user");
-
+  
   let profile = await getCache("userData");
   if (!profile) {
     profile = await prisma.profile.findUnique({

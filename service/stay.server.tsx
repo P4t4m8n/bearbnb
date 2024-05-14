@@ -42,6 +42,7 @@ export async function getSmallStays(
       // Build dynamic where clause based on filters
       const queryFilters: any = {};
       if (filters?.name) queryFilters.name = filters.name;
+      if (filters?.host) queryFilters.hostId = filters.host;
       if (filters?.dates?.start && filters.dates.start && filters?.dates?.end) {
         queryFilters.booking = {
           none: {
@@ -185,9 +186,10 @@ export async function getStayById(stayId: string): Promise<Stay> {
         ? stay.reviews.reduce((acc: number, curr: any) => acc + curr.rate, 0) /
           stay.reviews.length
         : 0;
+
     stay.firstAvailableDate = findFirstConsecutiveDaysAfterDate(
       new Date(),
-      stay.booking,
+      stay.booking as { checkIn: Date; checkOut: Date }[],
       3
     );
 

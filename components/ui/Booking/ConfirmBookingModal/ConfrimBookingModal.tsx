@@ -3,9 +3,9 @@ import { useModal } from "@/components/hooks/useModal";
 import { BookingModel } from "@/model/stay.model";
 import { useBookingStore } from "@/store/useBookingStore";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import styles from "./ConfirmBookingModal.module.scss";
+import { daysBetweenDates } from "@/service/booking-service";
 import { getDefaultDates } from "@/service/stay.service";
 interface Props {
   saveBooking: (booking: BookingModel) => void;
@@ -18,33 +18,25 @@ export default function ConfirmBookingModal({
   toOpen,
   confirmModalHelper,
 }: Props) {
-  const router = useRouter();
   const { booking } = useBookingStore.getState();
   const bookingConfirmModalRef = useRef<HTMLDivElement | null>(null);
   const [isBookingConfirm, setIsBookingConfirm] = useModal(
     bookingConfirmModalRef,
     confirmModalHelper
-    
   );
 
   useEffect(() => {
     setIsBookingConfirm(toOpen);
   }, [toOpen]);
 
-  const onBack = ()=>{
-    setIsBookingConfirm(false)
-    confirmModalHelper()
-  }
-
-  if (!booking.checkIn || !booking.checkOut) return;
-  const daysBetweenDates = (date1: Date, date2: Date) => {
-    const oneDay = 1000 * 60 * 60 * 24;
-    const diffInTime = Math.abs(date2.getTime() - date1.getTime());
-    const diffInDays = Math.ceil(diffInTime / oneDay);
-
-    return diffInDays;
+  const onBack = () => {
+    setIsBookingConfirm(false);
+    confirmModalHelper();
   };
 
+  if (!booking.checkIn || !booking.checkOut) return;
+
+  
   const getGuestsString = (booking: BookingModel): string => {
     let str = ``;
     str += `${booking.adults} ${booking.adults > 1 ? "adults" : "adult"}`;
@@ -63,16 +55,7 @@ export default function ConfirmBookingModal({
 
   const days = daysBetweenDates(booking.checkIn!, booking.checkOut!);
   const guests = getGuestsString(booking);
-  const formatCheckIn = {
-    day: booking.checkIn.getDate().toString().padStart(2, "0"),
-    month: (booking.checkIn?.getMonth() + 1).toString().padStart(2, "0"),
-    year: booking.checkIn.getFullYear(),
-  };
-  const formatCheckOut = {
-    day: booking.checkOut.getDate().toString().padStart(2, "0"),
-    month: (booking.checkOut?.getMonth() + 1).toString().padStart(2, "0"),
-    year: booking.checkOut.getFullYear(),
-  };
+  const { formatCheckIn, formatCheckOut } = getDefaultDates(null, booking);
 
   return (
     <>

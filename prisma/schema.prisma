@@ -5,8 +5,8 @@ datasource db {
 }
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["multiSchema"]
+  provider = "prisma-client-js"
+  // previewFeatures = ["multiSchema"]
 }
 
 enum Beds {
@@ -78,6 +78,13 @@ enum AmenitiesType {
   Entertainment
 }
 
+enum BookingStatus {
+  pending
+  confirmed
+  canceled
+  completed
+}
+
 model Stay {
   id          String      @id @default(uuid())
   name        String
@@ -85,6 +92,7 @@ model Stay {
   price       Float
   summary     String
   description String?
+  entireHome  Boolean
   capacity    Int
   baths       Int?
   uniqueRooms String[]
@@ -113,8 +121,8 @@ model Review {
 }
 
 model Profile {
-  id         String    @id @default(uuid())
-  supabaseId String    @unique
+  id         String     @id @default(uuid())
+  supabaseId String     @unique
   isOwner    Boolean
   ownerSince DateTime?
   firstName  String
@@ -124,8 +132,9 @@ model Profile {
   stays      Stay[]
   review     Review[]
   likes      Like[]
-  bookings   Booking[] @relation("booker")
-  hosting    Booking[] @relation("host")
+  bookings   Booking[]  @relation("booker")
+  hosting    Booking[]  @relation("host")
+  AuditLog   AuditLog[]
 
   @@map("User")
 }
@@ -179,21 +188,23 @@ model Image {
 }
 
 model Booking {
-  id          String   @id @default(uuid())
+  id          String        @id @default(uuid())
   stayId      String?
-  stay        Stay?    @relation(fields: [stayId], references: [id])
+  stay        Stay?         @relation(fields: [stayId], references: [id])
   userId      String
-  user        Profile  @relation("booker", fields: [userId], references: [id])
+  user        Profile       @relation("booker", fields: [userId], references: [id])
   hostId      String
-  host        Profile  @relation("host", fields: [hostId], references: [id])
+  host        Profile       @relation("host", fields: [hostId], references: [id])
+  status      BookingStatus
   price       Float
-  adults      Int
-  children    Int?
-  infants     Int?
-  pets        Int?
+  adults      Int           @default(1)
+  children    Int           @default(0)
+  infants     Int           @default(0)
+  pets        Int           @default(0)
   checkIn     DateTime
   checkOut    DateTime
   bookingTime DateTime
+  AuditLog    AuditLog[]
 }
 
 model SvgIcon {
@@ -212,4 +223,14 @@ model Highlight {
   icon        SvgIcon @relation(fields: [iconId], references: [id])
   stayId      String
   stay        Stay    @relation(fields: [stayId], references: [id], onDelete: Cascade)
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  action    String   @default("update")
+  createdAt DateTime
+  bookingId String
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  userId    String
+  user      Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

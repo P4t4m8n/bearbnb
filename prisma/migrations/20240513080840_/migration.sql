@@ -7,6 +7,9 @@ CREATE TYPE "Amenities" AS ENUM ('Wifi', 'Heating', 'AirConditioning', 'Washer',
 -- CreateEnum
 CREATE TYPE "AmenitiesType" AS ENUM ('Basic', 'Kitchen', 'Safety', 'Family', 'Parking_and_Accessibility', 'Outdoor', 'Fitness', 'Additional', 'Pets', 'Entertainment');
 
+-- CreateEnum
+CREATE TYPE "BookingStatus" AS ENUM ('pending', 'confirmed', 'canceled', 'completed');
+
 -- CreateTable
 CREATE TABLE "Stay" (
     "id" TEXT NOT NULL,
@@ -15,6 +18,7 @@ CREATE TABLE "Stay" (
     "price" DOUBLE PRECISION NOT NULL,
     "summary" TEXT NOT NULL,
     "description" TEXT,
+    "entireHome" BOOLEAN NOT NULL,
     "capacity" INTEGER NOT NULL,
     "baths" INTEGER,
     "uniqueRooms" TEXT[],

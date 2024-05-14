@@ -9,7 +9,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "acloudflare-ipfs.com",
+        hostname: "cloudflare-ipfs.com",
         port: "",
       },
       {

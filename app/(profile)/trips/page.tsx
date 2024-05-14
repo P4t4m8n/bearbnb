@@ -1,5 +1,5 @@
 import TripPreview from "@/components/ui/Profile/Trips/TripePreview/TripPreview";
-import { getUserTrips } from "@/service/booking.server";
+import { getHostListing, getUserTrips } from "@/service/booking.server";
 import styles from "./trip.module.scss";
 
 export default async function Trips({ params }: { params: { id: string } }) {

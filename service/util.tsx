@@ -87,6 +87,8 @@ export const findFirstConsecutiveDaysAfterDate = (
   bookings: { checkIn: Date; checkOut: Date }[],
   numberOfDays: number // This parameter specifies the number of consecutive days needed
 ): Date[] => {
+
+  
   // Helper to add days to a date
   function addDays(date: Date, days: number): Date {
     const result = new Date(date);

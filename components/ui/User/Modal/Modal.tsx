@@ -5,8 +5,10 @@ import styles from "./Model.module.scss";
 interface Props {
   onLogout: (ev: MouseEvent<HTMLButtonElement>) => void;
   userId: string | undefined;
+  isOwner?: boolean;
+  authId?: string;
 }
-export default function Modal({ onLogout, userId }: Props) {
+export default function Modal({ onLogout, userId, isOwner, authId }: Props) {
   return (
     <>
       {!userId ? (
@@ -33,11 +35,15 @@ export default function Modal({ onLogout, userId }: Props) {
             <Link href={{ pathname: "trips/", query: userId }}>Trips</Link>
           </li>
           <li>
-            <Link href={"/login"}>WIshlist</Link>
+            <Link href={"/Wishlist"}>Wishlist</Link>
           </li>
-          <li>
-            <Link href={"/login"}>Mange listing</Link>
-          </li>
+          {isOwner && (
+            <li>
+              <Link href={{ pathname: "/listing", query: { userId, authId } }}>
+                Mange listing
+              </Link>
+            </li>
+          )}
           <li>
             <Link href={"/login"}>Account</Link>
           </li>

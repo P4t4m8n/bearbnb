@@ -1,4 +1,5 @@
 import { Beds } from "@prisma/client";
+import { Status } from "./types.model";
 export interface ImageModel {
   id: string;
   url: string;
@@ -11,12 +12,16 @@ export interface Label {
   id: string;
   name: string;
 }
-export interface UserSmall {
+
+export interface MinimumUser {
   id: string;
   firstName: string;
   lastName: string;
-  email: string;
   imgUrl?: string;
+  authId?: string;
+}
+export interface UserSmall extends MinimumUser {
+  email: string;
   isOwner: boolean;
   ownerSince?: Date;
   likes: Like[];
@@ -60,15 +65,18 @@ export interface BedRoom {
 export interface Bed {
   type: Beds;
 }
-export interface StaySmall {
+
+export interface MinimumStay {
   id: string;
-  type: string;
   image: string;
+  name: string;
+}
+export interface StaySmall extends MinimumStay {
+  type: string;
   price: number;
   locationId: string;
   location: Location;
   rating: number;
-  name: string;
   firstAvailableDate?: Date[] | null;
 }
 export interface Stay extends StaySmall {
@@ -88,8 +96,8 @@ export interface Stay extends StaySmall {
   highlights: HighLightsModel[];
 }
 export interface BookingModalSmall {
-  checkIn: Date;
-  checkOut: Date;
+  checkIn: Date | null;
+  checkOut: Date | null;
   id?: string;
 }
 export interface TripModel extends BookingModalSmall {
@@ -102,6 +110,7 @@ export interface BookingModel extends BookingModalSmall {
   user: UserSmall | null;
   host: UserSmall | null;
   price: number;
+  status: Status;
   bookingTime: Date | null;
   adults: number;
   children: number;
@@ -109,11 +118,13 @@ export interface BookingModel extends BookingModalSmall {
   pets: number;
 }
 export interface BookingDTO {
-  stayId: string;
+  id?: string;
+  stayId: string|null;
   userId: string;
   hostId: string;
   price: number;
   adults: number;
+  status: Status;
   children: number;
   infants: number;
   pets: number;
@@ -128,10 +139,11 @@ export interface GuestsModel {
   pets: number;
 }
 export interface SearchBY {
-  dates: { start: Date | null; end: Date | null };
-  name: string;
-  location: string;
-  priceRange: { start: number; end: number };
+  dates?: { start: Date | null; end: Date | null };
+  name?: string;
+  location?: string;
+  priceRange?: { start: number; end: number };
+  host?: string;
 }
 export interface HighLightsModel {
   id: string;

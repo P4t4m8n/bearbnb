@@ -7,8 +7,8 @@ import Link from "next/link";
 export default function TripPreview({ trip }: { trip: TripModel }) {
   const { id, image, city, hostName, checkIn, checkOut } = trip;
 
-  const dates = formatDatesToRange([new Date(checkIn), new Date(checkOut)]);
-  const year = new Date(checkIn).getFullYear();
+  const dates = formatDatesToRange([new Date(checkIn!), new Date(checkOut!)]);
+  const year = new Date(checkIn!).getFullYear();
   return (
     <li key={id}>
       <Link className={styles.trip} href={`/booking/${id}`}>

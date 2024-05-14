@@ -1,11 +1,9 @@
-import { AvatarSVG, GlobeSVG, HamburgerSVG } from "../svgs/svgs";
+import { AvatarSVG, HamburgerSVG } from "../svgs/svgs";
 import styles from "./User.module.scss";
-import { MouseEvent, useEffect, useRef, useState } from "react";
+import { MouseEvent, useEffect, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { clientSupabase } from "@/util/supabase/client";
 import { useUserStore } from "@/store/useUserStore";
-import { Session } from "@supabase/supabase-js";
 import Modal from "./Modal/Modal";
 import { useModal } from "@/components/hooks/useModal";
 import { UserSmall } from "@/model/stay.model";
@@ -63,7 +61,12 @@ export function User({ _user }: Props) {
 
         {open && (
           <div ref={modalRef} className={styles.modalCon}>
-            <Modal onLogout={onLogout} userId={user?.id} />
+            <Modal
+              authId={user?.authId}
+              isOwner={user?.isOwner}
+              onLogout={onLogout}
+              userId={user?.id}
+            />
           </div>
         )}
       </button>

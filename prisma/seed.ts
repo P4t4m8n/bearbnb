@@ -3,8 +3,8 @@ import { prisma } from "./prisma";
 // import { Amenities } from "@prisma/client";
 
 async function main() {
-  const host = { id: "cbc295d4-d098-4106-be39-dd755867cc9f" };
-  const user = { id: "5eb1b4e4-5c9a-4535-afd3-b4d1b0d51a8c" };
+  const host = { id: "18506dae-4735-47cb-add2-9effc5cc55e9" };
+  const user = { id: "d18c306e-a683-4904-aef5-3990717cba4b" };
 
   const amenities = await prisma.amenity.findMany();
   const svgs = await prisma.svgIcon.findMany();
@@ -31,6 +31,7 @@ async function main() {
         description: faker.lorem.paragraphs(10),
         capacity: faker.number.int({ min: 1, max: 12 }),
         hostId: host.id,
+        entireHome: Math.random() > 0.5,
         locationId: location.id,
         images: {
           create: Array.from({ length: 15 }, (_, i) => ({
@@ -73,28 +74,28 @@ async function main() {
       data: likes,
     });
 
-    const startDate = new Date();
-    const bookings = Array(3)
-      .fill(null)
-      .map((_, index) => {
-        const checkIn = new Date(
-          startDate.getTime() + index * (4 * 24 * 60 * 60 * 1000)
-        ); // 4 days in milliseconds
-        const checkOut = new Date(checkIn.getTime() + 4 * 24 * 60 * 60 * 1000);
-        return {
-          userId: user.id,
-          hostId: host.id,
-          stayId: stay.id,
-          price: 100,
-          adults: 2,
-          checkIn: checkIn,
-          checkOut: checkOut,
-          bookingTime: new Date(),
-        };
-      });
-    await prisma.booking.createMany({
-      data: bookings,
-    });
+    // const startDate = new Date();
+    // const bookings = Array(3)
+    //   .fill(null)
+    //   .map((_, index) => {
+    //     const checkIn = new Date(
+    //       startDate.getTime() + index * (4 * 24 * 60 * 60 * 1000)
+    //     ); // 4 days in milliseconds
+    //     const checkOut = new Date(checkIn.getTime() + 4 * 24 * 60 * 60 * 1000);
+    //     return {
+    //       userId: user.id,
+    //       hostId: host.id,
+    //       stayId: stay.id,
+    //       price: 100,
+    //       adults: 2,
+    //       checkIn: checkIn,
+    //       checkOut: checkOut,
+    //       bookingTime: new Date(),
+    //     };
+    //   });
+    // await prisma.booking.createMany({
+    //   data: bookings,
+    // });
 
     const highlights = Array(3)
       .fill(null)
