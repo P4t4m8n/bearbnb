@@ -14,7 +14,7 @@ export function DetailsHeader({ name }: Props) {
           <span>Share</span>
         </button>
         <button>
-          <LikeSVG className="" />
+          <LikeSVG />
           <span>Save</span>
         </button>
       </div>

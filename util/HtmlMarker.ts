@@ -17,7 +17,7 @@ export class HTMLMarker extends google.maps.OverlayView {
     this.div = div;
 
     const panes = this.getPanes();
-    panes.overlayMouseTarget.appendChild(div);
+    panes!.overlayMouseTarget.appendChild(div);
   }
 
   draw() {
@@ -29,8 +29,8 @@ export class HTMLMarker extends google.maps.OverlayView {
     const overlayProjection = this.getProjection();
     const coordinates = overlayProjection.fromLatLngToDivPixel(this.position);
 
-    this.div.style.left = `${coordinates.x}px`;
-    this.div.style.top = `${coordinates.y}px`;
+    this.div.style.left = `${coordinates!.x}px`;
+    this.div.style.top = `${coordinates!.y}px`;
   }
 
   onRemove() {

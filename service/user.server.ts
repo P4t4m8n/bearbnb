@@ -1,7 +1,7 @@
 import { prisma } from "@/prisma/prisma";
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import { getCache, setCache } from "./cache";
+// import { getCache, setCache } from "./cache";
 import { User, UserSmall } from "@/model/stay.model";
 
 export async function getSmallLoggedInUser(): Promise<UserSmall | undefined> {
@@ -54,7 +54,8 @@ export async function getLoggedInUser(): Promise<User | undefined> {
   
   if (!data || !data.user) throw new Error("no user");
   
-  let profile = await getCache("userData");
+  // let profile = await getCache("userData");
+  let profile = null;
   if (!profile) {
     profile = await prisma.profile.findUnique({
       where: { supabaseId: data.user.id },
@@ -67,7 +68,7 @@ export async function getLoggedInUser(): Promise<User | undefined> {
       },
     });
     if (!profile) throw new Error("no profile");
-    setCache("userData", profile);
+    // setCache("userData", profile);
   }
   user = {
     isOwner: profile.isOwner,

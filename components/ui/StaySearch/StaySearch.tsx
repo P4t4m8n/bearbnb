@@ -27,7 +27,7 @@ export function StaySearch({ isActive }: Props) {
 
   const handleDate = (date: Date | null) => {
     // Prepare the initial structure for date filters
-    let dates: { start: Date | null; end: Date | null } = { ...filterBy.dates };
+    let dates: { start: Date | null; end: Date | null } = { ...filterBy.dates! };
 
     if (!date) {
       // If null is provided, reset both start and end dates and URL parameters
@@ -63,15 +63,15 @@ export function StaySearch({ isActive }: Props) {
     ev.preventDefault();
 
     // Set the 'endDate' URL parameter if the end date is provided
-    if (filterBy.dates.end) {
-      params.set("endDate", filterBy.dates.end.toISOString().substring(0, 10));
+    if (filterBy.dates!.end) {
+      params.set("endDate", filterBy.dates!.end.toISOString().substring(0, 10));
     }
 
     // Set the 'startDate' URL parameter if the start date is provided
-    if (filterBy.dates.start) {
+    if (filterBy.dates!.start) {
       params.set(
         "startDate",
-        filterBy.dates.start.toISOString().substring(0, 10)
+        filterBy.dates!.start.toISOString().substring(0, 10)
       );
     }
 
@@ -79,15 +79,15 @@ export function StaySearch({ isActive }: Props) {
     params.set("name", filterBy.name || "");
 
     // Set the 'start' URL parameter for price range, defaulting to "1" if not provided
-    if (filterBy.priceRange.start) {
-      params.set("startPrice", filterBy.priceRange.start.toString());
+    if (filterBy.priceRange!.start) {
+      params.set("startPrice", filterBy.priceRange!.start.toString());
     } else {
       params.set("startPrice", "1");
     }
 
     // Set the 'end' URL parameter for price range, defaulting to a high value if not provided
-    if (filterBy.priceRange.end) {
-      params.set("endPrice", filterBy.priceRange.end.toString());
+    if (filterBy.priceRange!.end) {
+      params.set("endPrice", filterBy.priceRange!.end.toString());
     } else {
       params.set("endPrice", "9999999999");
     }
@@ -113,11 +113,11 @@ export function StaySearch({ isActive }: Props) {
       >
         <div>
           <span>Check in</span>
-          <p>{filterBy.dates.start?.toLocaleDateString() || "Add dates"}</p>
+          <p>{filterBy.dates!.start?.toLocaleDateString() || "Add dates"}</p>
         </div>
         <div>
           <span>Check out</span>
-          <p>{filterBy.dates.end?.toLocaleDateString() || "Check out"}</p>
+          <p>{filterBy.dates!.end?.toLocaleDateString() || "Check out"}</p>
         </div>
         {open && (
           <section className={styles.calendarCon}>

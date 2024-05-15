@@ -2,7 +2,7 @@
 
 import { prisma } from "@/prisma/prisma";
 import { SearchBY, Stay, StaySmall } from "../model/stay.model";
-import { getCache, setCache } from "./cache";
+// import { getCache, setCache } from "./cache";
 import StayPreview from "../components/ui/StayPreview/StayPreview";
 import { findFirstConsecutiveDaysAfterDate } from "./util";
 

@@ -69,8 +69,8 @@ export default function MonthGrid({
     }
 
     bookings?.forEach((booking) => {
-      const idx = booking.checkIn.getDate();
-      const jdx = booking.checkOut.getDate() - 1;
+      const idx = booking.checkIn!.getDate();
+      const jdx = booking.checkOut!.getDate() - 1;
       for (let i = idx; i < jdx; i++) {
         days[i].style = `${styles.passDate}`;
       }

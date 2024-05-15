@@ -2,7 +2,6 @@ import { SearchBY } from "@/model/stay.model";
 import styles from "./StayList.module.scss";
 import { getSmallStaysJSX } from "@/service/stay.server";
 import LoadMore from "../LoadMore/LoadMore";
-import { getCache, setCache } from "@/service/cache";
 interface Props {
   searchParams: {
     startDate: string;

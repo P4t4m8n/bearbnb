@@ -1,6 +1,6 @@
 import WishlistIndex from "@/components/ui/Profile/Wishlist/WishlistIndex";
 import { getLikesByUser } from "@/service/like.server";
-import { serverSupabase } from "@/util/supabase/server";
+// import { serverSupabase } from "@/util/supabase/server";
 
 export default async function Wishlist({
   searchParams,
