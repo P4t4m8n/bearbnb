@@ -1,9 +1,9 @@
-import { HighLightsModel } from "@/model/stay.model";
+import { HighlightsModel } from "@/model/stay.model";
 import styles from "./HighLights.module.scss";
 import { DynamicSVG } from "../../svgs/svgs";
 
 interface Props {
-  highlights: HighLightsModel[];
+  highlights: HighlightsModel[];
 }
 export default function HighLights({ highlights }: Props) {
   return (

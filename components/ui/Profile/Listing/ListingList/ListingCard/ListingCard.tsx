@@ -1,19 +1,19 @@
 import { AvatarSVG } from "@/components/ui/svgs/svgs";
-import { ListingModelSmall } from "@/model/booking.model";
+import { ListingSmallModel } from "@/model/booking.model";
 import { formatDatesToRange, getDefaultDates } from "@/service/stay.service";
 import Image from "next/image";
 import styles from "./ListingCard.module.scss";
 import { MouseEvent, useState } from "react";
-import { Status } from "@/model/types.model";
+import { Status } from "@/model/status.type";
 
 interface Props {
-  onUpdateListing: (listing: ListingModelSmall, status: Status) => void;
-  listing: ListingModelSmall;
+  onUpdateListing: (listing: ListingSmallModel, status: Status) => void;
+  listing: ListingSmallModel;
   idx: number;
 }
 
 export default function ListingCard({ listing, idx, onUpdateListing }: Props) {
-  const [listingState, setListingState] = useState<ListingModelSmall>(listing);
+  const [listingState, setListingState] = useState<ListingSmallModel>(listing);
   const [loading, setLoading] = useState(false);
   const {
     checkIn,

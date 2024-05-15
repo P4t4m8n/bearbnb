@@ -1,4 +1,4 @@
-import { Stay, StaySmall } from "@/model/stay.model";
+import { Stay, StaySmallModel } from "@/model/stay.model";
 
 export function debounce<F extends (...args: any[]) => any>(
   func: F,
@@ -65,7 +65,7 @@ export function makeLorem(size = 100): string {
   return txt;
 }
 
-export const stayToSmallStay = (stay: Stay): StaySmall => {
+export const stayToSmallStay = (stay: Stay): StaySmallModel => {
   return {
     id: stay.id,
     type: stay.type,

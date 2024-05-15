@@ -1,17 +1,17 @@
 "use client";
 
-import { ListingModelSmall } from "@/model/booking.model";
+import { ListingSmallModel } from "@/model/booking.model";
 import styles from "./ListingList.module.scss";
 import ListingCard from "./ListingCard/ListingCard";
 import { useEffect, useState } from "react";
 
 interface Props {
-  listings: ListingModelSmall[];
+  listings: ListingSmallModel[];
   onSaveBooking: (booking: any, status: any) => void;
 }
 
 export default function ListingList({ listings, onSaveBooking }: Props) {
-  const [listingState, setListingState] = useState<ListingModelSmall[]>([]);
+  const [listingState, setListingState] = useState<ListingSmallModel[]>([]);
 
   useEffect(() => {
     if (!listings) return;

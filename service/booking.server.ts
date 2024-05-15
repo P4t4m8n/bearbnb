@@ -4,8 +4,8 @@ import { BookingDTO, BookingModel, TripModel } from "@/model/stay.model";
 import { prisma } from "@/prisma/prisma";
 import { z } from "zod";
 // import { getCache, setCache } from "./cache";
-import { ListingModelSmall } from "@/model/booking.model";
-import { Status } from "@/model/types.model";
+import { ListingSmallModel } from "@/model/booking.model";
+import { Status } from "@/model/status.type";
 
 type BookingData = {
   id: string;
@@ -146,7 +146,7 @@ export const getUserTrips = async (
 
 export const getHostListing = async (
   hostId: string
-): Promise<ListingModelSmall[] | undefined> => {
+): Promise<ListingSmallModel[] | undefined> => {
   // let listings = await getCache(`listings${hostId}`);
   // if (listings) return listings;
   let listings = [];
@@ -207,7 +207,7 @@ export const getHostListing = async (
     });
 
     // await setCache(`listings${hostId}`, listings);
-    return listings as ListingModelSmall[];
+    return listings as ListingSmallModel[];
   } catch (error) {
     console.error("error:", error);
   }

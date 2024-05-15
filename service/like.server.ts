@@ -4,7 +4,7 @@ import { Like } from "@/model/stay.model";
 import { prisma } from "@/prisma/prisma";
 // import { getCache, setCache } from "./cache";
 import { set } from "zod";
-import { WishListModel } from "@/model/Like.model";
+import { WishListModel } from "@/model/like.model";
 
 export const getLike = async (
   userId: string,

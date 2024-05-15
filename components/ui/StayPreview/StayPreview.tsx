@@ -2,7 +2,7 @@ import Image from "next/image";
 import { LikeSVG, RatingSVG } from "../svgs/svgs";
 import styles from "./StayPreview.module.scss";
 import Link from "next/link";
-import { StaySmall } from "@/model/stay.model";
+import { StaySmallModel } from "@/model/stay.model";
 import { formatDatesToRange } from "@/service/stay.service";
 import dynamic from "next/dynamic";
 import LikeButton from "../Buttons/LikeButton/LikeButton";
@@ -10,7 +10,7 @@ import LikeButton from "../Buttons/LikeButton/LikeButton";
 const Distance = dynamic(() => import("./Distance/Distance"), { ssr: false });
 
 interface Props {
-  stay: StaySmall;
+  stay: StaySmallModel;
 }
 export default function StayPreview({ stay }: Props) {
   const { rating, price, location, image, id, firstAvailableDate } = stay;

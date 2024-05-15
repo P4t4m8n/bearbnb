@@ -1,5 +1,5 @@
 import {
-  BedRoom,
+  BedRoomModel,
   BookingModel,
   LocationSmall,
   SearchBY,

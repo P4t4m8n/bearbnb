@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/prisma/prisma";
-import { SearchBY, Stay, StaySmall } from "../model/stay.model";
+import { SearchBY, Stay, StaySmallModel } from "../model/stay.model";
 // import { getCache, setCache } from "./cache";
 import StayPreview from "../components/ui/StayPreview/StayPreview";
 import { findFirstConsecutiveDaysAfterDate } from "./util";
@@ -198,7 +198,7 @@ export const queryStayToStallSmallJSX = (
   queryStay: QueryStay[]
 ): React.JSX.Element[] => {
   return queryStay.map((stay: QueryStay) => {
-    const staySmall: StaySmall = {
+    const staySmall: StaySmallModel = {
       id: stay.id,
       name: stay.name,
       type: stay.type,

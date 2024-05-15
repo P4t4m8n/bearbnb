@@ -1,4 +1,4 @@
-import { Status } from "@/model/types.model";
+import { Status } from "@/model/status.type";
 import ListingList from "./ListingList/ListingList";
 import { getHostListing, saveBooking } from "@/service/booking.server";
 

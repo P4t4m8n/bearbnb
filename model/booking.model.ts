@@ -1,22 +1,23 @@
-import { MinimumStay, MinimumUser, StaySmall, UserSmall } from "./stay.model";
-import { Status } from "./types.model";
+import { Status } from "./status.type";
+import { MinimumStayModel, StaySmallModel } from "./stay.model";
+import { MinimumUserModel, UserSmallModel } from "./user.model";
 
-export interface BookingModalSmall {
-  checkIn: Date | null;
-  checkOut: Date | null;
+export interface BookingSmallModel {
+  checkIn: Date;
+  checkOut: Date;
   id?: string;
 }
-export interface TripModel extends BookingModalSmall {
+export interface TripModel extends BookingSmallModel {
   image: string;
   city: string;
   hostName: string;
 }
-export interface BookingModel extends BookingModalSmall {
-  stay: StaySmall | null;
-  user: UserSmall | null;
-  host: UserSmall | null;
+export interface BookingModel extends BookingSmallModel {
+  stay: StaySmallModel;
+  user: UserSmallModel;
+  host: UserSmallModel;
   price: number;
-  bookingTime: Date | null;
+  bookingTime: Date;
   adults: number;
   children: number;
   infants: number;
@@ -37,10 +38,10 @@ export interface BookingDTO {
   bookingTime: Date;
 }
 
-export interface ListingModelSmall extends BookingModalSmall {
-  user: MinimumUser;
-  stay: MinimumStay;
-  host?: MinimumUser;
+export interface ListingSmallModel extends BookingSmallModel {
+  user: MinimumUserModel;
+  stay: MinimumStayModel;
+  host?: MinimumUserModel;
   price: number;
   bookingTime: Date;
   adults: number;

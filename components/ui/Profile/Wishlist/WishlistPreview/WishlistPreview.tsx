@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./WishlistPreview.module.scss";
 import Image from "next/image";
-import { WishListModel } from "@/model/Like.model";
+import { WishListModel } from "@/model/like.model";
 import LikeButton from "@/components/ui/Buttons/LikeButton/LikeButton";
 import { RatingSVG } from "@/components/ui/svgs/svgs";
 import AddNote from "@/components/ui/Buttons/AddNote/AddNote";
