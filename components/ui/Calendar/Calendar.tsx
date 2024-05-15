@@ -47,8 +47,8 @@ export function Calendar({
     const monthToInclude = anchorDate.getMonth();
     filteredBookings = bookings.filter(
       (booking) =>
-        booking.checkIn.getMonth() === monthToInclude ||
-        booking.checkOut.getMonth() === monthToInclude
+        booking.checkIn?.getMonth() === monthToInclude ||
+        booking.checkOut?.getMonth() === monthToInclude
     );
   }
   return (
