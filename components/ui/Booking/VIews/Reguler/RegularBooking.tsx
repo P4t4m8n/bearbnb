@@ -27,13 +27,21 @@ export default function RegularBooking({
   const calendarModalRef = useRef<HTMLDivElement | null>(null);
 
   const { price } = stay;
-  const { formatCheckIn, formatCheckOut } = getDefaultDates(stay, booking);
+  let { checkIn, checkOut } = booking;
+  if (!checkIn || !checkOut) {
+    checkIn = new Date();
+    checkOut = new Date();
+  }
+
+  const { formatCheckIn, formatCheckOut } = getDefaultDates(stay, {
+    checkIn,
+    checkOut,
+  });
 
   const setGuests = (guests: GuestsModel) => {
     const tempBooking = { ...booking, ...guests };
     setBooking(tempBooking);
   };
-
 
   const guests = {
     adults: booking.adults,
