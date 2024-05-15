@@ -87,7 +87,7 @@ export const getLikesByUser = async (
       };
     });
 
-    setCache(`likes-${userId}`, likes);
+    // setCache(`likes-${userId}`, likes);
     return likes;
   } catch (error) {
     throw new Error("Failed to get likes by user");

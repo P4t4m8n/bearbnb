@@ -187,7 +187,7 @@ const getSmallStaysData = async (
     });
 
     if (!stays) throw new Error("Unable to load");
-    setCache(cacheKey, stays);
+    // setCache(cacheKey, stays);
     return stays;
   } catch (error) {
     console.error("error:", error);

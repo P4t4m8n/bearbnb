@@ -36,7 +36,6 @@ export default function ConfirmBookingModal({
 
   if (!booking.checkIn || !booking.checkOut) return;
 
-  
   const getGuestsString = (booking: BookingModel): string => {
     let str = ``;
     str += `${booking.adults} ${booking.adults > 1 ? "adults" : "adult"}`;
@@ -55,7 +54,11 @@ export default function ConfirmBookingModal({
 
   const days = daysBetweenDates(booking.checkIn!, booking.checkOut!);
   const guests = getGuestsString(booking);
-  const { formatCheckIn, formatCheckOut } = getDefaultDates(null, booking);
+  const { checkIn, checkOut } = booking;
+  const { formatCheckIn, formatCheckOut } = getDefaultDates(null, {
+    checkIn,
+    checkOut,
+  });
 
   return (
     <>

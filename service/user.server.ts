@@ -42,6 +42,7 @@ export async function getSmallLoggedInUser(): Promise<UserSmall | undefined> {
 
   return user;
 }
+
 export async function getLoggedInUser(): Promise<User | undefined> {
   "use server";
   let user;

@@ -104,8 +104,8 @@ export const getUserTrips = async (
   userId: string
 ): Promise<TripModel[] | undefined> => {
   try {
-    const cachedTrips = await getCache(userId);
-    if (cachedTrips) return cachedTrips;
+    // const cachedTrips = await getCache(userId);
+    // if (cachedTrips) return cachedTrips;
     const bookings = await prisma.booking.findMany({
       where: { userId: userId },
       select: {
@@ -136,7 +136,7 @@ export const getUserTrips = async (
         id: booking.id,
       };
     });
-    setCache(userId, trips);
+    // setCache(userId, trips);
 
     return trips;
   } catch (error) {
@@ -206,7 +206,7 @@ export const getHostListing = async (
       };
     });
 
-    await setCache(`listings${hostId}`, listings);
+    // await setCache(`listings${hostId}`, listings);
     return listings as ListingModelSmall[];
   } catch (error) {
     console.error("error:", error);
