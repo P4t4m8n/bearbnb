@@ -1,8 +1,8 @@
-import { TripModel } from "@/model/stay.model";
 import { formatDatesToRange } from "@/service/stay.service";
 import Image from "next/image";
 import styles from "./TripPreview.module.scss";
 import Link from "next/link";
+import { TripModel } from "@/model/booking.model";
 
 export default function TripPreview({ trip }: { trip: TripModel }) {
   const { id, image, city, hostName, checkIn, checkOut } = trip;

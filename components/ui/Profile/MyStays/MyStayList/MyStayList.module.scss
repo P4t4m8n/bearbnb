@@ -1,0 +1,23 @@
+@import "../../../../../styles/abstracts/variables";
+@import "../../../../../styles/abstracts/mixin";
+
+.list {
+  width: 100%;
+  display: grid;
+  padding-top: 2rem;
+  gap: 0.5rem;
+
+  li {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2% 25% 10% 20% 5% 15% 20% ;
+    justify-content: space-between;
+    &:not(:last-child) {
+      @include bordered;
+    }
+    align-items: center;
+    > :first-child {
+      justify-self: center;
+    }
+  }
+}

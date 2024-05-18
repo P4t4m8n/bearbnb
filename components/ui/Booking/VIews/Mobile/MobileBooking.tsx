@@ -1,13 +1,14 @@
-import { BookingModalSmall } from "@/model/stay.model";
 import styles from "./MobileBooking.module.scss";
 import { Calendar } from "@/components/ui/Calendar/Calendar";
+import { BookingSmallModel } from "@/model/booking.model";
 import { useRef } from "react";
 
 interface Props {
-  stayBooking: BookingModalSmall[];
+  stayBooking: BookingSmallModel[];
   checkIn: Date;
   checkOut: Date;
   price: number;
+  onDateClick: (date: Date) => void;
   diffInDays: number;
   isCalenderOpen: boolean;
   setCalenderOpen: (value: boolean) => void;
@@ -18,6 +19,7 @@ export default function MobileBooking({
   checkIn,
   checkOut,
   price,
+  onDateClick,
   diffInDays,
   isCalenderOpen,
   setCalenderOpen,
@@ -42,7 +44,11 @@ export default function MobileBooking({
 
       {isCalenderOpen && (
         <div ref={calendarModalRef} className={styles.calendarCon}>
-          <Calendar bookings={stayBooking} date={checkIn || new Date()} />
+          <Calendar
+            onDateClick={onDateClick}
+            bookings={stayBooking}
+            date={checkIn || new Date()}
+          />
         </div>
       )}
     </section>

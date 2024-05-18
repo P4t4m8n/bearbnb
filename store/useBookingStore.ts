@@ -1,4 +1,4 @@
-import { BookingModel } from "@/model/stay.model";
+import { BookingModel } from "@/model/booking.model";
 import { getEmptyBooking } from "@/service/booking-service";
 import { create } from "zustand";
 

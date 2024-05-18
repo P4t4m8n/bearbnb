@@ -1,21 +1,21 @@
 "use client";
 import { useState, useEffect } from "react";
-import { LocationSmall } from "@/model/stay.model";
 import { useParams } from "next/navigation";
 import {
   calculateDistance,
   getUserLocation,
   parseCoordinates,
 } from "@/service/locations.service";
+import { LocationSmallModel } from "@/model/location.model";
 
 interface Props {
-  location: LocationSmall;
+  location: LocationSmallModel;
 }
 
 export default function Distance({ location }: Props) {
   const params = useParams();
   const [anchorLocation, setAnchorLocation] = useState<
-    LocationSmall | undefined
+  LocationSmallModel | undefined
   >();
 
   useEffect(() => {

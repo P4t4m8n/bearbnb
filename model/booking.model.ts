@@ -13,17 +13,19 @@ export interface TripModel extends BookingSmallModel {
   hostName: string;
 }
 export interface BookingModel extends BookingSmallModel {
-  stay: StaySmallModel;
-  user: UserSmallModel;
-  host: UserSmallModel;
+  stay: MinimumStayModel;
+  user: MinimumUserModel;
+  host: MinimumUserModel;
   price: number;
   bookingTime: Date;
   adults: number;
+  status: Status;
   children: number;
   infants: number;
   pets: number;
 }
 export interface BookingDTO {
+  id?: string;
   stayId: string;
   userId: string;
   hostId: string;

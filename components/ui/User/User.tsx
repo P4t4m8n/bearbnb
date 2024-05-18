@@ -6,17 +6,16 @@ import { clientSupabase } from "@/util/supabase/client";
 import { useUserStore } from "@/store/useUserStore";
 import Modal from "./Modal/Modal";
 import { useModal } from "@/components/hooks/useModal";
-import { UserSmall } from "@/model/stay.model";
+import { UserSmallModel } from "@/model/user.model";
 
 interface Props {
-  _user: UserSmall | null | undefined;
+  _user: UserSmallModel | null | undefined;
 }
 
 export function User({ _user }: Props) {
   const { user, setUser } = useUserStore();
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [open, setModal] = useModal(modalRef, null);
-  console.log("open:", open);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -52,7 +51,8 @@ export function User({ _user }: Props) {
           <>
             <HamburgerSVG className={styles.svg} />
             {user.imgUrl ? (
-              <Image src={user.imgUrl} width={32} height={32} alt=""></Image>
+              <AvatarSVG className={styles.svg} />
+              // <Image src={user.imgUrl} width={32} height={32} alt=""></Image>
             ) : (
               <AvatarSVG className={styles.svg} />
             )}
@@ -63,19 +63,18 @@ export function User({ _user }: Props) {
             <AvatarSVG className={styles.svg} />
           </>
         )}
-
-        {open && (
-          <div ref={modalRef} className={styles.modalCon}>
-            <Modal
-              authId={user?.authId}
-              isOwner={user?.isOwner}
-              onLogout={onLogout}
-              userId={user?.id}
-              closeModal={closeModal}
-            />
-          </div>
-        )}
       </button>
+      {open && (
+        <div ref={modalRef} className={styles.modalCon}>
+          <Modal
+            authId={user?.authId}
+            isOwner={user?.isOwner}
+            onLogout={onLogout}
+            userId={user?.id}
+            closeModal={closeModal}
+          />
+        </div>
+      )}
     </div>
   );
 }

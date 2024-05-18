@@ -1,14 +1,15 @@
-import { LikeModel } from "./Like.model";
+import { Beds } from "@prisma/client";
 import { BookingSmallModel } from "./booking.model";
 import { SvgIconModel } from "./icons.model";
-import { LocationAddressSmallModel } from "./location.model";
+import { LikeModel } from "./like.model";
+import { LocationAddressSmallModel, LocationModel } from "./location.model";
 import { ReviewModel } from "./review.model";
 import { UserSmallModel } from "./user.model";
 
-type BedsType = "single" | "double" | "crib";
+export type BedsType = "single" | "double" | "crib";
 
 export interface ImageModel {
-  id: string;
+  id?: string;
   url: string;
 }
 export interface AmenityModel {
@@ -34,16 +35,15 @@ export interface HighlightsModel {
   title: string;
   description: string;
   icon: SvgIconModel;
-  stayId: string;
 }
 export interface MinimumStayModel {
   id: string;
-  image: string;
+  images: ImageModel[];
   name: string;
 }
 export interface StayLikeModel extends MinimumStayModel {
   type: string;
-  bedrooms: BedsType;
+  bedrooms: Beds[];
   description: string;
   rating: number;
   location: LocationAddressSmallModel;
@@ -51,23 +51,23 @@ export interface StayLikeModel extends MinimumStayModel {
 export interface StaySmallModel extends MinimumStayModel {
   type: string;
   price: number;
-  location: Location;
+  location: LocationModel;
   rating: number;
   firstAvailableDate?: Date[];
 }
-export interface Stay extends StaySmallModel {
+export interface StayModel extends StaySmallModel {
   images: ImageModel[];
   summary: string;
   description?: string;
   capacity: number;
   amenities: string[];
-  baths?: number;
+  baths: number;
   uniqueRooms?: string[];
   labels: string[];
   host: UserSmallModel;
   reviews?: ReviewModel[];
   likes?: LikeModel[];
   bedrooms: BedRoomModel[];
-  booking: BookingSmallModel[];
+  bookings: BookingSmallModel[];
   highlights: HighlightsModel[];
 }

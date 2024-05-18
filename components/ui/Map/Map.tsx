@@ -1,13 +1,13 @@
 "use client";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import styles from "./Map.module.scss";
-import { LocationSmall } from "@/model/stay.model";
 import { getUserLocation } from "@/service/locations.service";
 import { useEffect, useState } from "react";
+import { LocationSmallModel } from "@/model/location.model";
 
 export default function StayMap() {
   const key = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!;
-  const [location, setLocation] = useState<LocationSmall | null>(null);
+  const [location, setLocation] = useState<LocationSmallModel | null>(null);
 
   useEffect(() => {
     getLocation();

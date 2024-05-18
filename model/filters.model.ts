@@ -1,5 +1,5 @@
 export interface SearchByModel {
-  dates?: { start?: Date; end?: Date };
+  dates?: { start: Date | null; end: Date | null };
   name?: string;
   location?: string;
   priceRange?: { start: number; end: number };

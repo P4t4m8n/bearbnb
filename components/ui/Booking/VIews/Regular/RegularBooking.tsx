@@ -1,48 +1,46 @@
-import { daysBetweenDates } from "@/service/booking-service";
 import styles from "./RegularBooking.module.scss";
-import { BookingModel, GuestsModel, Stay } from "@/model/stay.model";
+import { GuestsModel, StayModel } from "@/model/stay.model";
 import { useRef } from "react";
 import { getDefaultDates } from "@/service/stay.service";
 import { Guests } from "../../Guests/Guests";
 import { Calendar } from "@/components/ui/Calendar/Calendar";
+import { BookingModel } from "@/model/booking.model";
 
 interface Props {
   booking: BookingModel;
-  stay: Stay;
+  stay: StayModel;
   isCalenderOpen: boolean;
   diffInDays: number;
-  setBooking: (booking: BookingModel) => void;
+  onDateClick: (date: Date) => void;
+  setGuests: (guests: GuestsModel) => void;
   onBook: () => void;
   setCalenderOpen: (value: boolean) => void;
 }
+
 export default function RegularBooking({
   booking,
   stay,
   diffInDays,
-  setBooking,
+  onDateClick,
+  setGuests,
   onBook,
   setCalenderOpen,
   isCalenderOpen,
 }: Props) {
   const calendarModalRef = useRef<HTMLDivElement | null>(null);
-
   const { price } = stay;
-  let { checkIn, checkOut } = booking;
-  if (!checkIn || !checkOut) {
-    checkIn = new Date();
-    checkOut = new Date();
-  }
 
+  // Ensure checkIn and checkOut have valid Date values
+  const checkIn = booking.checkIn || new Date();
+  const checkOut = booking.checkOut || new Date();
+
+  // Get formatted check-in and check-out dates
   const { formatCheckIn, formatCheckOut } = getDefaultDates(stay, {
     checkIn,
     checkOut,
   });
 
-  const setGuests = (guests: GuestsModel) => {
-    const tempBooking = { ...booking, ...guests };
-    setBooking(tempBooking);
-  };
-
+  // Consolidate guest information into an object
   const guests = {
     adults: booking.adults,
     children: booking.children,
@@ -61,14 +59,15 @@ export default function RegularBooking({
           <div>
             <span>CHECK-IN</span>
             <p>
-              {`${formatCheckIn.day}/${formatCheckIn.month}/${formatCheckIn.year}` ||
-                "Add date"}
+              {formatCheckIn.day && formatCheckIn.month && formatCheckIn.year
+                ? `${formatCheckIn.day}/${formatCheckIn.month}/${formatCheckIn.year}`
+                : "Add date"}
             </p>
           </div>
           <div>
             <span>CHECKOUT</span>
             <p>
-              {formatCheckOut.day
+              {formatCheckOut.day && formatCheckOut.month && formatCheckOut.year
                 ? `${formatCheckOut.day}/${formatCheckOut.month}/${formatCheckOut.year}`
                 : "Add date"}
             </p>
@@ -78,7 +77,9 @@ export default function RegularBooking({
         {isCalenderOpen && (
           <div ref={calendarModalRef} className={styles.calendarCon}>
             <Calendar
-              bookings={stay.booking}
+              booking={booking}
+              onDateClick={onDateClick}
+              bookings={stay.bookings}
               date={booking.checkIn || new Date()}
             />
           </div>

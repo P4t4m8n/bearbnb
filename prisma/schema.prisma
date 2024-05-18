@@ -91,10 +91,10 @@ model Stay {
   type        String
   price       Float
   summary     String
-  description String?
+  description String      @default("")
   entireHome  Boolean
   capacity    Int
-  baths       Int?
+  baths       Int         @default(0)
   uniqueRooms String[]
   hostId      String
   host        Profile     @relation(fields: [hostId], references: [id], onDelete: Cascade)
@@ -190,8 +190,8 @@ model Image {
 
 model Booking {
   id          String        @id @default(uuid())
-  stayId      String?
-  stay        Stay?         @relation(fields: [stayId], references: [id])
+  stayId      String
+  stay        Stay          @relation(fields: [stayId], references: [id])
   userId      String
   user        Profile       @relation("booker", fields: [userId], references: [id])
   hostId      String

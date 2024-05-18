@@ -1,9 +1,9 @@
-import { UserSmall } from "@/model/stay.model";
+import { UserSmallModel } from "@/model/user.model";
 import { create } from "zustand";
 
 interface UserStore {
-  user: UserSmall | null;
-  setUser: (user: UserSmall | null) => void;
+  user: UserSmallModel | null;
+  setUser: (user: UserSmallModel | null) => void;
 }
 export const useUserStore = create<UserStore>((set) => ({
   user: null,

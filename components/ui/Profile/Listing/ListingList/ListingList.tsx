@@ -2,7 +2,7 @@
 
 import { ListingSmallModel } from "@/model/booking.model";
 import styles from "./ListingList.module.scss";
-import ListingCard from "./ListingCard/ListingCard";
+import ListingPreview from "./ListingPreview/ListingPreview";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -16,8 +16,7 @@ export default function ListingList({ listings, onSaveBooking }: Props) {
   useEffect(() => {
     if (!listings) return;
     setListingState(listings);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [listings]);
   return (
     <ul className={styles.listingList}>
       <li>
@@ -31,7 +30,7 @@ export default function ListingList({ listings, onSaveBooking }: Props) {
         <h4>Actions</h4>
       </li>
       {listingState.map((listing, idx) => (
-        <ListingCard
+        <ListingPreview
           onUpdateListing={onSaveBooking}
           idx={idx}
           key={listing.id}

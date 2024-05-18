@@ -15,11 +15,19 @@ interface Props {
 
 export default function WishlistPreview({ likeObj }: Props) {
   const { id, stay, notes } = likeObj;
-  const { name, image, stayId, location, type, rating, description, bedrooms } =
-    stay;
+  const {
+    name,
+    images,
+    id: stayId,
+    location,
+    type,
+    rating,
+    description,
+    bedrooms,
+  } = stay;
   const { city, country } = location;
   const roundNum = Number(rating.toFixed(2));
-  const formattedBedrooms = transformBedrooms(bedrooms);
+  // const formattedBedrooms = transformBedrooms(bedrooms);
 
   const onSaveNote = async (txt: string) => {
     "use server";
@@ -32,7 +40,7 @@ export default function WishlistPreview({ likeObj }: Props) {
       <Link href={`stay/${stayId}`}>
         <div className={styles.imgCon}>
           <Image
-            src={image}
+            src={images[0].url}
             fill={true}
             alt=""
             className={styles.image}

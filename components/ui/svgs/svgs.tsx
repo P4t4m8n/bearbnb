@@ -240,3 +240,4 @@ export function DynamicSVG({ path, viewBox }: SvgIconModel) {
     </svg>
   );
 }
+

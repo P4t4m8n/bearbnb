@@ -1,5 +1,5 @@
-import { LikeModel } from "./Like.model";
 import { BookingModel } from "./booking.model";
+import { LikeModel } from "./like.model";
 import { ReviewModel } from "./review.model";
 import { StaySmallModel } from "./stay.model";
 
@@ -11,10 +11,10 @@ export interface MinimumUserModel {
   authId?: string;
 }
 export interface UserSmallModel extends MinimumUserModel {
-  email: string;
+  email?: string;
   isOwner: boolean;
   ownerSince?: Date;
-  likes: LikeModel[];
+  likes?: LikeModel[];
 }
 export interface UserModel extends UserSmallModel {
   stays?: StaySmallModel[];

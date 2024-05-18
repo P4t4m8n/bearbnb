@@ -1,0 +1,75 @@
+@import "../../../../../styles/abstracts/variables";
+@import "../../../../../styles/abstracts/mixin";
+.preview {
+  .stayInfo {
+    display: flex;
+    gap: 0.5rem;
+    img {
+      justify-self: center;
+      align-self: center;
+      border-radius: $border-radius-1-2;
+    }
+    div {
+      h2,
+      h3 {
+        font-size: 1rem;
+      }
+      h2 {
+        font-weight: 600;
+      }
+      h3 {
+        font-weight: 400;
+      }
+    }
+  }
+
+  .bookerInfo {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    img {
+      justify-self: center;
+      align-self: center;
+      border-radius: $border-radius-1-2;
+    }
+    h3 {
+      display: flex;
+      gap: 0.5rem;
+      span {
+        &:first-of-type {
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .status {
+    font-weight: 600;
+  }
+  h3 {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+}
+.actions {
+  display: flex;
+  gap: 1rem;
+  button {
+    height: 2.5rem;
+    transition: color 0.2s ease-in-out;
+    transition: scale 0.2s ease-in-out;
+    font-weight: 600;
+    border-radius: $border-radius-1-2;
+    color: white;
+    &:first-of-type {
+      background-color: $main-pink;
+    }
+    &:last-of-type {
+      background-color: $main-cancel;
+    }
+    &:hover {
+      scale: 1.05;
+      color: greenyellow;
+    }
+  }
+}

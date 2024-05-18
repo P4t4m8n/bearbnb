@@ -1,7 +1,7 @@
-import { SearchBY } from "@/model/stay.model";
 import styles from "./StayList.module.scss";
 import { getSmallStaysJSX } from "@/service/stay.server";
 import LoadMore from "../LoadMore/LoadMore";
+import { SearchByModel } from "@/model/filters.model";
 interface Props {
   searchParams: {
     startDate: string;
@@ -12,11 +12,11 @@ interface Props {
 
 export default async function StayList({ searchParams }: Props) {
   let stays: React.JSX.Element[] | undefined = [];
-
-  const searchObj: SearchBY = {
+  const { startDate, endDate } = searchParams;
+  const searchObj: SearchByModel = {
     dates: {
-      start: searchParams.startDate ? new Date(searchParams.startDate) : null,
-      end: searchParams.endDate ? new Date(searchParams.endDate) : null,
+      start: startDate ? new Date(startDate) : null,
+      end: endDate ? new Date(endDate) : null,
     },
     priceRange: { start: 1, end: 999999999999 },
     location: "",

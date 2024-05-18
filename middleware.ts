@@ -17,6 +17,16 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(returnUrl);
   }
 
+  // const user = await serverSupabase.auth.getUser();
+
+  // if (authId !== user.data.user?.id) {
+  //   // console.log("authId:", authId);
+  // }
+
+  if (pathname.startsWith("profile")) {
+    console.log("profile");
+  }
+
   await supabase.auth.getSession();
 
   return res;

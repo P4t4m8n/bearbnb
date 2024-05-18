@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import styles from "./ProfileNav.module.scss";
-import { redirect, usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export default function ProfileNav() {
   const searchParams = useSearchParams();

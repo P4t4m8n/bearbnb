@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { LikeSVG, RatingSVG } from "../svgs/svgs";
+import { RatingSVG } from "../svgs/svgs";
 import styles from "./StayPreview.module.scss";
 import Link from "next/link";
 import { StaySmallModel } from "@/model/stay.model";
@@ -13,7 +13,7 @@ interface Props {
   stay: StaySmallModel;
 }
 export default function StayPreview({ stay }: Props) {
-  const { rating, price, location, image, id, firstAvailableDate } = stay;
+  const { rating, price, location, images, id, firstAvailableDate } = stay;
   const { city, country } = location;
   const roundNum = Number(rating.toFixed(2));
 
@@ -25,7 +25,8 @@ export default function StayPreview({ stay }: Props) {
         <LikeButton stayId={stay.id} />
         <div className={styles.imgCon}>
           <Image
-            src={image}
+            sizes="auto"
+            src={images[0].url}
             fill={true}
             alt=""
             className={styles.image}

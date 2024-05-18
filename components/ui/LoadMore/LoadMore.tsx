@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { getSmallStaysJSX } from "@/service/stay.server";
 import { useParams } from "next/navigation";
-import { SearchBY } from "@/model/stay.model";
 import StayPreviewSkeleton from "../skeletons/StayPreviewSkeleton/StayPreviewSkeleton";
+import { SearchByModel } from "@/model/filters.model";
 
 let page = 1;
 
@@ -18,10 +18,10 @@ export default function LoadMore() {
     name: string;
   }>();
 
-  const searchObj: SearchBY = {
+  const searchObj: SearchByModel = {
     dates: {
-      start: startDate ? new Date(startDate) : null,
-      end: endDate ? new Date(endDate) : null,
+      start: new Date(startDate),
+      end: new Date(endDate),
     },
     priceRange: { start: 1, end: 999999999999 },
     location: "",
@@ -55,7 +55,7 @@ export default function LoadMore() {
         observer.disconnect();
       };
     }
-  },[]);
+  });
 
   return (
     <>

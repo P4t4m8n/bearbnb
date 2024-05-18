@@ -40,12 +40,12 @@ export default function Modal({
             <Link href={"/"}>Messages</Link>
           </li>
           <li onClick={closeModal}>
-            <Link href={{ pathname: "trips/", query: { userId, authId } }}>
+            <Link href={{ pathname: "/trips/", query: { userId, authId } }}>
               Trips
             </Link>
           </li>
           <li>
-            <Link href={{ pathname: "wishlist/", query: { userId, authId } }}>
+            <Link href={{ pathname: "/wishlist/", query: { userId, authId } }}>
               Wishlist
             </Link>
           </li>

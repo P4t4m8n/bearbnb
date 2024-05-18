@@ -1,91 +1,111 @@
 "use client";
 
-import { BookingModel,  Stay } from "@/model/stay.model";
-import { useBookingStore } from "@/store/useBookingStore";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { GuestsModel, StayModel } from "@/model/stay.model";
 import { useModal } from "@/components/hooks/useModal";
 import { useUserStore } from "@/store/useUserStore";
-import { stayToSmallStay } from "@/service/util";
 import ConfirmBookingModal from "./ConfirmBookingModal/ConfrimBookingModal";
-import { daysBetweenDates } from "@/service/booking-service";
-import RegularBooking from "./VIews/Reguler/RegularBooking";
+import { daysBetweenDates, getEmptyBooking } from "@/service/booking-service";
+import RegularBooking from "./VIews/Regular/RegularBooking";
 import MobileBooking from "./VIews/Mobile/MobileBooking";
+import { BookingModel } from "@/model/booking.model";
+import { stayToSmallStay } from "@/service/stay.service";
 
 interface Props {
   price: number;
-  stay: Stay;
+  stay: StayModel;
   onSaveBooking: (booking: BookingModel) => void;
 }
 
+// Helper function to get window dimensions
 const getWindowDimensions = () => {
   const { innerWidth: width, innerHeight: height } = window;
-  return {
-    width,
-    height,
-  };
+  return { width, height };
 };
 
 export default function Booking({ price, stay, onSaveBooking }: Props) {
-  const { booking, setBooking } = useBookingStore();
+  const [booking, setBooking] = useState<BookingModel>(getEmptyBooking());
   const { user, setUser } = useUserStore();
   const [isWindowSmall, setIsWindowSmall] = useState(false);
-
+  const isStart = useRef(true);
   const calendarModalRef = useRef<HTMLDivElement | null>(null);
   const [calenderOpen, setCalenderOpen] = useModal(calendarModalRef, null);
   const [bookingModal, setBookingModal] = useState(false);
 
   useEffect(() => {
-    if (!booking.checkIn) {
-      setBooking({
-        ...booking,
-        checkIn: stay.firstAvailableDate![0],
-        checkOut: stay.firstAvailableDate![2],
-      });
-    }
+    // Initialize booking dates
+    setBooking({
+      ...booking,
+      checkIn: stay.firstAvailableDate![0],
+      checkOut: stay.firstAvailableDate![2],
+    });
+
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  });
+  }, []);
 
-  const handleResize = () => {
+  // Handle window resize events
+  const handleResize = useCallback(() => {
     const { width } = getWindowDimensions();
-    if (width <= 650) {
-      setIsWindowSmall(true);
-      return;
-    }
-    if (isWindowSmall) setIsWindowSmall(false);
-  };
+    setIsWindowSmall(width <= 650);
+  }, []);
 
-  const onBook = () => {
-    const _stay = stayToSmallStay(stay);
-    const _host = stay.host;
-    const _user = user;
-    if (!_user) return alert("no user");
+  // Handle date click events
+  const onDateClick = useCallback(
+    (date: Date) => {
+      if (!date) return;
+      if (isStart.current) {
+        if (booking.checkOut && date >= booking.checkOut)
+          setBooking({ ...booking, checkIn: date, checkOut: date });
+        else setBooking({ ...booking, checkIn: date });
+        isStart.current = false;
+      } else {
+        if (date < booking.checkIn)
+          setBooking({ ...booking, checkIn: date, checkOut: date });
+        else setBooking({ ...booking, checkOut: date });
+        isStart.current = true;
+      }
+    },
+    [booking]
+  );
 
-    const updatedBooking = {
+  // Handle booking confirmation
+  const onBook = useCallback(() => {
+    if (!user) return alert("No user");
+
+    const updatedBooking: BookingModel = {
       ...booking,
-      stay: _stay,
-      host: _host,
-      user: _user,
+      stay: stayToSmallStay(stay),
+      host: stay.host,
+      user: user,
       price: price,
     };
+
     setBooking(updatedBooking);
     setBookingModal(true);
-  };
+  }, [booking, user, stay, price]);
 
-  const confirmModalHelper = () => {
+  // Update guest information
+  const setGuests = useCallback((guests: GuestsModel) => {
+    setBooking((prevBooking) => ({ ...prevBooking, ...guests }));
+  }, []);
+
+  // Close booking modal
+  const confirmModalHelper = useCallback(() => {
     setBookingModal(false);
-  };
+  }, []);
 
-  const diffInDays =
-    booking.checkIn && booking.checkOut
+  // Calculate difference in days between check-in and check-out dates
+  //TODO: Refactor to avoid ! operator
+  const diffInDays = useMemo(() => {
+    return booking.checkIn && booking.checkOut
       ? daysBetweenDates(booking.checkIn, booking.checkOut)
       : daysBetweenDates(
           stay.firstAvailableDate![0],
           stay.firstAvailableDate![2]
         );
-
- 
+  }, [booking, stay]);
 
   return (
     <>
@@ -96,15 +116,17 @@ export default function Booking({ price, stay, onSaveBooking }: Props) {
           booking={booking}
           isCalenderOpen={calenderOpen}
           setCalenderOpen={setCalenderOpen}
-          setBooking={setBooking}
           onBook={onBook}
+          setGuests={setGuests}
+          onDateClick={onDateClick}
         />
       )}
       {isWindowSmall && (
         <MobileBooking
-          stayBooking={stay.booking}
-          checkIn={booking.checkIn!}
-          checkOut={booking.checkOut!}
+          onDateClick={onDateClick}
+          stayBooking={stay.bookings}
+          checkIn={booking.checkIn}
+          checkOut={booking.checkOut}
           diffInDays={diffInDays}
           price={price}
           isCalenderOpen={calenderOpen}
@@ -115,6 +137,7 @@ export default function Booking({ price, stay, onSaveBooking }: Props) {
       <ConfirmBookingModal
         confirmModalHelper={confirmModalHelper}
         toOpen={bookingModal}
+        booking={booking}
         saveBooking={onSaveBooking}
       />
     </>

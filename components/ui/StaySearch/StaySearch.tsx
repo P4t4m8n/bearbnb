@@ -27,7 +27,13 @@ export function StaySearch({ isActive }: Props) {
 
   const handleDate = (date: Date | null) => {
     // Prepare the initial structure for date filters
-    let dates: { start: Date | null; end: Date | null } = { ...filterBy.dates! };
+    let dates: {
+      start: Date | null;
+      end: Date | null;
+    } = {
+      start: filterBy.dates?.start || null,
+      end: filterBy.dates?.end || null,
+    };
 
     if (!date) {
       // If null is provided, reset both start and end dates and URL parameters

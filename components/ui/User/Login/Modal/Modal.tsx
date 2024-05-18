@@ -1,14 +1,14 @@
 "use client";
 
-import { UserSmall } from "@/model/stay.model";
 import { useUserStore } from "@/store/useUserStore";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import styles from "./Modal.module.scss";
+import { UserSmallModel } from "@/model/user.model";
 
 type Props = {
-  logInWithPassword: (fromData: FormData) => Promise<UserSmall>;
-  signUpWithPassword: (romData: FormData) => Promise<UserSmall>;
+  logInWithPassword: (fromData: FormData) => Promise<UserSmallModel>;
+  signUpWithPassword: (romData: FormData) => Promise<UserSmallModel>;
   signInWIthSocial: (type: "google" | "facebook") => Promise<string>;
 };
 
@@ -43,7 +43,7 @@ export default function Modal({
   const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     const formData = new FormData(ev.currentTarget);
-    let user: UserSmall;
+    let user: UserSmallModel;
     if (isLogin) {
       user = await logInWithPassword(formData);
     } else {

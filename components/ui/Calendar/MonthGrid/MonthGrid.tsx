@@ -1,14 +1,14 @@
-import { BookingModalSmall } from "@/model/stay.model";
+import { BookingSmallModel } from "@/model/booking.model";
 import { ScrollBySVG } from "../../svgs/svgs";
 import styles from "./MonthGrid.module.scss";
 
 interface Props {
   date: Date;
-  checkIn: Date | null;
-  checkOut: Date | null;
-  bookings?: BookingModalSmall[];
-  onDateClick: (date: Date | null) => void;
+  onDateClick: (date: Date) => void;
   onMonthChange: (dir: number) => void;
+  checkIn?: Date | null;
+  checkOut?: Date | null;
+  bookings?: BookingSmallModel[];
 }
 
 interface DateObj {
@@ -18,75 +18,69 @@ interface DateObj {
 
 export default function MonthGrid({
   date,
+  onDateClick,
+  onMonthChange,
   checkIn,
   checkOut,
   bookings,
-  onDateClick,
-  onMonthChange,
 }: Props) {
-  //////////////////////////////////////////////////////////////////////
+  // Get the last date of the current month
   const monthEnd = new Date(date.getFullYear(), date.getMonth() + 1, 0);
   const daysInMonth = monthEnd.getDate();
   const daysName = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-  const getMonthGrid = (date: Date) => {
+  // Function to generate the month grid with appropriate styles
+  const getMonthGrid = (date: Date): DateObj[] => {
     const days: DateObj[] = [];
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    // Helper functions for date styles
+    const isSameDay = (date1: Date, date2: Date) =>
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate();
+
+    const isBetween = (current: Date, start: Date, end: Date) =>
+      current > start && current < end;
+
     for (let i = 1; i <= daysInMonth; i++) {
-      let style = "";
       const currentDate = new Date(date.getFullYear(), date.getMonth(), i);
+      let style = "";
 
-      // Check if the current date is the check-in or check-out date
-      const isCheckIn =
-        checkIn &&
-        currentDate.getMonth() === checkIn.getMonth() &&
-        currentDate.getDate() === checkIn.getDate();
-      const isCheckOut =
-        checkOut &&
-        currentDate.getMonth() === checkOut.getMonth() &&
-        currentDate.getDate() === checkOut.getDate();
+      // Determine styles based on date conditions
+      if (checkIn && isSameDay(currentDate, checkIn)) style = styles.marked;
+      else if (checkOut && isSameDay(currentDate, checkOut))
+        style = styles.marked;
+      else if (checkIn && checkOut && isBetween(currentDate, checkIn, checkOut))
+        style = styles.between;
+      else if (currentDate < today) style = styles.passDate;
 
-      // Determine if the date is between the check-in and check-out dates
-      const isBetween =
-        checkIn && checkOut && currentDate > checkIn && currentDate < checkOut;
-
-      // Check if the date is in the past
-      const isPast = currentDate < today;
-
-      if (isCheckIn) style += `${styles.marked}`;
-      else if (isCheckOut) style += `${styles.marked}`;
-      else if (isBetween) style += `${styles.between}`;
-      else if (isPast) style += `${styles.passDate}`;
-
-      const arrDate = {
-        dateObj: currentDate,
-        style,
-      };
-
-      days.push(arrDate);
+      days.push({ dateObj: currentDate, style });
     }
 
+    // Mark booked dates
     bookings?.forEach((booking) => {
-      const idx = booking.checkIn!.getDate();
-      const jdx = booking.checkOut!.getDate() - 1;
-      for (let i = idx; i < jdx; i++) {
-        days[i].style = `${styles.passDate}`;
+      const startIdx = booking.checkIn!.getDate() - 1;
+      const endIdx = booking.checkOut!.getDate() - 1;
+      for (let i = startIdx; i <= endIdx; i++) {
+        days[i].style = styles.passDate;
       }
     });
+
     return days;
   };
 
-  const dateClick = (date: Date | null) => {
+  const dateClick = (date: Date) => {
+    if (!date) return;
     onDateClick(date);
   };
 
   const monthGrid = getMonthGrid(date);
-
   const monthName = date.toLocaleString("default", { month: "long" });
   const year = date.getFullYear();
 
+  //To move back in months only if possible
   const isBackVisible = date.getMonth() > new Date().getMonth();
 
   return (
@@ -96,6 +90,7 @@ export default function MonthGrid({
           style={{ opacity: isBackVisible ? 1 : 0 }}
           className={styles.monthNav}
           onClick={() => onMonthChange(-1)}
+          aria-label="Previous Month"
         >
           <ScrollBySVG />
         </button>
@@ -103,7 +98,11 @@ export default function MonthGrid({
           <p>{monthName}</p>
           <p>{year}</p>
         </div>
-        <button className={styles.monthNav} onClick={() => onMonthChange(1)}>
+        <button
+          className={styles.monthNav}
+          onClick={() => onMonthChange(1)}
+          aria-label="Next Month"
+        >
           <ScrollBySVG />
         </button>
       </div>
@@ -123,7 +122,13 @@ export default function MonthGrid({
           </li>
         ))}
       </ul>
-      <button onClick={() => dateClick(null)}>Clear</button>
+      <button
+        onClick={() => {
+          //ToDO: Clear the dates and return to default dates
+        }}
+      >
+        Clear
+      </button>
     </section>
   );
 }

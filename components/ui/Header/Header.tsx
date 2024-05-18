@@ -5,10 +5,10 @@ import { User } from "../User/User";
 import styles from "./Header.module.scss";
 import { StaySearch } from "../StaySearch/StaySearch";
 import Link from "next/link";
-import { UserSmall } from "@/model/stay.model";
+import { UserSmallModel } from "@/model/user.model";
 
 interface Props {
-  _user?: UserSmall | null;
+  _user?: UserSmallModel | null;
 }
 
 export default function Header({ _user }: Props) {
@@ -23,8 +23,8 @@ export default function Header({ _user }: Props) {
           setIsActive(!entries[0].isIntersecting);
         },
         {
-          threshold: [1.0], 
-          rootMargin: "0px 0px 0px 0px", 
+          threshold: [1.0],
+          rootMargin: "0px 0px 0px 0px",
         }
       );
 

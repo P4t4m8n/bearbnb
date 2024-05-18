@@ -1,24 +1,25 @@
 "use client";
 import { useModal } from "@/components/hooks/useModal";
-import { BookingModel } from "@/model/stay.model";
 import { useBookingStore } from "@/store/useBookingStore";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import styles from "./ConfirmBookingModal.module.scss";
 import { daysBetweenDates } from "@/service/booking-service";
 import { getDefaultDates } from "@/service/stay.service";
+import { BookingModel } from "@/model/booking.model";
 interface Props {
   saveBooking: (booking: BookingModel) => void;
   toOpen: boolean;
+  booking: BookingModel;
   confirmModalHelper: () => void;
 }
 
 export default function ConfirmBookingModal({
   saveBooking,
   toOpen,
+  booking,
   confirmModalHelper,
 }: Props) {
-  const { booking } = useBookingStore.getState();
   const bookingConfirmModalRef = useRef<HTMLDivElement | null>(null);
   const [isBookingConfirm, setIsBookingConfirm] = useModal(
     bookingConfirmModalRef,
@@ -27,7 +28,7 @@ export default function ConfirmBookingModal({
 
   useEffect(() => {
     setIsBookingConfirm(toOpen);
-  }, [toOpen]);
+  }, [toOpen, setIsBookingConfirm]);
 
   const onBack = () => {
     setIsBookingConfirm(false);
@@ -106,7 +107,12 @@ export default function ConfirmBookingModal({
           </div>
           <div className={styles.imageBox}>
             <div className={styles.imgCon}>
-              <Image src={booking.stay?.image!} fill={true} alt=""></Image>
+              <Image
+                sizes="auto"
+                src={booking.stay?.images[0].url}
+                fill={true}
+                alt=""
+              ></Image>
             </div>
             <h5>{booking.stay?.name || ""}</h5>
           </div>

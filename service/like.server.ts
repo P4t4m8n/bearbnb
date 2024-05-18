@@ -1,17 +1,16 @@
 "use server";
 
-import { Like } from "@/model/stay.model";
+import { LikeModel, WishListModel } from "@/model/like.model";
 import { prisma } from "@/prisma/prisma";
-// import { getCache, setCache } from "./cache";
-import { set } from "zod";
-import { WishListModel } from "@/model/like.model";
+import { getRating } from "./stay.service";
 
+// Retrieve the like data from the database, including the stay and user details.
 export const getLike = async (
   userId: string,
   stayId: string
-): Promise<Like | null> => {
+): Promise<LikeModel> => {
   try {
-    return await prisma.like.findFirst({
+    return await prisma.like.findFirstOrThrow({
       where: {
         userId,
         stayId,
@@ -21,12 +20,10 @@ export const getLike = async (
     throw new Error("Failed to get like");
   }
 };
-
+// Retrieve the list of likes by user from the database, including the stay details.
 export const getLikesByUser = async (
   userId: string
 ): Promise<WishListModel[]> => {
-  // let likes = await getCache(`likes-${userId}`);
-  // if (likes && likes.length) return likes;
   let likes;
   try {
     const data = await prisma.like.findMany({
@@ -56,7 +53,6 @@ export const getLikesByUser = async (
               },
             },
             images: {
-              take: 1,
               select: {
                 url: true,
               },
@@ -65,36 +61,34 @@ export const getLikesByUser = async (
         },
       },
     });
-
+    // Map the retrieved data to the WishListModel structure.
     likes = data.map((like) => {
       return {
         id: like.id,
         notes: like.notes || "",
         stay: {
-          stayId: like.stay.id,
+          id: like.stay.id,
           name: like.stay.name,
           type: like.stay.type,
-          image: like.stay.images[0]?.url || "",
+          images: like.stay.images,
           location: like.stay.location,
-          bedrooms: like.stay.bedrooms,
+          bedrooms: like.stay.bedrooms.flatMap((bedroom) => bedroom.beds),
           description: like.stay.description || "No description",
-          rating:
-            like.stay.reviews && like.stay.reviews.length > 0
-              ? like.stay.reviews.reduce((acc, curr) => acc + curr.rate, 0) /
-                like.stay.reviews.length
-              : 0,
+          rating: getRating(like.stay.reviews),
         },
       };
     });
 
-    // setCache(`likes-${userId}`, likes);
     return likes;
   } catch (error) {
     throw new Error("Failed to get likes by user");
   }
 };
-
-export const updateLikeNotes = async (likeId: string, txt: string) => {
+// Update the notes for a like in the database.
+export const updateLikeNotes = async (
+  likeId: string,
+  txt: string
+): Promise<LikeModel> => {
   try {
     return await prisma.like.update({
       where: {
@@ -108,19 +102,21 @@ export const updateLikeNotes = async (likeId: string, txt: string) => {
     throw new Error("Failed to update like notes");
   }
 };
-
+// Add or remove a like from the database based on the input.
 export const updateLike = async (
   likeId: string | null | undefined,
   stayId?: string,
   userId?: string
-): Promise<Like | null> => {
+): Promise<LikeModel | null> => {
   if (likeId) return await _deleteLike(likeId);
-
   if (stayId && userId) return await _addLike(userId, stayId);
-
+  // If the input is invalid, throw an error.
   throw new Error("Invalid input");
 };
 
+//**********private functions**********//
+
+// Delete a like from the database.
 const _deleteLike = async (likeId: string): Promise<null> => {
   try {
     await prisma.like.delete({
@@ -128,16 +124,14 @@ const _deleteLike = async (likeId: string): Promise<null> => {
         id: likeId,
       },
     });
+    // Return null if the like is successfully deleted.
     return null;
   } catch (error) {
     throw new Error("Failed to delete like");
   }
 };
-
-const _addLike = async (
-  userId: string,
-  stayId: string
-): Promise<Like | null> => {
+// Add a like to the database.
+const _addLike = async (userId: string, stayId: string): Promise<LikeModel> => {
   try {
     return await prisma.like.create({
       data: {

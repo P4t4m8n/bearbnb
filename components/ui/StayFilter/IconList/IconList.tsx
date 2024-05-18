@@ -23,109 +23,235 @@ export default function IconList() {
       <ul ref={elTypes} className={styles.types}>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>
         <li>
           <div className={styles.imgCon}>
-            <Image src="/0.jpeg" alt="" fill={true}></Image>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
+          </div>
+          <h5>National parks</h5>
+        </li>
+        <li>
+          <div className={styles.imgCon}>
+            <Image sizes="auto" src="/0.jpeg" alt="" fill={true}></Image>
           </div>
           <h5>National parks</h5>
         </li>

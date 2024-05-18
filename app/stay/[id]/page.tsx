@@ -1,4 +1,3 @@
-import { BookingModel } from "../../../model/stay.model";
 import styles from "./Details.module.scss";
 import RoomList from "@/components/ui/Details/RoomList/RoomLIst";
 import AmentiasList from "@/components/ui/Details/AmentiasList/AmentiasList";
@@ -14,6 +13,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import HighLights from "@/components/ui/Details/HighLights/HighLights";
 import About from "@/components/ui/Details/About/About";
+import { BookingModel } from "@/model/booking.model";
 
 interface Props {
   params: any;
@@ -88,7 +88,7 @@ export default async function StayDetails({ params }: Props) {
           <About description={stay.description || ""} />
           <RoomList bedrooms={bedrooms} />
           <AmentiasList amenities={amenities} />
-          <Calendar bookings={stay.booking} date={new Date()} />
+          <Calendar bookings={stay.bookings} date={new Date()} />
         </section>
         <section className={styles.calendarCon}>
           <Booking onSaveBooking={onSaveBooking} price={price} stay={stay} />

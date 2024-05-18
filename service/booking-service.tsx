@@ -1,15 +1,21 @@
-import { BookingModel } from "@/model/stay.model";
+import { BookingModel } from "@/model/booking.model";
+import { getEmptyStay } from "./stay.service";
+import { getEmptySmallUser } from "./user.service";
 
-export const getEmptyBooking = (): BookingModel => {
+// Create an empty booking object with default values.
+export const getEmptyBooking = (
+  checkIn?: Date,
+  checkOut?: Date
+): BookingModel => {
   return {
-    stay: null,
-    user: null,
-    host: null,
+    stay: getEmptyStay(),
+    user: getEmptySmallUser(),
+    host: getEmptySmallUser(),
     price: 0,
     status: "pending",
-    checkIn: null,
-    checkOut: null,
-    bookingTime: null,
+    checkIn: checkIn || new Date(),
+    checkOut: checkOut || new Date(),
+    bookingTime: new Date(),
     adults: 1,
     children: 0,
     infants: 0,
@@ -17,6 +23,7 @@ export const getEmptyBooking = (): BookingModel => {
   };
 };
 
+// Calculate the number of days between two dates.
 export const daysBetweenDates = (date1: Date, date2: Date) => {
   if (!date1 || !date2) return 0;
   const oneDay = 1000 * 60 * 60 * 24;

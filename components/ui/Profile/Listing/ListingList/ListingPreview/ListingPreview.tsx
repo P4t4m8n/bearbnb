@@ -1,6 +1,6 @@
 import { AvatarSVG } from "@/components/ui/svgs/svgs";
 import { ListingSmallModel } from "@/model/booking.model";
-import { formatDatesToRange, getDefaultDates } from "@/service/stay.service";
+import { formatDatesToRange } from "@/service/stay.service";
 import Image from "next/image";
 import styles from "./ListingCard.module.scss";
 import { MouseEvent, useState } from "react";
@@ -12,7 +12,11 @@ interface Props {
   idx: number;
 }
 
-export default function ListingCard({ listing, idx, onUpdateListing }: Props) {
+export default function ListingPreview({
+  listing,
+  idx,
+  onUpdateListing,
+}: Props) {
   const [listingState, setListingState] = useState<ListingSmallModel>(listing);
   const [loading, setLoading] = useState(false);
   const {
@@ -81,8 +85,9 @@ export default function ListingCard({ listing, idx, onUpdateListing }: Props) {
       </h3>
       <div className={styles.stayInfo}>
         <Image
+          sizes="auto"
           className={styles.stayImg}
-          src={stay.image}
+          src={stay.images[0].url}
           width={40}
           height={40}
           alt={stay.name}

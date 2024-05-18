@@ -1,5 +1,5 @@
 import Modal from "@/components/ui/User/Login/Modal/Modal";
-import { UserSmall } from "@/model/stay.model";
+import { UserSmallModel } from "@/model/user.model";
 import { prisma } from "@/prisma/prisma";
 import { faker } from "@faker-js/faker";
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
@@ -7,7 +7,9 @@ import { cookies, headers } from "next/headers";
 
 export default function LoginPage() {
   ///////////////////////////////////////////////////
-  const signUpWithPassword = async (formData: FormData): Promise<UserSmall> => {
+  const signUpWithPassword = async (
+    formData: FormData
+  ): Promise<UserSmallModel> => {
     "use server";
     const supabase = createServerActionClient({
       cookies,
@@ -52,7 +54,9 @@ export default function LoginPage() {
     };
   };
   ///////////////////////////////////////////////////
-  const logInWithPassword = async (formData: FormData): Promise<UserSmall> => {
+  const logInWithPassword = async (
+    formData: FormData
+  ): Promise<UserSmallModel> => {
     "use server";
 
     const supabase = createServerActionClient({
