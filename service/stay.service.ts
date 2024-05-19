@@ -1,12 +1,16 @@
 import { SearchByModel } from "@/model/filters.model";
 import { ReviewModel } from "@/model/review.model";
-import { ImageModel, StayModel, StaySmallModel } from "@/model/stay.model";
+import {
+  BedRoomModel,
+  StayModel,
+  StaySmallModel,
+} from "@/model/stay.model";
 
 // Returns a default SearchByModel object with predefined empty or initial values.
 export const getEmptyFilter = (): SearchByModel => {
   return {
     name: "",
-    dates: {},
+    dates: { start: null, end: null },
     priceRange: { start: 1, end: 10000 },
     location: "",
   };
@@ -85,32 +89,71 @@ export const formatDatesToRange = (
 };
 // Transforms bedroom data to include counts of each bed type and list of image URLs.
 export const transformBedrooms = (
-  bedrooms: { beds: any[]; images?: ImageModel[] }[]
+  bedrooms: BedRoomModel[]
 ): {
-  bedCounts: number;
-  beds: string[] | null;
-  images: ImageModel[] | null;
+  double: { count: number };
+  single: { count: number };
+  crib: { count: number };
+  description: string;
 }[] => {
-  return bedrooms.map((bedroom) => {
-    // Count the number of each type of bed
-    const bedCounts = bedroom.beds.reduce((acc, bed) => {
-      acc[bed] = (acc[bed] || 0) + 1;
-      return acc;
-    }, {});
-
-    // Format the bed description based on the counts
-    const formattedBeds = Object.keys(bedCounts).map((bedType) => {
-      return `${bedCounts[bedType]} ${bedType} bed${
-        bedCounts[bedType] > 1 ? "s" : ""
-      }`;
-    });
-
-    // Return the transformed bedroom object
-    return {
-      bedCounts,
-      beds: formattedBeds,
-      images: bedroom.images || null,
+  return bedrooms.map((room) => {
+    // Initialize an object to store the counts  for each bed type
+    const bedCounts: {
+      double: { count: number };
+      single: { count: number };
+      crib: { count: number };
+      description: string;
+    } = {
+      double: { count: 0 },
+      single: { count: 0 },
+      crib: { count: 0 },
+      description: "",
     };
+
+    // Loop through the beds in the current room
+    for (const bed of room.beds) {
+      // Update the counts based on the bed type
+      switch (bed) {
+        case "double":
+          bedCounts.double.count++; // Increment the count of double beds
+          break;
+        case "single":
+          bedCounts.single.count++; // Increment the count of single beds
+          break;
+        case "crib":
+          bedCounts.crib.count++; // Increment the count of cribs
+          break;
+        default:
+          // Handle unknown bed types if needed
+          break;
+      }
+    }
+
+    // Construct the description based on the counts and plural information
+    const descriptions = [];
+    if (bedCounts.double.count > 0) {
+      descriptions.push(
+        `${bedCounts.double.count} double bed${
+          bedCounts.double.count > 1 ? "s" : ""
+        }`
+      );
+    }
+    if (bedCounts.single.count > 0) {
+      descriptions.push(
+        `${bedCounts.single.count} single bed${
+          bedCounts.single.count > 1 ? "s" : ""
+        }`
+      );
+    }
+    if (bedCounts.crib.count > 0) {
+      descriptions.push(
+        `${bedCounts.crib.count} crib${bedCounts.crib.count > 1 ? "s" : ""}`
+      );
+    }
+    // Combine descriptions into a single string
+    bedCounts.description = descriptions.join(", ");
+
+    return bedCounts;
   });
 };
 // Returns a default StayModel object with all fields set to their initial empty or default values.

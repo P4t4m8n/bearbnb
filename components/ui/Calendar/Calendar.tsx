@@ -10,7 +10,6 @@ interface Props {
   onDateClick: (date: Date) => void;
   bookings?: BookingSmallModel[];
   isSearch?: boolean;
-  onDateSearch?: (date: Date | null) => void;
   booking?: BookingModel;
 }
 
@@ -20,7 +19,6 @@ export function Calendar({
   bookings = [],
   isSearch,
   booking,
-  onDateSearch,
 }: Props) {
   // State to keep track of the user selected month
   const [anchorDate, setAnchorDate] = useState<Date>(date || new Date());
@@ -48,7 +46,7 @@ export function Calendar({
         bookings={filteredBookings}
         checkIn={booking?.checkIn}
         checkOut={booking?.checkOut}
-        onDateClick={isSearch ? onDateSearch! : onDateClick}
+        onDateClick={onDateClick}
         date={anchorDate}
         onMonthChange={switchMonth}
       />

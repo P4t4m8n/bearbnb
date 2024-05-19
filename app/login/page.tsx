@@ -6,14 +6,16 @@ import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { cookies, headers } from "next/headers";
 
 export default function LoginPage() {
+  const supabase = createServerActionClient({
+    cookies,
+  });
+  const origin = headers().get("origin");
+
   ///////////////////////////////////////////////////
   const signUpWithPassword = async (
     formData: FormData
   ): Promise<UserSmallModel> => {
     "use server";
-    const supabase = createServerActionClient({
-      cookies,
-    });
 
     const firstName = formData.get("firstName") as string;
     const lastName = formData.get("lastName") as string;
@@ -59,10 +61,6 @@ export default function LoginPage() {
   ): Promise<UserSmallModel> => {
     "use server";
 
-    const supabase = createServerActionClient({
-      cookies,
-    });
-
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
@@ -93,10 +91,6 @@ export default function LoginPage() {
     type: "google" | "facebook"
   ): Promise<string> => {
     "use server";
-    const supabase = createServerActionClient({
-      cookies,
-    });
-    const origin = headers().get("origin");
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",

@@ -1,5 +1,5 @@
 import { BookingModel } from "./booking.model";
-import { LikeModel } from "./like.model";
+import { LikeModel } from "./Like.model";
 import { ReviewModel } from "./review.model";
 import { StaySmallModel } from "./stay.model";
 

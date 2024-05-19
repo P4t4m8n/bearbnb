@@ -129,7 +129,7 @@ export function StaySearch({ isActive }: Props) {
           <section className={styles.calendarCon}>
             <Calendar
               isSearch={true}
-              onDateSearch={handleDate}
+              onDateClick={handleDate}
               date={new Date()}
             />
           </section>

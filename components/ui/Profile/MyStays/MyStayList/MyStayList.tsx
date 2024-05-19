@@ -1,8 +1,6 @@
 import { getSmallStays } from "@/service/stay.server";
 import styles from "./MyStayList.module.scss";
 import MyStayPreview from "../MyStayPreview/MyStayPreview";
-import ProfileListSkeleton from "@/components/ui/skeletons/ProfileListsSkeleton/ProfileListKeleton";
-import { Suspense } from "react";
 
 export default async function MyStayList({ userId }: { userId: string }) {
   const userStays = await getSmallStays({ host: userId });

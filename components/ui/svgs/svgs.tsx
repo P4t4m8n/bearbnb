@@ -1,4 +1,4 @@
-import { SvgIconModel } from "@/model/stay.model";
+import { SvgIconModel } from "@/model/icons.model";
 
 interface Props {
   className: string;

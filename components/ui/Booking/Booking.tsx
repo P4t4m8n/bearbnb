@@ -43,6 +43,7 @@ export default function Booking({ price, stay, onSaveBooking }: Props) {
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Handle window resize events

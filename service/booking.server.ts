@@ -1,14 +1,8 @@
 "use server";
 import { prisma } from "@/prisma/prisma";
 import { z } from "zod";
-import {
-  BookingDTO,
-  BookingModel,
-  BookingSmallModel,
-  TripModel,
-} from "@/model/booking.model";
+import { BookingDTO, BookingModel, TripModel } from "@/model/booking.model";
 import { getRating } from "./stay.service";
-import { th } from "@faker-js/faker";
 // import { getCache, setCache } from "./cache";
 
 const bookingSchema = z

@@ -1,6 +1,6 @@
 "use server";
 
-import { LikeModel, WishListModel } from "@/model/like.model";
+import { LikeModel, WishListModel } from "@/model/Like.model";
 import { prisma } from "@/prisma/prisma";
 import { getRating } from "./stay.service";
 

@@ -24,9 +24,10 @@ export default async function StayDetails({ params }: Props) {
 
   const stay = await getStayById(id);
 
+  const origin = headers().get("origin");
+
   const onSaveBooking = async (booking: BookingModel) => {
     "use server";
-    const origin = headers().get("origin");
     const savedBooking = await saveBooking(booking);
     if (!savedBooking) throw new Error("unable to save");
     redirect(`${origin}/booking/${savedBooking?.id}`);
@@ -88,7 +89,8 @@ export default async function StayDetails({ params }: Props) {
           <About description={stay.description || ""} />
           <RoomList bedrooms={bedrooms} />
           <AmentiasList amenities={amenities} />
-          <Calendar bookings={stay.bookings} date={new Date()} />
+          {/* TODO reimplement calender with booking in a global state */}
+          {/* <Calendar bookings={stay.bookings} date={new Date()} /> */}
         </section>
         <section className={styles.calendarCon}>
           <Booking onSaveBooking={onSaveBooking} price={price} stay={stay} />

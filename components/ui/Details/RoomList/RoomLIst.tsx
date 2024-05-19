@@ -1,18 +1,18 @@
 "use client";
 import { useScroll } from "@/components/hooks/useScroll";
 interface Props {
-  bedrooms: { beds: any[]; images: any[] }[];
+  bedrooms: BedRoomModel[];
 }
 
 import { DoubleBedSVG, ScrollBySVG, SingleBedSVG } from "../../svgs/svgs";
 import styles from "./RoomList.module.scss";
 import { useRef } from "react";
 import { transformBedrooms } from "@/service/stay.service";
+import { BedRoomModel } from "@/model/stay.model";
 
 export default function RoomList({ bedrooms }: Props) {
   const elRooms = useRef<HTMLUListElement>(null);
   const [backVisible, onScrollBy] = useScroll(elRooms);
-
 
   const formattedBedrooms = transformBedrooms(bedrooms);
 
@@ -33,11 +33,11 @@ export default function RoomList({ bedrooms }: Props) {
         {formattedBedrooms.map((room, idx) => (
           <li key={idx}>
             <div>
-              {room.bedCounts.double && <DoubleBedSVG />}
-              {room.bedCounts.single && <SingleBedSVG />}
+              {room.double && <DoubleBedSVG />}
+              {room.single && <SingleBedSVG />}
             </div>
             <p>Bedroom</p>
-            <p>{room.beds.join(",")}</p>
+            <p>{room.description}</p>
           </li>
         ))}
       </ul>

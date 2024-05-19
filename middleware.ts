@@ -17,8 +17,6 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(returnUrl);
   }
 
-  
-
   if (pathname.startsWith("profile")) {
     console.log("profile");
   }

@@ -1,7 +1,7 @@
 import { Beds } from "@prisma/client";
 import { BookingSmallModel } from "./booking.model";
 import { SvgIconModel } from "./icons.model";
-import { LikeModel } from "./like.model";
+import { LikeModel } from "./Like.model";
 import { LocationAddressSmallModel, LocationModel } from "./location.model";
 import { ReviewModel } from "./review.model";
 import { UserSmallModel } from "./user.model";
