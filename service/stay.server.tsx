@@ -224,7 +224,6 @@ const getSmallStaysData = async (
   searchBy?: SearchByModel,
   page?: number
 ): Promise<QueryStay[]> => {
-  console.log("searchBy:", searchBy?.dates);
   try {
     // Build dynamic where clause based on filters
     const queryFilters: any = {};
@@ -242,7 +241,6 @@ const getSmallStaysData = async (
         },
       };
     }
-    console.log("queryFilters:", queryFilters);
 
     const stays = await prisma.stay.findMany({
       skip: (page || 0) * NUMBER_PER_PAGE,

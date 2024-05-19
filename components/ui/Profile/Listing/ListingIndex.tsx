@@ -10,7 +10,6 @@ export default async function ListingIndex({ userId }: { userId: string }) {
   const bookings = await getHostListing(userId);
   const onSaveBooking = async (booking: BookingModel, status: Status) => {
     "use server";
-    console.log("BookingModel:", booking)
     const bookingDTO = { ...booking, status };
     const response = await saveBooking(bookingDTO);
     return response;

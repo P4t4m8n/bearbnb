@@ -17,7 +17,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const user = await getSmallLoggedInUser();
-  console.log("user:", user)
 
   return (
     <html lang="en">
