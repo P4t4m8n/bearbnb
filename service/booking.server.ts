@@ -5,7 +5,6 @@ import {
   BookingDTO,
   BookingModel,
   BookingSmallModel,
-  ListingSmallModel,
   TripModel,
 } from "@/model/booking.model";
 import { getRating } from "./stay.service";
@@ -186,7 +185,7 @@ export const getUserTrips = async (userId: string): Promise<TripModel[]> => {
 //Fetch host-specific orders for his stays.
 export const getHostListing = async (
   hostId: string
-): Promise<ListingSmallModel[]> => {
+): Promise<BookingModel[]> => {
   let listings = [];
   try {
     listings = await prisma.booking.findMany({
@@ -212,6 +211,14 @@ export const getHostListing = async (
           },
         },
         user: {
+          select: {
+            firstName: true,
+            lastName: true,
+            id: true,
+            imgUrl: true,
+          },
+        },
+        host: {
           select: {
             firstName: true,
             lastName: true,

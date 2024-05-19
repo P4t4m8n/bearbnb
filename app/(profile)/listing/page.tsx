@@ -1,4 +1,6 @@
 import ListingIndex from "@/components/ui/Profile/Listing/ListingIndex";
+import MyStayListSkeleton from "@/components/ui/skeletons/MyStayListsSkeleton/MyStayListSkeleton";
+import { Suspense } from "react";
 
 export default async function Listings({
   searchParams,
@@ -7,7 +9,9 @@ export default async function Listings({
 }) {
   const { userId } = searchParams;
 
-
-
-  return <ListingIndex userId={userId} />;
+  return (
+    <Suspense fallback={<MyStayListSkeleton/>}>
+      <ListingIndex userId={userId} />
+    </Suspense>
+  );
 }

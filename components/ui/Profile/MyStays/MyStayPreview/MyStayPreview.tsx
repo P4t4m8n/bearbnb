@@ -12,17 +12,17 @@ export default function MyStayPreview({ stay, idx }: Props) {
   const { city, country } = location;
   return (
     <li className={styles.preview}>
-      <h4>xffxx{idx}</h4>
+      <h3>{idx}</h3>
       <div>
         <Image src={images[0].url} width={64} height={64} alt={name} />
-        <h4>{name}</h4>
+        <h3>{name}</h3>
       </div>
-      <h4>{price}</h4>
-      <h4>
+      <h3 className={styles.price}>{price}</h3>
+      <h3>
         {city}, {country}
-      </h4>
-      <h4>{rating}</h4>
-      <h4>{type}</h4>
+      </h3>
+      <h3 className={styles.rating}>{rating}</h3>
+      <h3>{type}</h3>
       <div className={styles.actions}>
         <button>View</button>
         <button>Delete</button>

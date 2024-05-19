@@ -40,15 +40,4 @@ export interface BookingDTO {
   bookingTime: Date;
 }
 
-export interface ListingSmallModel extends BookingSmallModel {
-  user: MinimumUserModel;
-  stay: MinimumStayModel;
-  host?: MinimumUserModel;
-  price: number;
-  bookingTime: Date;
-  adults: number;
-  status: Status;
-  children: number;
-  infants: number;
-  pets: number;
-}
+

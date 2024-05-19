@@ -1,0 +1,68 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixin";
+
+.skeleton {
+  padding-top: 2rem;
+  width: 100%;
+  display: grid;
+  gap: 1rem;
+
+  li {
+    width: 100%;
+    display: grid;
+    height: 4rem;
+    align-content: center;
+    grid-template-columns: 2% 25% 5% 20% 5% 15% 20%;
+    justify-content: space-between;
+    &:not(:last-child) {
+      @include bordered;
+    }
+
+    .noChild,
+    .name,
+    .action {
+      width: 100%;
+      height: 1.5rem;
+    }
+    .noChild {
+      @include skeleton;
+    }
+
+    .name {
+      align-items: center;
+      display: flex;
+      gap: 1rem;
+      > :first-child {
+        width: 4rem;
+        height: 4rem;
+        @include skeleton;
+      }
+      > :last-child {
+        width: 70%;
+        height: 1.5rem;
+        @include skeleton;
+      }
+    }
+
+    .action {
+      align-items: center;
+
+      display: flex;
+      gap: 1rem;
+      > * {
+        @include skeleton;
+        width: 5rem;
+        height: 2.5rem;
+      }
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

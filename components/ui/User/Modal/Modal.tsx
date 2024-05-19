@@ -5,6 +5,7 @@ import styles from "./Model.module.scss";
 interface Props {
   onLogout: (ev: MouseEvent<HTMLButtonElement>) => void;
   userId: string | undefined;
+  userName: string | undefined;
   isOwner?: boolean;
   authId?: string;
   closeModal: () => void;
@@ -13,6 +14,7 @@ export default function Modal({
   onLogout,
   userId,
   isOwner,
+  userName,
   authId,
   closeModal,
 }: Props) {
@@ -35,7 +37,7 @@ export default function Modal({
         </ul>
       ) : (
         <ul className={styles.modalUser}>
-          <li onClick={closeModal}>xxxx</li>
+          <li onClick={closeModal}>Hello {userName}</li>
           <li>
             <Link href={"/"}>Messages</Link>
           </li>

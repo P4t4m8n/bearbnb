@@ -1,14 +1,14 @@
 import { AvatarSVG } from "@/components/ui/svgs/svgs";
-import { ListingSmallModel } from "@/model/booking.model";
+import { BookingModel } from "@/model/booking.model";
 import { formatDatesToRange } from "@/service/stay.service";
 import Image from "next/image";
-import styles from "./ListingCard.module.scss";
+import styles from "./ListingPreview.module.scss";
 import { MouseEvent, useState } from "react";
 import { Status } from "@/model/status.type";
 
 interface Props {
-  onUpdateListing: (listing: ListingSmallModel, status: Status) => void;
-  listing: ListingSmallModel;
+  onUpdateListing: (listing: BookingModel, status: Status) => void;
+  listing: BookingModel;
   idx: number;
 }
 
@@ -17,7 +17,7 @@ export default function ListingPreview({
   idx,
   onUpdateListing,
 }: Props) {
-  const [listingState, setListingState] = useState<ListingSmallModel>(listing);
+  const [listingState, setListingState] = useState<BookingModel>(listing);
   const [loading, setLoading] = useState(false);
   const {
     checkIn,
@@ -37,16 +37,14 @@ export default function ListingPreview({
     ev.preventDefault();
     const prevStatus = listingState.status;
     try {
+      const newStatus = isConfirmed ? "confirmed" : "canceled";
       setLoading(true);
       setListingState({
         ...listingState,
-        status: isConfirmed ? "confirmed" : "canceled",
+        status: newStatus,
       });
 
-      const t = await onUpdateListing(
-        listingState,
-        isConfirmed ? "confirmed" : "canceled"
-      );
+      onUpdateListing(listingState, isConfirmed ? "confirmed" : "canceled");
     } catch (error) {
       console.error("error:", error);
       setListingState({

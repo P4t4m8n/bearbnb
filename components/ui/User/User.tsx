@@ -52,8 +52,8 @@ export function User({ _user }: Props) {
             <HamburgerSVG className={styles.svg} />
             {user.imgUrl ? (
               <AvatarSVG className={styles.svg} />
-              // <Image src={user.imgUrl} width={32} height={32} alt=""></Image>
             ) : (
+              // <Image src={user.imgUrl} width={32} height={32} alt=""></Image>
               <AvatarSVG className={styles.svg} />
             )}
           </>
@@ -67,6 +67,7 @@ export function User({ _user }: Props) {
       {open && (
         <div ref={modalRef} className={styles.modalCon}>
           <Modal
+            userName={user?.firstName}
             authId={user?.authId}
             isOwner={user?.isOwner}
             onLogout={onLogout}

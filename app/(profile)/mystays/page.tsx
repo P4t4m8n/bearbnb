@@ -1,8 +1,13 @@
 import MyStayList from "@/components/ui/Profile/MyStays/MyStayList/MyStayList";
-import { getSmallStays } from "@/service/stay.server";
+import MyStayListSkeleton from "@/components/ui/skeletons/MyStayListsSkeleton/MyStayListSkeleton";
+import { Suspense } from "react";
 
 export default async function Stays({ searchParams }: { searchParams: any }) {
   const { userId } = searchParams;
 
-  return <MyStayList userId={userId} />;
+  return (
+    <Suspense fallback={<MyStayListSkeleton />}>
+      <MyStayList userId={userId} />
+    </Suspense>
+  );
 }
