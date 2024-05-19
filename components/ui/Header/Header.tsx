@@ -55,7 +55,7 @@ export default function Header({ _user }: Props) {
       <section className={headerClass}>
         <Link href={"/"} className={styles.logo}>
           <LogoSVG />
-          <h2>airbnb</h2>
+          <h2>bearbnb</h2>
         </Link>
         <div className={styles.placeHolder}>
           <span>Stays</span>

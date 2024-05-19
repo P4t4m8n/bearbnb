@@ -9,13 +9,13 @@ import { UserSmallModel } from "@/model/user.model";
 type Props = {
   logInWithPassword: (fromData: FormData) => Promise<UserSmallModel>;
   signUpWithPassword: (romData: FormData) => Promise<UserSmallModel>;
-  signInWIthSocial: (type: "google" | "facebook") => Promise<string>;
+  // signInWIthSocial: (type: "google" | "facebook") => Promise<string>;
 };
 
 export default function Modal({
   logInWithPassword,
   signUpWithPassword,
-  signInWIthSocial,
+  // signInWIthSocial,
 }: Props) {
   const searchParams = useSearchParams();
   const [isLogin, setIsLogin] = useState(false);
@@ -53,16 +53,16 @@ export default function Modal({
     closeModal();
   };
 
-  const onSocialLogin = async (
-    ev: MouseEvent<HTMLButtonElement>,
-    type: "google" | "facebook"
-  ) => {
-    ev.preventDefault();
-    const url = await signInWIthSocial(type);
-    window.location.href = url;
-    // setUser(_user);
-    // closeModal();
-  };
+  // const onSocialLogin = async (
+  //   ev: MouseEvent<HTMLButtonElement>,
+  //   type: "google" | "facebook"
+  // ) => {
+  //   ev.preventDefault();
+  //   const url = await signInWIthSocial(type);
+  //   window.location.href = url;
+  //   // setUser(_user);
+  //   // closeModal();
+  // };
 
   const modal: JSX.Element | null =
     showModal === "y" ? (

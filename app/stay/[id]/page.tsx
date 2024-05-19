@@ -14,6 +14,7 @@ import { redirect } from "next/navigation";
 import HighLights from "@/components/ui/Details/HighLights/HighLights";
 import About from "@/components/ui/Details/About/About";
 import { BookingModel } from "@/model/booking.model";
+import DetailsSkeleton from "@/components/ui/skeletons/DetailsSkeleton/DetailsSkeleton";
 
 interface Props {
   params: any;
@@ -33,7 +34,7 @@ export default async function StayDetails({ params }: Props) {
     redirect(`${origin}/booking/${savedBooking?.id}`);
   };
 
-  if (!stay) return <div>Loading</div>;
+  if (!stay) return <DetailsSkeleton />;
 
   const {
     name,

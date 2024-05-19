@@ -51,6 +51,7 @@ export const getUserLocation = (): Promise<LocationSmallModel> => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
+          console.log("location:", location)
           // Resolve the promise with the location
           resolve(location);
         },

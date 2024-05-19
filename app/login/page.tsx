@@ -3,20 +3,20 @@ import { UserSmallModel } from "@/model/user.model";
 import { prisma } from "@/prisma/prisma";
 import { faker } from "@faker-js/faker";
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 
-export default function LoginPage() {
-  const supabase = createServerActionClient({
-    cookies,
-  });
-  const origin = headers().get("origin");
+export default async function LoginPage() {
+  // const origin = headers().get("origin");
 
   ///////////////////////////////////////////////////
   const signUpWithPassword = async (
     formData: FormData
   ): Promise<UserSmallModel> => {
     "use server";
-
+    const cookieData = cookies();
+    const supabase = createServerActionClient({
+      cookies: () => cookieData,
+    });
     const firstName = formData.get("firstName") as string;
     const lastName = formData.get("lastName") as string;
     const dob = formData.get("dob") as string;
@@ -63,7 +63,10 @@ export default function LoginPage() {
 
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
-
+    const cookieData = cookies();
+    const supabase = createServerActionClient({
+      cookies: () => cookieData,
+    });
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -87,27 +90,30 @@ export default function LoginPage() {
     };
   };
   ///////////////////////////////////////////////////
-  const signInWithSocial = async (
-    type: "google" | "facebook"
-  ): Promise<string> => {
-    "use server";
-
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${origin}/api/auth/callback`,
-      },
-    });
-    if (error || !data.url) {
-      throw new Error(error?.message || "no url");
-    }
-    return data.url;
-  };
+  // const signInWithSocial = async (
+  //   type: "google" | "facebook"
+  // ): Promise<string> => {
+  //   "use server";
+  //   const cookieData = cookies();
+  //   const supabase = createServerActionClient({
+  //     cookies: () => cookieData,
+  //   });
+  //   const { data, error } = await supabase.auth.signInWithOAuth({
+  //     provider: "google",
+  //     options: {
+  //       redirectTo: `${origin}/api/auth/callback`,
+  //     },
+  //   });
+  //   if (error || !data.url) {
+  //     throw new Error(error?.message || "no url");
+  //   }
+  //   return data.url;
+  // };
   return (
     <Modal
       logInWithPassword={logInWithPassword}
       signUpWithPassword={signUpWithPassword}
-      signInWIthSocial={signInWithSocial}
+      // signInWIthSocial={signInWithSocial}
     ></Modal>
   );
 }

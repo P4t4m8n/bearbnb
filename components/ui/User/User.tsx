@@ -1,7 +1,6 @@
 import { AvatarSVG, HamburgerSVG } from "../svgs/svgs";
 import styles from "./User.module.scss";
 import { MouseEvent, useEffect, useRef } from "react";
-import Image from "next/image";
 import { clientSupabase } from "@/util/supabase/client";
 import { useUserStore } from "@/store/useUserStore";
 import Modal from "./Modal/Modal";

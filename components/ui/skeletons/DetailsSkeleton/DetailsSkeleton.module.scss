@@ -1,0 +1,122 @@
+@import "../../../../styles/abstracts/mixin";
+@import "../../../../styles/abstracts/variables";
+
+.detailsSkeleton {
+  display: grid;
+  padding-top: 0.5rem;
+  gap: 1rem;
+
+  .header {
+    @include skeleton;
+    min-height: 2rem;
+    width: 60%;
+  }
+  .imageList {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 0.5rem;
+    height: 50vh;
+    min-width: $max-width-padding;
+    justify-self: center;
+    li {
+      position: relative;
+      @include skeleton;
+      border-radius: 0;
+
+      &:first-of-type {
+        grid-area: 1/1/-1/3;
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+      }
+
+      &:nth-of-type(2) {
+        grid-area: 1/3/2/4;
+      }
+      &:nth-of-type(3) {
+        grid-area: 1/4/2/-1;
+        border-top-right-radius: $border-radius-1;
+      }
+      &:nth-of-type(4) {
+        grid-area: 2/3/-1/3;
+      }
+      &:nth-of-type(5) {
+        grid-area: 2/4/-1/-1;
+        border-bottom-right-radius: $border-radius-1;
+      }
+    }
+  }
+  .con {
+    display: grid;
+    grid-template-columns: calc(60% - 0.5rem) calc(40% - 0.5rem);
+    gap: 1rem;
+    max-width: $max-width-padding;
+    justify-content: space-between;
+    height: 100%;
+
+    .bookingSkeleton {
+      grid-area: 1/2/-1/-1;
+      display: grid;
+      gap: 0.5rem;
+      span {
+        @include skeleton;
+        display: block;
+        &:first-of-type {
+          height: 1rem;
+          width: 50%;
+        }
+        &:last-of-type {
+          height: 2rem;
+          width: 100%;
+        }
+      }
+      height: 5rem;
+    }
+
+    .detailsInfo {
+      display: grid;
+      grid-area: 1/1/2/2;
+      div {
+        @include skeleton;
+        height: 1rem;
+        &:first-of-type {
+          width: 50%;
+        }
+        &:last-of-type {
+          width: 80%;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 650px) {
+  .imageList {
+    display: flex;
+    // max-width: calc(100svw - 2rem);
+    width: 100%;
+
+    li:not(:first-of-type) {
+      display: none;
+    }
+    li {
+      &:first-of-type {
+        display: block;
+        min-width: 100%;
+        min-height: 50svh;
+        border-radius: $border-radius-1-2;
+        img {
+          border-radius: $border-radius-1-2 !important;
+        }
+      }
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
