@@ -1,17 +1,16 @@
-import TripPreview from "@/components/ui/Profile/Trips/TripePreview/TripPreview";
-import { getUserTrips } from "@/service/booking.server";
-import styles from "./trip.module.scss";
+import { Suspense } from "react";
+import TripList from "@/components/ui/Profile/Trips/TripList/TripList";
+import TripSkeleton from "@/components/ui/skeletons/TripSkeleton/TripSkeleton";
 
-export default async function Trips({ params }: { params: { id: string } }) {
-  const { id } = params;
-  const trips = await getUserTrips(id);
-
-  if (!trips) return <div>...loading</div>;
+export default async function Trips({
+  searchParams,
+}: {
+  searchParams: { userId: string };
+}) {
+  const { userId } = searchParams;
   return (
-    <ul className={styles.tripList}>
-      {trips.map((trip) => (
-        <TripPreview trip={trip} key={trip.id} />
-      ))}
-    </ul>
+    <Suspense fallback={<TripSkeleton />}>
+      <TripList userId={userId} />
+    </Suspense>
   );
 }

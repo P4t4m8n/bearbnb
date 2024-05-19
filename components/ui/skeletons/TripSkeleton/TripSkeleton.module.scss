@@ -1,0 +1,45 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixin";
+
+.tripSkeleton {
+  gap: 1rem;
+  width: 100%;
+  padding-top: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  display: grid;
+  li {
+    height: 4rem;
+    min-width: 15rem;
+    display: flex;
+    gap: 1rem;
+    div {
+      &:first-of-type {
+        @include skeleton;
+        height: 4rem;
+        width: 4rem;
+        aspect-ratio: 1;
+        border-radius: $border-radius-1-2;
+      }
+      &:last-of-type {
+        display: grid;
+        justify-content: space-between;
+        align-items: center;
+        span {
+          min-width: 10rem;
+          display: block;
+          @include skeleton;
+          height: 1rem;
+        }
+      }
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

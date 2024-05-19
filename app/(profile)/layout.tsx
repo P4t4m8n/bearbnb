@@ -6,7 +6,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section style={{ minWidth: "100%" }}>
+    <section style={{ minWidth: "100%", display: "grid", gap: "1rem" }}>
       <ProfileNav />
       {children}
     </section>

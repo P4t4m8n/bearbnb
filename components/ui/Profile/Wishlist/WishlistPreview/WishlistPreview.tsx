@@ -10,10 +10,10 @@ import { updateLikeNotes } from "@/service/like.server";
 
 interface Props {
   likeObj: WishListModel;
-  // updateLikeNote: (likeId: string, txt: string) => void;
+  updateLikeNote: (likeId: string, txt: string) => void;
 }
 
-export default function WishlistPreview({ likeObj }: Props) {
+export default function WishlistPreview({ likeObj,updateLikeNote }: Props) {
   const { id, stay, notes } = likeObj;
   const {
     name,

@@ -9,15 +9,16 @@ interface Props {
 export default async function WishlistIndex({ userId }: Props) {
   const likes = await getLikesByUser(userId);
 
-  // const onUpdateLikeTxt = async (likeId: string, txt: string) => {
-  //   "use server";
-  //   await updateLikeNotes(likeId, txt);
-  // };
+  const onUpdateLikeTxt = async (likeId: string, txt: string) => {
+    "use server";
+    await updateLikeNotes(likeId, txt);
+  };
 
   return (
     <ul className={styles.wishlistList}>
       {likes.map((like) => (
         <WishlistPreview
+          updateLikeNote={onUpdateLikeTxt}
           key={like.id}
           likeObj={like}
         />
