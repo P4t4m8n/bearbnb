@@ -2,44 +2,45 @@
 
 import { useEffect, useRef, useState } from "react";
 import { getSmallStaysJSX } from "@/service/stay.server";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import StayPreviewSkeleton from "../skeletons/StayPreviewSkeleton/StayPreviewSkeleton";
-import { SearchByModel } from "@/model/filters.model";
+import { FilterByModel } from "@/model/filters.model";
+import { useFilterStore } from "@/store/userFIlterStore";
+import { LabelsType } from "@/model/labels.type";
+import { get } from "http";
+import { getEmptyFilter } from "@/service/stay.service";
 
 let page = 1;
 
 export default function LoadMore() {
   const containerRef = useRef<HTMLDivElement>(null);
+  let filterBy: FilterByModel = getEmptyFilter();
   const [stays, setStays] = useState<React.JSX.Element[]>([]);
   const [loading, setLoading] = useState(false);
-  const { startDate, endDate, name } = useParams<{
-    startDate: string;
-    endDate: string;
-    name: string;
-  }>();
-
-  const searchObj: SearchByModel = {
-    dates: {
-      start: new Date(startDate),
-      end: new Date(endDate),
-    },
-    priceRange: { start: 1, end: 999999999999 },
-    location: "",
-    name: name || "",
-  };
+  const searchParams = useSearchParams();
 
   useEffect(() => {
+    let labelText = searchParams.get("label") as LabelsType;
+    if (labelText) {
+      console.log("labelText:", labelText);
+      filterBy.label = labelText;
+    }
     const container = containerRef.current;
     if (container) {
       const observer = new IntersectionObserver(
         async (entries) => {
           if (entries[0].isIntersecting) {
             setLoading(true);
-            const _stays = await getSmallStaysJSX(searchObj, page);
-            if (_stays) setStays((prev) => [...prev, ..._stays]);
+            const _stays = await getSmallStaysJSX(filterBy, page);
+            if (_stays)
+              setStays((prev) => {
+                return [...prev, ..._stays];
+              });
             page++;
             setLoading(false);
-            if (!_stays || _stays.length < 8) page = 1;
+            if (!_stays || !_stays.length) {
+              observer.disconnect();
+            }
           }
         },
         {
@@ -55,7 +56,7 @@ export default function LoadMore() {
         observer.disconnect();
       };
     }
-  });
+  },[]);
 
   return (
     <>

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, MouseEvent } from "react";
 
 export const useModal = (
-  ref: React.RefObject<HTMLDivElement | HTMLButtonElement>,
+  ref: React.RefObject<HTMLDivElement | HTMLButtonElement | HTMLFormElement>,
   callBack: null | (() => void)
 ): [boolean, React.Dispatch<React.SetStateAction<boolean>>] => {
   const [open, setOpen] = useState(false);
@@ -22,7 +22,6 @@ export const useModal = (
     setOpen(false);
     if (callBack) callBack();
   };
-
 
   return [open, setOpen];
 };

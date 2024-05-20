@@ -3,7 +3,7 @@
 // import { getCache, setCache } from "./cache";
 import { prisma } from "@/prisma/prisma";
 import StayPreview from "../components/ui/StayPreview/StayPreview";
-import { SearchByModel } from "@/model/filters.model";
+import { FilterByModel } from "@/model/filters.model";
 import { BedsType, StayModel, StaySmallModel } from "@/model/stay.model";
 import { findFirstConsecutiveDaysAfterDate, getRating } from "./stay.service";
 import { ReviewModel } from "@/model/review.model";
@@ -24,6 +24,7 @@ export interface QueryStay {
     lat: number;
     lng: number;
   };
+  labels: string[];
   reviews: ReviewModel[];
   booking: {
     checkIn: any;
@@ -35,7 +36,7 @@ const NUMBER_PER_PAGE = 8;
 // Fetches a list of stays and converts them into JSX elements.
 // This function takes optional filters and a pagination page number.
 export async function getSmallStaysJSX(
-  filters?: SearchByModel,
+  filters?: FilterByModel,
   page?: number
 ): Promise<React.JSX.Element[]> {
   try {
@@ -53,7 +54,7 @@ export async function getSmallStaysJSX(
 }
 //Fetches a list of stays and converts them into an array of StaySmallModel objects.
 export const getSmallStays = async (
-  filters?: SearchByModel,
+  filters?: FilterByModel,
   page?: number
 ): Promise<StaySmallModel[]> => {
   try {
@@ -97,11 +98,6 @@ export async function getStayById(stayId: string): Promise<StayModel> {
             name: true,
           },
         },
-        labels: {
-          select: {
-            name: true,
-          },
-        },
 
         location: true,
         reviews: {
@@ -120,6 +116,7 @@ export async function getStayById(stayId: string): Promise<StayModel> {
             images: true,
           },
         },
+
         booking: {
           select: {
             id: true,
@@ -156,7 +153,6 @@ export async function getStayById(stayId: string): Promise<StayModel> {
       };
     });
     const amenities = data.amenities.flatMap((amenity) => amenity.name);
-    const labels = data.labels.flatMap((label) => label.name);
 
     const stay = {
       ...data,
@@ -164,7 +160,6 @@ export async function getStayById(stayId: string): Promise<StayModel> {
       firstAvailableDate,
       amenities,
       baths: data.baths || 0,
-      labels,
       bedrooms,
       bookings: data.booking,
     };
@@ -221,7 +216,7 @@ export const queryStayToSmallStay = (
 
 // Fetches a list of stays based on specified filters and pagination, returning the raw query data.
 const getSmallStaysData = async (
-  searchBy?: SearchByModel,
+  searchBy?: FilterByModel,
   page?: number
 ): Promise<QueryStay[]> => {
   try {
@@ -241,7 +236,9 @@ const getSmallStaysData = async (
         },
       };
     }
+    if (searchBy?.label) queryFilters.labels = { has: searchBy.label };
 
+    console.log("queryFilters:", queryFilters);
     const stays = await prisma.stay.findMany({
       skip: (page || 0) * NUMBER_PER_PAGE,
       take: NUMBER_PER_PAGE,
@@ -256,6 +253,7 @@ const getSmallStaysData = async (
             url: true,
           },
         },
+        labels: true,
         price: true,
         locationId: true,
         location: true,

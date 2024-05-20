@@ -1,18 +1,21 @@
-import { SearchByModel } from "@/model/filters.model";
+import { FilterByModel } from "@/model/filters.model";
 import { ReviewModel } from "@/model/review.model";
-import {
-  BedRoomModel,
-  StayModel,
-  StaySmallModel,
-} from "@/model/stay.model";
+import { BedRoomModel, StayModel, StaySmallModel } from "@/model/stay.model";
 
 // Returns a default SearchByModel object with predefined empty or initial values.
-export const getEmptyFilter = (): SearchByModel => {
+export const getEmptyFilter = (): FilterByModel => {
   return {
     name: "",
     dates: { start: null, end: null },
     priceRange: { start: 1, end: 10000 },
     location: "",
+    host: "",
+    type: "Any type",
+    bedrooms: 0,
+    beds: 0,
+    baths: 0,
+    labels: [],
+    amenities: [],
   };
 };
 // Generates formatted check-in and check-out dates based on provided booking

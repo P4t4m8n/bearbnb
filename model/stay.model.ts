@@ -5,6 +5,7 @@ import { LikeModel } from "./Like.model";
 import { LocationAddressSmallModel, LocationModel } from "./location.model";
 import { ReviewModel } from "./review.model";
 import { UserSmallModel } from "./user.model";
+import { LabelsType } from "./labels.type";
 
 export type BedsType = "single" | "double" | "crib";
 
@@ -18,7 +19,7 @@ export interface AmenityModel {
 }
 export interface LabelModel {
   id: string;
-  name: string;
+  name: LabelsType;
 }
 export interface BedRoomModel {
   beds: BedsType[];

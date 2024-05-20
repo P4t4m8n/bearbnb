@@ -65,7 +65,7 @@ async function main() {
       data: reviews,
     });
 
-  // const likes = Array(10)
+ 
   //   .fill(null)
   //   .map(() => ({
   //     userId: user.id,

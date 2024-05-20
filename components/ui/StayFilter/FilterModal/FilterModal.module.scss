@@ -1,0 +1,18 @@
+.filterBtn {
+  display: flex;
+  border-radius: 0.5rem;
+  height: 3rem;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.725rem;
+  font-weight: 700;
+  padding: 1rem;
+  svg {
+    stroke-width: 3;
+    min-width: .9rem;
+    display: block;
+    aspect-ratio: 1;
+    fill: none;
+    stroke: currentcolor;
+  }
+}
