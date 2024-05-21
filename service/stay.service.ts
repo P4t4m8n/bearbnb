@@ -10,11 +10,11 @@ export const getEmptyFilter = (): FilterByModel => {
     priceRange: { start: 1, end: 10000 },
     location: "",
     host: "",
-    type: "Any type",
-    bedrooms: 0,
-    beds: 0,
+    type: "AnyType",
+    totalBeds: 0,
+    bedroomsAmount: 0,
     baths: 0,
-    labels: [],
+    label: "",
     amenities: [],
   };
 };

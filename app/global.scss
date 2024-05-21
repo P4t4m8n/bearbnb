@@ -10,5 +10,14 @@ body:has(.ConfirmBookingModal_bookingModal__eZKxT) {
     pointer-events: none;
   }
 }
+body:has(.FilterModal_filterModal__g3mr3) {
+  overflow: hidden;
 
-
+  .FilterModal_filterModal__g3mr3,
+  .FilterModal_filterModal__g3mr3 * {
+    pointer-events: all;
+  }
+  :not(.FilterModal_filterModal__g3mr3, .FilterModal_filterModal__g3mr3 *) {
+    pointer-events: none;
+  }
+}

@@ -22,7 +22,6 @@ export default function LoadMore() {
   useEffect(() => {
     let labelText = searchParams.get("label") as LabelsType;
     if (labelText) {
-      console.log("labelText:", labelText);
       filterBy.label = labelText;
     }
     const container = containerRef.current;

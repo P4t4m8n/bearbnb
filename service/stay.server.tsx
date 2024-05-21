@@ -7,6 +7,7 @@ import { FilterByModel } from "@/model/filters.model";
 import { BedsType, StayModel, StaySmallModel } from "@/model/stay.model";
 import { findFirstConsecutiveDaysAfterDate, getRating } from "./stay.service";
 import { ReviewModel } from "@/model/review.model";
+import { equal } from "assert";
 
 export interface QueryStay {
   id: string;
@@ -33,6 +34,9 @@ export interface QueryStay {
 }
 //pagination
 const NUMBER_PER_PAGE = 8;
+
+//****************public functions*****************//
+
 // Fetches a list of stays and converts them into JSX elements.
 // This function takes optional filters and a pagination page number.
 export async function getSmallStaysJSX(
@@ -217,38 +221,25 @@ export const queryStayToSmallStay = (
 // Fetches a list of stays based on specified filters and pagination, returning the raw query data.
 const getSmallStaysData = async (
   searchBy?: FilterByModel,
-  page?: number
+  page: number = 0 // Default page number is 0 if not provided
 ): Promise<QueryStay[]> => {
   try {
-    // Build dynamic where clause based on filters
-    const queryFilters: any = {};
-    if (searchBy?.name) queryFilters.name = searchBy.name;
-    if (searchBy?.host) queryFilters.hostId = searchBy.host;
-    if (searchBy?.dates?.start && searchBy?.dates?.end) {
-      queryFilters.booking = {
-        none: {
-          OR: [
-            {
-              checkIn: { lte: searchBy.dates.start },
-              checkOut: { gte: searchBy.dates.end },
-            },
-          ],
-        },
-      };
-    }
-    if (searchBy?.label) queryFilters.labels = { has: searchBy.label };
-
+    // Build the query filters using the helper function
+    const queryFilters = buildQueryFilters(searchBy);
     console.log("queryFilters:", queryFilters);
+
+    // Execute the Prisma query to fetch stays with the specified filters and pagination
     const stays = await prisma.stay.findMany({
-      skip: (page || 0) * NUMBER_PER_PAGE,
-      take: NUMBER_PER_PAGE,
-      where: queryFilters,
+      skip: page * NUMBER_PER_PAGE, // Skip records based on the page number and items per page
+      take: NUMBER_PER_PAGE, // Limit the number of records fetched to the items per page
+      where: queryFilters, // Apply the constructed query filters
       select: {
+        // Select specific fields to return
         id: true,
         type: true,
         name: true,
         images: {
-          take: 1,
+          take: 1, // Take only the first image
           select: {
             url: true,
           },
@@ -275,9 +266,65 @@ const getSmallStaysData = async (
       },
     });
 
-    if (!stays) throw new Error("Unable to load");
     return stays;
   } catch (error) {
-    throw new Error(`Failed to fetch stays ${error}`);
+    throw new Error(`Failed to fetch stays: ${error}`);
   }
+};
+
+// Function to build the query filters based on the search criteria
+const buildQueryFilters = (searchBy?: FilterByModel) => {
+  console.log("searchBy:", searchBy);
+  // Initialize an empty filter object
+  const queryFilters: any = {
+    name: searchBy?.name ? { contains: searchBy.name } : undefined,
+    hostId: searchBy?.host,
+    booking: searchBy?.dates
+      ? {
+          // Filter out bookings that overlap with the provided dates
+          none: {
+            OR: [
+              {
+                ...(searchBy.dates.start
+                  ? { checkIn: { lte: searchBy.dates.start } }
+                  : {}),
+                ...(searchBy.dates.end
+                  ? { checkOut: { gte: searchBy.dates.end } }
+                  : {}),
+              },
+            ],
+          },
+        }
+      : undefined,
+    labels: searchBy?.label ? { has: searchBy.label } : undefined,
+    entireHome:
+      searchBy?.type !== "AnyType"
+        ? searchBy?.type === "entireHome"
+          ? { equals: true }
+          : { equals: false }
+        : undefined, // Filter by entireHome if type is not "AnyType"
+
+    bedroomsAmount: searchBy?.bedroomsAmount
+      ? { lte: +searchBy.bedroomsAmount }
+      : undefined,
+    totalBeds: searchBy?.totalBeds ? { lte: +searchBy.totalBeds } : undefined,
+    baths: searchBy?.baths ? { lte: +searchBy.baths } : undefined,
+    amenities:
+      searchBy?.amenities && searchBy.amenities.length
+        ? {
+            some: {
+              name: {
+                in: searchBy.amenities,
+              },
+            },
+          }
+        : undefined,
+  };
+
+  // Remove any filters that are undefined
+  Object.keys(queryFilters).forEach(
+    (key) => queryFilters[key] === undefined && delete queryFilters[key]
+  );
+
+  return queryFilters;
 };

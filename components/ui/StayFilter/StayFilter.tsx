@@ -4,7 +4,7 @@ import styles from "./StayFilter.module.scss";
 import FilterModal from "./FilterModal/FilterModal";
 import { getEmptyFilter } from "@/service/stay.service";
 import { useFilterStore } from "@/store/userFIlterStore";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { LabelsType } from "@/model/labels.type";
 
@@ -15,13 +15,27 @@ export default function StayFilter() {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
+  const amanitas = useRef<string[]>([]);
 
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>): void => {
-    console.log("ev:", ev);
+    const { target } = ev;
+    const { value, name, type } = target;
+  
+    if (type === "checkbox") {
+      if (target.checked) {
+        amanitas.current.push(value);
+      } else {
+        amanitas.current = amanitas.current.filter((item) => item !== value);
+      }
+      params.set(name, amanitas.current.join(","));
+      replace(`${pathName}?${params.toString()}`);
+      return;
+    }
+    params.set(name, value);
+    replace(`${pathName}?${params.toString()}`);
   };
 
   const handleLabelCLick = (label: LabelsType) => {
-    console.log("label:", label);
     let check = filterBy.label === label;
     if (check) return;
     setFilterBy({ ...filterBy, label });

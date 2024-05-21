@@ -3,7 +3,6 @@ import { prisma } from "./prisma";
 import { Amenities } from "@prisma/client";
 
 async function main() {
-  
   const host = { id: "94983507-c553-4681-8edf-064d9b226a88" };
   const user = { id: "ad13184a-0f8b-418c-8dde-5029cb41a6af" };
 
@@ -34,6 +33,8 @@ async function main() {
         hostId: host.id,
         entireHome: Math.random() > 0.5,
         locationId: location.id,
+        bedroomsAmount: faker.number.int({ min: 1, max: 5 }),
+        totalBeds: faker.number.int({ min: 1, max: 5 }),
         images: {
           create: Array.from({ length: 15 }, (_, i) => ({
             url: `https://source.unsplash.com/random/?home,apartment,house&sig=${Date.now()}${i}`,
@@ -65,38 +66,37 @@ async function main() {
       data: reviews,
     });
 
- 
-  //   .fill(null)
-  //   .map(() => ({
-  //     userId: user.id,
-  //     stayId: stay.id,
-  //   }));
-  // await prisma.like.createMany({
-  //   data: likes,
-  // });
+    //   .fill(null)
+    //   .map(() => ({
+    //     userId: user.id,
+    //     stayId: stay.id,
+    //   }));
+    // await prisma.like.createMany({
+    //   data: likes,
+    // });
 
-  // const startDate = new Date();
-  // const bookings = Array(3)
-  //   .fill(null)
-  //   .map((_, index) => {
-  //     const checkIn = new Date(
-  //       startDate.getTime() + index * (4 * 24 * 60 * 60 * 1000)
-  //     ); // 4 days in milliseconds
-  //     const checkOut = new Date(checkIn.getTime() + 4 * 24 * 60 * 60 * 1000);
-  //     return {
-  //       userId: user.id,
-  //       hostId: host.id,
-  //       stayId: stay.id,
-  //       price: 100,
-  //       adults: 2,
-  //       checkIn: checkIn,
-  //       checkOut: checkOut,
-  //       bookingTime: new Date(),
-  //     };
-  //   });
-  // await prisma.booking.createMany({
-  //   data: bookings,
-  // });
+    // const startDate = new Date();
+    // const bookings = Array(3)
+    //   .fill(null)
+    //   .map((_, index) => {
+    //     const checkIn = new Date(
+    //       startDate.getTime() + index * (4 * 24 * 60 * 60 * 1000)
+    //     ); // 4 days in milliseconds
+    //     const checkOut = new Date(checkIn.getTime() + 4 * 24 * 60 * 60 * 1000);
+    //     return {
+    //       userId: user.id,
+    //       hostId: host.id,
+    //       stayId: stay.id,
+    //       price: 100,
+    //       adults: 2,
+    //       checkIn: checkIn,
+    //       checkOut: checkOut,
+    //       bookingTime: new Date(),
+    //     };
+    //   });
+    // await prisma.booking.createMany({
+    //   data: bookings,
+    // });
 
     const highlights = Array(3)
       .fill(null)

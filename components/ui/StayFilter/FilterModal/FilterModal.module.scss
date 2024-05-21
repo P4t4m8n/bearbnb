@@ -1,3 +1,6 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixin";
+
 .filterBtn {
   display: flex;
   border-radius: 0.5rem;
@@ -9,10 +12,226 @@
   padding: 1rem;
   svg {
     stroke-width: 3;
-    min-width: .9rem;
+    min-width: 0.9rem;
     display: block;
     aspect-ratio: 1;
     fill: none;
     stroke: currentcolor;
+  }
+}
+
+.filterModal {
+  background-color: white;
+  position: fixed;
+  z-index: 999;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  width: 75vw;
+  transform: translate(-50%, -50%);
+  height: 90vh;
+  justify-content: space-between;
+  border-radius: $border-radius-1;
+  box-shadow: 0px 10px 3000px 1500px rgba(0, 0, 0, 0.5);
+
+  header {
+    border-top-left-radius: $border-radius-1;
+    border-top-right-radius: $border-radius-1;
+    display: flex;
+    max-height: 10%;
+    background-color: white;
+    gap: 45%;
+    align-items: center;
+    padding: 1rem 1rem 0 1rem;
+    @include bordered-padding;
+    button {
+      box-shadow: none;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    h1 {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+  }
+
+  .container {
+    padding-inline: 2rem;
+    max-height: 70%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    p {
+      font-size: 1rem;
+      font-weight: 400;
+    }
+    > *:not(:last-child) {
+      @include bordered;
+    }
+
+    .type {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .typeRadio {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        padding-inline: 4rem;
+
+        label {
+          width: 100%;
+          min-width: 4.5rem;
+          text-align: center;
+          color: $model-button-black;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1rem;
+          min-height: 4rem;
+          @include border-1;
+          font-weight: 700;
+          @include buttonBackground;
+          &:first-of-type {
+            border-end-start-radius: $border-radius-1;
+            border-top-left-radius: $border-radius-1;
+            border-right: none;
+          }
+          &:last-of-type {
+            border-start-end-radius: $border-radius-1;
+            border-end-end-radius: $border-radius-1;
+            border-left: none;
+          }
+          &:hover {
+            @include border-1;
+            border-color: $model-button-black;
+          }
+        }
+        input:checked + label {
+          background-color: $model-button-black;
+          color: white;
+          box-shadow: inset 0 0 2px;
+          border: transparent;
+        }
+      }
+    }
+    .priceRange {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      input {
+        width: calc(100% - 4rem);
+        align-self: center;
+      }
+      .price {
+        width: calc(100% - 4rem);
+        display: flex;
+        gap: 1rem;
+        align-self: center;
+        justify-content: center;
+        align-items: center;
+        div {
+          @include border-1;
+          width: 50%;
+          border-radius: $border-radius-1-2;
+          padding: 0.5rem;
+          h6 {
+            font-size: 0.7rem;
+            font-weight: 400;
+          }
+          h3 {
+            font-size: 1rem;
+            font-weight: 300;
+          }
+        }
+      }
+    }
+    .rooms {
+      input {
+        display: none;
+      }
+      min-height: fit-content;
+      display: flex;
+      gap: 1rem;
+      flex-direction: column;
+      div {
+        min-height: fit-content;
+        display: flex;
+        gap: 1rem;
+      }
+      label {
+        border-radius: $border-radius-2;
+        min-height: 2rem;
+        min-width: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+
+        @include border-1;
+      }
+    }
+  }
+
+  .amenities {
+    display: grid;
+    gap: 1rem;
+    ul {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+      label {
+        display: flex;
+        gap: 0.5rem;
+        font-size: 1rem;
+        font-weight: 300;
+        input[type="checkbox"] {
+          width: 2rem;
+        }
+      }
+    }
+  }
+  input:checked + label {
+    background-color: $model-button-black;
+    color: white;
+    box-shadow: inset 0 0 2px;
+    border: transparent;
+  }
+
+  .actions {
+    height: 10%;
+    display: flex;
+    padding: 0 2rem 2rem 2rem;
+    justify-content: space-between;
+    button {
+      min-height: 3rem;
+      font-weight: 700;
+      box-shadow: none;
+      border-radius: $border-radius-1-2;
+
+      &:first-of-type {
+        color: $model-button-black;
+        width: 6rem;
+        &:hover {
+          background-color: rgb(233, 233, 233);
+        }
+      }
+      &:last-of-type {
+        color: white;
+        background-color: $model-button-black;
+        width: 10rem;
+        &:hover {
+          background-color: black;
+        }
+      }
+    }
   }
 }

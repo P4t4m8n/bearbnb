@@ -86,28 +86,30 @@ enum BookingStatus {
 }
 
 model Stay {
-  id          String      @id @default(uuid())
-  name        String
-  type        String
-  price       Float
-  summary     String
-  description String      @default("")
-  entireHome  Boolean
-  capacity    Int
-  baths       Int         @default(0)
-  uniqueRooms String[]
-  hostId      String
-  host        Profile     @relation(fields: [hostId], references: [id], onDelete: Cascade)
-  locationId  String      @unique
-  location    Location    @relation(fields: [locationId], references: [id], onDelete: Cascade)
-  images      Image[]
-  amenities   Amenity[]   @relation("StayAmenities")
-  labels      String[]    @default([""])
-  reviews     Review[]
-  likes       Like[]
-  bedrooms    BedRoom[]
-  booking     Booking[]
-  highlights  Highlight[]
+  id             String      @id @default(uuid())
+  name           String
+  type           String
+  price          Float
+  summary        String
+  description    String      @default("")
+  entireHome     Boolean
+  capacity       Int
+  baths          Int         @default(0)
+  bedroomsAmount Int         @default(0)
+  totalBeds      Int         @default(0)
+  uniqueRooms    String[]
+  hostId         String
+  host           Profile     @relation(fields: [hostId], references: [id], onDelete: Cascade)
+  locationId     String      @unique
+  location       Location    @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  images         Image[]
+  amenities      Amenity[]   @relation("StayAmenities")
+  labels         String[]    @default([""])
+  reviews        Review[]
+  likes          Like[]
+  bedrooms       BedRoom[]
+  booking        Booking[]
+  highlights     Highlight[]
 }
 
 model Review {

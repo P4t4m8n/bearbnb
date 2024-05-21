@@ -2,7 +2,8 @@ $main-pink: rgb(255, 56, 92);
 $main-cancel: #2f4858;
 $main-pending: #9f4d9c;
 $main-link: #635696;
-$main-active:#D83C87;
+$main-active: #d83c87;
+$model-button-black: #222222;
 $svg-fill-black: rgb(34, 34, 34);
 $svg-fill-gary: rgb(106, 106, 106);
 
@@ -11,3 +12,5 @@ $border-radius-1: 1rem;
 $border-radius-2: 2rem;
 
 $max-width-padding: calc(100vw - 8rem);
+
+$model-btn-shadow: inset 0 2px 12px;
