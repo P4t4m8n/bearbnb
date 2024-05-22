@@ -18,7 +18,6 @@ export async function middleware(req: NextRequest) {
   }
 
   if (pathname.startsWith("profile")) {
-    console.log("profile");
   }
 
   await supabase.auth.getSession();

@@ -9,14 +9,13 @@ import { FilterByModel } from "@/model/filters.model";
 interface Props {
   filterBy: FilterByModel;
   handleChange: (ev: React.ChangeEvent<HTMLInputElement>) => void;
-  loading: boolean;
+  // loading: boolean;
   onClear: () => void;
   onSubmit: () => void;
 }
 
 export default function FilterModal({
   filterBy,
-  loading,
   handleChange,
   onClear,
   onSubmit,
@@ -76,7 +75,14 @@ export default function FilterModal({
             <div className={styles.priceRange}>
               <h2>Price range</h2>
               <p>Nightly prices including fees and taxes</p>
-              <input type="range" min="0" max="2400" step="1" />
+              <input
+              name="priceRange"
+                onChange={handleChange}
+                type="range"
+                min="0"
+                max="2400"
+                step="1"
+              />
               <div className={styles.price}>
                 <div>
                   <h6>Minimum</h6>
@@ -337,12 +343,8 @@ export default function FilterModal({
             </div>
           </section>
           <div className={styles.actions}>
-            <button disabled={loading} onClick={onClear}>
-              Clear all
-            </button>
-            <button disabled={loading} onClick={onSubmit}>
-              Show places
-            </button>
+            <button onClick={onClear}>Clear all</button>
+            <button onClick={onSubmit}>Show places</button>
           </div>
         </section>
       )}

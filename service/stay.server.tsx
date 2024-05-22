@@ -8,6 +8,7 @@ import { BedsType, StayModel, StaySmallModel } from "@/model/stay.model";
 import { findFirstConsecutiveDaysAfterDate, getRating } from "./stay.service";
 import { ReviewModel } from "@/model/review.model";
 import { equal } from "assert";
+import { getCache, setCache } from "@/util/redis.util";
 
 export interface QueryStay {
   id: string;
@@ -43,6 +44,10 @@ export async function getSmallStaysJSX(
   filters?: FilterByModel,
   page?: number
 ): Promise<React.JSX.Element[]> {
+  // const cacheStays = await getCache("stays");
+  // if (cacheStays && cacheStays.length) {
+  //   return cacheStays;
+  // }
   try {
     const stays = await getSmallStaysData(filters, page);
 
@@ -50,6 +55,7 @@ export async function getSmallStaysJSX(
 
     // Convert stay data to JSX elements using a helper function.
     const mappedStays = queryStayToStallSmallJSX(stays);
+    // setCache("stays", mappedStays);
     return mappedStays;
   } catch (error) {
     console.error("Failed to fetch stays:", error);
@@ -66,7 +72,6 @@ export const getSmallStays = async (
 
     if (!stays) throw new Error("Failed to fetch stays");
 
-    // Convert stay data to JSX elements using a helper function.
     const mappedStays = queryStayToSmallStay(stays);
     return mappedStays;
   } catch (error) {
@@ -221,12 +226,11 @@ export const queryStayToSmallStay = (
 // Fetches a list of stays based on specified filters and pagination, returning the raw query data.
 const getSmallStaysData = async (
   searchBy?: FilterByModel,
-  page: number = 0 // Default page number is 0 if not provided
+  page: number = 1 // Default page number is 0 if not provided
 ): Promise<QueryStay[]> => {
   try {
     // Build the query filters using the helper function
     const queryFilters = buildQueryFilters(searchBy);
-    console.log("queryFilters:", queryFilters);
 
     // Execute the Prisma query to fetch stays with the specified filters and pagination
     const stays = await prisma.stay.findMany({
@@ -274,7 +278,6 @@ const getSmallStaysData = async (
 
 // Function to build the query filters based on the search criteria
 const buildQueryFilters = (searchBy?: FilterByModel) => {
-  console.log("searchBy:", searchBy);
   // Initialize an empty filter object
   const queryFilters: any = {
     name: searchBy?.name ? { contains: searchBy.name } : undefined,
@@ -296,6 +299,14 @@ const buildQueryFilters = (searchBy?: FilterByModel) => {
           },
         }
       : undefined,
+    location: searchBy?.location
+      ? {
+          distance_box: {
+            center: { x: searchBy.location.lat, y: searchBy.location.lng },
+            radius: searchBy.location.radius,
+          },
+        }
+      : undefined,
     labels: searchBy?.label ? { has: searchBy.label } : undefined,
     entireHome:
       searchBy?.type !== "AnyType"
@@ -309,6 +320,9 @@ const buildQueryFilters = (searchBy?: FilterByModel) => {
       : undefined,
     totalBeds: searchBy?.totalBeds ? { lte: +searchBy.totalBeds } : undefined,
     baths: searchBy?.baths ? { lte: +searchBy.baths } : undefined,
+    price: searchBy?.priceRange
+      ? { lte: +searchBy.priceRange?.end, gte: +searchBy.priceRange?.start }
+      : undefined,
     amenities:
       searchBy?.amenities && searchBy.amenities.length
         ? {

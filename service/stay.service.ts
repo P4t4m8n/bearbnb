@@ -1,6 +1,12 @@
-import { FilterByModel } from "@/model/filters.model";
+import { Amenity } from "@/model/amenities.type";
+import { FilterByModel, SearchParamsModel } from "@/model/filters.model";
 import { ReviewModel } from "@/model/review.model";
-import { BedRoomModel, StayModel, StaySmallModel } from "@/model/stay.model";
+import {
+  BedRoomModel,
+  LabelModel,
+  StayModel,
+  StaySmallModel,
+} from "@/model/stay.model";
 
 // Returns a default SearchByModel object with predefined empty or initial values.
 export const getEmptyFilter = (): FilterByModel => {
@@ -8,7 +14,6 @@ export const getEmptyFilter = (): FilterByModel => {
     name: "",
     dates: { start: null, end: null },
     priceRange: { start: 1, end: 10000 },
-    location: "",
     host: "",
     type: "AnyType",
     totalBeds: 0,
@@ -220,6 +225,73 @@ export const stayToSmallStay = (stay: StayModel): StaySmallModel => {
     location: stay.location,
     rating: getRating(stay.reviews),
   };
+};
+
+export const searchParamsToFilter = (
+  searchParams: SearchParamsModel
+): FilterByModel => {
+  const { startDate, endDate } = searchParams;
+  const location = searchParams.location.split(",");
+  console.log("location:", location)
+  return {
+    dates: {
+      start: startDate ? new Date(startDate) : null,
+      end: endDate ? new Date(endDate) : null,
+    },
+    priceRange: { start: +searchParams.priceRange, end: 999999999999 },
+    location: location && {
+      lat: +location[0],
+      lng: +location[1],
+      radius: 100,
+    },
+    name: searchParams.name || "",
+    label: searchParams.label || "",
+    type: searchParams.type,
+    bedroomsAmount: searchParams.bedroomsAmount
+      ? searchParams.bedroomsAmount
+      : 99,
+    totalBeds: searchParams.totalBeds ? searchParams.totalBeds : 99,
+    baths: searchParams.baths ? searchParams.baths : 99,
+    amenities: searchParams.amenities
+      ? (searchParams.amenities.split(",") as Amenity[])
+      : [],
+  };
+};
+
+export const queryIteratorParamToFilter = (
+  query: IterableIterator<[string, string]>
+): FilterByModel => {
+  const paramsArray: { key: string; value: string }[] = [];
+  for (const [key, val] of query) {
+    paramsArray.push({ key, value: val });
+  }
+
+  const filterByObject: FilterByModel = {};
+
+  paramsArray.forEach(({ key, value }) => {
+    switch (key) {
+      case "dates":
+        const [start, end] = value.split(",");
+        filterByObject.dates = { start: new Date(start), end: new Date(end) };
+        break;
+      case "priceRange":
+        const [startPrice, endPrice] = value.split(",").map(Number);
+        filterByObject.priceRange = { start: startPrice, end: endPrice };
+        break;
+      case "bedroomsAmount":
+      case "totalBeds":
+      case "baths":
+        filterByObject[key] = Number(value);
+        break;
+      case "amenities":
+        filterByObject.amenities = value.split(",") as Amenity[];
+        break;
+      default:
+        filterByObject[key as keyof FilterByModel] = value as any;
+        break;
+    }
+  });
+  return filterByObject;
 };
 
 export const findFirstConsecutiveDaysAfterDate = (

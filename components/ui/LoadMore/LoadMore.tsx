@@ -30,16 +30,14 @@ export default function LoadMore() {
         async (entries) => {
           if (entries[0].isIntersecting) {
             setLoading(true);
-            const _stays = await getSmallStaysJSX(filterBy, page);
+            const _stays = await getSmallStaysJSX();
             if (_stays)
               setStays((prev) => {
                 return [...prev, ..._stays];
               });
             page++;
             setLoading(false);
-            if (!_stays || !_stays.length) {
-              observer.disconnect();
-            }
+            if (!_stays || _stays.length < 8) page = 1;
           }
         },
         {

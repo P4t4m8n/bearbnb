@@ -36,7 +36,6 @@ export function User({ _user }: Props) {
   };
 
   const closeModal = () => {
-    console.log("close modal");
   };
 
   return (

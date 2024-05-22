@@ -5,6 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getEmptyFilter } from "@/service/stay.service";
 import { useModal } from "@/components/hooks/useModal";
 import { Calendar } from "../Calendar/Calendar";
+import AddressSearch from "./AdressSearch/AdressAutoComplete/AddressSearch";
 interface Props {
   isActive: boolean;
 }
@@ -104,14 +105,7 @@ export function StaySearch({ isActive }: Props) {
 
   return (
     <div className={scrollClass}>
-      <div className={`${styles.input} ${styles.btn}`}>
-        <span>Where</span>
-        <input
-          placeholder="Search destinations"
-          value={filterBy.name}
-          onChange={handleName}
-        />
-      </div>
+      <AddressSearch />
       <button
         onClick={() => setModal(true)}
         ref={calendarRef}
