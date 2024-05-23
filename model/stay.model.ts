@@ -39,7 +39,7 @@ export interface HighlightsModel {
 }
 export interface MinimumStayModel {
   id: string;
-  images: ImageModel[];
+  images: string[];
   name: string;
 }
 export interface StayLikeModel extends MinimumStayModel {
@@ -57,7 +57,6 @@ export interface StaySmallModel extends MinimumStayModel {
   firstAvailableDate?: Date[];
 }
 export interface StayModel extends StaySmallModel {
-  images: ImageModel[];
   summary: string;
   description?: string;
   capacity: number;

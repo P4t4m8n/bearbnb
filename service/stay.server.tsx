@@ -7,14 +7,14 @@ import { FilterByModel } from "@/model/filters.model";
 import { BedsType, StayModel, StaySmallModel } from "@/model/stay.model";
 import { findFirstConsecutiveDaysAfterDate, getRating } from "./stay.service";
 import { ReviewModel } from "@/model/review.model";
-import { equal } from "assert";
 import { getCache, setCache } from "@/util/redis.util";
+import { LocationModel } from "@/model/location.model";
 
 export interface QueryStay {
   id: string;
   type: string;
   name: string;
-  images: { url: string }[];
+  images: string[];
   price: number;
   locationId: string;
   location: {
@@ -23,8 +23,10 @@ export interface QueryStay {
     countryCode: string;
     city: string;
     address: string;
-    lat: number;
-    lng: number;
+    coordinates: {
+      coordinates: number[];
+      type: "Point";
+    };
   };
   labels: string[];
   reviews: ReviewModel[];
@@ -32,6 +34,11 @@ export interface QueryStay {
     checkIn: any;
     checkOut: any;
   }[];
+}
+
+interface GeoJson {
+  type: string;
+  coordinates: [number, number];
 }
 //pagination
 const NUMBER_PER_PAGE = 8;
@@ -86,13 +93,6 @@ export async function getStayById(stayId: string): Promise<StayModel> {
     const data = await prisma.stay.findUnique({
       where: { id: stayId },
       include: {
-        images: {
-          take: 5,
-          select: {
-            id: true,
-            url: true,
-          },
-        },
         host: {
           select: {
             id: true,
@@ -158,14 +158,28 @@ export async function getStayById(stayId: string): Promise<StayModel> {
     const bedrooms = data.bedrooms.map((bedroom) => {
       return {
         beds: bedroom.beds.flatMap((bed) => bed as BedsType),
-        images: bedroom.images.map((image) => image.url),
+        images: bedroom.images,
       };
     });
     const amenities = data.amenities.flatMap((amenity) => amenity.name);
 
+    const { id, country, countryCode, city, address } = data.location;
+    const coordinates = data.location.coordinates as unknown as GeoJson;
+
+    const location: LocationModel = {
+      lat: coordinates.coordinates[0],
+      lng: coordinates.coordinates[1],
+      id,
+      country,
+      countryCode,
+      city,
+      address,
+    };
+
     const stay = {
       ...data,
       rating,
+      location,
       firstAvailableDate,
       amenities,
       baths: data.baths || 0,
@@ -189,7 +203,15 @@ export const queryStayToStallSmallJSX = (
       type: stay.type,
       images: stay.images,
       price: stay.price,
-      location: stay.location,
+      location: {
+        id: stay.location.id,
+        city: stay.location.city,
+        country: stay.location.country,
+        address: stay.location.address,
+        countryCode: stay.location.countryCode,
+        lat: stay.location.coordinates.coordinates[0],
+        lng: stay.location.coordinates.coordinates[1],
+      },
       firstAvailableDate: findFirstConsecutiveDaysAfterDate(
         new Date(),
         stay.booking,
@@ -210,7 +232,15 @@ export const queryStayToSmallStay = (
       type: stay.type,
       images: stay.images,
       price: stay.price,
-      location: stay.location,
+      location: {
+        id: stay.location.id,
+        city: stay.location.city,
+        country: stay.location.country,
+        address: stay.location.address,
+        countryCode: stay.location.countryCode,
+        lat: stay.location.coordinates.coordinates[0],
+        lng: stay.location.coordinates.coordinates[1],
+      },
       firstAvailableDate: findFirstConsecutiveDaysAfterDate(
         new Date(),
         stay.booking,
@@ -226,49 +256,83 @@ export const queryStayToSmallStay = (
 // Fetches a list of stays based on specified filters and pagination, returning the raw query data.
 const getSmallStaysData = async (
   searchBy?: FilterByModel,
-  page: number = 1 // Default page number is 0 if not provided
+  page: number = 1
 ): Promise<QueryStay[]> => {
   try {
     // Build the query filters using the helper function
-    const queryFilters = buildQueryFilters(searchBy);
+    const filterConditions = buildQueryFilters(searchBy);
 
-    // Execute the Prisma query to fetch stays with the specified filters and pagination
-    const stays = await prisma.stay.findMany({
-      skip: page * NUMBER_PER_PAGE, // Skip records based on the page number and items per page
-      take: NUMBER_PER_PAGE, // Limit the number of records fetched to the items per page
-      where: queryFilters, // Apply the constructed query filters
-      select: {
-        // Select specific fields to return
-        id: true,
-        type: true,
-        name: true,
-        images: {
-          take: 1, // Take only the first image
-          select: {
-            url: true,
-          },
-        },
-        labels: true,
-        price: true,
-        locationId: true,
-        location: true,
-        reviews: {
-          select: {
-            rate: true,
-            id: true,
-            text: true,
-            userId: true,
-            stayId: true,
-          },
-        },
-        booking: {
-          select: {
-            checkIn: true,
-            checkOut: true,
-          },
-        },
-      },
-    });
+    // Construct the raw SQL query
+    const query = `
+    WITH filtered_stays AS (
+      SELECT 
+        "Stay".id, 
+        "Stay".type, 
+        "Stay".name, 
+        "Stay".images,
+        "Stay".labels, 
+        "Stay".price, 
+        "Stay"."locationId"
+      FROM 
+        "Stay"
+      JOIN 
+        "Location" ON "Stay"."locationId" = "Location".id
+      WHERE 1=1 ${filterConditions}
+    ),
+    locations AS (
+      SELECT 
+        "Location".id,
+        "Location".country,
+        "Location"."countryCode", 
+        "Location".city,
+        "Location".address,
+        "Location".coordinates,
+        "Location".id AS "locationId"
+      FROM 
+        "Location"
+      WHERE "Location".id IN (SELECT "locationId" FROM filtered_stays)
+    ),
+    stay_reviews AS (
+      SELECT 
+        "Review"."stayId",
+        json_agg(json_build_object('rate', "Review".rate, 'id', "Review".id, 'text', "Review".text, 'userId', "Review"."userId", 'stayId', "Review"."stayId")) AS reviews
+      FROM 
+        "Review"
+        WHERE "Review"."stayId" IN (SELECT id FROM filtered_stays)
+        GROUP BY "Review"."stayId"
+    ),
+    stay_bookings AS (
+      SELECT 
+        "Booking"."stayId",
+        json_agg(json_build_object('checkIn', "Booking"."checkIn", 'checkOut', "Booking"."checkOut")) AS bookings
+      FROM 
+        "Booking"
+      WHERE "Booking"."stayId" IN (SELECT id FROM filtered_stays)
+      GROUP BY "Booking"."stayId"
+    )
+    SELECT 
+      fs.*,
+      json_build_object(
+        'id', l.id,
+        'country', l.country,
+        'countryCode', l."countryCode",
+        'city', l.city,
+        'address', l.address,
+        'coordinates', l.coordinates
+      ) AS location,
+      COALESCE(sr.reviews, '[]') AS reviews,
+      COALESCE(sb.bookings, '[]') AS bookings
+    FROM 
+      filtered_stays fs
+    JOIN 
+      locations l ON fs."locationId" = l."locationId"
+    LEFT JOIN 
+      stay_reviews sr ON fs.id = sr."stayId"
+    LEFT JOIN 
+      stay_bookings sb ON fs.id = sb."stayId";
+  `;
+    // Execute the raw SQL query
+    const stays = (await prisma.$queryRawUnsafe(query)) as QueryStay[];
 
     return stays;
   } catch (error) {
@@ -277,68 +341,152 @@ const getSmallStaysData = async (
 };
 
 // Function to build the query filters based on the search criteria
+// const buildQueryFilters = (searchBy?: FilterByModel) => {
+//   // Initialize an empty filter object
+//   const queryFilters: any = {
+//     name: searchBy?.name ? { contains: searchBy.name } : undefined,
+//     hostId: searchBy?.host,
+//     booking: searchBy?.dates
+//       ? {
+//           // Filter out bookings that overlap with the provided dates
+//           none: {
+//             OR: [
+//               {
+//                 ...(searchBy.dates.start
+//                   ? { checkIn: { lte: searchBy.dates.start } }
+//                   : {}),
+//                 ...(searchBy.dates.end
+//                   ? { checkOut: { gte: searchBy.dates.end } }
+//                   : {}),
+//               },
+//             ],
+//           },
+//         }
+//       : undefined,
+//     location: searchBy?.location
+//       ? {
+//           distance_box: {
+//             center: { x: searchBy.location.lat, y: searchBy.location.lng },
+//             radius: searchBy.location.radius,
+//           },
+//         }
+//       : undefined,
+//     labels: searchBy?.label ? { has: searchBy.label } : undefined,
+//     entireHome:
+//       searchBy?.type !== "AnyType"
+//         ? searchBy?.type === "entireHome"
+//           ? { equals: true }
+//           : { equals: false }
+//         : undefined, // Filter by entireHome if type is not "AnyType"
+
+//     bedroomsAmount: searchBy?.bedroomsAmount
+//       ? { lte: +searchBy.bedroomsAmount }
+//       : undefined,
+//     totalBeds: searchBy?.totalBeds ? { lte: +searchBy.totalBeds } : undefined,
+//     baths: searchBy?.baths ? { lte: +searchBy.baths } : undefined,
+//     price: searchBy?.priceRange
+//       ? { lte: +searchBy.priceRange?.end, gte: +searchBy.priceRange?.start }
+//       : undefined,
+//     amenities:
+//       searchBy?.amenities && searchBy.amenities.length
+//         ? {
+//             some: {
+//               name: {
+//                 in: searchBy.amenities,
+//               },
+//             },
+//           }
+//         : undefined,
+//   };
+
+//   // Remove any filters that are undefined
+//   Object.keys(queryFilters).forEach(
+//     (key) => queryFilters[key] === undefined && delete queryFilters[key]
+//   );
+
+//   return queryFilters;
+// };
+
 const buildQueryFilters = (searchBy?: FilterByModel) => {
-  // Initialize an empty filter object
-  const queryFilters: any = {
-    name: searchBy?.name ? { contains: searchBy.name } : undefined,
-    hostId: searchBy?.host,
-    booking: searchBy?.dates
-      ? {
-          // Filter out bookings that overlap with the provided dates
-          none: {
-            OR: [
-              {
-                ...(searchBy.dates.start
-                  ? { checkIn: { lte: searchBy.dates.start } }
-                  : {}),
-                ...(searchBy.dates.end
-                  ? { checkOut: { gte: searchBy.dates.end } }
-                  : {}),
-              },
-            ],
-          },
-        }
-      : undefined,
-    location: searchBy?.location
-      ? {
-          distance_box: {
-            center: { x: searchBy.location.lat, y: searchBy.location.lng },
-            radius: searchBy.location.radius,
-          },
-        }
-      : undefined,
-    labels: searchBy?.label ? { has: searchBy.label } : undefined,
-    entireHome:
-      searchBy?.type !== "AnyType"
-        ? searchBy?.type === "entireHome"
-          ? { equals: true }
-          : { equals: false }
-        : undefined, // Filter by entireHome if type is not "AnyType"
+  const additionalConditions = [];
 
-    bedroomsAmount: searchBy?.bedroomsAmount
-      ? { lte: +searchBy.bedroomsAmount }
-      : undefined,
-    totalBeds: searchBy?.totalBeds ? { lte: +searchBy.totalBeds } : undefined,
-    baths: searchBy?.baths ? { lte: +searchBy.baths } : undefined,
-    price: searchBy?.priceRange
-      ? { lte: +searchBy.priceRange?.end, gte: +searchBy.priceRange?.start }
-      : undefined,
-    amenities:
-      searchBy?.amenities && searchBy.amenities.length
-        ? {
-            some: {
-              name: {
-                in: searchBy.amenities,
-              },
-            },
-          }
-        : undefined,
-  };
+  if (searchBy?.name) {
+    additionalConditions.push(`name ILIKE '%${searchBy.name}%'`);
+  }
+  if (searchBy?.host) {
+    additionalConditions.push(`"hostId" = '${searchBy.host}'`);
+  }
+  if (searchBy?.dates) {
+    if (searchBy.dates.start || searchBy.dates.end) {
+      additionalConditions.push(`
+        NOT EXISTS (
+          SELECT 1 FROM "Booking"
+          WHERE "Booking"."locationId" = "Location"."id"
+          AND (
+            (${
+              searchBy.dates.start
+                ? `"checkIn" <= '${searchBy.dates.start}'`
+                : "1=1"
+            })
+            AND 
+            (${
+              searchBy.dates.end
+                ? `"checkOut" >= '${searchBy.dates.end}'`
+                : "1=1"
+            })
+          )
+        )
+      `);
+    }
+  }
+  if (searchBy?.label) {
+    additionalConditions.push(
+      `labels @> ARRAY['${searchBy.label}']::varchar[]`
+    );
+  }
+  if (searchBy?.type && searchBy.type !== "AnyType") {
+    additionalConditions.push(
+      `"entireHome" = ${searchBy.type === "entireHome"}`
+    );
+  }
+  if (searchBy?.bedroomsAmount) {
+    additionalConditions.push(`"bedroomsAmount" <= ${searchBy.bedroomsAmount}`);
+  }
+  if (searchBy?.totalBeds) {
+    additionalConditions.push(`"totalBeds" <= ${searchBy.totalBeds}`);
+  }
+  if (searchBy?.baths) {
+    additionalConditions.push(`"baths" <= ${searchBy.baths}`);
+  }
+  if (searchBy?.priceRange) {
+    additionalConditions.push(
+      `"price" BETWEEN ${searchBy.priceRange.start || 1} AND ${
+        searchBy.priceRange.end || 999999
+      }`
+    );
+  }
+  if (searchBy?.amenities && searchBy.amenities.length) {
+    additionalConditions.push(
+      `EXISTS (SELECT 1 FROM unnest(amenities) AS amenity WHERE amenity = ANY(ARRAY['${searchBy.amenities.join(
+        "','"
+      )}']))`
+    );
+  }
 
-  // Remove any filters that are undefined
-  Object.keys(queryFilters).forEach(
-    (key) => queryFilters[key] === undefined && delete queryFilters[key]
-  );
+  if (searchBy?.location) {
+    additionalConditions.push(`
+      ST_DWithin(
+        ST_SetSRID(ST_Point(${searchBy.location.lng}, ${searchBy.location.lat}), 4326)::geography,
+        ST_SetSRID((coordinates->>'coordinates')::jsonb, 4326)::geography,
+        ${searchBy.location.radius}
+      )
+    `);
+  }
 
-  return queryFilters;
+  const filterConditions =
+    additionalConditions.length > 0
+      ? `AND ${additionalConditions.join(" AND ")}`
+      : "";
+
+  return filterConditions;
 };

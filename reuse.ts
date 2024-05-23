@@ -106,3 +106,57 @@
 //       imgUrl: faker.image.avatar(),
 //     },
 //   });
+
+
+
+// const getSmallStaysData = async (
+//   searchBy?: FilterByModel,
+//   page: number = 1 // Default page number is 0 if not provided
+// ): Promise<QueryStay[]> => {
+//   try {
+//     // Build the query filters using the helper function
+//     const queryFilters = buildQueryFilters(searchBy);
+
+//     // Execute the Prisma query to fetch stays with the specified filters and pagination
+// const stays = await prisma.stay.findMany({
+//   skip: page * NUMBER_PER_PAGE, // Skip records based on the page number and items per page
+//   take: NUMBER_PER_PAGE, // Limit the number of records fetched to the items per page
+//   where: queryFilters, // Apply the constructed query filters
+//   select: {
+//     // Select specific fields to return
+//     id: true,
+//     type: true,
+//     name: true,
+//     images: {
+//       take: 1, // Take only the first image
+//       select: {
+//         url: true,
+//       },
+//     },
+//     labels: true,
+//     price: true,
+//     locationId: true,
+//     location: true,
+//     reviews: {
+//       select: {
+//         rate: true,
+//         id: true,
+//         text: true,
+//         userId: true,
+//         stayId: true,
+//       },
+//     },
+//     booking: {
+//       select: {
+//         checkIn: true,
+//         checkOut: true,
+//       },
+//     },
+//   },
+// });
+
+//     return stays;
+//   } catch (error) {
+//     throw new Error(`Failed to fetch stays: ${error}`);
+//   }
+// };

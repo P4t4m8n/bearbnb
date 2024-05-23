@@ -7,6 +7,7 @@ import {
   StayModel,
   StaySmallModel,
 } from "@/model/stay.model";
+import { fi } from "@faker-js/faker";
 
 // Returns a default SearchByModel object with predefined empty or initial values.
 export const getEmptyFilter = (): FilterByModel => {
@@ -231,31 +232,39 @@ export const searchParamsToFilter = (
   searchParams: SearchParamsModel
 ): FilterByModel => {
   const { startDate, endDate } = searchParams;
-  const location = searchParams.location.split(",");
-  console.log("location:", location)
-  return {
-    dates: {
-      start: startDate ? new Date(startDate) : null,
-      end: endDate ? new Date(endDate) : null,
-    },
-    priceRange: { start: +searchParams.priceRange, end: 999999999999 },
-    location: location && {
+  const location = searchParams.location
+    ? searchParams.location.split(",")
+    : [];
+  const filter: FilterByModel = {};
+  if (searchParams.startDate)
+    filter.dates = { start: new Date(startDate), end: null };
+  if (searchParams.endDate)
+    filter.dates = {
+      start: startDate ? new Date(startDate) : new Date(),
+      end: new Date(endDate),
+    };
+  if (searchParams.location)
+    filter.location = {
       lat: +location[0],
       lng: +location[1],
       radius: 100,
-    },
-    name: searchParams.name || "",
-    label: searchParams.label || "",
-    type: searchParams.type,
-    bedroomsAmount: searchParams.bedroomsAmount
-      ? searchParams.bedroomsAmount
-      : 99,
-    totalBeds: searchParams.totalBeds ? searchParams.totalBeds : 99,
-    baths: searchParams.baths ? searchParams.baths : 99,
-    amenities: searchParams.amenities
-      ? (searchParams.amenities.split(",") as Amenity[])
-      : [],
+    };
+  filter.priceRange = {
+    start: +searchParams.priceRange || 1,
+    end: 999999999999,
   };
+  if (searchParams.name) filter.name = searchParams.name;
+  if (searchParams.label) filter.label = searchParams.label;
+  if (searchParams.type) filter.type = searchParams.type;
+  filter.bedroomsAmount = searchParams.bedroomsAmount
+    ? searchParams.bedroomsAmount
+    : 99;
+  filter.totalBeds = searchParams.totalBeds ? searchParams.totalBeds : 99;
+  filter.baths = searchParams.baths ? searchParams.baths : 99;
+  if (searchParams.amenities)
+    filter.amenities = searchParams.amenities.split(",") as Amenity[];
+
+  return filter;
 };
 
 export const queryIteratorParamToFilter = (
@@ -296,7 +305,7 @@ export const queryIteratorParamToFilter = (
 
 export const findFirstConsecutiveDaysAfterDate = (
   targetDate: Date,
-  bookings: { checkIn: Date; checkOut: Date }[],
+  bookings: { checkIn: Date; checkOut: Date }[]=[],
   numberOfDays: number // This parameter specifies the number of consecutive days needed
 ): Date[] => {
   // Helper to add days to a date

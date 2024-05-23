@@ -10,7 +10,6 @@ interface Props {
 export default async function StayList({ searchParams }: Props) {
   let stays: React.JSX.Element[] | undefined = [];
   const searchObj: FilterByModel = searchParamsToFilter(searchParams);
-  console.log("searchObj:", searchObj)
   try {
     stays = await getSmallStaysJSX(searchObj);
   } catch (error) {

@@ -26,7 +26,7 @@ export default function StayPreview({ stay }: Props) {
         <div className={styles.imgCon}>
           <Image
             sizes="auto"
-            src={images[0].url}
+            src={images[0]}
             fill={true}
             alt=""
             className={styles.image}

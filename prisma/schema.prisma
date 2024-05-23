@@ -2,7 +2,7 @@ datasource db {
   provider   = "postgresql"
   url        = env("DATABASE_URL")
   directUrl  = env("DIRECT_URL")
-  extensions = [postgis(version: "2.1")]
+  extensions = [postgis(version: "3.2")]
 }
 
 generator client {
@@ -90,20 +90,19 @@ model Stay {
   id             String      @id @default(uuid())
   name           String
   type           String
-  price          Float
-  summary        String
+  price          Float       @default(0)
+  summary        String      @default("")
   description    String      @default("")
   entireHome     Boolean
   capacity       Int
   baths          Int         @default(0)
   bedroomsAmount Int         @default(0)
   totalBeds      Int         @default(0)
-  uniqueRooms    String[]
   hostId         String
   host           Profile     @relation(fields: [hostId], references: [id], onDelete: Cascade)
   locationId     String      @unique
   location       Location    @relation(fields: [locationId], references: [id], onDelete: Cascade)
-  images         Image[]
+  images         String[]
   amenities      Amenity[]   @relation("StayAmenities")
   labels         String[]    @default([""])
   reviews        Review[]
@@ -148,8 +147,7 @@ model Location {
   countryCode String
   city        String
   address     String
-  lat         Float
-  lng         Float
+  coordinates Json 
   stay        Stay?
 }
 
@@ -160,11 +158,11 @@ model Amenity {
 }
 
 model BedRoom {
-  id     String  @id @default(uuid())
+  id     String   @id @default(uuid())
   beds   Beds[]
-  images Image[]
+  images String[]
   stayId String
-  stay   Stay    @relation(fields: [stayId], references: [id], onDelete: Cascade)
+  stay   Stay     @relation(fields: [stayId], references: [id], onDelete: Cascade)
 }
 
 model Like {
@@ -174,15 +172,6 @@ model Like {
   user   Profile @relation(fields: [userId], references: [id], onDelete: Cascade)
   stayId String
   stay   Stay    @relation(fields: [stayId], references: [id], onDelete: Cascade)
-}
-
-model Image {
-  id     String   @id @default(uuid())
-  url    String
-  stayId String?
-  stay   Stay?    @relation(fields: [stayId], references: [id], onDelete: Cascade)
-  Room   BedRoom? @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  roomId String?
 }
 
 model Booking {

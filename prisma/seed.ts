@@ -1,24 +1,35 @@
 import { faker } from "@faker-js/faker";
 import { prisma } from "./prisma";
 import { Amenities } from "@prisma/client";
+import { RandomUser } from "./seed.model";
 
 async function main() {
-  const host = { id: "94983507-c553-4681-8edf-064d9b226a88" };
-  const user = { id: "ad13184a-0f8b-418c-8dde-5029cb41a6af" };
+  const host = { id: "e467a3cd-0c7e-4c5f-abeb-d9369addfe94" };
+  const user = { id: "b44de659-a4e0-4639-938d-2796a56809e2" };
 
   const amenities = await prisma.amenity.findMany();
   const svgs = await prisma.svgIcon.findMany();
 
   for (let i = 0; i < 50; i++) {
     await delay(1);
+    const response = await fetch("https://randomuser.me/api/");
+    const data = await response.json();
+    const _user = data.results[0] as RandomUser;
+    const _location = _user.location;
+    const coordinates = {
+      type: "Point",
+      coordinates: [
+        _location.coordinates.longitude,
+        _location.coordinates.latitude,
+      ],
+    };
     const location = await prisma.location.create({
       data: {
-        country: faker.location.country(),
+        country: _location.country,
         countryCode: faker.location.countryCode(),
-        city: faker.location.city(),
-        address: faker.location.streetAddress(),
-        lat: faker.location.latitude(),
-        lng: faker.location.longitude(),
+        city: _location.city,
+        address: `${_location.street.name} ${_location.street.number}`,
+        coordinates: coordinates,
       },
     });
 
@@ -35,11 +46,12 @@ async function main() {
         locationId: location.id,
         bedroomsAmount: faker.number.int({ min: 1, max: 5 }),
         totalBeds: faker.number.int({ min: 1, max: 5 }),
-        images: {
-          create: Array.from({ length: 15 }, (_, i) => ({
-            url: `https://source.unsplash.com/random/?home,apartment,house&sig=${Date.now()}${i}`,
-          })),
-        },
+        images: Array.from(
+          { length: 15 },
+          (_, i) =>
+            `https://source.unsplash.com/random/?home,apartment,house&sig=${Date.now()}${i}`
+        ),
+
         bedrooms: {
           create: [
             {
