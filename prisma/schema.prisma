@@ -2,7 +2,7 @@ datasource db {
   provider   = "postgresql"
   url        = env("DATABASE_URL")
   directUrl  = env("DIRECT_URL")
-  extensions = [postgis(version: "3.2")]
+  extensions = [postgis(version: "3.3.2")]
 }
 
 generator client {
@@ -147,7 +147,8 @@ model Location {
   countryCode String
   city        String
   address     String
-  coordinates Json 
+  lat         Float
+  lng         Float
   stay        Stay?
 }
 

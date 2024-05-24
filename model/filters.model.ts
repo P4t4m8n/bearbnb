@@ -6,7 +6,7 @@ export type Type = "AnyType" | "room" | "entireHome";
 export interface FilterByModel {
   dates?: { start: Date | null; end: Date | null };
   name?: string;
-  location?: { lat: number; lng: number; radius?: number };
+  location?: { coords: LocationSmallModel; radius?: number };
   priceRange?: { start: number; end: number };
   host?: string;
   type?: Type;

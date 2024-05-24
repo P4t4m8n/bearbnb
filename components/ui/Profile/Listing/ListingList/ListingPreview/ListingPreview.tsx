@@ -85,7 +85,7 @@ export default function ListingPreview({
         <Image
           sizes="auto"
           className={styles.stayImg}
-          src={stay.images[0].url}
+          src={stay.images[0]}
           width={40}
           height={40}
           alt={stay.name}

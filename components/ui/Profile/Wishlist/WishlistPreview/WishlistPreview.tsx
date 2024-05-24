@@ -40,7 +40,7 @@ export default function WishlistPreview({ likeObj,updateLikeNote }: Props) {
       <Link href={`stay/${stayId}`}>
         <div className={styles.imgCon}>
           <Image
-            src={images[0].url}
+            src={images[0]}
             fill={true}
             alt=""
             className={styles.image}

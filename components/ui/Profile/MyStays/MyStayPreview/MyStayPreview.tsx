@@ -14,7 +14,7 @@ export default function MyStayPreview({ stay, idx }: Props) {
     <li className={styles.preview}>
       <h3>{idx}</h3>
       <div>
-        <Image src={images[0].url} width={64} height={64} alt={name} />
+        <Image src={images[0]} width={64} height={64} alt={name} />
         <h3>{name}</h3>
       </div>
       <h3 className={styles.price}>{price}</h3>
