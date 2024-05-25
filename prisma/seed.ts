@@ -11,6 +11,8 @@ async function main() {
   const svgs = await prisma.svgIcon.findMany();
 
   
+
+  
   for (let i = 0; i < 50; i++) {
     await delay(1);
     const response = await fetch("https://randomuser.me/api/");
