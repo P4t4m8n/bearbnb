@@ -5,8 +5,6 @@ export const calculateDistance = (
   point1: LocationSmallModel,
   point2: LocationSmallModel
 ): number => {
-  console.log("point2:", point2)
-  console.log("point1:", point1)
   // Radius of the Earth in km
   const R = 6371;
 

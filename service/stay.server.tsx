@@ -178,6 +178,7 @@ export const queryStayToStallSmallJSXArr = (
 ): React.JSX.Element[] => {
   return queryStay.map((stay: QueryStay) => {
     const staySmall: StaySmallModel = queryStayToSmallStay(stay);
+
     return <StayPreview key={staySmall.id} stay={staySmall} />;
   });
 };
