@@ -146,16 +146,13 @@ export const getUserTrips = async (userId: string): Promise<TripModel[]> => {
         id: true,
         stay: {
           select: {
-            images: {
-              take: 1,
-              select: {
-                url: true,
-              },
-            },
+            images: true,
             location: { select: { city: true } },
+            id: true,
           },
         },
         host: { select: { firstName: true } },
+        review: { select: { id: true } },
       },
     });
     // Map booking data to a more concise format for trip display.
@@ -163,10 +160,12 @@ export const getUserTrips = async (userId: string): Promise<TripModel[]> => {
       return {
         checkIn: booking.checkIn,
         checkOut: booking.checkOut,
-        image: booking.stay.images[0].url,
+        image: booking.stay.images[0],
         city: booking.stay.location.city,
         hostName: booking.host.firstName,
         id: booking.id,
+        reviewId: booking.review?.id,
+        stayId: booking.stay.id,
       };
     });
 

@@ -253,3 +253,43 @@ export function SuggestionPin() {
     </svg>
   );
 }
+
+export function CheckSVG() {
+  return (
+    <svg
+      fill="#000000"
+      viewBox="0 0 24 24"
+      id="check-mark-circle"
+    >
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        <rect
+          id="secondary"
+          x="3"
+          y="3"
+          width="18"
+          height="18"
+          rx="9"
+        ></rect>
+        <polyline
+          id="primary"
+          points="8 11.5 11 14.5 16 9.5"
+        ></polyline>
+        <rect
+          id="primary-2"
+          data-name="primary"
+          x="3"
+          y="3"
+          width="18"
+          height="18"
+          rx="9"
+        ></rect>
+      </g>
+    </svg>
+  );
+}

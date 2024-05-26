@@ -33,12 +33,9 @@ export interface QueryStay {
     checkOut: any;
   }[];
 }
-
 //pagination
 const NUMBER_PER_PAGE = 8;
-
 //****************public functions*****************//
-
 // Fetches a list of stays and converts them into JSX elements.
 // This function takes optional filters and a pagination page number.
 export async function getSmallStaysJSX(
@@ -80,6 +77,33 @@ export const getSmallStays = async (
     throw new Error(`Failed to fetch stays ${error}`);
   }
 };
+//Retrieves minimal information stay
+export async function getSmallStayById(
+  stayId: string
+): Promise<StaySmallModel> {
+  try {
+    const data = await prisma.stay.findFirstOrThrow({
+      where: { id: stayId },
+      include: {
+        location: true,
+        reviews: true,
+      },
+    });
+
+    // Calculate the overall rating from reviews and the first available booking date.
+    const rating = getRating(data.reviews);
+
+    const stay = {
+      ...data,
+      rating,
+      baths: data.baths || 0,
+    };
+    return stay;
+  } catch (error) {
+    console.error("Failed to retrieve stay:", error);
+    throw error;
+  }
+}
 // Retrieves detailed information about a stay by its ID,
 //including related data like images, reviews, and amenities.
 export async function getStayById(stayId: string): Promise<StayModel> {
@@ -103,15 +127,7 @@ export async function getStayById(stayId: string): Promise<StayModel> {
         },
 
         location: true,
-        reviews: {
-          select: {
-            id: true,
-            rate: true,
-            text: true,
-            userId: true,
-            stayId: true,
-          },
-        },
+        reviews: true,
         likes: true,
         bedrooms: {
           select: {
@@ -189,10 +205,8 @@ export const queryStayToSmallStayArr = (
     return queryStayToSmallStay(stay);
   });
 };
-
 //****************private functions*****************//
-
-//
+// Converts a query stay result into a StaySmallModel object.
 const queryStayToSmallStay = (queryStay: QueryStay): StaySmallModel => {
   return {
     id: queryStay.id,
@@ -217,7 +231,6 @@ const queryStayToSmallStay = (queryStay: QueryStay): StaySmallModel => {
     rating: getRating(queryStay.reviews),
   };
 };
-
 // Fetches a list of stays based on specified filters and pagination, returning the raw query data.
 const getSmallStaysData = async (
   searchBy?: FilterByModel,
@@ -242,15 +255,7 @@ const getSmallStaysData = async (
         price: true,
         locationId: true,
         location: true,
-        reviews: {
-          select: {
-            rate: true,
-            id: true,
-            text: true,
-            userId: true,
-            stayId: true,
-          },
-        },
+        reviews: true,
         booking: {
           select: {
             checkIn: true,
@@ -273,7 +278,6 @@ const getSmallStaysData = async (
     throw new Error(`Failed to fetch stays: ${error}`);
   }
 };
-
 // Function to build the query filters based on the search criteria
 const buildQueryFilters = (searchBy?: FilterByModel) => {
   // Initialize an empty filter object
@@ -332,7 +336,7 @@ const buildQueryFilters = (searchBy?: FilterByModel) => {
 
   return queryFilters;
 };
-
+// Filter stays by distance from a specified location within a radius
 const filterByDistance = (
   queryStays: QueryStay[],
   coords: LocationSmallModel,

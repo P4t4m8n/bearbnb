@@ -1,8 +1,7 @@
 datasource db {
-  provider   = "postgresql"
-  url        = env("DATABASE_URL")
-  directUrl  = env("DIRECT_URL")
-  extensions = [postgis(version: "3.3.2")]
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 generator client {
@@ -113,13 +112,23 @@ model Stay {
 }
 
 model Review {
-  id     String  @id @default(uuid())
-  stayId String
-  stay   Stay    @relation(fields: [stayId], references: [id], onDelete: Cascade)
-  text   String
-  rate   Int
-  userId String
-  user   Profile @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id            String   @id @default(uuid())
+  stayId        String
+  stay          Stay     @relation(fields: [stayId], references: [id], onDelete: Cascade)
+  text          String
+  overallRating Float
+  cleanliness   Float
+  accuracy      Float
+  checkIn       Float
+  communication Float
+  location      Float
+  bookingId     String   @unique
+  booking       Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  value         Float
+  createdAt     DateTime
+  updatedAt     DateTime
+  userId        String   @unique  
+  user          Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Profile {
@@ -192,7 +201,8 @@ model Booking {
   checkIn     DateTime
   checkOut    DateTime
   bookingTime DateTime
-  AuditLog    AuditLog[]
+  auditLog    AuditLog[]
+  review      Review?
 }
 
 model SvgIcon {

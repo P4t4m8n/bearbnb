@@ -1,6 +1,4 @@
-import {
-  UserSmallModel,
-} from "@/model/user.model";
+import { UserSmallModel } from "@/model/user.model";
 
 export const getEmptySmallUser = (): UserSmallModel => {
   return {

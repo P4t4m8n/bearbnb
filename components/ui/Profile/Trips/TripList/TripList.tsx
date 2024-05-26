@@ -8,7 +8,7 @@ export default async function TripList({ userId }: { userId: string }) {
   return (
     <ul className={styles.tripList}>
       {trips.map((trip) => (
-        <TripPreview trip={trip} key={trip.id} />
+        <TripPreview userId={userId} trip={trip} key={trip.id} />
       ))}
     </ul>
   );

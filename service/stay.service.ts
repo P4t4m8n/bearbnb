@@ -212,7 +212,8 @@ export const getRating = (
   reviews: ReviewModel[] | null | undefined
 ): number => {
   return reviews?.length
-    ? reviews.reduce((acc, curr) => acc + curr.rate, 0) / reviews.length
+    ? reviews.reduce((acc, curr) => acc + curr.overallRating, 0) /
+        reviews.length
     : 0;
 };
 
@@ -231,10 +232,12 @@ export const stayToSmallStay = (stay: StayModel): StaySmallModel => {
 export const searchParamsToFilter = (
   searchParams: SearchParamsModel
 ): FilterByModel => {
+  console.log("searchParams:", searchParams);
   const { startDate, endDate } = searchParams;
   const location = searchParams.location
     ? searchParams.location.split(",")
     : [];
+  console.log("location:", location);
   const filter: FilterByModel = {};
   if (searchParams.startDate)
     filter.dates = { start: new Date(startDate), end: null };
@@ -245,8 +248,10 @@ export const searchParamsToFilter = (
     };
   if (searchParams.location)
     filter.location = {
-      lat: +location[0],
-      lng: +location[1],
+      coords: {
+        lat: +location[0],
+        lng: +location[1],
+      },
       radius: 100,
     };
   filter.priceRange = {
@@ -305,7 +310,7 @@ export const queryIteratorParamToFilter = (
 
 export const findFirstConsecutiveDaysAfterDate = (
   targetDate: Date,
-  bookings: { checkIn: Date; checkOut: Date }[]=[],
+  bookings: { checkIn: Date; checkOut: Date }[] = [],
   numberOfDays: number // This parameter specifies the number of consecutive days needed
 ): Date[] => {
   // Helper to add days to a date

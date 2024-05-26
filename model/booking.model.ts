@@ -11,6 +11,8 @@ export interface TripModel extends BookingSmallModel {
   image: string;
   city: string;
   hostName: string;
+  stayId: string;
+  reviewId?: string;
 }
 export interface BookingModel extends BookingSmallModel {
   stay: MinimumStayModel;
@@ -39,5 +41,3 @@ export interface BookingDTO {
   checkOut: Date;
   bookingTime: Date;
 }
-
-

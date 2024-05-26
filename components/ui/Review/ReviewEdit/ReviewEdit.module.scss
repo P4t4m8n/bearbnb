@@ -1,0 +1,140 @@
+@import "../../../../styles/abstracts/mixin";
+@import "../../../../styles/abstracts/variables";
+
+.reviewEdit {
+  display: flex;
+  flex-direction: column;
+  padding-top: 2rem;
+  gap: 1rem;
+  max-width: fit-content;
+  margin-inline: 6rem;
+
+  header {
+    display: flex;
+    max-height: 2rem;
+    gap: 1rem;
+    svg {
+      width: 2rem;
+    }
+  }
+  .overallRating {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    div {
+      &:last-of-type {
+        gap: 1rem;
+        display: flex;
+        flex-direction: column;
+
+        label {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          span {
+            font-weight: 600;
+          }
+
+          &:hover {
+            cursor: pointer;
+          }
+
+          svg {
+            width: 2rem;
+            fill: rgb(236, 236, 236);
+            stroke: gainsboro;
+          }
+        }
+        input:checked + label {
+          svg {
+            circle {
+              background-color: $model-button-black;
+              //   stroke: green !important;
+              //   fill: green !important;
+              border: transparent;
+            }
+            rect {
+              &:first-of-type {
+                fill: $main-pink;
+                stroke-width: 2;
+              }
+              &:last-of-type {
+                fill: none;
+                stroke: rgb(236, 236, 236);
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-width: 1;
+              }
+            }
+
+            polyline {
+              fill: none;
+              stroke: rgb(236, 236, 236);
+              stroke-linecap: round;
+              stroke-linejoin: round;
+              stroke-width: 2;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .nextBtn {
+    align-self: flex-end;
+    width: 7rem;
+    border-radius: $border-radius-1-2;
+    background-color: $main-pink;
+    color: white;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 1.5rem;
+    transition: all 0.3s;
+    &:hover {
+      background-color: $main-pending;
+    }
+  }
+
+  .rating {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+
+    div {
+      ul {
+        display: flex;
+        label {
+          svg {
+            width: 2rem;
+          }
+        }
+        .checked {
+          fill: gold;
+          stroke: gold;
+        }
+      }
+    }
+  }
+  .actions {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .textCon {
+    max-width: calc(25rem - 4rem);
+    margin: 2rem;
+    textarea {
+      padding: 1rem;
+      max-width: 100%;
+      resize: none;
+    }
+    h5 {
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+  }
+  input {
+    display: none;
+  }
+}
