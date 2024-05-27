@@ -52,11 +52,7 @@ export const getLikesByUser = async (
                 country: true,
               },
             },
-            images: {
-              select: {
-                url: true,
-              },
-            },
+            images: true,
           },
         },
       },
