@@ -1,3 +1,6 @@
+// @import "../styles/base/base.scss";
+
+
 body:has(.ConfirmBookingModal_bookingModal__eZKxT) {
   .ConfirmBookingModal_bookingModal__eZKxT,
   .ConfirmBookingModal_bookingModal__eZKxT * {
@@ -21,5 +24,19 @@ body:has(.FilterModal_filterModal__g3mr3) {
     pointer-events: none;
   }
 }
+body:has(.Modal_modal__r7jpq) {
+  .Modal_modal__r7jpq,
+  .Modal_modal__r7jpq * {
+    pointer-events: all;
+  }
+  :not(
+      .Modal_modal__r7jpq,
+      .Modal_modal__r7jpq *
+    ) {
+    pointer-events: none;
+  }
+}
+
+
 
 

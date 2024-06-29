@@ -1,20 +1,21 @@
 "use server";
 
-import { UserModel } from "@/model/user.model";
+import { UserCreateModel, UserModel } from "@/model/user.model";
 import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
-import { createUser, getUserByEmail } from "./user.action";
+import { createUser, getUserByFilter } from "./user.action";
 import { createSession, removeSession } from "./session.action";
+import jwt from "jsonwebtoken";
+import { ObjectId } from "mongodb";
 
-
-export const login = async (state: any, formData: FormData): Promise<UserModel> => {
+export const login = async (formData: FormData): Promise<any> => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   if (!email || !password) {
     throw new Error("Username and password are required");
   }
 
-  const user = await getUserByEmail(email);
+  const user = await getUserByFilter({ email: email });
   if (!user || !user.password) {
     throw new Error("User not found");
   }
@@ -25,17 +26,18 @@ export const login = async (state: any, formData: FormData): Promise<UserModel> 
   }
 
   delete user.password;
-  const sessionToken = await createSession(user._id);
+  const sessionToken = await createSession(user._id.toString());
   cookies().set("session", sessionToken, {
-    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 1),
     httpOnly: true,
+    sameSite: "strict",
   });
   return user;
 };
 
-export const signup = async (state: any, formData: FormData): Promise<UserModel> => {
+export const signup = async (formData: FormData): Promise<UserModel> => {
   const saltRounds = 10;
-  const user: Partial<UserModel> = {
+  const userToCreate: UserCreateModel = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
     firstName: formData.get("firstName") as string,
@@ -43,20 +45,21 @@ export const signup = async (state: any, formData: FormData): Promise<UserModel>
     dob: new Date(formData.get("dob") as string),
   };
 
-  if (!user.email || !user.password) {
+  if (!userToCreate.email || !userToCreate.password) {
     throw new Error("Username and password are required");
   }
 
-  const existingUser = await getUserByEmail(user.email);
+  const existingUser = await getUserByFilter({ email: userToCreate.email });
   if (existingUser) {
     throw new Error("User already exists");
   }
 
-  const hash = await bcrypt.hash(user.password, saltRounds);
+  const hash = await bcrypt.hash(userToCreate.password, saltRounds);
 
-  const savedUser = await createUser({ ...user, password: hash });
-  delete savedUser.password;
-  return savedUser;
+  const savedUser = await createUser({ ...userToCreate, password: hash });
+  console.log("savedUser:", savedUser)
+  const user = await login(formData);
+  return user;
 };
 
 export const logout = async () => {
@@ -70,4 +73,24 @@ export const logout = async () => {
   });
 };
 
+export const getSessionUser = async (): Promise<UserModel | null> => {
+  "use server";
+  const token = cookies().get("session");
+  if (!token) {
+    return null;
+  }
 
+  try {
+    const decoded = jwt.decode(token.value) as { userId: string };
+    if (!decoded || !decoded.userId) return null;
+    const user = await getUserByFilter({ _id: new ObjectId(decoded.userId) });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+    delete user.password;
+    return { ...user };
+  } catch (err) {
+    throw new Error(`Error fetching session user: ${err}`);
+  }
+};

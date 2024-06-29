@@ -1,20 +1,30 @@
 import { AvatarSVG, HamburgerSVG } from "../svgs/svgs";
 import styles from "./User.module.scss";
-import { MouseEvent, useEffect, useRef } from "react";
-import { clientSupabase } from "@/util/supabase/client";
+import { MouseEvent, use, useEffect, useRef } from "react";
 import { useUserStore } from "@/store/useUserStore";
-import Modal from "./Modal/Modal";
+import ProfileModel from "./Modal/ProfileModel";
 import { useModal } from "@/hooks/useModal";
-import { logout } from "@/actions/auth.action";
+import { getSessionUser, logout } from "@/actions/auth.action";
+import { set } from "zod";
 
 export function User() {
   const { user, setUser } = useUserStore();
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [open, setModal] = useModal(modalRef, null);
 
+  useEffect(() => {
+    loadUser();
+  }, []);
+
+  const loadUser = async () => {
+    const _user = await getSessionUser();
+    setUser(_user);
+  };
+
   const onLogout = async (ev: MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault();
     logout();
+    setUser(null);
   };
 
   return (
@@ -43,13 +53,7 @@ export function User() {
       </button>
       {open && (
         <div ref={modalRef} className={styles.modalCon}>
-          <Modal
-            userName={user?.firstName}
-            authId={user?.authId}
-            isOwner={user?.isOwner}
-            onLogout={onLogout}
-            userId={user?.id}
-          />
+          <ProfileModel user={user} onLogout={onLogout} />
         </div>
       )}
     </div>

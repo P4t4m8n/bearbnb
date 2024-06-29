@@ -1,6 +1,6 @@
 import Header from "@/components/Header/Header";
-
 import styles from "./layout.module.scss";
+import LoginModel from "@/components/User/Login/Modal/LoginModel";
 
 export default async function layout({
   children,
@@ -11,6 +11,7 @@ export default async function layout({
     <main className={styles.main}>
       <Header />
       {children}
+      <LoginModel/>
     </main>
   );
 }

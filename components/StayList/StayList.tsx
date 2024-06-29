@@ -8,7 +8,7 @@ export default async function StayList({ filterBy }: any) {
   return (
     <ul className={styles.stayList}>
       {stays}
-      <LoadMore />
+      {/* <LoadMore /> */}
     </ul>
   );
 }

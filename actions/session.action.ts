@@ -1,21 +1,29 @@
 "use server";
 
-
 import { dbService } from "@/db/db.service";
 import { SessionModel } from "@/model/session.model";
 import { cryptr } from "@/service/auth.service";
 import { ObjectId } from "mongodb";
+import jwt from "jsonwebtoken";
 
-const ON_DAY_SESSION_EXPIRY = 1000 * 60 * 60 * 24;
+const ONE_DAY_IN_SECONDS = 24 * 60 * 60;
+const secretKey = process.env.JWT_SECRET;
 
-export const createSession = async (userId: string) => {
+export const createSession = async (userId: string): Promise<string> => {
   const collection = await dbService.getCollection("sessions");
-  const session = (await collection.insertOne({
-    userId,
-    expiresAt: new Date(Date.now() + ON_DAY_SESSION_EXPIRY),
-  })) as unknown as SessionModel;
 
-  return cryptr.encrypt(JSON.stringify(session));
+  const expiresAt = Math.floor(Date.now() / 1000) + ONE_DAY_IN_SECONDS;
+  const token = jwt.sign({ userId }, secretKey!, {
+    expiresIn: ONE_DAY_IN_SECONDS,
+  });
+
+  const session = await collection.insertOne({
+    userId: new ObjectId(userId),
+    expiresAt: new Date(expiresAt * 1000),
+    token,
+  });
+
+  return token;
 };
 
 export const validateSession = async (
@@ -39,11 +47,8 @@ export const validateSession = async (
 };
 
 export const removeSession = async (token: string) => {
-  const decrypted = cryptr.decrypt(token);
-  const sessionData = JSON.parse(decrypted);
   const collection = await dbService.getCollection("sessions");
-
   await collection.deleteOne({
-    _id: sessionData._id,
+    token,
   });
 };

@@ -1,24 +1,18 @@
 import Link from "next/link";
 import { MouseEvent } from "react";
 import styles from "./Model.module.scss";
+import { UserModel } from "@/model/user.model";
 
 interface Props {
   onLogout: (ev: MouseEvent<HTMLButtonElement>) => void;
-  userId: string | undefined;
-  userName: string | undefined;
-  isOwner?: boolean;
-  authId?: string;
+  user: UserModel | null;
 }
-export default function Modal({
-  userId,
-  isOwner,
-  userName,
-  authId,
-  onLogout
-}: Props) {
+export default function ProfileModel({ user, onLogout }: Props) {
+  const id = user?._id.toString();
+
   return (
     <>
-      {!userId ? (
+      {!user ? (
         <ul className={styles.modalNoUser}>
           <li>
             <Link href={{ pathname: "/login", query: "login" }}>Log in</Link>
@@ -35,33 +29,27 @@ export default function Modal({
         </ul>
       ) : (
         <ul className={styles.modalUser}>
-          <li >Hello {userName}</li>
+          <li>Hello {user.firstName}</li>
           <li>
             <Link href={"/"}>Messages</Link>
           </li>
-          <li >
-            <Link href={{ pathname: "/trips/", query: { userId, authId } }}>
-              Trips
-            </Link>
+          <li>
+            <Link href={{ pathname: "/trips/", query: { id } }}>Trips</Link>
           </li>
           <li>
-            <Link href={{ pathname: "/wishlist/", query: { userId, authId } }}>
+            <Link href={{ pathname: "/wishlist/", query: { id } }}>
               Wishlist
             </Link>
           </li>
-          {isOwner && (
+          {user.isOwner && (
             <>
               <li>
-                <Link
-                  href={{ pathname: "/listing", query: { userId, authId } }}
-                >
+                <Link href={{ pathname: "/listing", query: { id } }}>
                   Mange bookings
                 </Link>
               </li>
               <li>
-                <Link
-                  href={{ pathname: "/myStays", query: { userId, authId } }}
-                >
+                <Link href={{ pathname: "/myStays", query: { id } }}>
                   Mange assets
                 </Link>
               </li>

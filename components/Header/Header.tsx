@@ -17,7 +17,6 @@ export default function Header() {
     if (sentinel) {
       const observer = new IntersectionObserver(
         throttle((entries) => {
-          console.log("entries[0].isIntersecting:", entries[0].isIntersecting);
           setIsActive(!entries[0].isIntersecting);
         }, 100),
         {
