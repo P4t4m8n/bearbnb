@@ -1,24 +1,14 @@
-import { BookingModel } from "./booking.model";
+import { Document } from "mongodb";
 import { LikeModel } from "./Like.model";
-import { ReviewModel } from "./review.model";
-import { StaySmallModel } from "./stay.model";
 
-export interface MinimumUserModel {
-  id: string;
+export interface UserModel extends Document {
+  isOwner: boolean;
+  ownerSince?: Date;
   firstName: string;
   lastName: string;
   imgUrl?: string;
-  authId?: string;
-}
-export interface UserSmallModel extends MinimumUserModel {
-  email?: string;
-  isOwner: boolean;
-  ownerSince?: Date;
+  dob: Date;
+  password?: string;
+  email: string;
   likes?: LikeModel[];
-}
-export interface UserModel extends UserSmallModel {
-  stays?: StaySmallModel[];
-  reviews?: ReviewModel[];
-  bookings?: BookingModel[];
-  hosting?: BookingModel[];
 }

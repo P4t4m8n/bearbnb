@@ -1,19 +1,13 @@
-import { Amenity } from "@/model/amenities.type";
-import { FilterByModel, SearchParamsModel } from "@/model/filters.model";
+import { BedRoomModel } from "@/model/bedroom.model";
+import { FilterByModel } from "@/model/filters.model";
 import { ReviewModel } from "@/model/review.model";
-import {
-  BedRoomModel,
-  LabelModel,
-  StayModel,
-  StaySmallModel,
-} from "@/model/stay.model";
-import { fi } from "@faker-js/faker";
+import { StayModel, StaySmallModel } from "@/model/stay.model";
 
 // Returns a default SearchByModel object with predefined empty or initial values.
 export const getEmptyFilter = (): FilterByModel => {
   return {
     name: "",
-    dates: { start: null, end: null },
+    dates: { start: undefined, end: undefined },
     priceRange: { start: 1, end: 10000 },
     host: "",
     type: "AnyType",
@@ -194,7 +188,7 @@ export const getEmptyStay = (): StayModel => {
     bookings: [],
     highlights: [],
     location: {
-      id: "",
+      _id: "",
       country: "",
       countryCode: "",
       city: "",
@@ -229,48 +223,46 @@ export const stayToSmallStay = (stay: StayModel): StaySmallModel => {
   };
 };
 
-export const searchParamsToFilter = (
-  searchParams: SearchParamsModel
-): FilterByModel => {
-  console.log("searchParams:", searchParams);
-  const { startDate, endDate } = searchParams;
-  const location = searchParams.location
-    ? searchParams.location.split(",")
-    : [];
-  console.log("location:", location);
-  const filter: FilterByModel = {};
-  if (searchParams.startDate)
-    filter.dates = { start: new Date(startDate), end: null };
-  if (searchParams.endDate)
-    filter.dates = {
-      start: startDate ? new Date(startDate) : new Date(),
-      end: new Date(endDate),
-    };
-  if (searchParams.location)
-    filter.location = {
-      coords: {
-        lat: +location[0],
-        lng: +location[1],
-      },
-      radius: 100,
-    };
-  filter.priceRange = {
-    start: +searchParams.priceRange || 1,
-    end: 999999999999,
-  };
-  if (searchParams.name) filter.name = searchParams.name;
-  if (searchParams.label) filter.label = searchParams.label;
-  if (searchParams.type) filter.type = searchParams.type;
-  filter.bedroomsAmount = searchParams.bedroomsAmount
-    ? searchParams.bedroomsAmount
-    : 99;
-  filter.totalBeds = searchParams.totalBeds ? searchParams.totalBeds : 99;
-  filter.baths = searchParams.baths ? searchParams.baths : 99;
-  if (searchParams.amenities)
-    filter.amenities = searchParams.amenities.split(",") as Amenity[];
+// export const searchParamsToFilter = (
+//   searchParams: SearchParamsModel
+// ): FilterByModel => {
+//   const { startDate, endDate } = searchParams;
+//   const location = searchParams.location
+//     ? searchParams.location.split(",")
+//     : [];
+//   const filter: FilterByModel = {};
+//   if (searchParams.startDate)
+//     filter.dates = { start: new Date(startDate), end: null };
+//   if (searchParams.endDate)
+//     filter.dates = {
+//       start: startDate ? new Date(startDate) : new Date(),
+//       end: new Date(endDate),
+//     };
+//   if (searchParams.location)
+//     filter.location = {
+//       coords: {
+//         lat: +location[0],
+//         lng: +location[1],
+//       },
+//       radius: 100,
+//     };
+//   filter.priceRange = {
+//     start: +searchParams.priceRange || 1,
+//     end: 999999999999,
+//   };
+//   if (searchParams.name) filter.name = searchParams.name;
+//   if (searchParams.label) filter.label = searchParams.label;
+//   if (searchParams.type) filter.type = searchParams.type;
+//   filter.bedroomsAmount = searchParams.bedroomsAmount
+//     ? searchParams.bedroomsAmount
+//     : 99;
+//   filter.totalBeds = searchParams.totalBeds ? searchParams.totalBeds : 99;
+//   filter.baths = searchParams.baths ? searchParams.baths : 99;
+//   if (searchParams.amenities)
+//     filter.amenities = searchParams.amenities.split(",") as Amenity[];
 
-  return filter;
-};
+//   return filter;
+// };
 
 export const queryIteratorParamToFilter = (
   query: IterableIterator<[string, string]>

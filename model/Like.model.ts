@@ -1,13 +1,7 @@
-import { StayLikeModel } from "./stay.model";
+import { Document } from "mongoose";
 
-export interface WishListModel {
-  id: string;
-  notes: string;
-  stay: StayLikeModel;
-}
-
-export interface LikeModel {
-  id: string;
-  userId: string;
-  stayId: string;
+export interface LikeModel  {
+  _id: string;
+  userId: string; // ObjectId as string
+  stayId: string; // ObjectId as string
 }

@@ -1,0 +1,14 @@
+.main {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding-inline: 4rem;
+  padding-block: 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  @media (max-width: 650px) {
+    padding: 1rem;
+  }
+}
+

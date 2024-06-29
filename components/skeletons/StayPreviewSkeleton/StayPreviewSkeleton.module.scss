@@ -1,0 +1,42 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixin";
+
+.skeleton {
+  border-radius: 8px;
+  min-width: 15rem;
+  display: grid;
+  font-size: 1rem;
+  gap: 0.5rem;
+  grid-template-rows: calc(80% - 2.5rem) 5% 5% 5% 5%;
+
+  .skeletonImg {
+    aspect-ratio: 1;
+    max-height: 100%;
+    width: 100%;
+    @include skeleton;
+  }
+  .skeletonTextLong {
+    @include skeleton;
+  }
+  .skeletonText {
+    width: 50%;
+    @include skeleton;
+  }
+  .skeletonDates {
+    width: 30%;
+    @include skeleton;
+  }
+  .skeletonPrice {
+    width: 30%;
+    @include skeleton;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

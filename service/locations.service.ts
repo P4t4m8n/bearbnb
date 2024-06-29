@@ -1,9 +1,9 @@
-import { LocationSmallModel } from "@/model/location.model";
+import { CoordsModel, LocationSmallModel } from "@/model/location.model";
 
 //Calculate distance between two locations using Haversine formula
 export const calculateDistance = (
-  point1: LocationSmallModel,
-  point2: LocationSmallModel
+  point1: CoordsModel,
+  point2: CoordsModel
 ): number => {
   // Radius of the Earth in km
   const R = 6371;
@@ -26,7 +26,7 @@ export const calculateDistance = (
 };
 
 //
-export const parseCoordinates = (input: string): LocationSmallModel => {
+export const parseCoordinates = (input: string): CoordsModel => {
   const regex = /lat:\s*([+-]?\d+(\.\d+)?),\s*lng:\s*([+-]?\d+(\.\d+)?)/;
   const match = input.match(regex);
 
@@ -42,12 +42,12 @@ export const parseCoordinates = (input: string): LocationSmallModel => {
 };
 
 //
-export const getUserLocation = (): Promise<LocationSmallModel> => {
+export const getUserLocation = (): Promise<CoordsModel> => {
   return new Promise((resolve, reject) => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const location: LocationSmallModel = {
+          const location: CoordsModel = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };

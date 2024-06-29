@@ -1,0 +1,97 @@
+@import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/mixin";
+.stayPreview {
+  background: white;
+  transition: transform 0.2s;
+  border-radius: 8px;
+  min-width: 15rem;
+  position: relative;
+  display: grid;
+  font-size: 1rem;
+  padding: 1px;
+
+  &:hover {
+    .imgCon {
+      overflow: hidden;
+      border-radius: 0.5rem;
+      img {
+        transition: transform 0.3s ease;
+        transform: scale(1.05);
+      }
+    }
+  }
+  h6 {
+    padding-inline: 2px;
+  }
+  h5 {
+    font-weight: lighter;
+    font-size: 1rem;
+  }
+  h3 {
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
+      "Helvetica Neue", sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .imgCon {
+    position: relative;
+    padding-bottom: 4px;
+    aspect-ratio: 1;
+    .image {
+      border-radius: 8px;
+    }
+  }
+
+  .infoHead {
+    display: flex;
+    justify-content: space-between;
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+
+      .ratingSvg {
+        width: 0.8rem;
+        aspect-ratio: 1;
+      }
+    }
+  }
+  h6 {
+    display: flex;
+    font-size: 0.95rem;
+    font-weight: lighter;
+    color: rgb(81, 81, 81);
+  }
+  .price {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+}
+
+.imgLoading {
+  display: none;
+}
+
+.skeletonImg {
+  aspect-ratio: 1;
+  max-height: 100%;
+  width: 100%;
+  @include skeleton;
+}
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+@keyframes glowing {
+  from {
+    box-shadow: 0 0 5px transparent;
+  }
+  to {
+    box-shadow: 0 0 5px blue;
+  }
+}

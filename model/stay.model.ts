@@ -1,73 +1,25 @@
-import { Beds } from "@prisma/client";
-import { BookingSmallModel } from "./booking.model";
-import { SvgIconModel } from "./icons.model";
-import { LikeModel } from "./Like.model";
-import { LocationAddressSmallModel, LocationModel } from "./location.model";
-import { ReviewModel } from "./review.model";
-import { UserSmallModel } from "./user.model";
-import { LabelsType } from "./labels.type";
+import {  LocationSmallModel } from "./location.model";
 
-export type BedsType = "single" | "double" | "crib";
-
-export interface ImageModel {
-  id?: string;
-  url: string;
-}
-export interface AmenityModel {
-  id: string;
+export interface StaySmallModel {
+  _id?: string; // ObjectId as string
   name: string;
-}
-export interface LabelModel {
-  id: string;
-  name: LabelsType;
-}
-export interface BedRoomModel {
-  beds: BedsType[];
   images: string[];
-}
-export interface GuestsModel {
-  adults: number;
-  children: number;
-  infants: number;
-  pets: number;
-}
-export interface HighlightsModel {
-  id: string;
-  title: string;
-  description: string;
-  icon: SvgIconModel;
-}
-export interface MinimumStayModel {
-  id: string;
-  images: string[];
-  name: string;
-}
-export interface StayLikeModel extends MinimumStayModel {
-  type: string;
-  bedrooms: Beds[];
-  description: string;
-  rating: number;
-  location: LocationAddressSmallModel;
-}
-export interface StaySmallModel extends MinimumStayModel {
-  type: string;
   price: number;
-  location: LocationModel;
+  location: LocationSmallModel;
+  firstAvailableDate: Date[] | null;
   rating: number;
-  firstAvailableDate?: Date[];
 }
+
 export interface StayModel extends StaySmallModel {
   summary: string;
-  description?: string;
+  description: string;
+  entireHome: boolean;
   capacity: number;
-  amenities: string[];
+  price: number;
   baths: number;
-  uniqueRooms?: string[];
   labels: string[];
-  host: UserSmallModel;
-  reviews?: ReviewModel[];
-  likes?: LikeModel[];
-  bedrooms: BedRoomModel[];
-  bookings: BookingSmallModel[];
-  highlights: HighlightsModel[];
+  BedRooms: string[]; // Array of ObjectId as string
+  hostId: string; // ObjectId as string
+  amenities: string[]; // Array of ObjectId as string
+  likes: string[]; // Array of ObjectId as string
 }

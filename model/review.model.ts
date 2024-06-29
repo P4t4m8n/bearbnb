@@ -1,18 +1,15 @@
 export interface ReviewModel {
-  id: string;
   text: string;
   overallRating: number;
-  userId: string;
-  stayId: string;
-  hostId?: string;
-  createdAt: Date;
-  updatedAt: Date;
   cleanliness: number;
   accuracy: number;
   checkIn: number;
   communication: number;
   location: number;
   value: number;
-  bookingId: string;
-
+  createdAt: Date;
+  updatedAt: Date;
+  stayId: string; // ObjectId as string
+  bookingId: string; // ObjectId as string
+  userId: string; // ObjectId as string
 }

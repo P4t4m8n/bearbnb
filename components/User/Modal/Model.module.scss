@@ -1,0 +1,32 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixin";
+
+
+.modalNoUser,
+.modalUser {
+  @include soft-box-shadow;
+  display: grid;
+  z-index: 5;
+  border-radius: $border-radius-1-2;
+  gap: 1rem;
+  font-size: 0.9rem;
+  padding-block: 1rem;
+  height: inherit;
+  width: inherit;
+  li {
+
+    padding-left: 1rem;
+
+    font-weight: 300;
+    &:first-of-type {
+      font-weight: 600;
+    }
+    &:nth-of-type(2) {
+      @include bordered;
+    }
+    button {
+      padding: 0;
+      text-align: left;
+    }
+  }
+}

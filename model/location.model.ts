@@ -1,19 +1,15 @@
-import { StaySmallModel } from "./stay.model";
-
-export interface LocationSmallModel {
+export interface CoordsModel {
   lat: number;
   lng: number;
 }
-export interface LocationModel extends LocationSmallModel {
-  id: string;
-  country: string;
-  countryCode: string;
-  city: string;
-  address: string;
-  stay?: StaySmallModel;
-}
 
-export interface LocationAddressSmallModel {
+export interface LocationSmallModel extends CoordsModel {
   country: string;
+
   city: string;
+}
+export interface LocationModel extends LocationSmallModel {
+  _id?: string; // ObjectId as string
+  countryCode: string;
+  address: string;
 }

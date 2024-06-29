@@ -1,43 +1,34 @@
-import { Status } from "./status.type";
-import { MinimumStayModel, StaySmallModel } from "./stay.model";
-import { MinimumUserModel, UserSmallModel } from "./user.model";
+import { Document, ObjectId } from "mongodb";
 
-export interface BookingSmallModel {
-  checkIn: Date;
-  checkOut: Date;
-  id?: string;
-}
-export interface TripModel extends BookingSmallModel {
-  image: string;
-  city: string;
-  hostName: string;
-  stayId: string;
-  reviewId?: string;
-}
-export interface BookingModel extends BookingSmallModel {
-  stay: MinimumStayModel;
-  user: MinimumUserModel;
-  host: MinimumUserModel;
-  price: number;
-  bookingTime: Date;
-  adults: number;
-  status: Status;
-  children: number;
-  infants: number;
-  pets: number;
-}
-export interface BookingDTO {
-  id?: string;
-  stayId: string;
-  userId: string;
-  hostId: string;
-  price: number;
-  adults: number;
-  status: Status;
-  children: number;
-  infants: number;
-  pets: number;
+export interface BookingModel extends Document {
+  _id?:string|ObjectId
   checkIn: Date;
   checkOut: Date;
   bookingTime: Date;
+  price: number;
+  adults: number;
+  children: number;
+  infants: number;
+  pets: number;
+  stayId: string; // ObjectId as string
+  userId: string; // ObjectId as string
+  hostId: string; // ObjectId as string
+  status: BookingStatus;
 }
+
+export interface BookingToSave  {
+  checkIn: Date;
+  checkOut: Date;
+  bookingTime: Date;
+  price: number;
+  adults: number;
+  children: number;
+  infants: number;
+  pets: number;
+  stayId: string; // ObjectId as string
+  userId: string; // ObjectId as string
+  hostId: string; // ObjectId as string
+  status: BookingStatus;
+}
+
+export type BookingStatus = "pending" | "confirmed" | "canceled" | "completed";
