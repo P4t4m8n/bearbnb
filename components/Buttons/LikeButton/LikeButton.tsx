@@ -11,15 +11,14 @@ interface Props {
 }
 
 export default function LikeButton({ stayId }: Props) {
-  //State for optimistic update
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false); //State for optimistic update
   const likeIdRef = useRef<string>("");
 
   const user: UserModel | null = useUserStore.getState().user;
 
   useEffect(() => {
     onGetLike();
-  });
+  }, []);
 
   const onGetLike = async () => {
     if (!user || !user.likes || !user.likes.length) return;
@@ -37,13 +36,18 @@ export default function LikeButton({ stayId }: Props) {
     setIsLiked((prev) => !prev);
 
     try {
-      const response = await saveLike(likeIdRef.current, stayId, user._id);
-      likeIdRef.current = response?._id || "";
+      const response = await saveLike(
+        likeIdRef.current,
+        user._id as string,
+        stayId as string
+      );
+      likeIdRef.current = response || "";
     } catch (error) {
       console.error("error:", error);
     } finally {
       //Make sure to update the state if the like was not successful
       if (!likeIdRef.current && isLiked) setIsLiked(false);
+
       if (likeIdRef.current && !isLiked) setIsLiked(true);
     }
   };

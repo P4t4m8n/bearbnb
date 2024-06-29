@@ -11,7 +11,6 @@ export const createUser = async (user: UserCreateModel): Promise<UserModel> => {
 export const getUserByFilter = async (
   filter: Partial<UserModel>
 ): Promise<UserModel | null> => {
-  console.log("filter:", filter)
   const collection = await dbService.getCollection("users");
 
   const pipeline = [
@@ -27,12 +26,18 @@ export const getUserByFilter = async (
     { $limit: 1 },
   ];
 
-  
   const [user] = await collection.aggregate<UserModel>(pipeline).toArray();
   if (!user) {
     return null;
   }
   user._id = user._id.toString();
+  if (user.likes?.length)
+    user.likes = user.likes.map((like) => {
+      return {
+        _id: like._id.toString(),
+        stayId: like.stayId.toString(),
+      };
+    });
 
   return user;
 };

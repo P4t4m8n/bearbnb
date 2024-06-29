@@ -38,7 +38,6 @@ export default function LoginModel() {
       if (isLogin) {
         user = await login(formData);
       } else {
-        console.log("isLogin:", isLogin)
         user = await signup(formData);
       }
       setUser(user);

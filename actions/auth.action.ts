@@ -57,7 +57,6 @@ export const signup = async (formData: FormData): Promise<UserModel> => {
   const hash = await bcrypt.hash(userToCreate.password, saltRounds);
 
   const savedUser = await createUser({ ...userToCreate, password: hash });
-  console.log("savedUser:", savedUser)
   const user = await login(formData);
   return user;
 };
