@@ -1,23 +1,22 @@
+import { getStayById } from "@/actions/stay.action";
 import styles from "./Details.module.scss";
-import RoomList from "@/components/ui/Details/RoomList/RoomLIst";
-import AmentiasList from "@/components/ui/Details/AmentiasList/AmentiasList";
-import { Calendar } from "@/components/ui/Calendar/Calendar";
-import { DetailsHeader } from "@/components/ui/Details/Header/DetailsHeader";
-import { ImageList } from "@/components/ui/Details/ImageList/ImageList";
-import { DetailsHero } from "@/components/ui/Details/DetailsHero/DetailsHero";
-import { HostSmall } from "@/components/ui/Details/HostSmall/HostSmall";
-import Booking from "@/components/ui/Booking/Booking";
-import { getStayById } from "@/service/stay.server";
-import { saveBooking } from "@/service/booking.server";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import HighLights from "@/components/ui/Details/HighLights/HighLights";
-import About from "@/components/ui/Details/About/About";
 import { BookingModel } from "@/model/booking.model";
-import DetailsSkeleton from "@/components/ui/skeletons/DetailsSkeleton/DetailsSkeleton";
+import { saveBooking } from "@/actions/booking.action";
+import { redirect } from "next/navigation";
+import DetailsSkeleton from "@/components/skeletons/DetailsSkeleton/DetailsSkeleton";
+import { DetailsHeader } from "@/components/Details/Header/DetailsHeader";
+import { ImageList } from "@/components/Details/ImageList/ImageList";
+import { DetailsHero } from "@/components/Details/DetailsHero/DetailsHero";
+import { HostSmall } from "@/components/Details/HostSmall/HostSmall";
+import HighLights from "@/components/Details/HighLights/HighLights";
+import About from "@/components/Details/About/About";
+import RoomList from "@/components/Details/RoomList/RoomLIst";
+import AmentiasList from "@/components/Details/AmentiasList/AmentiasList";
+import Booking from "@/components/Booking/Booking";
 
 interface Props {
-  params: any;
+  params: { id: string };
 }
 
 export default async function StayDetails({ params }: Props) {
@@ -45,7 +44,7 @@ export default async function StayDetails({ params }: Props) {
     images,
     capacity,
     description,
-    bedrooms,
+    bedRooms,
     baths,
     reviews,
     amenities,
@@ -55,7 +54,7 @@ export default async function StayDetails({ params }: Props) {
   const { firstName, imgUrl, lastName, ownerSince } = host;
   const _ownerSince = new Date(ownerSince!);
 
-  const numberOfBeds = bedrooms.reduce(
+  const numberOfBeds = bedRooms.reduce(
     (acc, currValue) => acc + currValue.beds.length,
     0
   );
@@ -72,7 +71,7 @@ export default async function StayDetails({ params }: Props) {
         <section className={styles.detailsInfo}>
           <DetailsHero
             capacity={capacity}
-            numOfBedrooms={bedrooms.length}
+            numOfBedrooms={bedRooms.length}
             numberOfBeds={numberOfBeds}
             baths={baths || 0}
             rating={rating}
@@ -88,7 +87,7 @@ export default async function StayDetails({ params }: Props) {
           />
           <HighLights highlights={highlights} />
           <About description={stay.description || ""} />
-          <RoomList bedrooms={bedrooms} />
+          <RoomList bedrooms={bedRooms} />
           <AmentiasList amenities={amenities} />
           {/* TODO reimplement calender with booking in a global state */}
           {/* <Calendar bookings={stay.bookings} date={new Date()} /> */}

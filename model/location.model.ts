@@ -5,7 +5,6 @@ export interface CoordsModel {
 
 export interface LocationSmallModel extends CoordsModel {
   country: string;
-
   city: string;
 }
 export interface LocationModel extends LocationSmallModel {

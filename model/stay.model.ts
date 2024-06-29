@@ -1,4 +1,11 @@
-import {  LocationSmallModel } from "./location.model";
+import { LikeModel } from "./Like.model";
+import { AmenitiesType } from "./amenities.type";
+import { BedRoomModel } from "./bedroom.model";
+import { HighlightModel } from "./highlight.model";
+import { LabelsType } from "./labels.type";
+import { LocationModel, LocationSmallModel } from "./location.model";
+import { ReviewModel } from "./review.model";
+import { UserModel } from "./user.model";
 
 export interface StaySmallModel {
   _id?: string; // ObjectId as string
@@ -17,9 +24,12 @@ export interface StayModel extends StaySmallModel {
   capacity: number;
   price: number;
   baths: number;
-  labels: string[];
-  BedRooms: string[]; // Array of ObjectId as string
-  hostId: string; // ObjectId as string
-  amenities: string[]; // Array of ObjectId as string
-  likes: string[]; // Array of ObjectId as string
+  labels: LabelsType[];
+  bedRooms: BedRoomModel[];
+  host: UserModel;
+  amenities: AmenitiesType[];
+  likes: LikeModel[];
+  highlights: HighlightModel[];
+  reviews: ReviewModel[];
+  location:LocationModel
 }

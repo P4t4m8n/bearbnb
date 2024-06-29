@@ -1,5 +1,5 @@
 export interface BedRoomModel {
   beds: Beds[];
-  images: string[];
+  image: string;
 }
 export type Beds = "double" | "single" | "crib";

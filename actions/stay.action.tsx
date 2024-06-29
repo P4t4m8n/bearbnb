@@ -1,13 +1,14 @@
 "use server";
 
 import { FilterByModel } from "@/model/filters.model";
-import { StaySmallModel } from "@/model/stay.model";
+import { StayModel, StaySmallModel } from "@/model/stay.model";
 import StayPreview from "@/components/StayPreview/StayPreview";
 import {
   findFirstConsecutiveDaysAfterDate,
   getRating,
 } from "@/service/stay.service";
 import { dbService } from "@/db/db.service";
+import { ObjectId } from "mongodb";
 
 const NUMBER_PER_PAGE = 8;
 
@@ -45,6 +46,54 @@ export const getSmallStays = async (
   }
 };
 
+export const getStayById = async (id: string): Promise<StayModel> => {
+  try {
+    const collection = await dbService.getCollection("stays");
+
+    const pipeline = [
+      { $match: { _id: new ObjectId(id) } },
+
+      {
+        $lookup: {
+          from: "locations",
+          localField: "locationId",
+          foreignField: "_id",
+          as: "location",
+        },
+      },
+      { $unwind: "$location" },
+      {
+        $lookup: {
+          from: "reviews",
+          localField: "_id",
+          foreignField: "stayId",
+          as: "reviews",
+        },
+      },
+      {
+        $lookup: {
+          from: "bookings",
+          localField: "_id",
+          foreignField: "stayId",
+          as: "booking",
+        },
+      },
+      
+
+      { $limit: 1 },
+    ];
+    const [stay] = await collection.aggregate<StayModel>(pipeline).toArray();
+
+    if (!stay) throw new Error("Failed to fetch stay");
+    console.log("stay:", stay)
+
+    return stay;
+  } catch (error) {
+    console.error("Failed to fetch stay:", error);
+    throw new Error(`Failed to fetch stay ${error}`);
+  }
+};
+
 ///////////////////// Private Functions /////////////////////
 const _queryStayToStallSmallJSXArr = (
   queryStay: any[]
@@ -69,10 +118,10 @@ const _queryStayToSmallStay = (queryStay: any): StaySmallModel => {
     images: queryStay.images,
     price: queryStay.price,
     location: {
-    city: queryStay.location.city,
-    country: queryStay.location.country,
-    lat: queryStay.location.location[0],
-    lng: queryStay.location.location[1],
+      city: queryStay.location.city,
+      country: queryStay.location.country,
+      lat: queryStay.location.location[0],
+      lng: queryStay.location.location[1],
     },
     firstAvailableDate: findFirstConsecutiveDaysAfterDate(
       new Date(),
@@ -129,7 +178,6 @@ const _getSmallStaysData = async (
             city: "$location.city",
             country: "$location.country",
             location: "$location.location.coordinates",
-         
           },
           reviews: 1,
           booking: 1,

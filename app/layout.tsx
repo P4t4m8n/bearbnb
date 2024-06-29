@@ -1,6 +1,7 @@
 import { Mulish } from "next/font/google";
 import "../styles/main.scss";
 import "./global.scss";
+import { seed } from "@/db/seed";
 
 
 const mulish = Mulish({
@@ -15,6 +16,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
 
+  await seed()
 
   return (
     <html lang="en">

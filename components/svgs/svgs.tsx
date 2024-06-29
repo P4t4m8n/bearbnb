@@ -227,18 +227,17 @@ export function MinusSVG() {
   );
 }
 
-export function DynamicSVG({ path, viewBox }: SvgIconModel) {
-  return (
-    <svg
-      viewBox={viewBox}
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      role="presentation"
-      focusable="false"
-    >
-      <path d={path}></path>
-    </svg>
-  );
+export function DynamicSVG({ name }: { name: string }) {
+  switch (name) {
+    case "door":
+      return <DoorSVG />;
+    case "key":
+      return <KeySVG />;
+    case "calendar":
+      return <CalendarSVG />;
+    default:
+      return <></>;
+  }
 }
 
 export function SuggestionPin() {
@@ -256,11 +255,7 @@ export function SuggestionPin() {
 
 export function CheckSVG() {
   return (
-    <svg
-      fill="#000000"
-      viewBox="0 0 24 24"
-      id="check-mark-circle"
-    >
+    <svg fill="#000000" viewBox="0 0 24 24" id="check-mark-circle">
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g
         id="SVGRepo_tracerCarrier"
@@ -268,18 +263,8 @@ export function CheckSVG() {
         strokeLinejoin="round"
       ></g>
       <g id="SVGRepo_iconCarrier">
-        <rect
-          id="secondary"
-          x="3"
-          y="3"
-          width="18"
-          height="18"
-          rx="9"
-        ></rect>
-        <polyline
-          id="primary"
-          points="8 11.5 11 14.5 16 9.5"
-        ></polyline>
+        <rect id="secondary" x="3" y="3" width="18" height="18" rx="9"></rect>
+        <polyline id="primary" points="8 11.5 11 14.5 16 9.5"></polyline>
         <rect
           id="primary-2"
           data-name="primary"
@@ -293,3 +278,42 @@ export function CheckSVG() {
     </svg>
   );
 }
+
+export const DoorSVG = () => {
+  return (
+    <svg
+      viewBox="0 0 32 32"
+      aria-hidden="true"
+      role="presentation"
+      focusable="false"
+    >
+      <path d="M24.33 1.67a2 2 0 0 1 2 1.85v24.81h3v2H2.67v-2h3V3.67a2 2 0 0 1 1.85-2h.15zm-4 2H7.67v24.66h12.66zm4 0h-2v24.66h2zm-7 11a1.33 1.33 0 1 1 0 2.66 1.33 1.33 0 0 1 0-2.66z"></path>
+    </svg>
+  );
+};
+
+export const KeySVG = () => {
+  return (
+    <svg
+      viewBox="0 0 32 32"
+      aria-hidden="true"
+      role="presentation"
+      focusable="false"
+    >
+      <path d="M16.84 27.16v-3.4l-.26.09c-.98.32-2.03.51-3.11.55h-.7A11.34 11.34 0 0 1 1.72 13.36v-.59A11.34 11.34 0 0 1 12.77 1.72h.59c6.03.16 10.89 5.02 11.04 11.05V13.45a11.3 11.3 0 0 1-.9 4.04l-.13.3 7.91 7.9v5.6H25.7l-4.13-4.13zM10.31 7.22a3.1 3.1 0 1 1 0 6.19 3.1 3.1 0 0 1 0-6.2zm0 2.06a1.03 1.03 0 1 0 0 2.06 1.03 1.03 0 0 0 0-2.06zM22.43 25.1l4.12 4.13h2.67v-2.67l-8.37-8.37.37-.68.16-.3c.56-1.15.9-2.42.96-3.77v-.64a9.28 9.28 0 0 0-9-9h-.55a9.28 9.28 0 0 0-9 9v.54a9.28 9.28 0 0 0 13.3 8.1l.3-.16 1.52-.8v4.62z"></path>
+    </svg>
+  );
+};
+
+export const CalendarSVG = () => {
+  return (
+    <svg
+      viewBox="0 0 32 32"
+      aria-hidden="true"
+      role="presentation"
+      focusable="false"
+    >
+      <path d="M11.67 0v1.67h8.66V0h2v1.67h6a2 2 0 0 1 2 1.85v16.07a2 2 0 0 1-.46 1.28l-.12.13L21 29.75a2 2 0 0 1-1.24.58H6.67a5 5 0 0 1-5-4.78V3.67a2 2 0 0 1 1.85-2h6.15V0zm16.66 11.67H3.67v13.66a3 3 0 0 0 2.82 3h11.18v-5.66a5 5 0 0 1 4.78-5h5.88zm-.08 8h-5.58a3 3 0 0 0-3 2.82v5.76zm-18.58-16h-6v6h24.66v-6h-6v1.66h-2V3.67h-8.66v1.66h-2z"></path>
+    </svg>
+  );
+};
