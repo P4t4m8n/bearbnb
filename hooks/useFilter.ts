@@ -1,6 +1,10 @@
+"use client";
 import { FilterByModel } from "@/model/filters.model";
 import { LabelsType } from "@/model/labels.type";
-import { getEmptyFilter, queryIteratorParamToFilter } from "@/service/stay.service";
+import {
+  getEmptyFilter,
+  queryIteratorParamToFilter,
+} from "@/service/stay.service";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useRef } from "react";
 

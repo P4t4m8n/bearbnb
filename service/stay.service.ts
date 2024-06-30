@@ -162,7 +162,6 @@ export const transformBedrooms = (
 // Returns a default StayModel object with all fields set to their initial empty or default values.
 export const getEmptyStay = (): StayModel => {
   return {
-    id: "",
     name: "",
     type: "",
     summary: "",
@@ -170,21 +169,19 @@ export const getEmptyStay = (): StayModel => {
     description: "",
     capacity: 0,
     baths: 0,
+    entireHome: false,
+    host: {
+      _id: "",
+      firstName: "",
+      lastName: "",
+      imgUrl: "",
+    },
     amenities: [],
     images: [],
     labels: [],
-    uniqueRooms: [],
-    host: {
-      email: "",
-      isOwner: false,
-      likes: [],
-      id: "",
-      firstName: "",
-      lastName: "",
-    },
     reviews: [],
     likes: [],
-    bedrooms: [],
+    bedRooms: [],
     bookings: [],
     highlights: [],
     location: {
@@ -212,57 +209,35 @@ export const getRating = (
 };
 
 export const stayToSmallStay = (stay: StayModel): StaySmallModel => {
+  const location = {
+    lat: stay.location.lat,
+    lng: stay.location.lng,
+    country: stay.location.country,
+    city: stay.location.city,
+  };
+
+  const {
+    _id,
+    type,
+    name,
+    images,
+    price,
+    rating,
+    firstAvailableDate,
+  } = stay;
+
   return {
-    id: stay.id,
-    type: stay.type,
-    name: stay.name,
-    images: stay.images,
-    price: stay.price,
-    location: stay.location,
-    rating: getRating(stay.reviews),
+    _id,
+    type,
+    name,
+    images,
+    price,
+    location,
+    rating,
+    firstAvailableDate,
   };
 };
 
-// export const searchParamsToFilter = (
-//   searchParams: SearchParamsModel
-// ): FilterByModel => {
-//   const { startDate, endDate } = searchParams;
-//   const location = searchParams.location
-//     ? searchParams.location.split(",")
-//     : [];
-//   const filter: FilterByModel = {};
-//   if (searchParams.startDate)
-//     filter.dates = { start: new Date(startDate), end: null };
-//   if (searchParams.endDate)
-//     filter.dates = {
-//       start: startDate ? new Date(startDate) : new Date(),
-//       end: new Date(endDate),
-//     };
-//   if (searchParams.location)
-//     filter.location = {
-//       coords: {
-//         lat: +location[0],
-//         lng: +location[1],
-//       },
-//       radius: 100,
-//     };
-//   filter.priceRange = {
-//     start: +searchParams.priceRange || 1,
-//     end: 999999999999,
-//   };
-//   if (searchParams.name) filter.name = searchParams.name;
-//   if (searchParams.label) filter.label = searchParams.label;
-//   if (searchParams.type) filter.type = searchParams.type;
-//   filter.bedroomsAmount = searchParams.bedroomsAmount
-//     ? searchParams.bedroomsAmount
-//     : 99;
-//   filter.totalBeds = searchParams.totalBeds ? searchParams.totalBeds : 99;
-//   filter.baths = searchParams.baths ? searchParams.baths : 99;
-//   if (searchParams.amenities)
-//     filter.amenities = searchParams.amenities.split(",") as Amenity[];
-
-//   return filter;
-// };
 
 export const queryIteratorParamToFilter = (
   query: IterableIterator<[string, string]>
@@ -290,7 +265,7 @@ export const queryIteratorParamToFilter = (
         filterByObject[key] = Number(value);
         break;
       case "amenities":
-        filterByObject.amenities = value.split(",") as Amenity[];
+        filterByObject.amenities = value.split(",") as string[];
         break;
       default:
         filterByObject[key as keyof FilterByModel] = value as any;

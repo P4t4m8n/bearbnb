@@ -1,13 +1,13 @@
-import { AvatarSVG } from "@/components/ui/svgs/svgs";
+import { AvatarSVG } from "@/components/svgs/svgs";
 import { BookingModel } from "@/model/booking.model";
 import { formatDatesToRange } from "@/service/stay.service";
 import Image from "next/image";
 import styles from "./ListingPreview.module.scss";
 import { MouseEvent, useState } from "react";
-import { Status } from "@/model/status.type";
+import { StatusType } from "@/model/status.type";
 
 interface Props {
-  onUpdateListing: (listing: BookingModel, status: Status) => void;
+  onUpdateListing: (listing: BookingModel, status: StatusType) => void;
   listing: BookingModel;
   idx: number;
 }

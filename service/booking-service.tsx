@@ -4,6 +4,7 @@ import { getEmptySmallUser } from "./user.service";
 
 // Create an empty booking object with default values.
 export const getEmptyBooking = (
+
   checkIn?: Date,
   checkOut?: Date
 ): BookingModel => {
@@ -20,6 +21,9 @@ export const getEmptyBooking = (
     children: 0,
     infants: 0,
     pets: 0,
+    stayId:"",
+    userId:"",
+    hostId:"",
   };
 };
 

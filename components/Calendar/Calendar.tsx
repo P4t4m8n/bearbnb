@@ -3,12 +3,12 @@
 import { useState, useMemo } from "react";
 import MonthGrid from "./MonthGrid/MonthGrid";
 import styles from "./Calendar.module.scss";
-import { BookingModel, BookingSmallModel } from "@/model/booking.model";
+import { BookingModel } from "@/model/booking.model";
 
 interface Props {
   date: Date;
   onDateClick: (date: Date) => void;
-  bookings?: BookingSmallModel[];
+  bookings?: BookingModel[];
   isSearch?: boolean;
   booking?: BookingModel;
 }
@@ -30,7 +30,7 @@ export function Calendar({
   };
 
   // Memoize filtered bookings to avoid unnecessary recalculations on each render
-  const filteredBookings: BookingSmallModel[] = useMemo(() => {
+  const filteredBookings: BookingModel[] = useMemo(() => {
     if (!bookings || bookings.length === 0) return [];
     const monthToInclude = anchorDate.getMonth();
     return bookings.filter(

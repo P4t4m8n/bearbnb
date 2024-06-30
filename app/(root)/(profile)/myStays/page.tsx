@@ -1,5 +1,6 @@
-import MyStayList from "@/components/ui/Profile/MyStays/MyStayList/MyStayList";
-import MyStayListSkeleton from "@/components/ui/skeletons/MyStayListsSkeleton/MyStayListSkeleton";
+
+import MyStayList from "@/components/Profile/MyStays/MyStayList/MyStayList";
+import MyStayListSkeleton from "@/components/skeletons/MyStayListsSkeleton/MyStayListSkeleton";
 import { Suspense } from "react";
 
 export default async function Stays({ searchParams }: { searchParams: any }) {

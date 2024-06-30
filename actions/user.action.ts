@@ -35,7 +35,10 @@ export const getUserByFilter = async (
     user.likes = user.likes.map((like) => {
       return {
         _id: like._id.toString(),
-        stayId: like.stayId.toString(),
+        stayId: like.stayId!.toString(),
+
+        userId: like.userId!.toString(),
+        note: like.note,
       };
     });
 

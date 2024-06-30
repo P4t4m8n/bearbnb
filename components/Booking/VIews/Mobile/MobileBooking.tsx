@@ -1,10 +1,10 @@
+import { Calendar } from "@/components/Calendar/Calendar";
 import styles from "./MobileBooking.module.scss";
-import { Calendar } from "@/components/ui/Calendar/Calendar";
-import { BookingSmallModel } from "@/model/booking.model";
 import { useRef } from "react";
+import { BookingModel } from "@/model/booking.model";
 
 interface Props {
-  stayBooking: BookingSmallModel[];
+  stayBooking: BookingModel[];
   checkIn: Date;
   checkOut: Date;
   price: number;

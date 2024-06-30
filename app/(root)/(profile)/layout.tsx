@@ -1,4 +1,5 @@
 import ProfileNav from "@/components/Profile/Nav/ProfileNav";
+import { Suspense } from "react";
 
 export default async function RootLayout({
   children,
@@ -7,7 +8,9 @@ export default async function RootLayout({
 }) {
   return (
     <section style={{ minWidth: "100%", display: "grid", gap: "1rem" }}>
-      <ProfileNav />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProfileNav />
+      </Suspense>
       {children}
     </section>
   );

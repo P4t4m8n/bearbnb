@@ -1,6 +1,5 @@
-import { getBookingById } from "@/service/booking.server";
+import { getBookingById } from "@/actions/booking.action";
 import styles from "./BookingDetails.module.scss";
-import StayMap from "@/components/ui/Map/Map";
 interface Props {
   params: { id: string };
 }
@@ -11,7 +10,6 @@ export default async function BookingDetails({ params }: Props) {
   return (
     <section className={styles.bookingDetails}>
       <div className={styles.bookingInfo}></div>
-     <StayMap/>
     </section>
   );
 }

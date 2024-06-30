@@ -1,3 +1,4 @@
+'use client'
 import { debounce } from "@/util/debounce";
 import styles from "./AddressSearch.module.scss";
 import { useCallback, useState } from "react";

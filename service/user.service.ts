@@ -1,14 +1,14 @@
-import { UserSmallModel } from "@/model/user.model";
+import { UserModel } from "@/model/user.model";
 
-export const getEmptySmallUser = (): UserSmallModel => {
+export const getEmptySmallUser = (): UserModel => {
   return {
-    id: "",
+    _id: "",
+    dob: new Date(),
     firstName: "",
     lastName: "",
     imgUrl: "",
     authId: "",
     email: ",",
     isOwner: false,
-    likes: [],
   };
 };

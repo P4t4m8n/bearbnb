@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function MyStayPreview({ stay, idx }: Props) {
-  const { type, price, location, rating, id, images, name } = stay;
+  const { type, price, location, rating, _id, images, name } = stay;
   const { city, country } = location;
   return (
     <li className={styles.preview}>

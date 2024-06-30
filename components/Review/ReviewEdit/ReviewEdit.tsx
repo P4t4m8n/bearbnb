@@ -2,13 +2,13 @@
 import { ReviewModel } from "@/model/review.model";
 import styles from "./ReviewEdit.module.scss";
 import { StaySmallModel } from "@/model/stay.model";
-import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import { useState } from "react";
 import { CheckSVG, LogoSVG, RatingSVG } from "../../svgs/svgs";
 
 interface Props {
   review: ReviewModel;
   stay: StaySmallModel;
-  onSaveReview: (review: ReviewModel) => Promise<ReviewModel>;
+  onSaveReview: (review: ReviewModel) => Promise<ReviewModel|null>;
   userId?: string;
 }
 export default function ReviewEdit({

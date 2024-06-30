@@ -1,6 +1,7 @@
 import styles from "./StayList.module.scss";
 import LoadMore from "../LoadMore/LoadMore";
 import { getSmallStaysJSX } from "@/actions/stay.action";
+import { Suspense } from "react";
 
 export default async function StayList({ filterBy }: any) {
   const stays = await getSmallStaysJSX(filterBy);
@@ -8,7 +9,9 @@ export default async function StayList({ filterBy }: any) {
   return (
     <ul className={styles.stayList}>
       {stays}
-      {/* <LoadMore /> */}
+      <Suspense fallback={<div>Loading...</div>}>
+        <LoadMore />
+      </Suspense>
     </ul>
   );
 }

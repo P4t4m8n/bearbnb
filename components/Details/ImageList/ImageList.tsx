@@ -1,6 +1,5 @@
 import Image from "next/image";
 import styles from "./ImageList.module.scss";
-import { ImageModel } from "@/model/stay.model";
 
 interface Props {
   images: string[];

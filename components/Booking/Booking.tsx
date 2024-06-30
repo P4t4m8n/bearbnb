@@ -1,20 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
-import { GuestsModel, StayModel } from "@/model/stay.model";
+import { StayModel } from "@/model/stay.model";
 import { useModal } from "@/hooks/useModal";
 import { useUserStore } from "@/store/useUserStore";
 import ConfirmBookingModal from "./ConfirmBookingModal/ConfrimBookingModal";
 import { daysBetweenDates, getEmptyBooking } from "@/service/booking-service";
-import RegularBooking from "./VIews/Regular/RegularBooking";
-import MobileBooking from "./VIews/Mobile/MobileBooking";
+import RegularBooking from "./Views/Regular/RegularBooking";
+import MobileBooking from "./Views/Mobile/MobileBooking";
 import { BookingModel } from "@/model/booking.model";
+import { GuestsModel } from "@/model/guest.model";
 import { stayToSmallStay } from "@/service/stay.service";
 
 interface Props {
-  price: number;
   stay: StayModel;
-  onSaveBooking: (booking: BookingModel) => void;
 }
 
 // Helper function to get window dimensions
@@ -23,9 +22,9 @@ const getWindowDimensions = () => {
   return { width, height };
 };
 
-export default function Booking({ price, stay, onSaveBooking }: Props) {
-  const [booking, setBooking] = useState<BookingModel>(getEmptyBooking());
+export default function Booking({ stay }: Props) {
   const { user, setUser } = useUserStore();
+  const [booking, setBooking] = useState<BookingModel>(getEmptyBooking());
   const [isWindowSmall, setIsWindowSmall] = useState(false);
   const isStart = useRef(true);
   const calendarModalRef = useRef<HTMLDivElement | null>(null);
@@ -43,7 +42,7 @@ export default function Booking({ price, stay, onSaveBooking }: Props) {
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Handle window resize events
@@ -80,12 +79,12 @@ export default function Booking({ price, stay, onSaveBooking }: Props) {
       stay: stayToSmallStay(stay),
       host: stay.host,
       user: user,
-      price: price,
+      price: stay.price * diffInDays,
     };
 
     setBooking(updatedBooking);
     setBookingModal(true);
-  }, [booking, user, stay, price]);
+  }, []);
 
   // Update guest information
   const setGuests = useCallback((guests: GuestsModel) => {
@@ -129,7 +128,7 @@ export default function Booking({ price, stay, onSaveBooking }: Props) {
           checkIn={booking.checkIn}
           checkOut={booking.checkOut}
           diffInDays={diffInDays}
-          price={price}
+          price={stay.price}
           isCalenderOpen={calenderOpen}
           setCalenderOpen={setCalenderOpen}
           onBook={onBook}
@@ -139,7 +138,7 @@ export default function Booking({ price, stay, onSaveBooking }: Props) {
         confirmModalHelper={confirmModalHelper}
         toOpen={bookingModal}
         booking={booking}
-        saveBooking={onSaveBooking}
+        saveBooking={onBook}
       />
     </>
   );

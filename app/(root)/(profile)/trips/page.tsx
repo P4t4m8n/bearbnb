@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import TripList from "@/components/ui/Profile/Trips/TripList/TripList";
-import TripSkeleton from "@/components/ui/skeletons/TripSkeleton/TripSkeleton";
+import TripList from "@/components/Profile/Trips/TripList/TripList";
+import TripSkeleton from "@/components/skeletons/TripSkeleton/TripSkeleton";
 
 export default async function Trips({
   searchParams,
@@ -10,7 +10,7 @@ export default async function Trips({
   const { userId } = searchParams;
   return (
     <Suspense fallback={<TripSkeleton />}>
-      <TripList userId={userId} />
+      <TripList userId={userId} />;
     </Suspense>
   );
 }

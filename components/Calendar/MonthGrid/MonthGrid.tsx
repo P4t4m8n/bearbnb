@@ -1,4 +1,4 @@
-import { BookingSmallModel } from "@/model/booking.model";
+import { BookingModel } from "@/model/booking.model";
 import { ScrollBySVG } from "../../svgs/svgs";
 import styles from "./MonthGrid.module.scss";
 
@@ -8,7 +8,7 @@ interface Props {
   onMonthChange: (dir: number) => void;
   checkIn?: Date | null;
   checkOut?: Date | null;
-  bookings?: BookingSmallModel[];
+  bookings?: BookingModel[];
 }
 
 interface DateObj {

@@ -1,6 +1,5 @@
 "use client";
 import { useModal } from "@/hooks/useModal";
-import { useBookingStore } from "@/store/useBookingStore";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import styles from "./ConfirmBookingModal.module.scss";

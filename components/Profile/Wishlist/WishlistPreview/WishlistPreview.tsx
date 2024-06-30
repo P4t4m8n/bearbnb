@@ -1,42 +1,56 @@
 import Link from "next/link";
 import styles from "./WishlistPreview.module.scss";
 import Image from "next/image";
-import { WishListModel } from "@/model/Like.model";
-import LikeButton from "@/components/ui/Buttons/LikeButton/LikeButton";
-import { RatingSVG } from "@/components/ui/svgs/svgs";
-import AddNote from "@/components/ui/Buttons/AddNote/AddNote";
+import { LikeExtendedModel } from "@/model/Like.model";
+import LikeButton from "@/components/Buttons/LikeButton/LikeButton";
+import { RatingSVG } from "@/components/svgs/svgs";
+import AddNote from "@/components/Buttons/AddNote/AddNote";
 import { transformBedrooms } from "@/service/stay.service";
-import { updateLikeNotes } from "@/service/like.server";
+import { saveLike } from "@/actions/like.action";
 
 interface Props {
-  likeObj: WishListModel;
-  updateLikeNote: (likeId: string, txt: string) => void;
+  likeExtended: LikeExtendedModel;
 }
 
-export default function WishlistPreview({ likeObj,updateLikeNote }: Props) {
-  const { id, stay, notes } = likeObj;
+export default function WishlistPreview({
+  likeExtended,
+}: Props) {
   const {
-    name,
+    stayName,
     images,
-    id: stayId,
-    location,
     type,
+    city,
+    country,
     rating,
     description,
     bedrooms,
-  } = stay;
-  const { city, country } = location;
+    _id,
+    stayId,
+    userId,
+    note,
+  } = likeExtended;
+
   const roundNum = Number(rating.toFixed(2));
   // const formattedBedrooms = transformBedrooms(bedrooms);
 
   const onSaveNote = async (txt: string) => {
-    "use server";
-    updateLikeNotes(id, txt);
+    const likeToSave = {
+      _id,
+      stayId,
+      userId,
+      note: txt,
+    };
+
+    try {
+      await saveLike(likeToSave);
+    } catch (error) {
+      console.error("error:", error);
+    }
   };
 
   return (
     <li className={styles.preview}>
-      <LikeButton stayId={stayId} />
+      <LikeButton stayId={stayId!} />
       <Link href={`stay/${stayId}`}>
         <div className={styles.imgCon}>
           <Image
@@ -57,7 +71,7 @@ export default function WishlistPreview({ likeObj,updateLikeNote }: Props) {
         </div>
         <p className={styles.description}>{description}</p>
       </Link>
-      <AddNote onSaveNote={onSaveNote} txt={notes} />
+      <AddNote onSaveNote={onSaveNote} txt={note} />
     </li>
   );
 }

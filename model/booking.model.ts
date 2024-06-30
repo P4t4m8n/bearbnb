@@ -31,4 +31,6 @@ export interface BookingToSave  {
   status: BookingStatus;
 }
 
+
+
 export type BookingStatus = "pending" | "confirmed" | "canceled" | "completed";

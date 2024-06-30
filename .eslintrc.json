@@ -1,26 +1,8 @@
 {
   "extends": "next/core-web-vitals",
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "@ts-safeql/eslint-plugin"],
-
+  "plugins": ["@typescript-eslint"],
   "rules": {
-    "@ts-safeql/check-sql": [
-      "error",
-      {
-        "connections": [
-          {
-            "connectionUrl": "postgres://postgres.ghsewwzjttgrefdnupgf:6YJC1bmDSDt6xN8k@aws-0-eu-central-1.pooler.supabase.com:6543/postgres?pgbouncer=true",
-
-            "migrationsDir": "./prisma/migrations",
-            "targets": [
-              {
-                "tag": "prisma.+($queryRaw|$executeRaw)",
-                "transform": "{type}[]"
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    "react-hooks/exhaustive-deps": "off"
   }
 }

@@ -219,9 +219,11 @@ export async function seed() {
 
     const collectionH = await dbService.getCollection("highlights");
     const result = await collectionH.insertMany(highLights);
-    const insertedIds: string[] = Object.values(result.insertedIds).map((id) =>
-      id.toString()
-    );
+    const insertedIds: ObjectId[] = Object.values(result.insertedIds).map((id) => {
+      return id
+    
+  })
+  console.log("insertedIds:", insertedIds)
 
     const collectionS = await dbService.getCollection("stays");
     try {

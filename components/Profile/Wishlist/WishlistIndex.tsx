@@ -1,4 +1,4 @@
-import { getLikesByUser, updateLikeNotes } from "@/service/like.server";
+import { getLikesExtended } from "@/actions/like.action";
 import styles from "./WishlistIndex.module.scss";
 import WishlistPreview from "./WishlistPreview/WishlistPreview";
 
@@ -7,21 +7,12 @@ interface Props {
 }
 
 export default async function WishlistIndex({ userId }: Props) {
-  const likes = await getLikesByUser(userId);
-
-  const onUpdateLikeTxt = async (likeId: string, txt: string) => {
-    "use server";
-    await updateLikeNotes(likeId, txt);
-  };
+  const likesExtended = await getLikesExtended({ userId });
 
   return (
     <ul className={styles.wishlistList}>
-      {likes.map((like) => (
-        <WishlistPreview
-          updateLikeNote={onUpdateLikeTxt}
-          key={like.id}
-          likeObj={like}
-        />
+      {likesExtended!.map((likeExtended) => (
+        <WishlistPreview key={likeExtended._id} likeExtended={likeExtended} />
       ))}
     </ul>
   );

@@ -1,3 +1,5 @@
+'use client'
+
 import { useRef, useState } from "react";
 import { SearchSVG } from "../svgs/svgs";
 import styles from "./StaySearch.module.scss";
@@ -5,7 +7,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getEmptyFilter } from "@/service/stay.service";
 import { useModal } from "@/hooks/useModal";
 import { Calendar } from "../Calendar/Calendar";
-import AddressSearch from "./AdressSearch/AdressAutoComplete/AddressSearch";
+import AddressSearch from "./AddressSearch/AddressAutoComplete/AddressSearch";
 interface Props {
   isActive: boolean;
 }

@@ -4,7 +4,7 @@ import styles from "./LikeButton.module.scss";
 import { LikeSVG } from "../../svgs/svgs";
 import { useUserStore } from "@/store/useUserStore";
 import { UserModel } from "@/model/user.model";
-import { saveLike } from "@/actions/like.action";
+import { removeLike, saveLike } from "@/actions/like.action";
 
 interface Props {
   stayId: string;
@@ -17,6 +17,7 @@ export default function LikeButton({ stayId }: Props) {
   const user: UserModel | null = useUserStore.getState().user;
 
   useEffect(() => {
+    
     onGetLike();
   }, []);
 
@@ -35,12 +36,15 @@ export default function LikeButton({ stayId }: Props) {
     //Optimistic update
     setIsLiked((prev) => !prev);
 
+    const likeToSave = {
+      stayId,
+      userId: user._id as string,
+      note: "",
+    };
+    let response: string | null = null;
     try {
-      const response = await saveLike(
-        likeIdRef.current,
-        user._id as string,
-        stayId as string
-      );
+      if (likeIdRef.current) response = await saveLike(likeToSave);
+      else response = await removeLike(likeIdRef.current);
       likeIdRef.current = response || "";
     } catch (error) {
       console.error("error:", error);

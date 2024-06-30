@@ -2,7 +2,7 @@ import { formatDatesToRange } from "@/service/stay.service";
 import Image from "next/image";
 import styles from "./TripPreview.module.scss";
 import Link from "next/link";
-import { TripModel } from "@/model/booking.model";
+import { TripModel } from "@/model/trip.model";
 
 export default function TripPreview({
   trip,
@@ -11,12 +11,12 @@ export default function TripPreview({
   trip: TripModel;
   userId: string;
 }) {
-  const { id, image, city, hostName, checkIn, checkOut, stayId } = trip;
+  const { bookingId, image, city, hostName, checkIn, checkOut, stayId } = trip;
 
   const dates = formatDatesToRange([new Date(checkIn!), new Date(checkOut!)]);
   const year = new Date(checkIn!).getFullYear();
   return (
-    <li key={id}>
+    <li key={bookingId}>
       <div className={styles.imgCon}>
         <Image src={image} alt="" width={64} height={64} />
       </div>
@@ -30,12 +30,12 @@ export default function TripPreview({
           className={styles.trip}
           href={{
             pathname: `/review/edit/`,
-            query: { stayId: stayId, bookingId: id, userId: userId },
+            query: { stayId: stayId, bookingId: bookingId, userId: userId },
           }}
         >
           Review
         </Link>
-        <Link className={styles.trip} href={`/booking/${id}`}>
+        <Link className={styles.trip} href={`/booking/${bookingId}`}>
           Booking
         </Link>
       </div>

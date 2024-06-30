@@ -1,5 +1,5 @@
-import WishlistIndex from "@/components/ui/Profile/Wishlist/WishlistIndex";
-import StayListSkeleton from "@/components/ui/skeletons/StayListSkeleton/StayListSkeleton";
+import WishlistIndex from "@/components/Profile/Wishlist/WishlistIndex";
+import StayListSkeleton from "@/components/skeletons/StayListSkeleton/StayListSkeleton";
 import { Suspense } from "react";
 
 export default async function Wishlist({

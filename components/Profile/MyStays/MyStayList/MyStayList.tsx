@@ -1,6 +1,6 @@
-import { getSmallStays } from "@/service/stay.server";
 import styles from "./MyStayList.module.scss";
 import MyStayPreview from "../MyStayPreview/MyStayPreview";
+import { getSmallStays } from "@/actions/stay.action";
 
 export default async function MyStayList({ userId }: { userId: string }) {
   const userStays = await getSmallStays({ host: userId });
@@ -16,9 +16,9 @@ export default async function MyStayList({ userId }: { userId: string }) {
         <h4>Type</h4>
         <h4>Actions</h4>
       </li>
-        {userStays.map((stay, idx) => (
-          <MyStayPreview idx={idx + 1} key={stay.id} stay={stay} />
-        ))}
+      {userStays.map((stay, idx) => (
+        <MyStayPreview idx={idx + 1} key={stay._id} stay={stay} />
+      ))}
     </ul>
   );
 }

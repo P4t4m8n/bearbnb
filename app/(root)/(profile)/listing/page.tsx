@@ -1,5 +1,6 @@
-import ListingIndex from "@/components/ui/Profile/Listing/ListingIndex";
-import MyStayListSkeleton from "@/components/ui/skeletons/MyStayListsSkeleton/MyStayListSkeleton";
+
+import ListingIndex from "@/components/Profile/Listing/ListingIndex";
+import MyStayListSkeleton from "@/components/skeletons/MyStayListsSkeleton/MyStayListSkeleton";
 import { Suspense } from "react";
 
 export default async function Listings({
@@ -11,7 +12,7 @@ export default async function Listings({
 
   return (
     <Suspense fallback={<MyStayListSkeleton/>}>
-      <ListingIndex userId={userId} />
+      <ListingIndex hostId={userId} />
     </Suspense>
   );
 }

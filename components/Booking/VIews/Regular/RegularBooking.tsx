@@ -1,10 +1,11 @@
 import styles from "./RegularBooking.module.scss";
-import { GuestsModel, StayModel } from "@/model/stay.model";
+import { StayModel } from "@/model/stay.model";
 import { useRef } from "react";
 import { getDefaultDates } from "@/service/stay.service";
 import { Guests } from "../../Guests/Guests";
-import { Calendar } from "@/components/ui/Calendar/Calendar";
 import { BookingModel } from "@/model/booking.model";
+import { GuestsModel } from "@/model/guest.model";
+import { Calendar } from "@/components/Calendar/Calendar";
 
 interface Props {
   booking: BookingModel;

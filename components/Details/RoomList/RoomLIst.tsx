@@ -1,15 +1,14 @@
 "use client";
 import { useScroll } from "@/hooks/useScroll";
-interface Props {
-  bedrooms: BedRoomModel[];
-}
-
 import { DoubleBedSVG, ScrollBySVG, SingleBedSVG } from "../../svgs/svgs";
 import styles from "./RoomList.module.scss";
 import { useRef } from "react";
 import { transformBedrooms } from "@/service/stay.service";
-import { BedRoomModel } from "@/model/stay.model";
+import { BedRoomModel } from "@/model/bedroom.model";
 
+interface Props {
+  bedrooms: BedRoomModel[];
+}
 export default function RoomList({ bedrooms }: Props) {
   const elRooms = useRef<HTMLUListElement>(null);
   const [backVisible, onScrollBy] = useScroll(elRooms);

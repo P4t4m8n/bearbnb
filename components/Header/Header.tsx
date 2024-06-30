@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { LogoSVG } from "../svgs/svgs";
 import { User } from "../User/User";
 import styles from "./Header.module.scss";
@@ -61,7 +61,9 @@ export default function Header() {
           <span>Online Experiences</span>
         </div>
         <User />
-        <StaySearch isActive={isActive} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <StaySearch isActive={isActive} />
+        </Suspense>
       </section>
     </>
   );

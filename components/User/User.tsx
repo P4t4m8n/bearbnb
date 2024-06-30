@@ -1,11 +1,10 @@
 import { AvatarSVG, HamburgerSVG } from "../svgs/svgs";
 import styles from "./User.module.scss";
-import { MouseEvent, use, useEffect, useRef } from "react";
+import { MouseEvent, useEffect, useRef } from "react";
 import { useUserStore } from "@/store/useUserStore";
 import ProfileModel from "./Modal/ProfileModel";
 import { useModal } from "@/hooks/useModal";
 import { getSessionUser, logout } from "@/actions/auth.action";
-import { set } from "zod";
 
 export function User() {
   const { user, setUser } = useUserStore();

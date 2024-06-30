@@ -9,6 +9,7 @@ import {
 } from "@/service/stay.service";
 import { dbService } from "@/db/db.service";
 import { ObjectId } from "mongodb";
+import { title } from "process";
 
 const NUMBER_PER_PAGE = 8;
 
@@ -52,7 +53,6 @@ export const getStayById = async (id: string): Promise<StayModel> => {
 
     const pipeline = [
       { $match: { _id: new ObjectId(id) } },
-
       {
         $lookup: {
           from: "locations",
@@ -78,16 +78,79 @@ export const getStayById = async (id: string): Promise<StayModel> => {
           as: "booking",
         },
       },
-      
-
+      {
+        $lookup: {
+          from: "users",
+          localField: "hostId",
+          foreignField: "_id",
+          as: "host",
+        },
+      },
+      {
+        $lookup: {
+          from: "highlights",
+          localField: "highlights",
+          foreignField: "_id",
+          as: "highlights",
+        },
+      },
+      {
+        $project: {
+          _id: { $toString: "$_id" },
+          name: 1,
+          images: 1,
+          price: 1,
+          location: {
+            city: "$location.city",
+            country: "$location.country",
+            location: "$location.location.coordinates",
+          },
+          reviews: 1,
+          booking: 1,
+          host: {
+            firstName: 1,
+            lastName: 1,
+            imgUrl: 1,
+            ownerSince: 1,
+          },
+          capacity: 1,
+          description: 1,
+          bedRooms: 1,
+          baths: 1,
+          amenities: 1,
+          highlights: {
+            _id: { $toString: "$_id" },
+            title: 1,
+            icon: 1,
+            description: 1,
+          },
+          likes: 1,
+          entireHome: 1,
+        },
+      },
       { $limit: 1 },
     ];
     const [stay] = await collection.aggregate<StayModel>(pipeline).toArray();
 
     if (!stay) throw new Error("Failed to fetch stay");
-    console.log("stay:", stay)
 
+    stay.firstAvailableDate = findFirstConsecutiveDaysAfterDate(
+      new Date(),
+      stay.bookings as { checkIn: Date; checkOut: Date }[],
+      3
+    );
     return stay;
+  } catch (error) {
+    console.error("Failed to fetch stay:", error);
+    throw new Error(`Failed to fetch stay ${error}`);
+  }
+};
+
+export const getSmallStayById = async (id: string): Promise<StaySmallModel> => {
+  try {
+    const stay = await getStayById(id);
+
+    return _queryStayToSmallStay(stay);
   } catch (error) {
     console.error("Failed to fetch stay:", error);
     throw new Error(`Failed to fetch stay ${error}`);
@@ -117,6 +180,7 @@ const _queryStayToSmallStay = (queryStay: any): StaySmallModel => {
     name: queryStay.name,
     images: queryStay.images,
     price: queryStay.price,
+    type: queryStay.entireHome ? "entireHome" : "privateRoom",
     location: {
       city: queryStay.location.city,
       country: queryStay.location.country,

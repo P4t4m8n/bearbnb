@@ -6,7 +6,6 @@ export const getEmptyReview = (
   userId?: string
 ): ReviewModel => {
   return {
-    id: "",
     overallRating: 0,
     text: "",
     stayId: stayId,

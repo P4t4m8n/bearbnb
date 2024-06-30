@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { MinusSVG, PlusSVG, ScrollBySVG } from "../../svgs/svgs";
 import styles from "./Guests.module.scss";
 import { useModal } from "@/hooks/useModal";
-import { GuestsModel } from "@/model/stay.model";
+import { GuestsModel } from "@/model/guest.model";
 
 interface Props {
   guests: GuestsModel;
