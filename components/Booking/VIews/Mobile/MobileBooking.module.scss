@@ -2,7 +2,7 @@
 @import "../../../../styles/abstracts/mixin";
 .bookingSmall {
   padding-block: 1rem;
-  min-width: calc(100svw - 2rem);
+  width:calc( 100% - 2rem);
   display: flex;
   justify-content: space-between;
   position: fixed;

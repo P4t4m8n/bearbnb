@@ -12,6 +12,8 @@
   li {
     border-radius: 1rem;
     position: relative;
+    width: 100%;
+    height: 100%;
     &:first-of-type {
       grid-area: 1/1/-1/3;
       img {
@@ -45,7 +47,7 @@
   .imageList {
     display: flex;
     // max-width: calc(100svw - 2rem);
-    width:100%;
+    width: 100%;
 
     li:not(:first-of-type) {
       display: none;

@@ -48,7 +48,7 @@ export default function Booking({ stay }: Props) {
   // Handle window resize events
   const handleResize = useCallback(() => {
     const { width } = getWindowDimensions();
-    setIsWindowSmall(width <= 650);
+    setIsWindowSmall(width <= 850);
   }, []);
 
   // Handle date click events

@@ -86,6 +86,7 @@ export const getStayById = async (id: string): Promise<StayModel> => {
           as: "host",
         },
       },
+      { $unwind: "$host" },
       {
         $lookup: {
           from: "highlights",
@@ -103,6 +104,8 @@ export const getStayById = async (id: string): Promise<StayModel> => {
           location: {
             city: "$location.city",
             country: "$location.country",
+            address: "$location.address",
+
             location: "$location.location.coordinates",
           },
           reviews: 1,

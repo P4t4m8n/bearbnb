@@ -3,6 +3,7 @@
 .detailsHero {
   @include border-1-bottom-only;
   display: grid;
+  max-width: 100%;
   header {
     h2 {
       font-size: 1.4rem;
@@ -59,6 +60,16 @@
 
 @media (max-width: 850px) {
   .detailsHero {
-    max-width: 380px;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .stayInfo {
+      h3 {
+        &:not(&:first-of-type) {
+          display: none;
+        }
+      }
+    }
   }
 }

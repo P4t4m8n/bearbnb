@@ -1,9 +1,5 @@
 import { getStayById } from "@/actions/stay.action";
 import styles from "./Details.module.scss";
-import { headers } from "next/headers";
-import { BookingModel } from "@/model/booking.model";
-import { saveBooking } from "@/actions/booking.action";
-import { redirect } from "next/navigation";
 import DetailsSkeleton from "@/components/skeletons/DetailsSkeleton/DetailsSkeleton";
 import { DetailsHeader } from "@/components/Details/Header/DetailsHeader";
 import { ImageList } from "@/components/Details/ImageList/ImageList";
@@ -23,11 +19,6 @@ export default async function StayDetails({ params }: Props) {
   const { id } = params;
 
   const stay = await getStayById(id);
-  console.log("stay:", stay)
-
-  const origin = headers().get("origin");
-
- 
 
   if (!stay) return <DetailsSkeleton />;
 
@@ -48,6 +39,8 @@ export default async function StayDetails({ params }: Props) {
     likes,
   } = stay;
   const { firstName, imgUrl, lastName, ownerSince } = host;
+  console.log("host:", host);
+  console.log("ownerSince:", ownerSince);
   const _ownerSince = new Date(ownerSince!);
 
   const numberOfBeds = bedRooms.reduce(
@@ -73,7 +66,7 @@ export default async function StayDetails({ params }: Props) {
             rating={rating}
             reviewsLength={reviews?.length || 0}
             country={location.country}
-            address={location.address}
+            city={location.city}
           />
           <HostSmall
             imgUrl={imgUrl || ""}

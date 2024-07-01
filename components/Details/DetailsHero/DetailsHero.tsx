@@ -9,7 +9,7 @@ interface Props {
   rating: number;
   reviewsLength: number;
   country: string;
-  address: string;
+  city: string;
 }
 
 export function DetailsHero({
@@ -20,15 +20,15 @@ export function DetailsHero({
   rating,
   reviewsLength,
   country,
-  address,
+  city,
 }: Props) {
   return (
     <div className={styles.detailsHero}>
       <header>
-        <h2>{address}</h2>
+        <h2>{city}</h2>
         <h2>{", " + country}</h2>
       </header>
-      <div className="stayInfo">
+      <div className={styles.stayInfo}>
         <h3>{capacity} guests</h3>
         <h3>{numOfBedrooms} bedroom</h3>
         <h3>{numberOfBeds} beds</h3>

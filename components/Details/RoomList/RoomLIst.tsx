@@ -40,7 +40,7 @@ export default function RoomList({ bedrooms }: Props) {
           </li>
         ))}
       </ul>
-      {RoomList.length > 2 && (
+      {bedrooms.length > 2 && (
         <button className={styles.right} onClick={() => onScrollBy(1)}>
           <ScrollBySVG className={styles.svg} />
         </button>

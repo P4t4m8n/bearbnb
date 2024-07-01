@@ -43,7 +43,7 @@ export default function Header() {
         className={styles.sentinel}
         style={{
           height: "32px",
-          width: "100%",
+          width: "50vw",
           position: "absolute",
           top: "1px",
           opacity: 0,

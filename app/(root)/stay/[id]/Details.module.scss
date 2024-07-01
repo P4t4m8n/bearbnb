@@ -12,7 +12,7 @@
 
   .con {
     display: grid;
-    grid-template-columns: calc(60% - 0.5rem) calc(40% - 0.5rem);
+    grid-template-columns: calc(60vw - 5.5rem) calc(40vw - 5.5rem);
     gap: 1rem;
     max-width: $max-width-padding;
     justify-content: space-between;
@@ -30,11 +30,15 @@
   }
 }
 
-@media (max-width: 650px) {
+@media (max-width: 850px) {
   .details {
-    width: 100%;
+    padding-bottom: 4rem;
     .con {
-      grid-template-columns: 100%;
+      max-width: 100%;
+      grid-template-columns: calc(100vw - 4rem);
+    }
+    .detailsInfo {
+      width: 100%;
     }
   }
 }

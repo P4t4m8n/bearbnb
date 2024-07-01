@@ -60,6 +60,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+@mixin text-overflow-ellipsis-warp-off {
+  overflow: visible;
+  text-overflow:inherit;
+}
 
 @mixin soft-box-shadow {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;

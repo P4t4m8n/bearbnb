@@ -6,9 +6,7 @@
   padding-block: 1rem;
   display: grid;
   gap: 1rem;
-  @media (max-width: 850px) {
-    max-width: 380px;
-  }
+
 
   li {
     display: grid;
