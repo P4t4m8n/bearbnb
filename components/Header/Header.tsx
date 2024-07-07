@@ -58,7 +58,6 @@ export default function Header() {
         <div className={styles.placeHolder}>
           <span>Stays</span>
           <span>Experiences</span>
-          <span>Online Experiences</span>
         </div>
         <User />
         <Suspense fallback={<div>Loading...</div>}>

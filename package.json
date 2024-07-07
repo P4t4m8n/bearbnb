@@ -10,6 +10,8 @@
     "seed": "ts-node --esm ./db/seed.ts"
   },
   "dependencies": {
+    "@babel/parser": "^7.24.7",
+    "@babel/traverse": "^7.24.7",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cryptr": "^6.3.0",

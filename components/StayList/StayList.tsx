@@ -2,9 +2,14 @@ import styles from "./StayList.module.scss";
 import LoadMore from "../LoadMore/LoadMore";
 import { getSmallStaysJSX } from "@/actions/stay.action";
 import { Suspense } from "react";
+import { FilterByModel, SearchParamsModel } from "@/model/filters.model";
 
-export default async function StayList({ filterBy }: any) {
-  const stays = await getSmallStaysJSX(filterBy);
+interface Props {
+  searchParams: SearchParamsModel;
+}
+export default async function StayList({ searchParams }: Props) {
+  const stays = await getSmallStaysJSX(searchParams);
+  console.log("stays:", stays)
 
   return (
     <ul className={styles.stayList}>

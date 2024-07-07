@@ -1,23 +1,25 @@
 import { BedRoomModel } from "@/model/bedroom.model";
-import { FilterByModel } from "@/model/filters.model";
+import {
+  FilterByModel,
+  SearchParamsObject,
+} from "@/model/filters.model";
 import { ReviewModel } from "@/model/review.model";
 import { StayModel, StaySmallModel } from "@/model/stay.model";
 
 // Returns a default SearchByModel object with predefined empty or initial values.
-export const getEmptyFilter = (): FilterByModel => {
+export const getEmptyFilter = (): SearchParamsObject => {
   return {
-    name: "",
-    dates: { start: undefined, end: undefined },
-    priceRange: { start: 1, end: 10000 },
-    host: "",
-    type: "AnyType",
-    totalBeds: 0,
-    bedroomsAmount: 0,
-    baths: 0,
-    label: "",
-    amenities: [],
+    location: { lat: 0, lon: 0 },
+    distance: 2000,
+    dates: { start: null, end: null },
+    guests: {
+      adults: 0,
+      children: 0,
+      infants: 0,
+    },
   };
 };
+
 // Generates formatted check-in and check-out dates based on provided booking
 // data or fallbacks to the stay's available dates.
 export const getDefaultDates = (
@@ -216,15 +218,7 @@ export const stayToSmallStay = (stay: StayModel): StaySmallModel => {
     city: stay.location.city,
   };
 
-  const {
-    _id,
-    type,
-    name,
-    images,
-    price,
-    rating,
-    firstAvailableDate,
-  } = stay;
+  const { _id, type, name, images, price, rating, firstAvailableDate } = stay;
 
   return {
     _id,
@@ -237,7 +231,6 @@ export const stayToSmallStay = (stay: StayModel): StaySmallModel => {
     firstAvailableDate,
   };
 };
-
 
 export const queryIteratorParamToFilter = (
   query: IterableIterator<[string, string]>

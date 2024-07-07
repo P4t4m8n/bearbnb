@@ -1,6 +1,6 @@
 "use server";
 
-import { FilterByModel } from "@/model/filters.model";
+import { FilterByModel, SearchParamsModel } from "@/model/filters.model";
 import { StayModel, StaySmallModel } from "@/model/stay.model";
 import StayPreview from "@/components/StayPreview/StayPreview";
 import {
@@ -9,16 +9,16 @@ import {
 } from "@/service/stay.service";
 import { dbService } from "@/db/db.service";
 import { ObjectId } from "mongodb";
-import { title } from "process";
 
-const NUMBER_PER_PAGE = 8;
+const NUMBER_PER_PAGE = 12;
 
 export const getSmallStaysJSX = async (
-  filters?: FilterByModel,
+  searchParams?: SearchParamsModel,
   page?: number
 ): Promise<React.JSX.Element[]> => {
   try {
-    const stays = await _getSmallStaysData(filters, page);
+    const pipeline = buildPipeline(page || 1, NUMBER_PER_PAGE, searchParams);
+    const stays = await _getSmallStaysData(pipeline);
 
     if (!stays) throw new Error("Failed to fetch stays");
 
@@ -31,11 +31,13 @@ export const getSmallStaysJSX = async (
 };
 
 export const getSmallStays = async (
-  filters: FilterByModel,
+  searchParams?: SearchParamsModel,
   page?: number
 ): Promise<StaySmallModel[]> => {
   try {
-    const stays = await _getSmallStaysData(filters, page);
+    const pipeline = buildPipeline(page || 1, NUMBER_PER_PAGE, searchParams);
+
+    const stays = await _getSmallStaysData(pipeline);
 
     if (!stays) throw new Error("Failed to fetch stays");
 
@@ -199,60 +201,11 @@ const _queryStayToSmallStay = (queryStay: any): StaySmallModel => {
   };
 };
 
-const _getSmallStaysData = async (
-  searchBy?: FilterByModel,
-  page: number = 1
-): Promise<any[]> => {
+const _getSmallStaysData = async (pipeline: any[]): Promise<any[]> => {
   try {
-    const queryFilters = _buildQueryFilters(searchBy);
-
-    const pipeline = [
-      { $match: queryFilters },
-      { $skip: page * NUMBER_PER_PAGE },
-      { $limit: NUMBER_PER_PAGE },
-      {
-        $lookup: {
-          from: "locations",
-          localField: "locationId",
-          foreignField: "_id",
-          as: "location",
-        },
-      },
-      { $unwind: "$location" },
-      {
-        $lookup: {
-          from: "reviews",
-          localField: "_id",
-          foreignField: "stayId",
-          as: "reviews",
-        },
-      },
-      {
-        $lookup: {
-          from: "bookings",
-          localField: "_id",
-          foreignField: "stayId",
-          as: "booking",
-        },
-      },
-      {
-        $project: {
-          _id: 1,
-          name: 1,
-          images: 1,
-          price: 1,
-          location: {
-            city: "$location.city",
-            country: "$location.country",
-            location: "$location.location.coordinates",
-          },
-          reviews: 1,
-          booking: 1,
-        },
-      },
-    ];
     const collection = await dbService.getCollection("stays");
     const stays = await collection.aggregate(pipeline).toArray();
+    console.log("stays:", stays)
 
     return stays;
   } catch (error) {
@@ -260,58 +213,147 @@ const _getSmallStaysData = async (
   }
 };
 
-const _buildQueryFilters = (searchBy?: FilterByModel) => {
-  const queryFilters: any = {};
+const buildPipeline = (
+  page: number,
+  itemsPerPage: number,
+  searchParams?: SearchParamsModel
+) => {
+  const pipeline: any[] = [
+    // Always perform the lookup to join the locations collection
+    {
+      $lookup: {
+        from: "locations",
+        localField: "locationId",
+        foreignField: "_id",
+        as: "location",
+      },
+    },
+    { $unwind: "$location" },
+  ];
 
-  if (searchBy?.name) {
-    queryFilters.name = { $regex: searchBy.name, $options: "i" };
-  }
+  if (searchParams?.location) {
+    const [lat, lng] = searchParams.location.split(",").map(Number);
+    const distance = searchParams?.distance ? +searchParams.distance : 100000000;
 
-  if (searchBy?.host) {
-    queryFilters.hostId = searchBy.host;
-  }
+    // Calculate the bounding box for the given distance (in meters)
+    const earthRadius = 6378137; // Earth's radius in meters
+    const latDelta = distance / earthRadius;
+    console.log("latDelta:", latDelta)
+    const lonDelta = distance / (earthRadius * Math.cos((Math.PI * lat) / 180));
 
-  if (searchBy?.dates) {
-    queryFilters["booking"] = {
-      $not: {
-        $elemMatch: {
-          checkIn: { $lte: searchBy.dates.end },
-          checkOut: { $gte: searchBy.dates.start },
+    const minLat = lat - (latDelta * 180) / Math.PI;
+    const maxLat = lat + (latDelta * 180) / Math.PI;
+    const minLon = lng - (lonDelta * 180) / Math.PI;
+    const maxLon = lng + (lonDelta * 180) / Math.PI;
+
+    console.log(`Bounding box: [${minLon}, ${minLat}], [${maxLon}, ${maxLat}]`);
+
+    // Use $geoWithin with $box to filter locations within the bounding box
+    pipeline.push({
+      $match: {
+        "location.location.coordinates": {
+          $geoWithin: {
+            $box: [
+              [minLon, minLat],
+              [maxLon, maxLat],
+            ],
+          },
         },
       },
-    };
+    });
   }
 
-  if (searchBy?.label) {
-    queryFilters.labels = searchBy.label;
-  }
+  pipeline.push(
+    { $skip: (page - 1) * itemsPerPage },
+    { $limit: itemsPerPage },
+    {
+      $lookup: {
+        from: "reviews",
+        localField: "_id",
+        foreignField: "stayId",
+        as: "reviews",
+      },
+    },
+    {
+      $lookup: {
+        from: "bookings",
+        localField: "_id",
+        foreignField: "stayId",
+        as: "booking",
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        name: 1,
+        images: 1,
+        price: 1,
+        location: {
+          city: "$location.city",
+          country: "$location.country",
+          location: "$location.location.coordinates",
+        },
+        reviews: 1,
+        booking: 1,
+      },
+    }
+  );
 
-  if (searchBy?.type && searchBy.type !== "AnyType") {
-    queryFilters.entireHome = searchBy.type === "entireHome";
-  }
-
-  if (searchBy?.bedroomsAmount) {
-    queryFilters.bedroomsAmount = { $gte: searchBy.bedroomsAmount };
-  }
-
-  if (searchBy?.totalBeds) {
-    queryFilters.totalBeds = { $gte: searchBy.totalBeds };
-  }
-
-  if (searchBy?.baths) {
-    queryFilters.baths = { $gte: searchBy.baths };
-  }
-
-  if (searchBy?.priceRange) {
-    queryFilters.price = {
-      $gte: searchBy.priceRange.start,
-      $lte: searchBy.priceRange.end,
-    };
-  }
-
-  if (searchBy?.amenities && searchBy.amenities.length > 0) {
-    queryFilters.amenities = { $all: searchBy.amenities };
-  }
-
-  return queryFilters;
+  return pipeline;
 };
+
+// const _buildQueryFilters = (searchBy?: FilterByModel) => {
+//   const queryFilters: any = {};
+
+//   if (searchBy?.name) {
+//     queryFilters.name = { $regex: searchBy.name, $options: "i" };
+//   }
+
+//   if (searchBy?.host) {
+//     queryFilters.hostId = searchBy.host;
+//   }
+
+//   if (searchBy?.dates) {
+//     queryFilters["booking"] = {
+//       $not: {
+//         $elemMatch: {
+//           checkIn: { $lte: searchBy.dates.end },
+//           checkOut: { $gte: searchBy.dates.start },
+//         },
+//       },
+//     };
+//   }
+
+//   if (searchBy?.label) {
+//     queryFilters.labels = searchBy.label;
+//   }
+
+//   if (searchBy?.type && searchBy.type !== "AnyType") {
+//     queryFilters.entireHome = searchBy.type === "entireHome";
+//   }
+
+//   if (searchBy?.bedroomsAmount) {
+//     queryFilters.bedroomsAmount = { $gte: searchBy.bedroomsAmount };
+//   }
+
+//   if (searchBy?.totalBeds) {
+//     queryFilters.totalBeds = { $gte: searchBy.totalBeds };
+//   }
+
+//   if (searchBy?.baths) {
+//     queryFilters.baths = { $gte: searchBy.baths };
+//   }
+
+//   if (searchBy?.priceRange) {
+//     queryFilters.price = {
+//       $gte: searchBy.priceRange.start,
+//       $lte: searchBy.priceRange.end,
+//     };
+//   }
+
+//   if (searchBy?.amenities && searchBy.amenities.length > 0) {
+//     queryFilters.amenities = { $all: searchBy.amenities };
+//   }
+
+//   return queryFilters;
+// };

@@ -10,7 +10,7 @@ import { getSmallStaysJSX } from "@/actions/stay.action";
 interface Props {
   searchParams: any;
 }
-let page = 1;
+let page = 2;
 
 export default function LoadMore() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -28,13 +28,11 @@ export default function LoadMore() {
         async (entries) => {
           if (entries[0].isIntersecting) {
             setLoading(true);
-            const _stays = await getSmallStaysJSX(filterBy, page);
+            const _stays = await getSmallStaysJSX(params, page);
             if (!_stays || !_stays.length) {
               observer.unobserve(container);
               observer.disconnect();
               setLoading(false);
-
-              page = 1;
               return;
             }
             if (_stays)
@@ -43,7 +41,7 @@ export default function LoadMore() {
               });
             page++;
             setLoading(false);
-            if (!_stays || _stays.length < 8) page = 1;
+            // if (!_stays || _stays.length < 8) page = 1;
           }
         },
         {

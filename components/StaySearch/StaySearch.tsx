@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useRef, useState } from "react";
 import { SearchSVG } from "../svgs/svgs";
@@ -8,25 +8,21 @@ import { getEmptyFilter } from "@/service/stay.service";
 import { useModal } from "@/hooks/useModal";
 import { Calendar } from "../Calendar/Calendar";
 import AddressSearch from "./AddressSearch/AddressAutoComplete/AddressSearch";
+import { GuestsModel } from "@/model/guest.model";
+import { GuestsWindow } from "./GuestsModel/GuestsModel";
 interface Props {
   isActive: boolean;
 }
 export function StaySearch({ isActive }: Props) {
   const scrollClass = `${styles.search} ${isActive ? styles.scroll : ""}`;
   const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-
-  const [filterBy, setFilterBy] = useState(getEmptyFilter());
-  const calendarRef = useRef<HTMLButtonElement | null>(null);
-  const [open, setModal] = useModal(calendarRef, null);
-  const isStart = useRef<boolean>(true);
+  const router = useRouter();
   const params = new URLSearchParams(searchParams);
 
-  const handleName = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = ev.target;
-    setFilterBy((prevFilter) => ({ ...prevFilter, name: value }));
-  };
+  const [filterBy, setFilterBy] = useState(getEmptyFilter());
+  const calendarRef = useRef<HTMLDivElement | null>(null);
+  const [isCalendarOpen, setIsCalenderOpen] = useModal(calendarRef, null);
+  const isStart = useRef<boolean>(true);
 
   const handleDate = (date: Date | null) => {
     let dates: {
@@ -38,13 +34,8 @@ export function StaySearch({ isActive }: Props) {
     };
 
     if (!date) {
-      // If null is provided, reset both start and end dates and URL parameters
       dates = { start: null, end: null };
-      params.delete("startDate");
-      params.delete("endDate");
-      replace(`${pathname}?${params.toString()}`);
     } else {
-      // Handle date selection based on whether it's a start date or an end date
       if (isStart.current) {
         // Setting start date and potentially clearing end date if it's before the new start
         dates.start = date;
@@ -62,53 +53,60 @@ export function StaySearch({ isActive }: Props) {
         isStart.current = true;
       }
     }
-    // Update the filter state
-    // setFilterBy((prevFilter) => ({ ...prevFilter, dates }));
+    setFilterBy((prevFilter) => ({ ...prevFilter, dates }));
   };
 
   const onSearch = (ev: React.MouseEvent<HTMLButtonElement>) => {
-    // Prevent the default form submission behavior
     ev.preventDefault();
 
-    // Set the 'endDate' URL parameter if the end date is provided
-    if (filterBy.dates!.end) {
-      params.set("endDate", filterBy.dates!.end.toISOString().substring(0, 10));
+    console.log(filterBy);
+
+    if (!filterBy.location) {
+      alert("Please select a location");
+      return;
     }
 
-    // Set the 'startDate' URL parameter if the start date is provided
-    if (filterBy.dates!.start) {
-      params.set(
-        "startDate",
-        filterBy.dates!.start.toISOString().substring(0, 10)
-      );
+    if (!filterBy.dates || !filterBy.dates.start || !filterBy.dates.end) {
+      alert("Please select dates");
+      return;
     }
 
-    // Set the 'name' URL parameter, defaulting to an empty string if not provided
-    params.set("name", filterBy.name || "");
-
-    // Set the 'start' URL parameter for price range, defaulting to "1" if not provided
-    if (filterBy.priceRange!.start) {
-      params.set("startPrice", filterBy.priceRange!.start.toString());
-    } else {
-      params.set("startPrice", "1");
+    if (!filterBy.guests || !filterBy.guests.adults) {
+      alert("Please select guests");
+      return;
     }
+    params.set("location", `${filterBy.location.lat},${filterBy.location.lon}`);
+    params.set(
+      "startDate",
+      filterBy.dates.start?.toISOString().substring(0, 10) || ""
+    );
+    params.set(
+      "endDate",
+      filterBy.dates.end?.toISOString().substring(0, 10) || ""
+    );
+    params.set("guests", JSON.stringify(filterBy.guests));
 
-    // Set the 'end' URL parameter for price range, defaulting to a high value if not provided
-    if (filterBy.priceRange!.end) {
-      params.set("endPrice", filterBy.priceRange!.end.toString());
-    } else {
-      params.set("endPrice", "9999999999");
-    }
+    const url = `/search?${params.toString()}`;
+    router.push(url);
+  };
 
-    // Update the URL with the new parameters
-    replace(`${pathname}?${params.toString()}`);
+  const handleLocation = ({ lat, lon }: { lat: number; lon: number }) => {
+    setFilterBy((prevFilter) => ({
+      ...prevFilter,
+      location: { lat, lon },
+    }));
+    setIsCalenderOpen(true);
+  };
+
+  const handleGuests = (guests: GuestsModel) => {
+    setFilterBy((prevFilter) => ({ ...prevFilter, guests }));
   };
 
   return (
     <div className={scrollClass}>
-      <AddressSearch />
-      <button
-        onClick={() => setModal(true)}
+      <AddressSearch handleLocation={handleLocation} />
+      <div
+        onClick={() => setIsCalenderOpen(true)}
         ref={calendarRef}
         className={`${styles.dates} ${styles.input}`}
       >
@@ -120,20 +118,18 @@ export function StaySearch({ isActive }: Props) {
           <span>Check out</span>
           <p>{filterBy.dates!.end?.toLocaleDateString() || "Check out"}</p>
         </div>
-        {open && (
+        {isCalendarOpen && (
           <section className={styles.calendarCon}>
             <Calendar
               isSearch={true}
+              bookingDate={filterBy.dates}
               onDateClick={handleDate}
               date={new Date()}
             />
           </section>
         )}
-      </button>
-      <button className={`${styles.input} ${styles.btn}`}>
-        <span>Who</span>
-        <p>Who</p>
-      </button>
+      </div>
+      <GuestsWindow guests={filterBy.guests!} setGuests={handleGuests} />
       <button onClick={onSearch} className={styles.searchBtn}>
         <SearchSVG />
       </button>

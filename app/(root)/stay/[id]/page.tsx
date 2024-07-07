@@ -39,8 +39,7 @@ export default async function StayDetails({ params }: Props) {
     likes,
   } = stay;
   const { firstName, imgUrl, lastName, ownerSince } = host;
-  console.log("host:", host);
-  console.log("ownerSince:", ownerSince);
+
   const _ownerSince = new Date(ownerSince!);
 
   const numberOfBeds = bedRooms.reduce(

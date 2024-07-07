@@ -1,15 +1,14 @@
-'use client'
+"use client";
 import { debounce } from "@/util/debounce";
 import styles from "./AddressSearch.module.scss";
 import { useCallback, useState } from "react";
 import { SuggestionPin } from "@/components/svgs/svgs";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-export default function AddressSearch() {
-  const pathName = usePathname();
-  const searchParams = useSearchParams();
-  const { replace } = useRouter();
-  const params = new URLSearchParams(searchParams);
+interface Props {
+  handleLocation: ({ lat, lon }: { lat: number; lon: number }) => void;
+}
+
+export default function AddressSearch({ handleLocation }: Props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<
     {
@@ -51,14 +50,12 @@ export default function AddressSearch() {
 
   const handleSuggestionClick = ({
     lat,
-    lon: lng,
+    lon,
   }: {
-    display_name: string;
     lat: number;
     lon: number;
   }) => {
-    params.set("location", `${lat},${lng}`);
-    replace(`${pathName}?${params.toString()}`);
+    handleLocation({ lat, lon });
     setSuggestions([]);
   };
 

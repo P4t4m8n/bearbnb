@@ -6,13 +6,14 @@
   padding-block: 2rem;
   gap: 1rem;
   max-width: 100%;
+  @include bordered;
 
   p {
     // display: -webkit-box;
     // -webkit-line-clamp: 6;
     // -webkit-box-orient: vertical;
     line-height: 1.5;
-    height: calc(1.5em * 6);
+    max-height: calc(1.5em * 6);
     @include text-overflow-ellipsis-warp;
   }
 

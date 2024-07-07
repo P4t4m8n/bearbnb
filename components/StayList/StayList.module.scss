@@ -3,15 +3,18 @@
 
 .stayList {
   display: grid;
-  @include grid-columns(4);
+  @include grid-columns(6);
   gap: 1.5rem;
   position: relative;
   width: 100%;
-  @media (max-width: 1212px) {
-    @include grid-columns(3);
+  @media (max-width: 1700px) {
+    @include grid-columns(5);
   }
-  @media (max-width: 940px) {
-    @include grid-columns(2);
+  @media (max-width:1450px) {
+    @include grid-columns(4);
+  }
+  @media (max-width:1200px) {
+    @include grid-columns(3);
   }
   @media (max-width: 680px) {
     @include grid-columns(1);

@@ -77,6 +77,7 @@ export default function MonthGrid({
   };
 
   const monthGrid = getMonthGrid(date);
+  console.table( monthGrid)
   const monthName = date.toLocaleString("default", { month: "long" });
   const year = date.getFullYear();
 
