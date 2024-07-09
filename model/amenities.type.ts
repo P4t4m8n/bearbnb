@@ -1,49 +1,68 @@
-export type AmenitiesType =
-  | "Wifi"
+export type EntertainmentAmenities = "TV" | "Smart TV";
+
+export type ScenicViewAmenities =
   | "Sea view"
   | "Mountain view"
-  | "Courtyard view"
-  | "Hair Dryer"
+  | "Courtyard view";
+
+export type BathroomAmenities = "Hair Dryer" | "Hot Water";
+
+export type BedroomAndLaundryAmenities =
   | "Cleaning Products"
-  | "Dishwasher"
-  | "Heating"
-  | "Air Conditioning"
-  | "Sun Lounge"
   | "Washer"
   | "Dryer"
   | "Iron"
   | "Essentials"
-  | "Hot Water"
-  | "TV"
+  | "Bed Linens";
+
+export type EssentialsAmenities = "Wifi" | "Heating" | "Air Conditioning";
+
+export type KitchenAmenities =
+  | "Dishwasher"
   | "Refrigerator"
   | "Microwave"
-  | "CoffeeMaker"
+  | "Coffee Maker"
   | "Cooking Basics"
   | "Oven"
   | "Stove"
-  | "Dishes And Silverware"
-  | "Kitchen"
+  | "Dishes And Silverware";
+
+export type SafetyAmenities =
   | "Smoke Alarm"
   | "Carbon Monoxide Alarm"
   | "First Aid Kit"
-  | "Fire Extinguisher"
-  | "Bed Linens"
-  | "High Chair"
+  | "Fire Extinguisher";
+
+export type ParkingAmenities =
   | "Free Parking On Premises"
-  | "Paid Parking Off Premises"
-  | "Paid Parking On Premises"
-  | "Elevator"
-  | "Bbq Grill"
+  | "Paid Parking On Premises";
+
+export type OutdoorAmenities =
+  | "BBQ"
   | "Patio Or Balcony"
-  | "GardenOrBackyard"
-  | "PrivateEntrance"
-  | "HotTub"
-  | "Sauna"
+  | "Garden Or Backyard"
+  | "Private Entrance"
+  | "Out door Dining Area";
+
+export type SpaAmenities = "HotTub" | "Sauna";
+
+export type MiscellaneousAmenities =
+  | "Sun Lounge"
   | "Luggage Dropoff Allowed"
-  | "Smart TV"
-  | "Dedicated Workspace";
+  | "Dedicated Workspace"
+  | "Elevator"
+  | "High Chair"
+  |"Early Check-in"
 
-export type AmenitiesGroupType =
-
-  | "Entertainment"
-  | "Scenic views"|"Bathroom"|"Bedroom and laundry"|"Essentials"
+export type Amenity =
+  | EntertainmentAmenities
+  | ScenicViewAmenities
+  | BathroomAmenities
+  | BedroomAndLaundryAmenities
+  | EssentialsAmenities
+  | KitchenAmenities
+  | SafetyAmenities
+  | ParkingAmenities
+  | OutdoorAmenities
+  | SpaAmenities
+  | MiscellaneousAmenities;

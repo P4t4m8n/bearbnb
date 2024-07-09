@@ -20,7 +20,6 @@ export const getSmallStaysJSX = async (
   try {
     const pipeline = buildPipeline(page || 1, NUMBER_PER_PAGE, searchParams);
     const stays = await _getSmallStaysData(pipeline);
-    console.log("stays:", stays);
 
     if (!stays) throw new Error("Failed to fetch stays");
 

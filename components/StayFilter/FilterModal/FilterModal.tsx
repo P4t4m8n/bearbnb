@@ -8,7 +8,6 @@ import { FilterByModel } from "@/model/filters.model";
 interface Props {
   filterBy: FilterByModel;
   handleChange: (ev: React.ChangeEvent<HTMLInputElement>) => void;
-  // loading: boolean;
   onClear: () => void;
   onSubmit: () => void;
 }

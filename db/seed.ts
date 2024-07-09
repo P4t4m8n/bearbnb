@@ -69,60 +69,17 @@ export async function seed() {
   const collectionL = await dbService.getCollection("locations");
   const locations = await collectionL.find().toArray();
 
+  const collocationA = await dbService.getCollection("amenities");
+  const amenitiesData = await collocationA.find().toArray();
   for (let i = 0; i < 50; i++) {
     const imgIdx = i % (imgUrls.length - 10);
 
     const random = randomNumber(1, 5);
-    const amenities = [
-      "Wifi",
-      "Heating",
-      "AirConditioning",
-      "Washer",
-      "Dryer",
-      "Iron",
-      "Essentials",
-      "HotWater",
-      "TV",
-      "Refrigerator",
-      "Microwave",
-      "CoffeeMaker",
-      "CookingBasics",
-      "Oven",
-      "Stove",
-      "Dishwasher",
-      "DishesAndSilverware",
-      "Kitchen",
-      "SmokeAlarm",
-      "CarbonMonoxideAlarm",
-      "FirstAidKit",
-      "FireExtinguisher",
-      "BedroomLock",
-      "HighChair",
-      "BabySafetyGates",
-      "BabysitterRecommendations",
-      "FreeParkingOnPremises",
-      "PaidParkingOffPremises",
-      "PaidParkingOnPremises",
-      "Elevator",
-      "WheelchairAccessible",
-      "BbqGrill",
-      "PatioOrBalcony",
-      "GardenOrBackyard",
-      "PrivateEntrance",
-      "Gym",
-      "Pool",
-      "HotTub",
-      "Sauna",
-      "LongTermStaysAllowed",
-      "LuggageDropoffAllowed",
-      "CleaningBeforeCheckout",
-      "PetsAllowed",
-      "BoardGames",
-      "BooksAndReadingMaterial",
-      "SmartTV",
-      "DedicatedWorkspace",
-    ];
 
+    const randomAmenities = getRandomAmenities(amenitiesData);
+    const amenitiesIds = randomAmenities.map((amenity) => {
+      return amenity._id;
+    });
     const labels = [
       "",
       "amazing_views",
@@ -241,7 +198,7 @@ export async function seed() {
         highlights: insertedIds,
         hostId: new ObjectId("667d23b8d71c9238f15ac90d"),
         locationId: new ObjectId(locations[i]._id),
-        amenities: amenities,
+        amenities: amenitiesIds,
         labels: labels.slice(
           randomNumber(1, 10),
           randomNumber(15, labels.length - 1)
@@ -254,9 +211,6 @@ export async function seed() {
     }
   }
 }
-
-
-
 
 // export async function seedUsers() {
 //   const users = [
@@ -289,369 +243,14 @@ export async function seed() {
 //   console.log("Users seeded");
 // }
 
-// export async function seedLocations() {
-//   const locations = [
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "Custer",
-//       address: "11149 U.S. Hwy. 16, Building B12, Custer, SD 57730",
-//       location: { type: "Point", coordinates: [-103.6069, 43.7305] },
-//     },
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "Guadalupe Mountains",
-//       address: "Carlsbad Cavern, Guadalupe Mountains, NM",
-//       location: { type: "Point", coordinates: [-104.3646, 32.1478] },
-//     },
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "Yellowstone National Park",
-//       address: "Yellowstone National Park, WY",
-//       location: { type: "Point", coordinates: [-110.5885, 44.428] },
-//     },
-//     {
-//       country: "Canada",
-//       countryCode: "CA",
-//       city: "Banff",
-//       address: "Banff National Park, AB",
-//       location: { type: "Point", coordinates: [-115.5708, 51.1784] },
-//     },
-//     {
-//       country: "Russia",
-//       countryCode: "RU",
-//       city: "Kronotsky",
-//       address: "Kronotsky Nature Reserve, Kamchatka",
-//       location: { type: "Point", coordinates: [160.5167, 54.75] },
-//     },
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "Bighorn River Area",
-//       address: "Bighorn Cavern, WY",
-//       location: { type: "Point", coordinates: [-107.8617, 44.5463] },
-//     },
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "Jewel Cave",
-//       address: "Jewel Cave National Monument, SD",
-//       location: { type: "Point", coordinates: [-103.8296, 43.7306] },
-//     },
-//     {
-//       country: "Norway",
-//       countryCode: "NO",
-//       city: "Svalbard",
-//       address: "Svalbard Nature Reserve",
-//       location: { type: "Point", coordinates: [15.6333, 78.0] },
-//     },
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "Katmai",
-//       address: "Katmai National Park, AK",
-//       location: { type: "Point", coordinates: [-154.9628, 58.6194] },
-//     },
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "Glacier",
-//       address: "Glacier National Park, MT",
-//       location: { type: "Point", coordinates: [-113.7183, 48.6966] },
-//     },
-//     {
-//       country: "Russia",
-//       countryCode: "RU",
-//       city: "Stolby",
-//       address: "Stolby Nature Reserve, Krasnoyarsk",
-//       location: { type: "Point", coordinates: [92.7933, 55.9811] },
-//     },
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "Denali",
-//       address: "Denali National Park, AK",
-//       location: { type: "Point", coordinates: [-150.4936, 63.1148] },
-//     },
-//     {
-//       country: "Japan",
-//       countryCode: "JP",
-//       city: "Shiretoko",
-//       address: "Shiretoko National Park, Hokkaido",
-//       location: { type: "Point", coordinates: [144.973, 44.1167] },
-//     },
-//     {
-//       country: "Romania",
-//       countryCode: "RO",
-//       city: "Brasov",
-//       address: "Carpathian Mountains",
-//       location: { type: "Point", coordinates: [25.5902, 45.6437] },
-//     },
-//     {
-//       country: "India",
-//       countryCode: "IN",
-//       city: "Jim Corbett",
-//       address: "Jim Corbett National Park, Uttarakhand",
-//       location: { type: "Point", coordinates: [78.9398, 29.53] },
-//     },
-//     {
-//       country: "China",
-//       countryCode: "CN",
-//       city: "Sichuan",
-//       address: "Sichuan Giant Panda Sanctuaries",
-//       location: { type: "Point", coordinates: [102.4442, 31.214] },
-//     },
-//     {
-//       country: "Nepal",
-//       countryCode: "NP",
-//       city: "Chitwan",
-//       address: "Chitwan National Park",
-//       location: { type: "Point", coordinates: [84.09, 27.529] },
-//     },
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "Olympic",
-//       address: "Olympic National Park, WA",
-//       location: { type: "Point", coordinates: [-123.4992, 47.8021] },
-//     },
-//     {
-//       country: "Spain",
-//       countryCode: "ES",
-//       city: "Picos de Europa",
-//       address: "Picos de Europa National Park",
-//       location: { type: "Point", coordinates: [-4.8333, 43.1667] },
-//     },
-//     {
-//       country: "Slovenia",
-//       countryCode: "SI",
-//       city: "Triglav",
-//       address: "Triglav National Park",
-//       location: { type: "Point", coordinates: [13.85, 46.3833] },
-//     },
-//     {
-//       country: "Canada",
-//       countryCode: "CA",
-//       city: "Yukon",
-//       address: "Kluane National Park and Reserve",
-//       location: { type: "Point", coordinates: [-139.5292, 60.7503] },
-//     },
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "Adirondacks",
-//       address: "Adirondack Park, NY",
-//       location: { type: "Point", coordinates: [-74.0507, 44.1125] },
-//     },
-//     {
-//       country: "Finland",
-//       countryCode: "FI",
-//       city: "Oulanka",
-//       address: "Oulanka National Park",
-//       location: { type: "Point", coordinates: [29.3333, 66.3667] },
-//     },
-//     {
-//       country: "Germany",
-//       countryCode: "DE",
-//       city: "Bavaria",
-//       address: "Bavarian Forest National Park",
-//       location: { type: "Point", coordinates: [13.35, 49.05] },
-//     },
-//     {
-//       country: "Italy",
-//       countryCode: "IT",
-//       city: "Abruzzo",
-//       address: "Abruzzo, Lazio and Molise National Park",
-//       location: { type: "Point", coordinates: [13.7717, 41.8] },
-//     },
-//     {
-//       country: "Russia",
-//       countryCode: "RU",
-//       city: "Altai",
-//       address: "Altai Mountains",
-//       location: { type: "Point", coordinates: [85.0, 50.0] },
-//     },
-//     {
-//       country: "Poland",
-//       countryCode: "PL",
-//       city: "Białowieża",
-//       address: "Białowieża Forest",
-//       location: { type: "Point", coordinates: [23.8333, 52.7] },
-//     },
-//     {
-//       country: "Romania",
-//       countryCode: "RO",
-//       city: "Maramureș",
-//       address: "Rodna National Park",
-//       location: { type: "Point", coordinates: [24.9, 47.6] },
-//     },
-//     {
-//       country: "Sweden",
-//       countryCode: "SE",
-//       city: "Sarek",
-//       address: "Sarek National Park",
-//       location: { type: "Point", coordinates: [17.6, 67.3833] },
-//     },
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "Great Smoky Mountains",
-//       address: "Great Smoky Mountains National Park, TN/NC",
-//       location: { type: "Point", coordinates: [-83.5082, 35.6118] },
-//     },
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "Tongass",
-//       address: "Tongass National Forest, AK",
-//       location: { type: "Point", coordinates: [-135.3107, 57.7241] },
-//     },
-//     {
-//       country: "Kazakhstan",
-//       countryCode: "KZ",
-//       city: "Altai",
-//       address: "Katon-Karagay National Park",
-//       location: { type: "Point", coordinates: [85.6667, 49.0] },
-//     },
-//     {
-//       country: "Norway",
-//       countryCode: "NO",
-//       city: "Rondane",
-//       address: "Rondane National Park",
-//       location: { type: "Point", coordinates: [9.9333, 61.85] },
-//     },
-//     {
-//       country: "France",
-//       countryCode: "FR",
-//       city: "Pyrenees",
-//       address: "Pyrenees National Park",
-//       location: { type: "Point", coordinates: [0.0, 42.8] },
-//     },
-//     {
-//       country: "Mongolia",
-//       countryCode: "MN",
-//       city: "Khovsgol",
-//       address: "Khovsgol Nuur National Park",
-//       location: { type: "Point", coordinates: [100.15, 51.0] },
-//     },
-//     {
-//       country: "Turkey",
-//       countryCode: "TR",
-//       city: "Artvin",
-//       address: "Karagöl-Sahara National Park",
-//       location: { type: "Point", coordinates: [42.0, 41.1833] },
-//     },
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "Sequoia",
-//       address: "Sequoia National Park, CA",
-//       location: { type: "Point", coordinates: [-118.5551, 36.4864] },
-//     },
-//     {
-//       country: "Australia",
-//       countryCode: "AU",
-//       city: "Tasmania",
-//       address: "Tasmanian Wilderness World Heritage Area",
-//       location: { type: "Point", coordinates: [146.6257, -42.0833] },
-//     },
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "North Cascades",
-//       address: "North Cascades National Park, WA",
-//       location: { type: "Point", coordinates: [-121.2065, 48.7718] },
-//     },
-//     {
-//       country: "India",
-//       countryCode: "IN",
-//       city: "Kaziranga",
-//       address: "Kaziranga National Park, Assam",
-//       location: { type: "Point", coordinates: [93.3619, 26.5775] },
-//     },
-//     {
-//       country: "Bhutan",
-//       countryCode: "BT",
-//       city: "Jigme Dorji",
-//       address: "Jigme Dorji National Park",
-//       location: { type: "Point", coordinates: [89.6333, 27.8333] },
-//     },
-//     {
-//       country: "South Korea",
-//       countryCode: "KR",
-//       city: "Seoraksan",
-//       address: "Seoraksan National Park",
-//       location: { type: "Point", coordinates: [128.4656, 38.1194] },
-//     },
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "Yosemite",
-//       address: "Yosemite National Park, CA",
-//       location: { type: "Point", coordinates: [-119.5383, 37.8651] },
-//     },
-//     {
-//       country: "Malaysia",
-//       countryCode: "MY",
-//       city: "Kinabalu",
-//       address: "Kinabalu National Park",
-//       location: { type: "Point", coordinates: [116.5583, 6.0833] },
-//     },
-//     {
-//       country: "Pakistan",
-//       countryCode: "PK",
-//       city: "Gilgit-Baltistan",
-//       address: "Khunjerab National Park",
-//       location: { type: "Point", coordinates: [75.4167, 36.8667] },
-//     },
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "Shenandoah",
-//       address: "Shenandoah National Park, VA",
-//       location: { type: "Point", coordinates: [-78.3497, 38.5347] },
-//     },
-//     {
-//       country: "Austria",
-//       countryCode: "AT",
-//       city: "Hohe Tauern",
-//       address: "Hohe Tauern National Park",
-//       location: { type: "Point", coordinates: [12.75, 47.0833] },
-//     },
-//     {
-//       country: "Switzerland",
-//       countryCode: "CH",
-//       city: "Swiss National Park",
-//       address: "Swiss National Park",
-//       location: { type: "Point", coordinates: [10.2667, 46.65] },
-//     },
-//     {
-//       country: "Canada",
-//       countryCode: "CA",
-//       city: "Jasper",
-//       address: "Jasper National Park, AB",
-//       location: { type: "Point", coordinates: [-118.0806, 52.8734] },
-//     },
-//     {
-//       country: "United States",
-//       countryCode: "US",
-//       city: "Redwood",
-//       address: "Redwood National and State Parks, CA",
-//       location: { type: "Point", coordinates: [-123.8667, 41.3] },
-//     },
-//   ];
-
-//   locations.forEach(async (location) => {
-//     return await Location.create(location);
-//   });
-// }
-
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function randomNumber(min: number, max: number) {
   return Math.floor(Math.random() * (max - min) + min);
+}
+function getRandomAmenities(amenitiesData: any[]): any[] {
+  const shuffledAmenities = amenitiesData.sort(() => 0.5 - Math.random());
+  return shuffledAmenities.slice(0, 20);
 }
