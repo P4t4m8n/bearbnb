@@ -18,6 +18,11 @@
     p {
       text-align: start;
     }
+    @media (max-width: 900px) {
+      padding: 0.50rem .25rem .25rem .25rem;
+      justify-content: center;
+      height: 100%;
+    }
   }
 
   ul {

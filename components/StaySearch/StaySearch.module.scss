@@ -5,14 +5,16 @@
   justify-self: center;
   grid-area: 2/1/-1/-1;
   align-items: center;
-  width: 60vw;
+  max-width: 53rem;
+  width: 100%;
+  min-width: 40rem;
   height: 4rem;
-  transition: width 0.1s ease-in;
+  transition: all 0.3s ease-in;
   padding-right: 0.5rem;
   border-radius: $border-radius-2;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
   display: grid;
-  grid-template-columns: minmax(5%, 1fr) 40%  20% 3rem;
+  grid-template-columns: minmax(5%, 1fr) 40% 20% 3rem;
   .searchBtn {
     width: 3rem;
     aspect-ratio: 1;
@@ -64,7 +66,6 @@
       cursor: pointer;
     }
   }
-
 
   span {
     font-size: 0.8rem;
@@ -148,7 +149,7 @@
   }
   .input {
     &:not(:nth-child(2))::after {
-      height:60%;
+      height: 60%;
       top: 20%;
     }
   }
@@ -186,10 +187,11 @@
 
 @media (max-width: 900px) {
   .search {
-    grid-area: 1/2/2/3;
-    grid-template-columns: 45% 25% 15% auto;
+    grid-area: 1/1/-1/2;
+    grid-template-columns: 35% 30% 25% auto;
     height: 3rem;
-    width: 45vw;
+    min-width: 0;
+    width: 100%;
 
     button {
       &:nth-of-type(2) {
@@ -199,21 +201,22 @@
     span {
       display: none;
     }
+    .dates {
+      div {
+        &:first-of-type {
+          p {
+            text-align: center;
+          }
+        }
+      }
+    }
     .searchBtn {
       width: 2.5rem;
     }
-    .inputBtn {
-      &:not(:nth-child(4))::after {
-        height: 30px;
-        top: 20%;
-      }
+    div {
+      padding-block: 0.25rem;
+      height: 3rem;
     }
-  }
-}
-
-@media (max-width: 850px) {
-  .search {
-    width: 45vw;
   }
 }
 

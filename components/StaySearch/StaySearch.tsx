@@ -59,7 +59,6 @@ export function StaySearch({ isActive }: Props) {
   const onSearch = (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault();
 
-    console.log(filterBy);
 
     if (!filterBy.location) {
       alert("Please select a location");
@@ -110,9 +109,9 @@ export function StaySearch({ isActive }: Props) {
         ref={calendarRef}
         className={`${styles.dates} ${styles.input}`}
       >
-        <div>
+        <div >
           <span>Check in</span>
-          <p>{filterBy.dates!.start?.toLocaleDateString() || "Add dates"}</p>
+          <p>{filterBy.dates!.start?.toLocaleDateString() || "Check in"}</p>
         </div>
         <div>
           <span>Check out</span>

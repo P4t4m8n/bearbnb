@@ -23,6 +23,9 @@ export interface FilterByModel {
 export interface SearchParamsModel {
   location: string;
   distance?: string;
+  startDate?: string;
+  endDate?: string;
+  guests: string;
 }
 
 export interface SearchParamsObject {

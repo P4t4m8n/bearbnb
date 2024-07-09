@@ -1,0 +1,62 @@
+[
+  {
+    "_id": { "$oid": "66811e6cfd64313d1e058400" },
+    "checkIn": { "$date": "2024-07-15T14:00:00Z" },
+    "checkOut": { "$date": "2024-07-20T11:00:00Z" },
+    "bookingTime": { "$date": "2024-06-30T10:00:00Z" },
+    "price": 500,
+    "adults": 2,
+    "children": 1,
+    "infants": 0,
+    "pets": 1,
+    "stayId": "66811e6cfd64313d1e058335",
+    "userId": "667d23b8d71c9238f15ac910",
+    "hostId": "667d23b8d71c9238f15ac90d",
+    "status": "confirmed"
+  },
+  {
+    "_id": { "$oid": "66811e6cfd64313d1e058401" },
+    "checkIn": { "$date": "2024-08-01T14:00:00Z" },
+    "checkOut": { "$date": "2024-08-05T11:00:00Z" },
+    "bookingTime": { "$date": "2024-07-01T10:00:00Z" },
+    "price": 600,
+    "adults": 3,
+    "children": 0,
+    "infants": 1,
+    "pets": 0,
+    "stayId": "66811e6cfd64313d1e058339",
+    "userId": "66803309065f7ce3025fd640",
+    "hostId": "667d23b8d71c9238f15ac90d",
+    "status": "confirmed"
+  },
+  {
+    "_id": { "$oid": "66811e6cfd64313d1e058402" },
+    "checkIn": { "$date": "2024-07-10T14:00:00Z" },
+    "checkOut": { "$date": "2024-07-15T11:00:00Z" },
+    "bookingTime": { "$date": "2024-06-25T10:00:00Z" },
+    "price": 450,
+    "adults": 1,
+    "children": 2,
+    "infants": 0,
+    "pets": 1,
+    "stayId": "66811e6cfd64313d1e05833d",
+    "userId": "667d23b8d71c9238f15ac910",
+    "hostId": "667d23b8d71c9238f15ac90d",
+    "status": "confirmed"
+  },
+  {
+    "_id": { "$oid": "66811e6cfd64313d1e058403" },
+    "checkIn": { "$date": "2024-07-20T14:00:00Z" },
+    "checkOut": { "$date": "2024-07-25T11:00:00Z" },
+    "bookingTime": { "$date": "2024-06-30T10:00:00Z" },
+    "price": 500,
+    "adults": 2,
+    "children": 1,
+    "infants": 0,
+    "pets": 1,
+    "stayId": "66811e6cfd64313d1e058335",
+    "userId": "66803309065f7ce3025fd640",
+    "hostId": "667d23b8d71c9238f15ac90d",
+    "status": "confirmed"
+  }
+]

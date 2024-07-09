@@ -7,8 +7,10 @@
   align-items: center;
   position: sticky;
   top: 0;
+  animation: all 0.3 ease-in;
   padding-top: 1rem;
-  z-index: 10;
+  z-index: 5;
+  row-gap: 1rem;
   width: $max-width-padding;
   padding-bottom: 1rem;
   background-color: white;
@@ -53,61 +55,24 @@
     display: none;
     grid-template-rows: auto;
   }
-  
 }
-
+@media (max-width: 1125px) {
+  .logo {
+    h2 {
+      display: none;
+    }
+  }
+}
 @media (max-width: 900px) {
   .header {
     padding-top: 12px;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 80% 15%;
+    grid-template-rows: auto;
+    justify-content: space-between;
+
+    .placeHolder,
     .logo {
-      padding-right: 0.5rem;
-      h2 {
-        display: none;
-      }
-    }
-    .user {
-      gap: 0.5rem;
-      button {
-        &:first-of-type {
-          font-size: 0.8rem;
-        }
-      }
-
-      .user-profile {
-        svg {
-          &:first-of-type {
-            display: none;
-          }
-        }
-      }
-    }
-    .placeHolder {
       display: none;
-    }
-    .search {
-      grid-area: 1/2/2/3;
-      grid-template-columns: 45% 25% 15% auto;
-      height: 3rem;
-      width: 45vw;
-
-      button {
-        &:nth-of-type(2) {
-          display: none;
-        }
-      }
-      span {
-        display: none;
-      }
-      .search-btn {
-        width: 2.5rem;
-      }
-      .input-btn {
-        &:not(:nth-child(4))::after {
-          height: 30px;
-          top: 20%;
-        }
-      }
     }
   }
 }
