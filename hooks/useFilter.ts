@@ -6,34 +6,41 @@ import {
   queryIteratorParamToFilter,
 } from "@/service/stay.service";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { start } from "repl";
+import { set } from "zod";
 
 export const useFilter = () => {
   const pathName = usePathname();
   const searchParams = useSearchParams();
   const { replace } = useRouter();
-  const amanitas = useRef<string[]>([]);
-  const filterBy = useRef<FilterByModel>(getEmptyFilter());
+  const [filterBy, setFilterBy] = useState<FilterByModel>(getEmptyFilter());
   const params = new URLSearchParams(searchParams);
 
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>): void => {
     const { target } = ev;
     const { value, name, type } = target;
+    console.log("type:", type);
 
     if (type === "checkbox") {
+      let amanitas: string[] = [];
       if (target.checked) {
-        amanitas.current.push(value);
+        amanitas = [...filterBy.amenities!, value];
+        setFilterBy((prev) => ({ ...prev, amanitas }));
       } else {
-        amanitas.current = amanitas.current.filter((item) => item !== value);
+        amanitas = filterBy.amenities!.filter((item) => item !== value);
       }
+      setFilterBy((prev) => ({ ...prev, amanitas }));
 
-      params.set(name, amanitas.current.join(","));
-      replace(`${pathName}?${params.toString()}`);
-    } else {
-      params.set(name, value);
-      replace(`${pathName}?${params.toString()}`);
+      // params.set(name, amanitas.current.join(","));
+      // replace(`${pathName}?${params.toString()}`);
+    } else if (type === "range") {
+      const priceRange = {
+        start: +value,
+        end: filterBy.priceRange?.end!,
+      };
+      setFilterBy((prev) => ({ ...prev, priceRange }));
     }
-    filterBy.current = queryIteratorParamToFilter(params.entries());
   };
 
   const handleLabelClick = (label: LabelsType) => {

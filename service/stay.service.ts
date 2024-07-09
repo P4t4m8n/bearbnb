@@ -1,8 +1,5 @@
 import { BedRoomModel } from "@/model/bedroom.model";
-import {
-  FilterByModel,
-  SearchParamsObject,
-} from "@/model/filters.model";
+import { FilterByModel, SearchParamsObject } from "@/model/filters.model";
 import { ReviewModel } from "@/model/review.model";
 import { StayModel, StaySmallModel } from "@/model/stay.model";
 
@@ -17,6 +14,14 @@ export const getEmptyFilter = (): SearchParamsObject => {
       children: 0,
       infants: 0,
     },
+    priceRange: { start: 0, end: 50000 },
+    amenities: [],
+    rooms: {
+      bedroomsAmount: 0,
+      totalBeds: 0,
+      baths: 0,
+    },
+    type: "AnyType",
   };
 };
 

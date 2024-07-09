@@ -13,14 +13,13 @@ body:has(.ConfirmBookingModal_bookingModal__eZKxT) {
     pointer-events: none;
   }
 }
-body:has(.FilterModal_filterModal__g3mr3) {
+body:has(.FilterModal_filterModal__vFy54) {
   overflow: hidden;
-
-  .FilterModal_filterModal__g3mr3,
-  .FilterModal_filterModal__g3mr3 * {
+  .FilterModal_filterModal__vFy54,
+  .FilterModal_filterModal__vFy54 * {
     pointer-events: all;
   }
-  :not(.FilterModal_filterModal__g3mr3, .FilterModal_filterModal__g3mr3 *) {
+  &:not(.FilterModal_filterModal__vFy54, .FilterModal_filterModal__vFy54 *) {
     pointer-events: none;
   }
 }

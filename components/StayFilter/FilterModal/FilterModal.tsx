@@ -61,17 +61,20 @@ export default function FilterModal({
       </button>
       {isFiltersOpen && (
         <section ref={modelRef} className={styles.filterModal}>
+
           <header>
-            <button>X</button>
+            <button onClick={() => setIsFiltersOpen(false)}>X</button>
             <h1>Filters</h1>
           </header>
+
           <section className={styles.container}>
+
             <div className={styles.type}>
               <h2>Type of place</h2>
               <p>Search rooms, entire homes , or any type of place</p>
-              <div className={styles.typeRadio}>
+              <ul className={styles.typeRadio}>
                 {typeOptions.map((option) => (
-                  <div key={option.id}>
+                  <li key={option.id}>
                     <input
                       onChange={handleChange}
                       type="radio"
@@ -79,12 +82,14 @@ export default function FilterModal({
                       id={option.id}
                       value={option.value}
                       hidden
+                      checked={filterBy.type === option.value}
                     />
                     <label htmlFor={option.id}>{option.label}</label>
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
+
             <div className={styles.priceRange}>
               <h2>Price range</h2>
               <p>Nightly prices including fees and taxes</p>
@@ -95,6 +100,7 @@ export default function FilterModal({
                 min="0"
                 max="2400"
                 step="1"
+                value={filterBy.priceRange?.start || 1}
               />
               <div className={styles.price}>
                 <div>
@@ -108,6 +114,7 @@ export default function FilterModal({
                 </div>
               </div>
             </div>
+
             <div className={styles.rooms}>
               <h2>Rooms and beds</h2>
               <RoomBedsFilter
@@ -129,8 +136,11 @@ export default function FilterModal({
                 handleChange={handleChange}
               />
             </div>
+
             <AmenitiesFilter amenities={amenities} />
+
           </section>
+
           <div className={styles.actions}>
             <button onClick={onClear}>Clear all</button>
             <button onClick={onSubmit}>Show places</button>

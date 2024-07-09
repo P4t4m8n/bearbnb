@@ -36,4 +36,15 @@ export interface SearchParamsObject {
     end: Date | null;
   };
   guests?: GuestsModel;
+  priceRange?: {
+    start: number;
+    end: number;
+  };
+  amenities?: string[];
+  rooms?: {
+    bedroomsAmount: number;
+    totalBeds: number;
+    baths: number;
+  };
+  type: "AnyType" | "room" | "entireHome";
 }

@@ -23,24 +23,26 @@
 .filterModal {
   background-color: white;
   position: fixed;
-  z-index: 999;
   top: 50%;
   left: 50%;
   display: flex;
   flex-direction: column;
-  width: 75vw;
+  max-width: 48rem;
+  width: 100%;
+  min-width: 41rem;
   transform: translate(-50%, -50%);
   height: 90vh;
   justify-content: space-between;
   border-radius: $border-radius-1;
   box-shadow: 0px 10px 3000px 1500px rgba(0, 0, 0, 0.5);
+  animation: slide-up 0.5s ease-out forwards;
+  gap: 1rem;
 
   header {
     border-top-left-radius: $border-radius-1;
     border-top-right-radius: $border-radius-1;
     display: flex;
-    max-height: 10%;
-    background-color: white;
+    max-height: 4rem;
     gap: 45%;
     align-items: center;
     padding: 1rem 1rem 0 1rem;
@@ -58,11 +60,12 @@
 
   .container {
     padding-inline: 2rem;
-    max-height: 70%;
+    margin-block: 1rem;
+    max-height: calc(100% - 12rem);
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 2rem;
     h2 {
       font-size: 1.3rem;
       font-weight: 700;
@@ -79,39 +82,44 @@
       display: flex;
       flex-direction: column;
       gap: 1rem;
-
       .typeRadio {
         display: flex;
-        justify-content: space-around;
         width: 100%;
-        padding-inline: 4rem;
-
-        label {
-          width: 100%;
-          min-width: 4.5rem;
-          text-align: center;
-          color: $model-button-black;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1rem;
-          min-height: 4rem;
-          @include border-1;
-          font-weight: 700;
-          @include buttonBackground;
+        padding-inline: 2rem;
+        li {
+          width: 33.3%;
+          label {
+            width: 100%;
+            text-align: center;
+            color: $model-button-black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            min-height: 4rem;
+            @include border-1;
+            font-weight: 700;
+            @include buttonBackground;
+          }
           &:first-of-type {
-            border-end-start-radius: $border-radius-1;
-            border-top-left-radius: $border-radius-1;
-            border-right: none;
+            label {
+              border-end-start-radius: $border-radius-1;
+              border-top-left-radius: $border-radius-1;
+              border-right-color: transparent;
+            }
           }
           &:last-of-type {
-            border-start-end-radius: $border-radius-1;
-            border-end-end-radius: $border-radius-1;
-            border-left: none;
+            label {
+              border-start-end-radius: $border-radius-1;
+              border-end-end-radius: $border-radius-1;
+              border-left-color: transparent;
+            }
           }
-          &:hover {
-            @include border-1;
-            border-color: $model-button-black;
+          label {
+            &:hover {
+              @include border-1;
+              border-color: $model-button-black;
+            }
           }
         }
         input:checked + label {
@@ -122,6 +130,7 @@
         }
       }
     }
+
     .priceRange {
       width: 100%;
       display: flex;
@@ -154,6 +163,7 @@
         }
       }
     }
+
     .rooms {
       input {
         display: none;
@@ -179,35 +189,28 @@
         @include border-1;
       }
     }
-  }
-
-  .amenities {
-    display: grid;
-    gap: 1rem;
-    ul {
+    .amenities {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1.5rem;
-      label {
-        display: flex;
-        gap: 0.5rem;
-        font-size: 1rem;
-        font-weight: 300;
-        input[type="checkbox"] {
-          width: 2rem;
+      gap: 1rem;
+      ul {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+        label {
+          display: flex;
+          gap: 0.5rem;
+          font-size: 1rem;
+          font-weight: 300;
+          input[type="checkbox"] {
+            width: 2rem;
+          }
         }
       }
     }
   }
-  input:checked + label {
-    background-color: $model-button-black;
-    color: white;
-    box-shadow: inset 0 0 2px;
-    border: transparent;
-  }
 
   .actions {
-    height: 10%;
+    height: 4rem;
     display: flex;
     padding: 0 2rem 2rem 2rem;
     justify-content: space-between;
@@ -233,5 +236,29 @@
         }
       }
     }
+  }
+}
+
+@media (max-width: 750px) {
+  .filterModal {
+    width: 100vw;
+    max-width: none;
+    min-width: 100vw;
+
+    .container {
+      padding-inline: 1rem;
+      
+    }
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%);
+    opacity: 1;
   }
 }
