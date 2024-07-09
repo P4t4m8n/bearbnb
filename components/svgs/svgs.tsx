@@ -251,3 +251,17 @@ export function CheckSVG() {
     </svg>
   );
 }
+
+export function DynamicSVG({ path, viewBox }: SvgIconModel) {
+  return (
+    <svg
+      viewBox={viewBox}
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      role="presentation"
+      focusable="false"
+    >
+      <path d={path}></path>
+    </svg>
+  );
+}

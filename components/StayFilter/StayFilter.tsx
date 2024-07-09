@@ -3,8 +3,12 @@ import IconList from "./IconList/IconList";
 import styles from "./StayFilter.module.scss";
 import FilterModal from "./FilterModal/FilterModal";
 import { useFilter } from "@/hooks/useFilter";
+import {  AmenitySmallModel } from "@/model/amenity.model";
 
-export default function StayFilter() {
+interface Props {
+  amenities: AmenitySmallModel[];
+}
+export default function StayFilter({amenities}: Props) {
   const { handleChange, handleLabelClick, filterBy, onClear } = useFilter();
 
   const onSubmit = () => {};
@@ -17,6 +21,7 @@ export default function StayFilter() {
           handleChange={handleChange}
           onClear={onClear}
           onSubmit={onSubmit}
+          amenities={amenities}
         />
       </div>
     </>

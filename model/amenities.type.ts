@@ -5,7 +5,7 @@ export type ScenicViewAmenities =
   | "Mountain view"
   | "Courtyard view";
 
-export type BathroomAmenities = "Hair Dryer" | "Hot Water";
+export type BathroomAmenities = "Hair Dryer" | "Hot Water" | "HotTub";
 
 export type BedroomAndLaundryAmenities =
   | "Cleaning Products"
@@ -44,15 +44,26 @@ export type OutdoorAmenities =
   | "Private Entrance"
   | "Out door Dining Area";
 
-export type SpaAmenities = "HotTub" | "Sauna";
-
 export type MiscellaneousAmenities =
+  | "Miscellaneous"
   | "Sun Lounge"
   | "Luggage Dropoff Allowed"
   | "Dedicated Workspace"
   | "Elevator"
   | "High Chair"
-  |"Early Check-in"
+  | "Early Check-in";
+
+export type AmenityTypes =
+  | "Entertainment"
+  | "Scenic View"
+  | "Bathroom"
+  | "Bedroom And Laundry"
+  | "Essentials"
+  | "Kitchen"
+  | "Safety"
+  | "Parking"
+  | "Outdoor"
+  | "Miscellaneous";
 
 export type Amenity =
   | EntertainmentAmenities
@@ -64,5 +75,4 @@ export type Amenity =
   | SafetyAmenities
   | ParkingAmenities
   | OutdoorAmenities
-  | SpaAmenities
   | MiscellaneousAmenities;

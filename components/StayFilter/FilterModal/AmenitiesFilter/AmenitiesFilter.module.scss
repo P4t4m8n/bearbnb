@@ -1,0 +1,87 @@
+.amenities {
+  display: grid;
+  gap: 1.5rem;
+  h2 {
+    font-size: 1.5rem;
+  }
+  ul {
+    display: grid;
+    gap: 1rem;
+    li {
+      gap: 1rem;
+      display: grid;
+      h3 {
+        font-size: 1.15rem;
+        font-weight: 600;
+      }
+      ul {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        li {
+          display: flex;
+          gap: 1rem;
+          h4 {
+            font-weight: 400;
+          }
+          .customCheckbox {
+            input[type="checkbox"] {
+              display: none;
+            }
+            label {
+              position: relative;
+              cursor: pointer;
+              padding-left: 1.5rem;
+              width: 1.5rem;
+              aspect-ratio: 1/1;
+              border-radius: 0.25rem;
+
+              &::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 1.5rem;
+                aspect-ratio: 1/1;
+                border: 1px solid rgb(187, 187, 187);
+                border-radius: 0.25rem;
+                transition: background 0.2s;
+              }
+              &::after {
+                content: "";
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%) rotate(45deg);
+                width: 0.4rem;
+                height: 0.8rem;
+                border: solid #fff;
+                border-width: 0 2px 2px 0;
+                opacity: 0;
+              }
+            }
+
+            input[type="checkbox"]:checked + label {
+              &::before {
+                background: #000;
+                border-color: #000;
+              }
+
+              &::after {
+                opacity: 1;
+              }
+            }
+          }
+        }
+      }
+    }
+    label {
+      display: flex;
+      gap: 0.5rem;
+      font-size: 1rem;
+      font-weight: 300;
+      input[type="checkbox"] {
+        width: 2rem;
+      }
+    }
+  }
+}

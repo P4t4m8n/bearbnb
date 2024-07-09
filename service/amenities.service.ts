@@ -9,7 +9,6 @@ import {
   SafetyAmenities,
   ParkingAmenities,
   OutdoorAmenities,
-  SpaAmenities,
   MiscellaneousAmenities,
 } from "@/model/amenities.type";
 
@@ -27,6 +26,7 @@ export const scenicViewAmenities: ScenicViewAmenities[] = [
 export const bathroomAmenities: BathroomAmenities[] = [
   "Hair Dryer",
   "Hot Water",
+  "HotTub",
 ];
 
 export const bedroomAndLaundryAmenities: BedroomAndLaundryAmenities[] = [
@@ -75,8 +75,6 @@ export const outdoorAmenities: OutdoorAmenities[] = [
   "Out door Dining Area",
 ];
 
-export const spaAmenities: SpaAmenities[] = ["HotTub", "Sauna"];
-
 export const miscellaneousAmenities: MiscellaneousAmenities[] = [
   "Sun Lounge",
   "Luggage Dropoff Allowed",
@@ -95,6 +93,5 @@ export const allAmenities: Amenity[] = [
   ...safetyAmenities,
   ...parkingAmenities,
   ...outdoorAmenities,
-  ...spaAmenities,
   ...miscellaneousAmenities,
 ];
