@@ -4,11 +4,15 @@ import { ReviewModel } from "@/model/review.model";
 import { StayModel, StaySmallModel } from "@/model/stay.model";
 
 // Returns a default SearchByModel object with predefined empty or initial values.
-export const getEmptyFilter = (): SearchParamsObject => {
+export const getEmptyFilter = (): FilterByModel => {
+  const today = new Date();
+  const endDate = new Date();
+  endDate.setDate(today.getDate() + 7);
+
   return {
-    location: { lat: 0, lon: 0 },
+    location: { lat: 0, lng: 0 },
     distance: 2000,
-    dates: { start: null, end: null },
+    dates: { start: today, end: endDate },
     guests: {
       adults: 0,
       children: 0,
@@ -16,11 +20,9 @@ export const getEmptyFilter = (): SearchParamsObject => {
     },
     priceRange: { start: 0, end: 50000 },
     amenities: [],
-    rooms: {
-      bedroomsAmount: 0,
-      totalBeds: 0,
-      baths: 0,
-    },
+    bedroomsAmount: 0,
+    totalBeds: 0,
+    baths: 0,
     type: "AnyType",
   };
 };

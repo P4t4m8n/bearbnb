@@ -1,14 +1,16 @@
+@import "../../styles/abstracts/variables";
+
 .filter {
   display: flex;
   position: sticky;
   top: 6rem;
-  z-index: 6;
   gap: 1rem;
   background-color: white;
   height: 4.5rem;
   align-items: center;
   min-height: 5rem;
   justify-content: space-between;
+  z-index: 5;
   width: 100%;
 
   button {

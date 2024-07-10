@@ -13,7 +13,7 @@ interface Props {
   amenities: AmenitySmallModel[];
   handleChange: (ev: React.ChangeEvent<HTMLInputElement>) => void;
   onClear: () => void;
-  onSubmit: () => void;
+  submit: () => void;
 }
 
 const typeOptions = [
@@ -36,7 +36,7 @@ const bedsOptions = Array.from({ length: 9 }, (_, i) => ({
 
 const bathroomsOptions = Array.from({ length: 9 }, (_, i) => ({
   id: i === 0 ? "anyBathrooms" : `${i}Bathrooms`,
-  value: i === 0 ? "any" : `${i}`,
+  value: i === 0 ? "0" : `${i}`,
   label: i === 0 ? "Any" : `${i}`,
 }));
 
@@ -45,13 +45,18 @@ export default function FilterModal({
   amenities,
   handleChange,
   onClear,
-  onSubmit,
+  submit,
 }: Props) {
   const modelRef = useRef<HTMLFormElement>(null);
   const [isFiltersOpen, setIsFiltersOpen] = useModal(modelRef, null);
 
+  const onSubmit = () => {
+    setIsFiltersOpen(false);
+    submit();
+  };
+
   return (
-    <>
+    <div>
       <button
         onClick={() => setIsFiltersOpen(true)}
         className={styles.filterBtn}
@@ -59,16 +64,15 @@ export default function FilterModal({
         <FilterSVG />
         <p>Filters</p>
       </button>
+
       {isFiltersOpen && (
         <section ref={modelRef} className={styles.filterModal}>
-
           <header>
             <button onClick={() => setIsFiltersOpen(false)}>X</button>
             <h1>Filters</h1>
           </header>
 
           <section className={styles.container}>
-
             <div className={styles.type}>
               <h2>Type of place</h2>
               <p>Search rooms, entire homes , or any type of place</p>
@@ -122,23 +126,29 @@ export default function FilterModal({
                 category="Bedrooms"
                 name="bedroomsAmount"
                 handleChange={handleChange}
+                amount={filterBy.bedroomsAmount || 0}
               />
               <RoomBedsFilter
                 options={bedsOptions}
                 category="Beds"
                 name="totalBeds"
                 handleChange={handleChange}
+                amount={filterBy.totalBeds || 0}
               />
               <RoomBedsFilter
                 options={bathroomsOptions}
                 category="Bathrooms"
                 name="baths"
                 handleChange={handleChange}
+                amount={filterBy.baths || 0}
               />
             </div>
 
-            <AmenitiesFilter amenities={amenities} />
-
+            <AmenitiesFilter
+              amenities={amenities}
+              checkedAmenities={filterBy.amenities || []}
+              handleChange={handleChange}
+            />
           </section>
 
           <div className={styles.actions}>
@@ -147,6 +157,6 @@ export default function FilterModal({
           </div>
         </section>
       )}
-    </>
+    </div>
   );
 }

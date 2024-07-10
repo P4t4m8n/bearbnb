@@ -94,7 +94,7 @@ export const buildPipeline = (
     pipeline.push(
       getGeoWithinPipeline(
         searchParams.location,
-        searchParams?.distance ? +searchParams.distance : 100000
+        searchParams?.distance ? +searchParams.distance : 1000000
       )
     );
   }
@@ -108,6 +108,69 @@ export const buildPipeline = (
         new Date(searchParams.endDate)
       )
     );
+  }
+
+  if (searchParams?.priceRange) {
+    const [start, end] = searchParams.priceRange.split(",");
+    pipeline.push({
+      $match: {
+        price: {
+          $gte: +start,
+          $lte: +end,
+        },
+      },
+    });
+  }
+
+  if (searchParams?.bedroomsAmount) {
+    pipeline.push({
+      $match: {
+        $expr: { $eq: [{ $size: "$bedRooms" }, +searchParams.bedroomsAmount] },
+      },
+    });
+  }
+
+  if (searchParams?.totalBeds) {
+    pipeline.push({
+      $match: {
+        $expr: { $eq: [{ $sum: "$bedRooms.beds" }, +searchParams.totalBeds] },
+      },
+    });
+  }
+
+  if (searchParams?.baths) {
+    pipeline.push({
+      $match: {
+        baths: {
+          $gte: +searchParams.baths,
+        },
+      },
+    });
+  }
+
+  if (searchParams?.type === "entireHome") {
+    pipeline.push({
+      $match: {
+        entireHome: true,
+      },
+    });
+  }
+
+  if (searchParams?.type === "room") {
+    pipeline.push({
+      $match: {
+        entireHome: false,
+      },
+    });
+  }
+
+  if (searchParams?.amenities) {
+    const amenities = searchParams.amenities.split(",");
+    pipeline.push({
+      $match: {
+        amenities: { $all: amenities },
+      },
+    });
   }
 
   pipeline.push(

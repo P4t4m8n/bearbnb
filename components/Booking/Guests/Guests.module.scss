@@ -9,6 +9,8 @@
   font-size: 0.9rem;
   width: 100%;
   position: relative;
+  z-index: auto;
+
 
   .total {
     border: none;
@@ -32,6 +34,8 @@
 
   ul {
     position: absolute;
+    z-index: auto;
+
     top: 101%;
     left: -2.5%;
     padding: 2.5%;

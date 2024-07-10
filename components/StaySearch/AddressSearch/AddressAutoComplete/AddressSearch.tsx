@@ -5,7 +5,7 @@ import { useCallback, useState } from "react";
 import { SuggestionPin } from "@/components/svgs/svgs";
 
 interface Props {
-  handleLocation: ({ lat, lon }: { lat: number; lon: number }) => void;
+  handleLocation: ({ lat, lng }: { lat: number; lng: number }) => void;
 }
 
 export default function AddressSearch({ handleLocation }: Props) {
@@ -14,7 +14,7 @@ export default function AddressSearch({ handleLocation }: Props) {
     {
       display_name: string;
       lat: number;
-      lon: number;
+      lng: number;
       place_id: string;
     }[]
   >([]);
@@ -50,12 +50,12 @@ export default function AddressSearch({ handleLocation }: Props) {
 
   const handleSuggestionClick = ({
     lat,
-    lon,
+    lng,
   }: {
     lat: number;
-    lon: number;
+    lng: number;
   }) => {
-    handleLocation({ lat, lon });
+    handleLocation({ lat, lng });
     setSuggestions([]);
   };
 

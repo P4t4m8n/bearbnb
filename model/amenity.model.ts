@@ -10,5 +10,5 @@ export interface AmenityModel extends AmenitySmallModel {
 }
 
 export interface GroupedAmenities {
-  [category: string]: AmenitySmallModel[];
+  [category: string]: { name: Amenity; _id: string; isChecked: boolean }[];
 }

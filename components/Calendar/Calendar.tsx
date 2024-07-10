@@ -11,8 +11,8 @@ interface Props {
   bookings?: BookingModel[];
   isSearch?: boolean;
   bookingDate?: {
-    start: Date | null | undefined;
-    end: Date | null | undefined;
+    start: Date | null ;
+    end: Date | null ;
   };
 }
 

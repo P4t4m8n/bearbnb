@@ -34,6 +34,8 @@
       @include border-1;
       border-color: rgb(34, 34, 34);
       position: relative;
+      z-index: auto;
+
       max-height: 7rem;
       display: grid;
       grid-template-rows: 50% 50%;
@@ -70,6 +72,8 @@
       .calendarCon {
         padding: 0.5rem;
         position: absolute;
+        z-index: auto;
+
         background-color: white;
         right: -5%;
         top: 50%;

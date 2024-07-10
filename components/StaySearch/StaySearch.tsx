@@ -10,6 +10,7 @@ import { Calendar } from "../Calendar/Calendar";
 import AddressSearch from "./AddressSearch/AddressAutoComplete/AddressSearch";
 import { GuestsModel } from "@/model/guest.model";
 import { GuestsWindow } from "./GuestsModel/GuestsModel";
+import { filterToSearchParams } from "@/service/filter.service";
 interface Props {
   isActive: boolean;
 }
@@ -59,40 +60,21 @@ export function StaySearch({ isActive }: Props) {
   const onSearch = (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault();
 
-
     if (!filterBy.location) {
       alert("Please select a location");
       return;
     }
 
-    if (!filterBy.dates || !filterBy.dates.start || !filterBy.dates.end) {
-      alert("Please select dates");
-      return;
-    }
-
-    if (!filterBy.guests || !filterBy.guests.adults) {
-      alert("Please select guests");
-      return;
-    }
-    params.set("location", `${filterBy.location.lat},${filterBy.location.lon}`);
-    params.set(
-      "startDate",
-      filterBy.dates.start?.toISOString().substring(0, 10) || ""
-    );
-    params.set(
-      "endDate",
-      filterBy.dates.end?.toISOString().substring(0, 10) || ""
-    );
-    params.set("guests", JSON.stringify(filterBy.guests));
+    const _params = filterToSearchParams(filterBy, params);
 
     const url = `/search?${params.toString()}`;
     router.push(url);
   };
 
-  const handleLocation = ({ lat, lon }: { lat: number; lon: number }) => {
+  const handleLocation = ({ lat, lng }: { lat: number; lng: number }) => {
     setFilterBy((prevFilter) => ({
       ...prevFilter,
-      location: { lat, lon },
+      location: { lat, lng },
     }));
     setIsCalenderOpen(true);
   };
@@ -109,7 +91,7 @@ export function StaySearch({ isActive }: Props) {
         ref={calendarRef}
         className={`${styles.dates} ${styles.input}`}
       >
-        <div >
+        <div>
           <span>Check in</span>
           <p>{filterBy.dates!.start?.toLocaleDateString() || "Check in"}</p>
         </div>

@@ -45,24 +45,17 @@ export const parseCoordinates = (input: string): CoordsModel => {
 export const getUserLocation = (): Promise<CoordsModel> => {
   return new Promise((resolve, reject) => {
     if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const location: CoordsModel = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-          // Resolve the promise with the location
-          resolve(location);
-        },
-        (error) => {
-          console.error(error);
-          // Reject the promise on error
-          reject(new Error("Failed to retrieve location"));
-        }
-      );
+      navigator.geolocation.getCurrentPosition((position) => {
+        const location: CoordsModel = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        // Resolve the promise with the location
+        resolve(location);
+      });
     } else {
       console.error("Geolocation not supported");
-      reject(new Error("Geolocation is not supported by this browser."));
+      reject(new Error("Geolocation not supported"));
     }
   });
 };

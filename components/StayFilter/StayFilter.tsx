@@ -9,9 +9,9 @@ interface Props {
   amenities: AmenitySmallModel[];
 }
 export default function StayFilter({ amenities }: Props) {
-  const { handleChange, handleLabelClick, filterBy, onClear } = useFilter();
+  const { handleChange, handleLabelClick, filterBy, onClear, submit } =
+    useFilter();
 
-  const onSubmit = () => {};
   return (
     <>
       <div className={styles.filter}>
@@ -20,7 +20,7 @@ export default function StayFilter({ amenities }: Props) {
           filterBy={filterBy}
           handleChange={handleChange}
           onClear={onClear}
-          onSubmit={onSubmit}
+          submit={submit}
           amenities={amenities}
         />
       </div>

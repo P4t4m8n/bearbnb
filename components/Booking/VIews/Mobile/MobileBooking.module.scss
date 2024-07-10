@@ -6,8 +6,9 @@
   display: flex;
   justify-content: space-between;
   position: fixed;
+  z-index: auto;
+
   background-color: white;
-  z-index: 10;
   bottom: 0;
 
   .smallDates {

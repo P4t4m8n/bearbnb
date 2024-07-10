@@ -9,18 +9,17 @@
   top: 0;
   animation: all 0.3 ease-in;
   padding-top: 1rem;
-  z-index: 5;
   row-gap: 1rem;
   width: $max-width-padding;
   padding-bottom: 1rem;
   background-color: white;
+  z-index: $z-index-header;
   &::after {
     border-top: 1px solid gainsboro;
     content: "";
     display: block;
     position: absolute;
     bottom: -15%;
-    z-index: 5;
     width: 100%;
     height: 1.5rem;
     background-color: white;

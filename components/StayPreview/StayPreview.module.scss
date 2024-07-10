@@ -9,6 +9,7 @@
   display: grid;
   font-size: 1rem;
   padding: 1px;
+  z-index: -1;
 
   &:hover {
     .imgCon {

@@ -10,4 +10,5 @@ interface FilterStore {
 export const useFilterStore = create<FilterStore>((set) => ({
   filterBy: getEmptyFilter(),
   setFilterBy: (filterBy: FilterByModel) => set({ filterBy: filterBy }),
+  
 }));

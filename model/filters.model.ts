@@ -1,11 +1,13 @@
+import { Amenity } from "./amenities.type";
 import { GuestsModel } from "./guest.model";
+import { LabelsType } from "./labels.type";
 
 export interface FilterByModel {
   name?: string;
   host?: string;
   dates?: {
-    start?: Date | null;
-    end?: Date | null;
+    start: Date | null;
+    end: Date | null;
   };
   label?: string;
   type?: string;
@@ -16,8 +18,11 @@ export interface FilterByModel {
     start: number;
     end: number;
   };
+  distance?: number;
+  guests?: GuestsModel;
   amenities?: string[];
-  location?: {};
+  location?: { lat: number; lng: number };
+  labels?: LabelsType[];
 }
 
 export interface SearchParamsModel {
@@ -25,7 +30,14 @@ export interface SearchParamsModel {
   distance?: string;
   startDate?: string;
   endDate?: string;
-  guests: string;
+  guests?: string;
+  amenities?: string;
+  type?: string;
+  priceRange?: string;
+  bedroomsAmount?: string;
+  totalBeds?: string;
+  baths?: string;
+  labels?: string;
 }
 
 export interface SearchParamsObject {
@@ -41,10 +53,10 @@ export interface SearchParamsObject {
     end: number;
   };
   amenities?: string[];
-  rooms?: {
-    bedroomsAmount: number;
-    totalBeds: number;
-    baths: number;
-  };
+
+  bedroomsAmount: number;
+  totalBeds: number;
+  baths: number;
+
   type: "AnyType" | "room" | "entireHome";
 }

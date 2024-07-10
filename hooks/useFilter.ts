@@ -1,14 +1,11 @@
 "use client";
 import { FilterByModel } from "@/model/filters.model";
 import { LabelsType } from "@/model/labels.type";
-import {
-  getEmptyFilter,
-  queryIteratorParamToFilter,
-} from "@/service/stay.service";
+import { filterToSearchParams } from "@/service/filter.service";
+import { getUserLocation } from "@/service/locations.service";
+import { getEmptyFilter } from "@/service/stay.service";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useRef, useState } from "react";
-import { start } from "repl";
-import { set } from "zod";
+import { useCallback, useState } from "react";
 
 export const useFilter = () => {
   const pathName = usePathname();
@@ -20,26 +17,23 @@ export const useFilter = () => {
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>): void => {
     const { target } = ev;
     const { value, name, type } = target;
-    console.log("type:", type);
 
     if (type === "checkbox") {
-      let amanitas: string[] = [];
+      let amenities: string[] = [];
       if (target.checked) {
-        amanitas = [...filterBy.amenities!, value];
-        setFilterBy((prev) => ({ ...prev, amanitas }));
+        amenities = [...filterBy.amenities!, value];
       } else {
-        amanitas = filterBy.amenities!.filter((item) => item !== value);
+        amenities = filterBy.amenities!.filter((item) => item !== value);
       }
-      setFilterBy((prev) => ({ ...prev, amanitas }));
-
-      // params.set(name, amanitas.current.join(","));
-      // replace(`${pathName}?${params.toString()}`);
+      setFilterBy((prev) => ({ ...prev, amenities }));
     } else if (type === "range") {
       const priceRange = {
         start: +value,
         end: filterBy.priceRange?.end!,
       };
       setFilterBy((prev) => ({ ...prev, priceRange }));
+    } else {
+      setFilterBy((prev) => ({ ...prev, [name]: value }));
     }
   };
 
@@ -54,11 +48,22 @@ export const useFilter = () => {
   };
 
   const onClear = () => {
-    params.forEach((_, key) => {
-      params.delete(key);
-    });
-    replace(`${pathName}?`);
+    params.forEach((_, key) => params.delete(key));
+    replace(`${pathName}?${params.toString()}`);
+
+    setFilterBy(getEmptyFilter());
   };
 
-  return { handleChange, handleLabelClick, onClear, filterBy };
+  const submit = async () => {
+    if (filterBy.location?.lat === 0 && filterBy.location?.lng === 0) {
+      const location = await getUserLocation();
+      console.log("location:", location)
+      const _params = filterToSearchParams({ ...filterBy, location }, params);
+    } else {
+      const _params = filterToSearchParams(filterBy, params);
+    }
+    replace(`${pathName}?${params.toString()}`);
+  };
+
+  return { handleChange, handleLabelClick, onClear, filterBy, submit };
 };

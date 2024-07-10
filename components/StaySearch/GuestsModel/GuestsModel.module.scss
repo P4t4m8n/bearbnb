@@ -5,11 +5,12 @@
   box-sizing: border-box;
   padding: 12px 12px 4px 10px;
   position: relative;
+  border-radius: $border-radius-2;
+  z-index:1000000000;
   &:hover {
     background-color: rgb(245, 245, 240);
     cursor: pointer;
   }
-  border-radius: $border-radius-2;
 
   .total {
     display: flex;
@@ -19,7 +20,7 @@
       text-align: start;
     }
     @media (max-width: 900px) {
-      padding: 0.50rem .25rem .25rem .25rem;
+      padding: 0.5rem 0.25rem 0.25rem 0.25rem;
       justify-content: center;
       height: 100%;
     }
@@ -31,12 +32,12 @@
     border-radius: $border-radius-1;
     width: 200%;
     min-width: 20rem;
-    z-index: 50;
     top: 110%;
     right: -25%;
     position: absolute;
     background-color: white;
     display: grid;
+    z-index:1000000000;
     li {
       display: flex;
       justify-content: space-between;

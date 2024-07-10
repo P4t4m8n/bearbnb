@@ -6,7 +6,6 @@
 .modalUser {
   @include soft-box-shadow;
   display: grid;
-  z-index: 5;
   border-radius: $border-radius-1-2;
   gap: 1rem;
   font-size: 0.9rem;
