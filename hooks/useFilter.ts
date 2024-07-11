@@ -52,7 +52,6 @@ export const useFilter = () => {
   const submit = async () => {
     if (filterBy.location?.lat === 0 && filterBy.location?.lng === 0) {
       const location = await getUserLocation();
-      console.log("location:", location);
       const _params = filterToSearchParams({ ...filterBy, location }, params);
     } else {
       const _params = filterToSearchParams(filterBy, params);

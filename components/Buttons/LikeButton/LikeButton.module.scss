@@ -11,8 +11,11 @@
   padding: 0;
   stroke: white;
   fill: gray;
-  z-index: 1;
-
+  z-index: 10000000;
+  &:hover {
+    border-color: pink;
+    stroke: pink;
+  }
 }
 
 .likeSvgActive {

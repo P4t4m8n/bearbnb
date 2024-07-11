@@ -17,7 +17,6 @@ export default function LikeButton({ stayId }: Props) {
   const user: UserModel | null = useUserStore.getState().user;
 
   useEffect(() => {
-    
     onGetLike();
   }, []);
 
@@ -35,6 +34,7 @@ export default function LikeButton({ stayId }: Props) {
     if (!user) return alert("Please login to like");
     //Optimistic update
     setIsLiked((prev) => !prev);
+    const flag = !isLiked;
 
     const likeToSave = {
       stayId,
@@ -43,16 +43,16 @@ export default function LikeButton({ stayId }: Props) {
     };
     let response: string | null = null;
     try {
-      if (likeIdRef.current) response = await saveLike(likeToSave);
+      if (!likeIdRef.current) response = await saveLike(likeToSave);
       else response = await removeLike(likeIdRef.current);
       likeIdRef.current = response || "";
     } catch (error) {
       console.error("error:", error);
     } finally {
       //Make sure to update the state if the like was not successful
-      if (!likeIdRef.current && isLiked) setIsLiked(false);
+      if (!likeIdRef.current && flag) setIsLiked(false);
 
-      if (likeIdRef.current && !isLiked) setIsLiked(true);
+      if (likeIdRef.current && !flag) setIsLiked(true);
     }
   };
 
