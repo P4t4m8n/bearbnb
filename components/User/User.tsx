@@ -28,7 +28,7 @@ export function User() {
 
   return (
     <div className={styles.user}>
-      <button className={styles.svgBtn + styles.placeHolder}>
+      <button className={styles.svgBtn }>
         Airbnb your home
       </button>
 

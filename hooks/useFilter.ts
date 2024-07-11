@@ -38,11 +38,6 @@ export const useFilter = () => {
   };
 
   const handleLabelClick = (label: LabelsType) => {
-    const paramsLabel = params.get("label");
-    const labels = paramsLabel?.split(",");
-    const idx = labels?.findIndex((item) => item === label);
-    if (idx && idx > -1) labels?.splice(idx, 1);
-    else labels?.push(label);
     params.set("label", label);
     replace(`${pathName}?${params.toString()}`);
   };
@@ -57,7 +52,7 @@ export const useFilter = () => {
   const submit = async () => {
     if (filterBy.location?.lat === 0 && filterBy.location?.lng === 0) {
       const location = await getUserLocation();
-      console.log("location:", location)
+      console.log("location:", location);
       const _params = filterToSearchParams({ ...filterBy, location }, params);
     } else {
       const _params = filterToSearchParams(filterBy, params);

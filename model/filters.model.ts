@@ -37,7 +37,7 @@ export interface SearchParamsModel {
   bedroomsAmount?: string;
   totalBeds?: string;
   baths?: string;
-  labels?: string;
+  label?: string;
 }
 
 export interface SearchParamsObject {

@@ -9,8 +9,7 @@ interface Props {
 }
 
 export default async function Home({ searchParams }: Props) {
-  console.log("searchParams:", searchParams)
-  console.log("searchParams:", searchParams.location)
+
   const amenities = await getSmallAmenities();
   return (
     <section >

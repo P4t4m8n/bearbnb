@@ -56,6 +56,7 @@
       background-color: none;
     }
   }
+
   .modalCon {
     position: absolute;
     top: 100%;
@@ -65,14 +66,13 @@
     background-color: white;
     transform: translateY(5%);
     border-radius: $border-radius-1-2;
+    z-index: $z-index-tooltip;
   }
 }
 @media (max-width: 1040px) {
   .user {
-    button {
-      &:first-of-type {
-        display: none;
-      }
+    .svgBtn {
+      display: none !important;
     }
   }
 }
@@ -80,7 +80,7 @@
   .user {
     gap: 0.5rem;
     grid-area: 1/2/-1/-1;
-   
+
     .userProfile {
       svg {
         &:first-of-type {
@@ -96,11 +96,6 @@
     gap: 0.5rem;
     .svg-btn {
       display: none;
-    }
-    button {
-      &:first-of-type {
-        font-size: 0.8rem;
-      }
     }
 
     .user-profile {

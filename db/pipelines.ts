@@ -173,6 +173,14 @@ export const buildPipeline = (
     });
   }
 
+  if (searchParams?.label) {
+    pipeline.push({
+      $match: {
+        labels: searchParams.label,
+      },
+    });
+  }
+
   pipeline.push(
     ...getPaginationPipeline(page, itemsPerPage),
     getReviewsLookupPipeline(),
