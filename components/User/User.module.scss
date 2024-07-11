@@ -67,17 +67,20 @@
     border-radius: $border-radius-1-2;
   }
 }
-
-@media (max-width: 900px) {
+@media (max-width: 1040px) {
   .user {
-    gap: 0.5rem;
-    grid-area: 1/2/-1/-1;
     button {
       &:first-of-type {
         display: none;
       }
     }
-
+  }
+}
+@media (max-width: 930px) {
+  .user {
+    gap: 0.5rem;
+    grid-area: 1/2/-1/-1;
+   
     .userProfile {
       svg {
         &:first-of-type {

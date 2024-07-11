@@ -15,12 +15,11 @@ interface Props {
   isActive: boolean;
 }
 export function StaySearch({ isActive }: Props) {
-  const scrollClass = `${styles.search} ${isActive ? styles.scroll : ""}`;
   const searchParams = useSearchParams();
   const router = useRouter();
   const params = new URLSearchParams(searchParams);
 
-  const [filterBy, setFilterBy] = useState(getEmptyFilter());
+  const [filterBy, setFilterBy] = useState(getEmptyFilter(false));
   const calendarRef = useRef<HTMLDivElement | null>(null);
   const [isCalendarOpen, setIsCalenderOpen] = useModal(calendarRef, null);
   const isStart = useRef<boolean>(true);
@@ -65,7 +64,7 @@ export function StaySearch({ isActive }: Props) {
       return;
     }
 
-    const _params = filterToSearchParams(filterBy, params);
+    filterToSearchParams(filterBy, params);
 
     const url = `/search?${params.toString()}`;
     router.push(url);
@@ -82,6 +81,8 @@ export function StaySearch({ isActive }: Props) {
   const handleGuests = (guests: GuestsModel) => {
     setFilterBy((prevFilter) => ({ ...prevFilter, guests }));
   };
+
+  const scrollClass = `${styles.search} ${isActive ? styles.scroll : ""}`;
 
   return (
     <div className={scrollClass}>

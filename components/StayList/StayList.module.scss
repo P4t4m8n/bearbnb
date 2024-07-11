@@ -11,11 +11,14 @@
   @media (max-width: 1700px) {
     @include grid-columns(5);
   }
-  @media (max-width:1450px) {
+  @media (max-width: 1450px) {
     @include grid-columns(4);
   }
-  @media (max-width:1200px) {
+  @media (max-width: 1200px) {
     @include grid-columns(3);
+  }
+  @media (max-width: 905px) {
+    @include grid-columns(2);
   }
   @media (max-width: 680px) {
     @include grid-columns(1);

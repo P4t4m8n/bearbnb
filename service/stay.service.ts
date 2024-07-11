@@ -1,18 +1,20 @@
 import { BedRoomModel } from "@/model/bedroom.model";
-import { FilterByModel, SearchParamsObject } from "@/model/filters.model";
+import { FilterByModel } from "@/model/filters.model";
 import { ReviewModel } from "@/model/review.model";
 import { StayModel, StaySmallModel } from "@/model/stay.model";
 
-// Returns a default SearchByModel object with predefined empty or initial values.
-export const getEmptyFilter = (): FilterByModel => {
+export const getEmptyFilter = (isDates: boolean = true): FilterByModel => {
   const today = new Date();
   const endDate = new Date();
   endDate.setDate(today.getDate() + 7);
+  const dates = isDates
+    ? { start: today, end: endDate }
+    : { start: null, end: null };
 
   return {
     location: { lat: 0, lng: 0 },
     distance: 2000,
-    dates: { start: today, end: endDate },
+    dates,
     guests: {
       adults: 0,
       children: 0,
