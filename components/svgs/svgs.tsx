@@ -1,4 +1,5 @@
-import { SvgIconModel } from "@/model/icons.model";
+import { SvgIconModel, SvgsNameTypes } from "@/model/icons.model";
+import { CalendarSVG, DoorSVG, KeySVG } from "./amentiasSVG";
 
 interface Props {
   className: string;
@@ -265,3 +266,14 @@ export function DynamicSVG({ path, viewBox }: SvgIconModel) {
     </svg>
   );
 }
+
+export const DynamicSVGByName = ({ name }: { name: SvgsNameTypes }) => {
+  switch (name) {
+    case "door":
+      return <DoorSVG />;
+    case "calendar":
+      return <CalendarSVG />;
+    case "key":
+      return <KeySVG />;
+  }
+};

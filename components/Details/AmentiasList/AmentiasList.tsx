@@ -1,19 +1,21 @@
-import { WifiSVG } from "../../svgs/svgs";
+import { DynamicSVG } from "@/components/svgs/svgs";
 import styles from "./AmentiasList.module.scss";
+import { AmenityModel } from "@/model/amenity.model";
 
 interface Props {
-  amenities: string[];
+  amenities: AmenityModel[];
 }
 
 export default function AmentiasList({ amenities }: Props) {
+  console.log("amenities:", amenities);
   return (
     <section className={styles.amentiasList}>
       <h2>What this place offers</h2>
       <ul>
         {amenities.map((amenity, idx) => (
           <li key={idx}>
-            <WifiSVG />
-            <h3>{amenity}</h3>
+            <DynamicSVG path={amenity.path} viewBox={amenity.viewBox} />
+            <h3>{amenity.name}</h3>
           </li>
         ))}
 

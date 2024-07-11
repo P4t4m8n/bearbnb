@@ -75,6 +75,14 @@ export const getStayById = async (id: string): Promise<StayModel> => {
       },
       {
         $lookup: {
+          from: "amenities",
+          localField: "amenities",
+          foreignField: "_id",
+          as: "amenities",
+        },
+      },
+      {
+        $lookup: {
           from: "bookings",
           localField: "_id",
           foreignField: "stayId",

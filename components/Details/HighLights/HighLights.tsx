@@ -1,4 +1,4 @@
-import { DynamicSVG } from "@/components/svgs/svgs";
+import { DynamicSVGByName } from "@/components/svgs/svgs";
 import styles from "./HighLights.module.scss";
 import { HighlightModel } from "@/model/highlight.model";
 
@@ -10,7 +10,7 @@ export default function HighLights({ highlights }: Props) {
     <ul className={styles.highlights}>
       {highlights.map((highlight, idx) => (
         <li key={idx}>
-          <DynamicSVG name={highlight.icon} />
+          <DynamicSVGByName name={highlight.icon} />
           <p>{highlight.title}</p>
           <p>{highlight.description}</p>
         </li>

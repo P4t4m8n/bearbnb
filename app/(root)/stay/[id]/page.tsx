@@ -23,20 +23,18 @@ export default async function StayDetails({ params }: Props) {
   if (!stay) return <DetailsSkeleton />;
 
   const {
+    _id,
     name,
     rating,
-    price,
     location,
     host,
     images,
     capacity,
-    description,
     bedRooms,
     baths,
     reviews,
     amenities,
     highlights,
-    likes,
   } = stay;
   const { firstName, imgUrl, lastName, ownerSince } = host;
 
@@ -53,7 +51,7 @@ export default async function StayDetails({ params }: Props) {
 
   return (
     <section className={styles.details}>
-      <DetailsHeader name={name} />
+      <DetailsHeader name={name} stayId={_id!} />
       <ImageList images={images} />
       <div className={styles.con}>
         <section className={styles.detailsInfo}>
