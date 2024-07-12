@@ -19,7 +19,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        style={{ maxWidth: "100vw" }}
+        style={{ width: "100vw" }}
         className={`${mulish.className} `}
       >
         {children}

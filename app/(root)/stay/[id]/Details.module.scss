@@ -6,15 +6,16 @@
 }
 .details {
   display: grid;
-  padding-top: 1rem;
-  gap: 2rem;
+  margin-top: 1rem;
+  gap: 1rem;
   position: relative;
+  width: 100%;
 
   .con {
     display: grid;
-    grid-template-columns: calc(60vw - 5.5rem) calc(40vw - 5.5rem);
+    grid-template-columns: 60% 35%;
     gap: 1rem;
-    max-width: $max-width-padding;
+    max-width: 100%;
     justify-content: space-between;
 
     .book {
@@ -40,5 +41,13 @@
     .detailsInfo {
       width: 100%;
     }
+  }
+}
+
+body:has(.details) {
+  main {
+    display: grid;
+    grid-template-columns: minmax(50rem, 70rem);
+    justify-content: center;
   }
 }

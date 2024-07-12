@@ -3,16 +3,15 @@
 import { useState, useMemo } from "react";
 import MonthGrid from "./MonthGrid/MonthGrid";
 import styles from "./Calendar.module.scss";
-import { BookingModel } from "@/model/booking.model";
+import { BookingModel, BookingSmallModel } from "@/model/booking.model";
 
 interface Props {
   date: Date;
   onDateClick: (date: Date) => void;
-  bookings?: BookingModel[];
-  isSearch?: boolean;
+  bookings?: BookingSmallModel[];
   bookingDate?: {
-    start: Date | null ;
-    end: Date | null ;
+    start: Date | null;
+    end: Date | null;
   };
 }
 
@@ -20,7 +19,6 @@ export function Calendar({
   date,
   onDateClick,
   bookings = [],
-  isSearch,
   bookingDate,
 }: Props) {
   // State to keep track of the user selected month
@@ -33,7 +31,7 @@ export function Calendar({
   };
 
   // Memoize filtered bookings to avoid unnecessary recalculations on each render
-  const filteredBookings: BookingModel[] = useMemo(() => {
+  const filteredBookings: BookingSmallModel[] = useMemo(() => {
     if (!bookings || bookings.length === 0) return [];
     const monthToInclude = anchorDate.getMonth();
     return bookings.filter(

@@ -8,10 +8,9 @@
   position: sticky;
   top: 0;
   height: 10rem;
-  // transition: height .5s ease-in-out ;
+  width: 100%;
   padding-top: 1rem;
   row-gap: 1rem;
-  width: $max-width-padding;
   padding-bottom: 1rem;
   background-color: white;
   z-index: $z-index-header;
@@ -49,12 +48,20 @@
 }
 
 .scroll {
-  height: 6rem;
+  height: 7rem;
   grid-template-rows: auto;
 
   .placeHolder {
     display: none;
   }
+}
+
+.sentinel {
+  height: 32px;
+  width: 100%;
+  position: "absolute";
+  top: 1px;
+  opacity: 0;
 }
 @media (max-width: 1125px) {
   .header {

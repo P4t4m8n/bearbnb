@@ -103,7 +103,6 @@ export function StaySearch({ isActive }: Props) {
         {isCalendarOpen && (
           <section className={styles.calendarCon}>
             <Calendar
-              isSearch={true}
               bookingDate={filterBy.dates}
               onDateClick={handleDate}
               date={new Date()}

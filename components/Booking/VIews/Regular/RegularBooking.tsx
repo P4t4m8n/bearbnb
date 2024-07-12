@@ -6,16 +6,15 @@ import { Guests } from "../../Guests/Guests";
 import { BookingModel } from "@/model/booking.model";
 import { GuestsModel } from "@/model/guest.model";
 import { Calendar } from "@/components/Calendar/Calendar";
+import { useModal } from "@/hooks/useModal";
 
 interface Props {
   booking: BookingModel;
   stay: StayModel;
-  isCalenderOpen: boolean;
   diffInDays: number;
   onDateClick: (date: Date) => void;
   setGuests: (guests: GuestsModel) => void;
   onBook: () => void;
-  setCalenderOpen: (value: boolean) => void;
 }
 
 export default function RegularBooking({
@@ -25,15 +24,13 @@ export default function RegularBooking({
   onDateClick,
   setGuests,
   onBook,
-  setCalenderOpen,
-  isCalenderOpen,
 }: Props) {
   const calendarModalRef = useRef<HTMLDivElement | null>(null);
+  const [calenderOpen, setCalenderOpen] = useModal(calendarModalRef, null);
   const { price } = stay;
 
   // Ensure checkIn and checkOut have valid Date values
-  const checkIn = booking.checkIn || new Date();
-  const checkOut = booking.checkOut || new Date();
+  const { checkIn, checkOut } = booking;
 
   // Get formatted check-in and check-out dates
   const { formatCheckIn, formatCheckOut } = getDefaultDates(stay, {
@@ -75,10 +72,10 @@ export default function RegularBooking({
           </div>
         </button>
         <Guests setGuests={setGuests} guests={guests} />
-        {isCalenderOpen && (
+        {calenderOpen && (
           <div ref={calendarModalRef} className={styles.calendarCon}>
             <Calendar
-              booking={booking}
+              bookingDate={{ start: booking.checkIn, end: booking.checkOut }}
               onDateClick={onDateClick}
               bookings={stay.bookings}
               date={booking.checkIn || new Date()}

@@ -6,16 +6,14 @@ import styles from "./ConfirmBookingModal.module.scss";
 import { daysBetweenDates } from "@/service/booking-service";
 import { getDefaultDates } from "@/service/stay.service";
 import { BookingModel } from "@/model/booking.model";
+import { saveBooking } from "@/actions/booking.action";
+import { usePathname, useRouter } from "next/navigation";
 interface Props {
-  saveBooking: (booking: BookingModel) => void;
-  toOpen: boolean;
   booking: BookingModel;
   confirmModalHelper: () => void;
 }
 
 export default function ConfirmBookingModal({
-  saveBooking,
-  toOpen,
   booking,
   confirmModalHelper,
 }: Props) {
@@ -25,13 +23,24 @@ export default function ConfirmBookingModal({
     confirmModalHelper
   );
 
+  const router = useRouter();
+  const path = usePathname();
   useEffect(() => {
-    setIsBookingConfirm(toOpen);
-  }, [toOpen, setIsBookingConfirm]);
+    setIsBookingConfirm(true);
+  }, []);
 
   const onBack = () => {
     setIsBookingConfirm(false);
     confirmModalHelper();
+  };
+
+  const onSaveBooking = async () => {
+    try {
+      const response = await saveBooking(booking);
+      router.push(`/booking/${response?._id}`);
+    } catch (error) {
+      console.error("error:", error);
+    }
   };
 
   if (!booking.checkIn || !booking.checkOut) return;
@@ -52,7 +61,7 @@ export default function ConfirmBookingModal({
     return str;
   };
 
-  const days = daysBetweenDates(booking.checkIn!, booking.checkOut!);
+  const days = daysBetweenDates(booking.checkIn, booking.checkOut);
   const guests = getGuestsString(booking);
   const { checkIn, checkOut } = booking;
   const { formatCheckIn, formatCheckOut } = getDefaultDates(null, {
@@ -108,7 +117,7 @@ export default function ConfirmBookingModal({
             <div className={styles.imgCon}>
               <Image
                 sizes="auto"
-                src={booking.stay?.images[0]}
+                src={booking.stay!.images[0]}
                 fill={true}
                 alt=""
               ></Image>
@@ -117,7 +126,7 @@ export default function ConfirmBookingModal({
           </div>
           <div className={styles.actions}>
             <button onClick={onBack}>back</button>
-            <button onClick={() => saveBooking(booking)}>Confirm</button>
+            <button onClick={() => onSaveBooking()}>Confirm</button>
           </div>
         </section>
       ) : null}

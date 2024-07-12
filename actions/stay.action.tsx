@@ -1,6 +1,6 @@
 "use server";
 
-import { FilterByModel, SearchParamsModel } from "@/model/filters.model";
+import { SearchParamsModel } from "@/model/filters.model";
 import { StayModel, StaySmallModel } from "@/model/stay.model";
 import StayPreview from "@/components/StayPreview/StayPreview";
 import {
@@ -120,7 +120,6 @@ export const getStayById = async (id: string): Promise<StayModel> => {
             location: "$location.location.coordinates",
           },
           reviews: 1,
-          booking: 1,
           host: {
             firstName: 1,
             lastName: 1,
@@ -131,7 +130,18 @@ export const getStayById = async (id: string): Promise<StayModel> => {
           description: 1,
           bedRooms: 1,
           baths: 1,
-          amenities: 1,
+          amenities: {
+            _id: { $toString: "$_id" },
+            name: 1,
+            path: 1,
+            viewBox: 1,
+            category: 1,
+          },
+          Booking: {
+            checkIn: 1,
+            checkOut: 1,
+            _id: { $toString: "$_id" },
+          },
           highlights: {
             _id: { $toString: "$_id" },
             title: 1,

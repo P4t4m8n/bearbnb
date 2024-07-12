@@ -6,11 +6,13 @@
   @include border-1-bottom-only;
   padding-block: 1.5rem;
   margin-bottom: 1rem;
+  display: grid;
+  gap: 1rem;
 
   h2 {
     padding-bottom: 1rem;
   }
-  ul {
+  .visibleAmenities {
     overflow: hidden;
     max-height: calc(6 * 1.5rem + 5rem);
     display: grid;

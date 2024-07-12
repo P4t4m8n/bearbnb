@@ -196,7 +196,11 @@ export const buildPipeline = (
           location: "$location.location.coordinates",
         },
         reviews: 1,
-        bookings: 1,
+        bookings: {
+          _id: { $toString: "$_id" },
+          checkIn: 1,
+          checkOut: 1,
+        },
       },
     }
   );

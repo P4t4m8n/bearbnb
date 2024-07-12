@@ -1,4 +1,4 @@
-import { BookingModel } from "@/model/booking.model";
+import { BookingModel, BookingSmallModel } from "@/model/booking.model";
 import { ScrollBySVG } from "../../svgs/svgs";
 import styles from "./MonthGrid.module.scss";
 
@@ -8,7 +8,7 @@ interface Props {
   onMonthChange: (dir: number) => void;
   checkIn?: Date | null;
   checkOut?: Date | null;
-  bookings?: BookingModel[];
+  bookings?: BookingSmallModel[];
 }
 
 interface DateObj {
@@ -77,7 +77,6 @@ export default function MonthGrid({
   };
 
   const monthGrid = getMonthGrid(date);
-  console.table( monthGrid)
   const monthName = date.toLocaleString("default", { month: "long" });
   const year = date.getFullYear();
 

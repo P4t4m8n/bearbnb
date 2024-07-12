@@ -1,36 +1,38 @@
 import { Document, ObjectId } from "mongodb";
+import { UserSmallModel } from "./user.model";
+import { StaySmallModel } from "./stay.model";
 
-export interface BookingModel extends Document {
-  _id?:string|ObjectId
+export interface BookingSmallModel extends Document {
+  _id?: string;
   checkIn: Date;
   checkOut: Date;
+}
+export interface BookingModel extends BookingSmallModel {
   bookingTime: Date;
   price: number;
   adults: number;
   children: number;
   infants: number;
   pets: number;
-  stayId: string; // ObjectId as string
-  userId: string; // ObjectId as string
-  hostId: string; // ObjectId as string
+  stay?: StaySmallModel;
+  user?: UserSmallModel;
+  host?: UserSmallModel;
   status: BookingStatus;
 }
-
-export interface BookingToSave  {
+export interface BookingSchema {
+  _id: ObjectId;
   checkIn: Date;
   checkOut: Date;
-  bookingTime: Date;
   price: number;
   adults: number;
   children: number;
   infants: number;
   pets: number;
-  stayId: string; // ObjectId as string
-  userId: string; // ObjectId as string
-  hostId: string; // ObjectId as string
+  stayId: ObjectId;
+  userId: ObjectId;
+  hostId: ObjectId;
   status: BookingStatus;
+  bookingTime: Date;
 }
-
-
 
 export type BookingStatus = "pending" | "confirmed" | "canceled" | "completed";

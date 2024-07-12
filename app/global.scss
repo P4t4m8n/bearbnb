@@ -1,6 +1,5 @@
 // @import "../styles/base/base.scss";
 
-
 body:has(.ConfirmBookingModal_bookingModal__eZKxT) {
   .ConfirmBookingModal_bookingModal__eZKxT,
   .ConfirmBookingModal_bookingModal__eZKxT * {
@@ -31,22 +30,13 @@ body:has(.Modal_modal__r7jpq) {
   .Modal_modal__r7jpq * {
     pointer-events: all;
   }
-  :not(
-      .Modal_modal__r7jpq,
-      .Modal_modal__r7jpq *
-    ) {
+  :not(.Modal_modal__r7jpq, .Modal_modal__r7jpq *) {
     pointer-events: none;
   }
 }
 
-body:has(.Header_header__1RJ5C, .Header_scroll__U_gAU){
- 
+body:has(.Header_header__1RJ5C, .Header_scroll__U_gAU) {
   .StayFilter_filter__UnPw2 {
-    top: 7rem ;
+    top: 7rem;
   }
-
 }
-
-
-
-

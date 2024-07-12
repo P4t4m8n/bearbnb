@@ -41,13 +41,7 @@ export default function Header() {
       <section
         ref={sentinelRef}
         className={styles.sentinel}
-        style={{
-          height: "32px",
-          width: "50vw",
-          position: "absolute",
-          top: "1px",
-          opacity: 0,
-        }}
+    
       ></section>
 
       <section className={headerClass}>
