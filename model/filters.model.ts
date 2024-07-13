@@ -21,7 +21,7 @@ export interface FilterByModel {
   distance?: number;
   guests?: GuestsModel;
   amenities?: string[];
-  location?: { lat: number; lng: number };
+  location?: { lat: number; lng: number; city?: string };
   labels?: LabelsType[];
 }
 

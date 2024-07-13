@@ -33,10 +33,9 @@
 
 @media (max-width: 850px) {
   .details {
-    padding-bottom: 4rem;
     .con {
       max-width: 100%;
-      grid-template-columns: calc(100vw - 4rem);
+      grid-template-columns: 1fr;
     }
     .detailsInfo {
       width: 100%;
@@ -49,5 +48,15 @@ body:has(.details) {
     display: grid;
     grid-template-columns: minmax(50rem, 70rem);
     justify-content: center;
+  }
+
+  @media (max-width: 850px){
+    main {
+      width: 100%;
+      grid-template-columns: 1fr;
+      padding: 0;
+      padding-inline: .25rem;
+     
+    }
   }
 }

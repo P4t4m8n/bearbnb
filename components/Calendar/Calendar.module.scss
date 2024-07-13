@@ -1,6 +1,8 @@
+@import "../../styles/abstracts/mixin.scss";
 .calendar {
   width: 100%;
   position: relative;
+  display: grid;
 }
 
 .single {
@@ -9,4 +11,26 @@
 
 .double {
   display: flex;
+}
+
+.calendar {
+  .actions {
+    padding-top: 1rem;
+    padding-inline: 0.5rem;
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    button {
+      width: fit-content;
+      @include border-2;
+      box-sizing: border-box;
+      padding-inline: 0.5rem;
+      padding-block: 0.25rem;
+      border-radius: $border-radius-1-2;
+      font-weight: 600;
+      &:hover {
+        background-color: rgb(210, 210, 210);
+      }
+    }
+  }
 }

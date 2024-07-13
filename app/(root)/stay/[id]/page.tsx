@@ -78,9 +78,9 @@ export default async function StayDetails({ params }: Props) {
           {/* TODO reimplement calender with booking in a global state */}
           {/* <Calendar bookings={stay.bookings} date={new Date()} /> */}
         </section>
-        <section className={styles.calendarCon}>
+      
           <Booking stay={stay} />
-        </section>
+      
       </div>
     </section>
   );

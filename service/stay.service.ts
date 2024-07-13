@@ -32,7 +32,7 @@ export const getEmptyFilter = (isDates: boolean = true): FilterByModel => {
 // Generates formatted check-in and check-out dates based on provided booking
 // data or fallbacks to the stay's available dates.
 export const getDefaultDates = (
-  stay: StayModel | null,
+  firstAvailableDate: Date[] | null,
   booking: { checkIn: Date; checkOut: Date }
 ): {
   formatCheckIn: { day: string; month: string; year: number };
@@ -42,28 +42,24 @@ export const getDefaultDates = (
   const formatCheckIn = {
     day: booking.checkIn
       ? booking.checkIn.getDate().toString().padStart(2, "0")
-      : stay!.firstAvailableDate![0].getDate().toString().padStart(2, "0"),
+      : firstAvailableDate![0].getDate().toString().padStart(2, "0"),
     month: booking.checkIn
       ? (booking.checkIn?.getMonth() + 1).toString().padStart(2, "0")
-      : (stay!.firstAvailableDate![0].getMonth() + 1)
-          .toString()
-          .padStart(2, "0"),
+      : (firstAvailableDate![0].getMonth() + 1).toString().padStart(2, "0"),
     year: booking.checkIn
       ? booking.checkIn.getFullYear()
-      : stay!.firstAvailableDate![0].getFullYear(),
+      : firstAvailableDate![0].getFullYear(),
   };
   const formatCheckOut = {
     day: booking.checkOut
       ? booking.checkOut.getDate().toString().padStart(2, "0")
-      : stay!.firstAvailableDate![2].getDate().toString().padStart(2, "0"),
+      : firstAvailableDate![2].getDate().toString().padStart(2, "0"),
     month: booking.checkOut
       ? (booking.checkOut?.getMonth() + 1).toString().padStart(2, "0")
-      : (stay!.firstAvailableDate![2].getMonth() + 1)
-          .toString()
-          .padStart(2, "0"),
+      : (firstAvailableDate![2].getMonth() + 1).toString().padStart(2, "0"),
     year: booking.checkOut
       ? booking.checkOut.getFullYear()
-      : stay!.firstAvailableDate![2].getFullYear(),
+      : firstAvailableDate![2].getFullYear(),
   };
 
   return { formatCheckIn, formatCheckOut };
@@ -323,4 +319,24 @@ export const findFirstConsecutiveDaysAfterDate = (
     // Move to the next day and repeat the check
     currentDate = addDays(currentDate, 1);
   }
+};
+
+export const fixedDatesForMobile = (
+  dates?: {
+    start: Date | null;
+    end: Date | null;
+  } | null
+): string | null => {
+  if (!dates || !dates.start || !dates.end) return null;
+  const monthNameStart =
+    dates?.start!.toLocaleString("default", { month: "long" }) || "";
+  const monthNameEnd =
+    dates?.end!.toLocaleString("default", { month: "long" }) || "";
+
+  const fixedDates =
+    monthNameStart === monthNameEnd
+      ? `${monthNameStart} ${dates?.start?.getDate()} - ${dates?.end?.getDate()}`
+      : `${monthNameStart} ${dates?.start?.getDate()} - ${monthNameEnd} ${dates?.end?.getDate()}`;
+
+  return fixedDates;
 };

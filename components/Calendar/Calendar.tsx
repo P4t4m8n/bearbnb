@@ -7,19 +7,23 @@ import { BookingModel, BookingSmallModel } from "@/model/booking.model";
 
 interface Props {
   date: Date;
-  onDateClick: (date: Date) => void;
-  bookings?: BookingSmallModel[];
+  bookings: BookingSmallModel[];
   bookingDate?: {
     start: Date | null;
     end: Date | null;
   };
+  onDateClick: (date: Date) => void;
+  clearDates: () => void;
+  closeCalendarModel: (close: boolean) => void;
 }
 
 export function Calendar({
   date,
-  onDateClick,
   bookings = [],
   bookingDate,
+  onDateClick,
+  clearDates,
+  closeCalendarModel,
 }: Props) {
   // State to keep track of the user selected month
   const [anchorDate, setAnchorDate] = useState<Date>(date || new Date());
@@ -51,6 +55,18 @@ export function Calendar({
         date={anchorDate}
         onMonthChange={switchMonth}
       />
+      <div className={styles.actions}>
+        <button
+          className={styles.closeBtn}
+          onClick={() => closeCalendarModel(false)}
+        >
+          Apply
+        </button>
+
+        <button className={styles.clearBtn} onClick={clearDates}>
+          Clear
+        </button>
+      </div>
     </section>
   );
 }

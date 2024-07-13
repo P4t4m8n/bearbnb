@@ -10,24 +10,16 @@ import RegularBooking from "./Views/Regular/RegularBooking";
 import MobileBooking from "./Views/Mobile/MobileBooking";
 import { BookingModel } from "@/model/booking.model";
 import { GuestsModel } from "@/model/guest.model";
-import { stayToSmallStay } from "@/service/stay.service";
+import { getDefaultDates, stayToSmallStay } from "@/service/stay.service";
 import { userToSmallUser } from "@/service/user.service";
 
 interface Props {
   stay: StayModel;
 }
 
-// Helper function to get window dimensions
-const getWindowDimensions = () => {
-  const { innerWidth: width, innerHeight: height } = window;
-  return { width, height };
-};
-
 export default function Booking({ stay }: Props) {
   const { user } = useUserStore();
-  // console.log("user:", user);
   const [booking, setBooking] = useState<BookingModel>(getEmptyBooking());
-  const [isWindowSmall, setIsWindowSmall] = useState(false);
   const isStart = useRef(true);
   const [bookingModal, setBookingModal] = useState(false);
 
@@ -38,19 +30,8 @@ export default function Booking({ stay }: Props) {
       checkIn: stay.firstAvailableDate![0],
       checkOut: stay.firstAvailableDate![2],
     });
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Handle window resize events
-  const handleResize = () => {
-    const { width } = getWindowDimensions();
-    setIsWindowSmall(width <= 850);
-  };
-
-  // Handle date click events
   const onDateClick = (date: Date) => {
     if (!date) return;
     if (isStart.current) {
@@ -66,7 +47,6 @@ export default function Booking({ stay }: Props) {
     }
   };
 
-  // Handle booking confirmation
   const onBook = () => {
     if (!user) return alert("No user");
 
@@ -77,14 +57,20 @@ export default function Booking({ stay }: Props) {
       host: stay.host,
       price: stay.price * diffInDays,
     };
-    console.log("newBooking:", newBooking);
     setBooking(newBooking);
     setBookingModal(true);
   };
 
-  // Update guest information
   const setGuests = (guests: GuestsModel) => {
     setBooking((prevBooking) => ({ ...prevBooking, ...guests }));
+  };
+
+  const clearDates = () => {
+    setBooking({
+      ...booking,
+      checkIn: stay.firstAvailableDate![0],
+      checkOut: stay.firstAvailableDate![2],
+    });
   };
 
   // Close booking modal
@@ -93,7 +79,6 @@ export default function Booking({ stay }: Props) {
   };
 
   // Calculate difference in days between check-in and check-out dates
-  //TODO: Refactor to avoid ! operator
   const diffInDays =
     booking.checkIn && booking.checkOut
       ? daysBetweenDates(booking.checkIn, booking.checkOut)
@@ -102,18 +87,43 @@ export default function Booking({ stay }: Props) {
           stay.firstAvailableDate![2]
         );
 
+  const guests = {
+    adults: booking.adults,
+    children: booking.children,
+    infants: booking.infants,
+    pets: booking.pets,
+  };
+
+  const { checkIn, checkOut } = booking;
+  const { formatCheckIn, formatCheckOut } = getDefaultDates(
+    stay.firstAvailableDate,
+    {
+      checkIn,
+      checkOut,
+    }
+  );
+
+  const bookingComponentData = {
+    price: stay.price,
+    checkIn,
+    checkOut,
+    formatCheckIn,
+    formatCheckOut,
+    guests,
+    bookings: stay.bookings,
+    booking: booking,
+    diffInDays,
+  };
+
   return (
     <>
-      {!isWindowSmall && (
-        <RegularBooking
-          stay={stay}
-          diffInDays={diffInDays}
-          booking={booking}
-          onBook={onBook}
-          setGuests={setGuests}
-          onDateClick={onDateClick}
-        />
-      )}
+      <RegularBooking
+        data={bookingComponentData}
+        onBook={onBook}
+        setGuests={setGuests}
+        onDateClick={onDateClick}
+        clearDates={clearDates}
+      />
 
       {bookingModal && (
         <ConfirmBookingModal

@@ -38,11 +38,7 @@ export default function Header() {
 
   return (
     <>
-      <section
-        ref={sentinelRef}
-        className={styles.sentinel}
-    
-      ></section>
+      <section ref={sentinelRef} className={styles.sentinel}></section>
 
       <section className={headerClass}>
         <Link href={"/"} className={styles.logo}>

@@ -11,6 +11,7 @@ import AddressSearch from "./AddressSearch/AddressAutoComplete/AddressSearch";
 import { GuestsModel } from "@/model/guest.model";
 import { GuestsWindow } from "./GuestsModel/GuestsModel";
 import { filterToSearchParams } from "@/service/filter.service";
+import StaySearchMobile from "./StaySearchMobile/StaySearchMobile";
 interface Props {
   isActive: boolean;
 }
@@ -56,6 +57,13 @@ export function StaySearch({ isActive }: Props) {
     setFilterBy((prevFilter) => ({ ...prevFilter, dates }));
   };
 
+  const clearDates = () => {
+    setFilterBy((prevFilter) => ({
+      ...prevFilter,
+      dates: { start: null, end: null },
+    }));
+  };
+
   const onSearch = (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault();
 
@@ -84,36 +92,50 @@ export function StaySearch({ isActive }: Props) {
 
   const scrollClass = `${styles.search} ${isActive ? styles.scroll : ""}`;
 
+  console.log("stay search");
   return (
-    <div className={scrollClass}>
-      <AddressSearch handleLocation={handleLocation} />
-      <div
-        onClick={() => setIsCalenderOpen(true)}
-        ref={calendarRef}
-        className={`${styles.dates} ${styles.input}`}
-      >
-        <div>
-          <span>Check in</span>
-          <p>{filterBy.dates!.start?.toLocaleDateString() || "Check in"}</p>
+    <>
+      <div className={scrollClass}>
+        <AddressSearch handleLocation={handleLocation} />
+        <div
+          onClick={() => setIsCalenderOpen(true)}
+          ref={calendarRef}
+          className={`${styles.dates} ${styles.input}`}
+        >
+          <div>
+            <span>Check in</span>
+            <p>{filterBy.dates!.start?.toLocaleDateString() || "Check in"}</p>
+          </div>
+          <div>
+            <span>Check out</span>
+            <p>{filterBy.dates!.end?.toLocaleDateString() || "Check out"}</p>
+          </div>
+          {isCalendarOpen && (
+            <section className={styles.calendarCon}>
+              <Calendar
+                date={new Date()}
+                bookings={[]}
+                bookingDate={filterBy.dates}
+                clearDates={clearDates}
+                closeCalendarModel={setIsCalenderOpen}
+                onDateClick={handleDate}
+              />
+            </section>
+          )}
         </div>
-        <div>
-          <span>Check out</span>
-          <p>{filterBy.dates!.end?.toLocaleDateString() || "Check out"}</p>
-        </div>
-        {isCalendarOpen && (
-          <section className={styles.calendarCon}>
-            <Calendar
-              bookingDate={filterBy.dates}
-              onDateClick={handleDate}
-              date={new Date()}
-            />
-          </section>
-        )}
+        <GuestsWindow guests={filterBy.guests!} setGuests={handleGuests} />
+        <button onClick={onSearch} className={styles.searchBtn}>
+          <SearchSVG />
+        </button>
       </div>
-      <GuestsWindow guests={filterBy.guests!} setGuests={handleGuests} />
-      <button onClick={onSearch} className={styles.searchBtn}>
-        <SearchSVG />
-      </button>
-    </div>
+
+      <StaySearchMobile
+        handleLocation={handleLocation}
+        filterBy={filterBy}
+        clearDates={clearDates}
+        onDateClick={handleDate}
+        handleGuests={handleGuests}
+      />
+    </>
   );
 }

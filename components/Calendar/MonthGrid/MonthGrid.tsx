@@ -118,17 +118,10 @@ export default function MonthGrid({
             onClick={() => dateClick(day.dateObj)}
             key={idx}
           >
-            {day.dateObj.getDate()}
+            <p>{day.dateObj.getDate()}</p>
           </li>
         ))}
       </ul>
-      <button
-        onClick={() => {
-          //ToDO: Clear the dates and return to default dates
-        }}
-      >
-        Clear
-      </button>
     </section>
   );
 }

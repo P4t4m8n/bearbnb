@@ -13,6 +13,7 @@
     justify-content: space-around;
     align-content: center;
     align-items: center;
+    height: fit-content;
     button {
       aspect-ratio: 1;
       stroke: black;
@@ -47,7 +48,7 @@
         align-items: center;
         justify-content: center;
         width: 100%;
-        &:hover{
+        &:hover {
           cursor: pointer;
         }
       }
@@ -56,16 +57,30 @@
 
   .between {
     position: relative;
+    background-color: rgba(210, 210, 210, 210);
+    p {
+      z-index: 1;
+    }
     &::before {
       content: "";
       position: absolute;
       display: block;
       top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 150%;
+      left: -50%;
+      width: 50%;
       height: 100%;
-      background-color: rgba(247, 247, 247, 247);
+      background-color: rgba(210, 210, 210, 210);
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      display: block;
+      top: 0;
+      right: -50%;
+      width: 50%;
+      height: 100%;
+      background-color: rgba(210, 210, 210, 210);
     }
   }
 
@@ -73,6 +88,7 @@
     background-color: black;
     color: white;
     border-radius: 100vw;
+    z-index: 3;
   }
 
   .passDate {

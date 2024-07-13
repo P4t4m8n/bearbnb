@@ -3,7 +3,6 @@ import "../styles/main.scss";
 import "./global.scss";
 import { seed } from "@/db/seed";
 
-
 const mulish = Mulish({
   weight: ["200", "300", "400", "500", "600", "700", "800", "900", "1000"],
   style: ["normal"],
@@ -15,13 +14,9 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <html lang="en">
-      <body
-        style={{ width: "100vw" }}
-        className={`${mulish.className} `}
-      >
+      <body style={{ maxWidth: "100vw" }} className={`${mulish.className} `}>
         {children}
       </body>
     </html>

@@ -1,8 +1,9 @@
 "use client";
 import { debounce } from "@/util/debounce";
 import styles from "./AddressSearch.module.scss";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { SuggestionPin } from "@/components/svgs/svgs";
+import { useModal } from "@/hooks/useModal";
 
 interface Props {
   handleLocation: ({ lat, lng }: { lat: number; lng: number }) => void;
@@ -10,7 +11,9 @@ interface Props {
 
 export default function AddressSearch({ handleLocation }: Props) {
   const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState<
+  const suggestionsRef = useRef<HTMLUListElement | null>(null);
+  const [isSuggestionsOpen, setIsSuggestionsOpen] = useModal(suggestionsRef);
+  const suggestions = useRef<
     {
       display_name: string;
       lat: number;
@@ -28,9 +31,8 @@ export default function AddressSearch({ handleLocation }: Props) {
         )}&limit=5&format=json`
       );
       const data = await response.json();
-      setSuggestions(data);
-    } else {
-      setSuggestions([]);
+      suggestions.current = data;
+      setIsSuggestionsOpen(true);
     }
   };
 
@@ -44,19 +46,28 @@ export default function AddressSearch({ handleLocation }: Props) {
   // Handle input change event
   const handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const value = ev.target.value;
-    setQuery(value);
-    debouncedFetchSuggestions(value);
+    const capitalizedValue = value.charAt(0).toUpperCase() + value.slice(1);
+    setQuery(capitalizedValue);
+    debouncedFetchSuggestions(capitalizedValue);
   };
 
   const handleSuggestionClick = ({
     lat,
     lng,
+    display_name,
   }: {
     lat: number;
     lng: number;
+    display_name: string;
   }) => {
+    const capitalizedValue =
+      display_name.charAt(0).toUpperCase() +
+      display_name.slice(1).split(",")[0];
+
+    setIsSuggestionsOpen(false);
+    setQuery(capitalizedValue);
     handleLocation({ lat, lng });
-    setSuggestions([]);
+    suggestions.current = [];
   };
 
   return (
@@ -68,9 +79,9 @@ export default function AddressSearch({ handleLocation }: Props) {
         onChange={handleInputChange}
       />
 
-      {suggestions.length > 0 && (
-        <ul className={styles.suggestions}>
-          {suggestions.map((suggestion) => (
+      {isSuggestionsOpen && (
+        <ul ref={suggestionsRef} className={styles.suggestions}>
+          {suggestions.current.map((suggestion) => (
             <li
               key={suggestion.place_id}
               onClick={() => handleSuggestionClick(suggestion)}
