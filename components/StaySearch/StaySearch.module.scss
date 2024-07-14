@@ -13,7 +13,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
   display: grid;
   grid-template-columns: minmax(5%, 1fr) 40% 20% 3rem;
-  z-index: 1000;
+  z-index: $z-index-header;
   transition: width 0.4s, grid-area 0.2s;
 
   .searchBtn {
@@ -92,7 +92,7 @@
     padding: 0;
     justify-content: space-around;
 
-    div {
+    .dateViews {
       padding: 6px 12px 4px 10px;
       border-radius: $border-radius-2;
       min-width: 50%;
@@ -109,13 +109,13 @@
       &:not(:nth-child(2))::after {
         content: "";
         display: block;
-        height: 60%;
+        height: 75%;
         width: 2px;
         background-repeat: no-repeat;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='100%25' width='1'%3E%3Cline x1='0' y1='0' x2='0' y2='100%25' style='stroke%3Argb(0%2C0%2C0)%3Bstroke-width%3A1' /%3E%3C/svg%3E");
         position: absolute;
         right: 0;
-        top: 20%;
+        top: 15%;
         opacity: 1;
         transform: translateX(50%);
       }
@@ -123,7 +123,8 @@
   }
 
   &.scroll {
-    width: 40rem;
+    max-width: 40rem;
+    min-width: 30rem;
     grid-area: 1/2/2/3;
   }
 }
@@ -147,11 +148,38 @@
       }
     }
   }
+  .actions {
+    padding-top: 1rem;
+    padding-inline: 0.5rem;
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    button {
+      width: fit-content;
+      @include border-2;
+      box-sizing: border-box;
+      padding-inline: 0.5rem;
+      padding-block: 0.25rem;
+      border-radius: $border-radius-1-2;
+      font-weight: 600;
+      &:hover {
+        background-color: rgb(210, 210, 210);
+      }
+    }
+  }
 }
 
 @media (max-width: 1125px) {
   .search {
     grid-area: 3/1/-1/-1;
+  }
+}
+
+@media (max-width: 930px) {
+  .search {
+    &.scroll {
+      grid-area: 1/1/-1/2;
+    }
   }
 }
 @media (max-width: 750px) {

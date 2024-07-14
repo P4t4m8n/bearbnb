@@ -6,7 +6,11 @@ import ProfileModel from "./Modal/ProfileModel";
 import { useModal } from "@/hooks/useModal";
 import { getSessionUser, logout } from "@/actions/auth.action";
 
-export function User() {
+interface Props {
+  isActive: boolean;
+}
+
+export function User({ isActive }: Props) {
   const { user, setUser } = useUserStore();
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [open, setModal] = useModal(modalRef, null);
@@ -27,10 +31,8 @@ export function User() {
   };
 
   return (
-    <div className={styles.user}>
-      <button className={styles.svgBtn }>
-        Airbnb your home
-      </button>
+    <div className={`${styles.user} ${isActive ? styles.scroll : ""}`}>
+      <button className={styles.svgBtn}>Airbnb your home</button>
 
       <button onClick={() => setModal(true)} className={styles.userProfile}>
         {user ? (

@@ -15,9 +15,10 @@ export default function AddressSearch({ handleLocation }: Props) {
   const [isSuggestionsOpen, setIsSuggestionsOpen] = useModal(suggestionsRef);
   const suggestions = useRef<
     {
+      display_place: string;
       display_name: string;
       lat: number;
-      lng: number;
+      lon: number;
       place_id: string;
     }[]
   >([]);
@@ -37,13 +38,11 @@ export default function AddressSearch({ handleLocation }: Props) {
   };
 
   // Memoize the debounced fetchSuggestions function
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedFetchSuggestions = useCallback(
     debounce(fetchSuggestions, 3000),
     []
   );
 
-  // Handle input change event
   const handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const value = ev.target.value;
     const capitalizedValue = value.charAt(0).toUpperCase() + value.slice(1);
@@ -53,20 +52,20 @@ export default function AddressSearch({ handleLocation }: Props) {
 
   const handleSuggestionClick = ({
     lat,
-    lng,
-    display_name,
+    lon,
+    display_place,
   }: {
     lat: number;
-    lng: number;
-    display_name: string;
+    lon: number;
+    display_place: string;
   }) => {
     const capitalizedValue =
-      display_name.charAt(0).toUpperCase() +
-      display_name.slice(1).split(",")[0];
+      display_place.charAt(0).toUpperCase() +
+      display_place.slice(1).split(",")[0];
 
     setIsSuggestionsOpen(false);
     setQuery(capitalizedValue);
-    handleLocation({ lat, lng });
+    handleLocation({ lat, lng: lon });
     suggestions.current = [];
   };
 

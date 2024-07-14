@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { MouseEvent, useRef, useState } from "react";
 import { MinusSVG, PlusSVG, ScrollBySVG } from "../../svgs/svgs";
 import styles from "./GuestsModel.module.scss";
 import { useModal } from "@/hooks/useModal";
@@ -7,10 +7,12 @@ import { GuestsModel } from "@/model/guest.model";
 interface Props {
   guests: GuestsModel;
   setGuests: (guests: GuestsModel) => void;
+  isBooking?: boolean;
 }
-export function GuestsWindow({ guests, setGuests }: Props) {
-  const modalRef = useRef(null);
-  const [open, setModal] = useModal(modalRef, null);
+export function GuestsWindow({ guests, setGuests, isBooking = false }: Props) {
+  const modalRef = useRef<HTMLUListElement>(null);
+  const [isGuestsSearchOpen, setIsGuestsSearchOpen] = useModal(modalRef);
+  console.log("open:", isGuestsSearchOpen);
 
   const onClickGuests = (
     key: "adults" | "children" | "infants",
@@ -21,16 +23,26 @@ export function GuestsWindow({ guests, setGuests }: Props) {
     setGuests(updatedGuests);
   };
 
+  const onSetGuests = (ev: MouseEvent) => {
+    console.log("ev:", ev);
+    setIsGuestsSearchOpen(true);
+  };
+
   const numOfGuests = guests.adults + guests.children + guests.infants;
 
   return (
-    <div onClick={() => setModal(true)} className={styles.guests}>
-      <div className={styles.total}>
-        <span>Who</span>
-        {numOfGuests ? <span>{numOfGuests} guests</span> : <p>Add guests</p>}
-      </div>
-      {open && (
-        <ul ref={modalRef}>
+    <div className={`${styles.guestsSearch} ${!isBooking ? styles.hover : ""}`}>
+      <button onClick={onSetGuests} className={styles.total}>
+        <span>GUESTS</span>
+        {numOfGuests ? <p>{numOfGuests} guests</p> : <p>Add guests</p>}
+      </button>
+      {isGuestsSearchOpen && (
+        <ul
+          ref={modalRef}
+          className={
+            isBooking ? styles.guestsBookingModel : styles.guestsSearchModel
+          }
+        >
           <li>
             <div className={styles.type}>
               <h2>Adults</h2>

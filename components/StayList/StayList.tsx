@@ -9,6 +9,7 @@ interface Props {
 }
 export default async function StayList({ searchParams }: Props) {
   const stays = await getSmallStaysJSX(searchParams);
+  console.log("stays:", stays)
 
   return (
     <ul className={styles.stayList}>

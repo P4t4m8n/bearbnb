@@ -1,26 +1,27 @@
 @import "../../../styles/abstracts/variables";
 @import "../../../styles/abstracts/mixin";
-.guests {
+.guestsSearch {
   height: 4rem;
+  max-height: 100%;
   box-sizing: border-box;
-  // padding: 12px 12px 4px 10px;
   position: relative;
   border-radius: $border-radius-2;
-  z-index: 1000000000;
-  &:hover {
-    background-color: rgb(245, 245, 240);
-    cursor: pointer;
-  }
+  z-index: $z-index-header;
+  width: 100%;
 
   .total {
     justify-content: center;
     display: flex;
-    padding: 6px 0 4px 10px;
     flex-direction: column;
-    height: 100%;
-    span,
-    p {
+    height: 4rem;
+    width: 100%;
+    span {
       text-align: start;
+      font-size: $font-size-10;
+      font-weight: 800;
+    }
+    p {
+      font-size: $font-size-14;
     }
     @media (max-width: 930px) {
       justify-content: center;
@@ -28,18 +29,18 @@
     }
   }
 
-  ul {
+  .guestsBookingModel {
     @include soft-box-shadow;
     padding: 1.5rem;
     border-radius: $border-radius-1;
-    width: 200%;
+    width: 110%;
     min-width: 20rem;
     top: 110%;
-    right: -25%;
+    right: -5%;
     position: absolute;
     background-color: white;
     display: grid;
-    z-index: 1000000000;
+    z-index: 150000;
     li {
       display: flex;
       justify-content: space-between;
@@ -73,5 +74,18 @@
         }
       }
     }
+  }
+}
+
+.guestsSearch:has(.guestsBookingModel) {
+  &:hover {
+    background-color: none;
+  }
+}
+
+.hover {
+  &:hover {
+    background-color: rgb(245, 245, 240);
+    cursor: pointer;
   }
 }

@@ -1,17 +1,16 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { SearchSVG } from "../svgs/svgs";
 import styles from "./StaySearch.module.scss";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { getEmptyFilter } from "@/service/stay.service";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useModal } from "@/hooks/useModal";
 import { Calendar } from "../Calendar/Calendar";
 import AddressSearch from "./AddressSearch/AddressAutoComplete/AddressSearch";
-import { GuestsModel } from "@/model/guest.model";
 import { GuestsWindow } from "./GuestsModel/GuestsModel";
 import { filterToSearchParams } from "@/service/filter.service";
 import StaySearchMobile from "./StaySearchMobile/StaySearchMobile";
+import { useFilterStore } from "@/store/userFIlterStore";
 interface Props {
   isActive: boolean;
 }
@@ -20,57 +19,16 @@ export function StaySearch({ isActive }: Props) {
   const router = useRouter();
   const params = new URLSearchParams(searchParams);
 
-  const [filterBy, setFilterBy] = useState(getEmptyFilter(false));
   const calendarRef = useRef<HTMLDivElement | null>(null);
   const [isCalendarOpen, setIsCalenderOpen] = useModal(calendarRef, null);
-  const isStart = useRef<boolean>(true);
 
-  const handleDate = (date: Date | null) => {
-    let dates: {
-      start: Date | null;
-      end: Date | null;
-    } = {
-      start: filterBy.dates?.start || null,
-      end: filterBy.dates?.end || null,
-    };
-
-    if (!date) {
-      dates = { start: null, end: null };
-    } else {
-      if (isStart.current) {
-        // Setting start date and potentially clearing end date if it's before the new start
-        dates.start = date;
-        if (dates.end && date >= dates.end) {
-          dates.end = null;
-        }
-        isStart.current = false;
-      } else {
-        // Setting end date and potentially correcting start date if it's after the new end
-        if (dates.start && date <= dates.start) {
-          dates = { start: date, end: null };
-        } else {
-          dates.end = date;
-        }
-        isStart.current = true;
-      }
-    }
-    setFilterBy((prevFilter) => ({ ...prevFilter, dates }));
-  };
-
-  const clearDates = () => {
-    setFilterBy((prevFilter) => ({
-      ...prevFilter,
-      dates: { start: null, end: null },
-    }));
-  };
+  const { handleLocation, filterBy, clearDates, handleDate, handleGuests } =
+    useFilterStore();
 
   const onSearch = (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault();
 
-    if (!filterBy.location) {
-      alert("Please select a location");
-      return;
-    }
+   
 
     filterToSearchParams(filterBy, params);
 
@@ -78,21 +36,8 @@ export function StaySearch({ isActive }: Props) {
     router.push(url);
   };
 
-  const handleLocation = ({ lat, lng }: { lat: number; lng: number }) => {
-    setFilterBy((prevFilter) => ({
-      ...prevFilter,
-      location: { lat, lng },
-    }));
-    setIsCalenderOpen(true);
-  };
-
-  const handleGuests = (guests: GuestsModel) => {
-    setFilterBy((prevFilter) => ({ ...prevFilter, guests }));
-  };
-
   const scrollClass = `${styles.search} ${isActive ? styles.scroll : ""}`;
 
-  console.log("stay search");
   return (
     <>
       <div className={scrollClass}>
@@ -102,11 +47,11 @@ export function StaySearch({ isActive }: Props) {
           ref={calendarRef}
           className={`${styles.dates} ${styles.input}`}
         >
-          <div>
+          <div className={styles.dateViews}>
             <span>Check in</span>
             <p>{filterBy.dates!.start?.toLocaleDateString() || "Check in"}</p>
           </div>
-          <div>
+          <div className={styles.dateViews}>
             <span>Check out</span>
             <p>{filterBy.dates!.end?.toLocaleDateString() || "Check out"}</p>
           </div>
@@ -120,6 +65,22 @@ export function StaySearch({ isActive }: Props) {
                 closeCalendarModel={setIsCalenderOpen}
                 onDateClick={handleDate}
               />
+              <div className={styles.actions}>
+                <button
+                  className={styles.closeBtn}
+                  onClick={(ev) => {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    setIsCalenderOpen(false);
+                  }}
+                >
+                  Apply
+                </button>
+
+                <button className={styles.clearBtn} onClick={clearDates}>
+                  Clear
+                </button>
+              </div>
             </section>
           )}
         </div>
@@ -135,6 +96,7 @@ export function StaySearch({ isActive }: Props) {
         clearDates={clearDates}
         onDateClick={handleDate}
         handleGuests={handleGuests}
+        onSearch={onSearch}
       />
     </>
   );

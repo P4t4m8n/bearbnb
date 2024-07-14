@@ -3,7 +3,7 @@
 .filter {
   display: flex;
   position: sticky;
-  top: 10rem;
+  top: 12rem;
   gap: 1rem;
   background-color: white;
   height: 5rem;
@@ -38,12 +38,16 @@
   }
 }
 
-
-
 @media (max-width: 900px) {
   .index {
     // .filter {
     //   top: 5.5rem;
     // }
+  }
+}
+
+@media (max-width: 750px) {
+  .filter {
+    top: 6rem !important;
   }
 }

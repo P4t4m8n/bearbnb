@@ -7,7 +7,7 @@ import { useUserStore } from "@/store/useUserStore";
 import ConfirmBookingModal from "./ConfirmBookingModal/ConfrimBookingModal";
 import { daysBetweenDates, getEmptyBooking } from "@/service/booking-service";
 import RegularBooking from "./Views/Regular/RegularBooking";
-import MobileBooking from "./Views/Mobile/MobileBooking";
+import MobileBooking from "../../rework/Mobile/MobileBooking";
 import { BookingModel } from "@/model/booking.model";
 import { GuestsModel } from "@/model/guest.model";
 import { getDefaultDates, stayToSmallStay } from "@/service/stay.service";

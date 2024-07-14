@@ -9,7 +9,6 @@ export interface FilterByModel {
     start: Date | null;
     end: Date | null;
   };
-  label?: string;
   type?: string;
   bedroomsAmount?: number;
   totalBeds?: number;

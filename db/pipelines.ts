@@ -21,8 +21,11 @@ const getGeoWithinPipeline = (location: string, distance: number) => {
   const lonDelta = distance / (earthRadius * Math.cos((Math.PI * lat) / 180));
 
   const minLat = lat - (latDelta * 180) / Math.PI;
+  console.log("minLat:", minLat)
   const maxLat = lat + (latDelta * 180) / Math.PI;
+  console.log("maxLat:", maxLat)
   const minLon = lng - (lonDelta * 180) / Math.PI;
+  console.log("minLon:", minLon)
   const maxLon = lng + (lonDelta * 180) / Math.PI;
 
   return {
@@ -91,6 +94,7 @@ export const buildPipeline = (
   const pipeline: any[] = [...getLocationLookupPipeline()];
 
   if (searchParams?.location) {
+    console.log("searchParams?.location:", searchParams?.location)
     pipeline.push(
       getGeoWithinPipeline(
         searchParams.location,

@@ -70,36 +70,23 @@
   }
 }
 
-// @media (max-width: 930px) {
-//   .user {
-//     gap: 0.5rem;
-//     grid-area: 1/2/-1/-1;
+@media (max-width: 1025px) {
+  .user {
+    .svgBtn {
+      display: none;
+    }
+  }
+}
 
-//     .userProfile {
-//       svg {
-//         &:first-of-type {
-//           display: none;
-//         }
-//       }
-//     }
-//   }
-// }
+@media (max-width: 930px) {
+  .scroll {
+    grid-area: 1/2/-1/-1;
+  }
+}
 
 @media (max-width: 750px) {
   .user {
     display: none;
-    // gap: 0.5rem;
-    // .svg-btn {
-    //   display: none;
-    // }
-
-    // .user-profile {
-    //   svg {
-    //     &:first-of-type {
-    //       display: none;
-    //     }
-    //   }
-    // }
   }
 }
 

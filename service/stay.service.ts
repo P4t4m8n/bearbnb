@@ -12,7 +12,6 @@ export const getEmptyFilter = (isDates: boolean = true): FilterByModel => {
     : { start: null, end: null };
 
   return {
-    location: { lat: 0, lng: 0 },
     distance: 2000,
     dates,
     guests: {
@@ -26,6 +25,7 @@ export const getEmptyFilter = (isDates: boolean = true): FilterByModel => {
     totalBeds: 0,
     baths: 0,
     type: "AnyType",
+    labels: [],
   };
 };
 

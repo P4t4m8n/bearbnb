@@ -15,6 +15,7 @@ interface Props {
   onDateClick: (date: Date) => void;
   clearDates: () => void;
   handleGuests: (guests: GuestsModel) => void;
+  onSearch: (ev: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function StaySearchMobile({
@@ -23,17 +24,15 @@ export default function StaySearchMobile({
   onDateClick,
   clearDates,
   handleGuests,
+  onSearch,
 }: Props) {
   const modelRef = useRef<HTMLDivElement | null>(null);
   const [isModelOpen, setIsModelOpen] = useModal(modelRef);
-  console.log("isModelOpen:", isModelOpen);
   const [partInFocus, setPartInFocus] = useState<string>("where");
 
   const closeCalendarModel = (close: boolean) => {
-    console.log("closeCalendarModel called with:", close);
     if (!close) {
-      console.log("closeCalendarModel executing state update");
-      setPartInFocus("where");
+      setPartInFocus("who");
     }
   };
 
@@ -42,7 +41,6 @@ export default function StaySearchMobile({
     (filterBy.guests?.adults || 0) +
     (filterBy.guests?.children || 0) +
     (filterBy.guests?.infants || 0);
-  console.log("partInFocus before render:", partInFocus);
 
   return (
     <>
@@ -129,18 +127,25 @@ export default function StaySearchMobile({
           </section>
 
           <section className={styles.who}>
-            {partInFocus === "who" ? (
+            <div
+              className={`${styles.whoFocus} ${
+                partInFocus === "who" ? styles.visible : styles.hidden
+              }`}
+            >
               <Guests setGuests={handleGuests} guests={filterBy.guests!} />
-            ) : (
-              <button
-                onClick={() => setPartInFocus("who")}
-                className={styles.notFocus}
-              >
-                <p>Who</p>
-                <h4>Add guests</h4>
-              </button>
-            )}
+            </div>
+
+            <button
+              onClick={() => setPartInFocus("who")}
+              className={`${styles.notFocus} ${
+                partInFocus === "who" ? styles.hidden : styles.visible
+              }`}
+            >
+              <p>Who</p>
+              <h4>Add guests</h4>
+            </button>
           </section>
+          
         </section>
       )}
     </>

@@ -50,7 +50,9 @@ export default function FilterModal({
   const modelRef = useRef<HTMLFormElement>(null);
   const [isFiltersOpen, setIsFiltersOpen] = useModal(modelRef, null);
 
-  const onSubmit = () => {
+  const onSubmit = (ev: React.MouseEvent<HTMLButtonElement>) => {
+    ev.preventDefault();
+    ev.stopPropagation();
     setIsFiltersOpen(false);
     submit();
   };

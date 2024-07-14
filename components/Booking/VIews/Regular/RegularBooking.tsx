@@ -1,12 +1,11 @@
 import styles from "./RegularBooking.module.scss";
-import { StayModel } from "@/model/stay.model";
 import { useRef } from "react";
 import { fixedDatesForMobile, getDefaultDates } from "@/service/stay.service";
-import { Guests } from "../../Guests/Guests";
 import { BookingModel, BookingSmallModel } from "@/model/booking.model";
 import { GuestsModel } from "@/model/guest.model";
 import { Calendar } from "@/components/Calendar/Calendar";
 import { useModal } from "@/hooks/useModal";
+import { GuestsWindow } from "@/components/StaySearch/GuestsModel/GuestsModel";
 
 interface Props {
   data: {
@@ -86,7 +85,7 @@ export default function RegularBooking({
           </div>
           <h2 className={styles.datesSmall}>{fixedDates}</h2>
         </button>
-        <Guests setGuests={setGuests} guests={guests} />
+        <GuestsWindow setGuests={setGuests} guests={guests} isBooking={true} />
         {calenderOpen && (
           <div ref={calendarModalRef} className={styles.calendarCon}>
             <Calendar

@@ -49,7 +49,7 @@ export default function Header() {
           <span>Stays</span>
           <span>Experiences</span>
         </div>
-        <User />
+        <User isActive={isActive} />
         <Suspense fallback={<div>Loading...</div>}>
           <StaySearch isActive={isActive} />
         </Suspense>
