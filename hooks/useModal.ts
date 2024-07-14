@@ -7,7 +7,6 @@ export const useModal = (
   callBack?: null | (() => void)
 ): [boolean, React.Dispatch<React.SetStateAction<boolean>>] => {
   const [open, setOpen] = useState(false);
-  console.log("open:", open)
   
   useEffect(() => {
     document.addEventListener("click", checkClickOutside);
@@ -18,10 +17,8 @@ export const useModal = (
   
   const checkClickOutside = (ev: any) => {
     if (!ev.target) return;
-    console.log("open:", open);
     if (!open) return;
     
-    console.log("is:", ref.current?.contains(ev.target as Node))
     if (ref.current?.contains(ev.target as Node)) return;
     
     setOpen(false);

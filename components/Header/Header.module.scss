@@ -68,7 +68,7 @@
 @media (max-width: 1125px) {
   .header {
     grid-template-columns: 2rem 1fr 30rem;
-    grid-template-rows: 2rem auto auto;
+    grid-template-rows: 3rem auto auto;
     .placeHolder {
       grid-area: 2/1/3/-1;
     }

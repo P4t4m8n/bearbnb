@@ -12,7 +12,6 @@ interface Props {
 export function GuestsWindow({ guests, setGuests, isBooking = false }: Props) {
   const modalRef = useRef<HTMLUListElement>(null);
   const [isGuestsSearchOpen, setIsGuestsSearchOpen] = useModal(modalRef);
-  console.log("open:", isGuestsSearchOpen);
 
   const onClickGuests = (
     key: "adults" | "children" | "infants",
@@ -24,7 +23,6 @@ export function GuestsWindow({ guests, setGuests, isBooking = false }: Props) {
   };
 
   const onSetGuests = (ev: MouseEvent) => {
-    console.log("ev:", ev);
     setIsGuestsSearchOpen(true);
   };
 

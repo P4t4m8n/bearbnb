@@ -29,14 +29,15 @@
     }
   }
 
+  .guestsSearchModel,
   .guestsBookingModel {
     @include soft-box-shadow;
     padding: 1.5rem;
     border-radius: $border-radius-1;
-    width: 110%;
+    width: 100%;
     min-width: 20rem;
     top: 110%;
-    right: -5%;
+    right: -3.5rem;
     position: absolute;
     background-color: white;
     display: grid;
@@ -74,6 +75,10 @@
         }
       }
     }
+  }
+  .guestsBookingModel {
+    width: 110%;
+    right: -5%;
   }
 }
 

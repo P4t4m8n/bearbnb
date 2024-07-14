@@ -1,10 +1,10 @@
 @import "../../../styles/abstracts/variables";
 @import "../../../styles/abstracts/mixin";
 
-.modalNoUser,
 .modalUser {
   @include soft-box-shadow;
   display: grid;
+  width: 100%;
   border-radius: $border-radius-1-2;
   gap: 0.5rem;
   font-size: 0.9rem;
@@ -29,6 +29,61 @@
     &:hover {
       background-color: $main-gray;
       border-radius: $border-radius-1-2;
+    }
+    a {
+      width: 100%;
+      display: inline-block;
+    }
+  }
+}
+
+@media (min-width: 750px) {
+  .modalUserMobile {
+    display: none;
+  }
+}
+.modalUserMobile {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
+  height: 100%;
+  width: 100%;
+  li {
+    width: 3.5rem;
+    height: 100%;
+
+    a,
+    .logoutBtn {
+      height: 100%;
+      width: 100%;
+      justify-items: center;
+      align-items: center;
+      align-content: center;
+      display: grid;
+      gap: 0.25rem;
+      font-size: $font-size-10;
+      svg {
+        width: 1.5rem;
+        height: 100%;
+        stroke: $svg-fill-gary;
+        fill: white;
+        stroke-width: 2;
+      }
+      img {
+        border-radius: 100vw;
+      }
+    }
+  }
+  .focused {
+    a {
+      span {
+        color: $main-pink;
+        font-weight: 800;
+      }
+      svg {
+        stroke: $main-pink;
+        stroke-width: 3;
+      }
     }
   }
 }

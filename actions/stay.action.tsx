@@ -19,7 +19,6 @@ export const getSmallStaysJSX = async (
 ): Promise<React.JSX.Element[]> => {
   try {
     const pipeline = buildPipeline(page || 1, NUMBER_PER_PAGE, searchParams);
-    console.log("pipeline:", pipeline)
     const stays = await _getSmallStaysData(pipeline);
 
     if (!stays) throw new Error("Failed to fetch stays");
@@ -225,7 +224,6 @@ const _getSmallStaysData = async (pipeline: any[]): Promise<any[]> => {
   try {
     const collection = await dbService.getCollection("stays");
     const stays = await collection.aggregate(pipeline).toArray();
-    console.log("stays:", stays)
 
     return stays;
   } catch (error) {

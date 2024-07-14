@@ -1,6 +1,7 @@
 import { StaySmallModel } from "@/model/stay.model";
 import Image from "next/image";
 import styles from "./MyStayPreview.module.scss";
+import Link from "next/link";
 
 interface Props {
   stay: StaySmallModel;
@@ -24,8 +25,8 @@ export default function MyStayPreview({ stay, idx }: Props) {
       <h3 className={styles.rating}>{rating}</h3>
       <h3>{type}</h3>
       <div className={styles.actions}>
-        <button>View</button>
-        <button>Delete</button>
+        <Link href={`stay/${_id}`}> View</Link>
+        <Link href={`review/edit/${_id}`}>Delete</Link>
       </div>
     </li>
   );

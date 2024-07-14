@@ -5,6 +5,8 @@ import { useUserStore } from "@/store/useUserStore";
 import ProfileModel from "./Modal/ProfileModel";
 import { useModal } from "@/hooks/useModal";
 import { getSessionUser, logout } from "@/actions/auth.action";
+import Image from "next/image";
+import MobileUserNav from "./MobileUserNav/MobileUserNav";
 
 interface Props {
   isActive: boolean;
@@ -29,7 +31,11 @@ export function User({ isActive }: Props) {
     logout();
     setUser(null);
   };
+  let userId = user?._id;
 
+  if (userId && typeof userId !== "string") {
+    userId = userId.toString();
+  }
   return (
     <div className={`${styles.user} ${isActive ? styles.scroll : ""}`}>
       <button className={styles.svgBtn}>Airbnb your home</button>
@@ -39,9 +45,8 @@ export function User({ isActive }: Props) {
           <>
             <HamburgerSVG className={styles.svg} />
             {user.imgUrl ? (
-              <AvatarSVG className={styles.svg} />
+              <Image src={user.imgUrl} width={32} height={32} alt=""></Image>
             ) : (
-              // <Image src={user.imgUrl} width={32} height={32} alt=""></Image>
               <AvatarSVG className={styles.svg} />
             )}
           </>
@@ -54,9 +59,21 @@ export function User({ isActive }: Props) {
       </button>
       {open && (
         <div ref={modalRef} className={styles.modalCon}>
-          <ProfileModel user={user} onLogout={onLogout} />
+          <ProfileModel
+            firstName={user?.firstName}
+            _id={userId}
+            isOwner={user?.isOwner}
+            onLogout={onLogout}
+          />
         </div>
       )}
+      <MobileUserNav
+        firstName={user?.firstName}
+        _id={userId}
+        isOwner={user?.isOwner}
+        onLogout={onLogout}
+        imgUrl={user?.imgUrl}
+      />
     </div>
   );
 }
