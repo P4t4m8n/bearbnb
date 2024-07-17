@@ -10,5 +10,12 @@ export interface LocationSmallModel extends CoordsModel {
 export interface LocationModel extends LocationSmallModel {
   _id?: string; // ObjectId as string
   countryCode: string;
-  address: string;
+  streetAddress: string;
+  postalCode?: string;
+  entrance?: string;
+  apt?: string;
+  house?: string;
+  [key: string]: string | number | undefined;
 }
+
+export type LocationModelKeys = keyof LocationModel;

@@ -7,6 +7,7 @@ import { useModal } from "@/hooks/useModal";
 import { getSessionUser, logout } from "@/actions/auth.action";
 import Image from "next/image";
 import MobileUserNav from "./MobileUserNav/MobileUserNav";
+import Link from "next/link";
 
 interface Props {
   isActive: boolean;
@@ -38,7 +39,9 @@ export function User({ isActive }: Props) {
   }
   return (
     <div className={`${styles.user} ${isActive ? styles.scroll : ""}`}>
-      <button className={styles.svgBtn}>Airbnb your home</button>
+      <Link href={{ pathname: "/stay/edit" }} className={styles.svgBtn}>
+        Airbnb your home
+      </Link>
 
       <button onClick={() => setModal(true)} className={styles.userProfile}>
         {user ? (

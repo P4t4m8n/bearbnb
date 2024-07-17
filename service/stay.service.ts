@@ -170,13 +170,13 @@ export const transformBedrooms = (
 export const getEmptyStay = (): StayModel => {
   return {
     name: "",
-    type: "",
+    type: "House",
     summary: "",
     price: 0,
     description: "",
     capacity: 0,
     baths: 0,
-    entireHome: false,
+    guestStay: "Entire place",
     host: {
       _id: "",
       firstName: "",
@@ -196,7 +196,7 @@ export const getEmptyStay = (): StayModel => {
       country: "",
       countryCode: "",
       city: "",
-      address: "",
+      streetAddress: "",
       lat: 0,
       lng: 0,
     },

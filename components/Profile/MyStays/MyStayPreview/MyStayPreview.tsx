@@ -26,7 +26,7 @@ export default function MyStayPreview({ stay, idx }: Props) {
       <h3>{type}</h3>
       <div className={styles.actions}>
         <Link href={`stay/${_id}`}> View</Link>
-        <Link href={`review/edit/${_id}`}>Delete</Link>
+        <Link href={{ pathname: `/stay/edit`, query: {_id} }}>Edit</Link>
       </div>
     </li>
   );

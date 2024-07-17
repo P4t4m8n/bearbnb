@@ -2,7 +2,7 @@
 @import "../../../styles/abstracts/mixin";
 
 .guestsFilter {
-  @include base-flex;
+  @include base-flex-column;
   width: 100%;
 
   h1 {

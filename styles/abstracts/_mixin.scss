@@ -14,6 +14,16 @@
 @mixin border-2 {
   border: 1px solid rgb(34, 34, 34);
 }
+
+@mixin border-1-full-color($color) {
+  border: 1px solid $color;
+}
+
+@mixin border-1-left-right-bottom-color($color) {
+  border-left: 1px solid $color;
+  border-right: 1px solid $color;
+  border-bottom: 1px solid $color;
+}
 @mixin border-1-top {
   border: 1px solid gainsboro;
   border-top: none;
@@ -118,7 +128,7 @@
   );
 }
 
-@mixin base-flex {
+@mixin base-flex-column {
   padding: 1rem;
   display: flex;
   flex-direction: column;

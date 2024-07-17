@@ -1,4 +1,5 @@
 import { SearchParamsModel } from "@/model/filters.model";
+import { ObjectId } from "mongodb";
 
 const getLocationLookupPipeline = () => [
   {
@@ -177,6 +178,14 @@ export const buildPipeline = (
     pipeline.push({
       $match: {
         labels: searchParams.label,
+      },
+    });
+  }
+
+  if (searchParams?.host) {
+    pipeline.push({
+      $match: {
+        hostId: new ObjectId(searchParams.host),
       },
     });
   }

@@ -31,7 +31,6 @@ export default function ProfileModel({
 }: Props) {
   const pathname = usePathname();
   const [isFocused, setIsFocused] = useState("/");
-  console.log("pathname:", pathname);
   useEffect(() => {
     setIsFocused(pathname);
   }, [pathname]);

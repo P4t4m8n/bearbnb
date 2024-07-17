@@ -86,7 +86,7 @@ export const getStayById = async (id: string): Promise<StayModel> => {
           from: "bookings",
           localField: "_id",
           foreignField: "stayId",
-          as: "booking",
+          as: "bookings",
         },
       },
       {
@@ -113,40 +113,69 @@ export const getStayById = async (id: string): Promise<StayModel> => {
           images: 1,
           price: 1,
           location: {
+            _id: { $toString: "$location._id" },
             city: "$location.city",
             country: "$location.country",
             address: "$location.address",
-
-            location: "$location.location.coordinates",
+            coordinates: "$location.location.coordinates",
           },
-          reviews: 1,
+          reviews: {
+            $map: {
+              input: "$reviews",
+              as: "review",
+              in: {
+                _id: { $toString: "$$review._id" },
+                rating: "$$review.rating",
+                comment: "$$review.comment",
+              },
+            },
+          },
           host: {
-            firstName: 1,
-            lastName: 1,
-            imgUrl: 1,
-            ownerSince: 1,
+            _id: { $toString: "$host._id" },
+            firstName: "$host.firstName",
+            lastName: "$host.lastName",
+            imgUrl: "$host.imgUrl",
+            ownerSince: "$host.ownerSince",
           },
           capacity: 1,
           description: 1,
           bedRooms: 1,
           baths: 1,
           amenities: {
-            _id: { $toString: "$_id" },
-            name: 1,
-            path: 1,
-            viewBox: 1,
-            category: 1,
+            $map: {
+              input: "$amenities",
+              as: "amenity",
+              in: {
+                _id: { $toString: "$$amenity._id" },
+                name: "$$amenity.name",
+                path: "$$amenity.path",
+                viewBox: "$$amenity.viewBox",
+                category: "$$amenity.category",
+              },
+            },
           },
-          Booking: {
-            checkIn: 1,
-            checkOut: 1,
-            _id: { $toString: "$_id" },
+          bookings: {
+            $map: {
+              input: "$bookings",
+              as: "booking",
+              in: {
+                _id: { $toString: "$$booking._id" },
+                checkIn: "$$booking.checkIn",
+                checkOut: "$$booking.checkOut",
+              },
+            },
           },
           highlights: {
-            _id: { $toString: "$_id" },
-            title: 1,
-            icon: 1,
-            description: 1,
+            $map: {
+              input: "$highlights",
+              as: "highlight",
+              in: {
+                _id: { $toString: "$$highlight._id" },
+                title: "$$highlight.title",
+                icon: "$$highlight.icon",
+                description: "$$highlight.description",
+              },
+            },
           },
           likes: 1,
           entireHome: 1,
@@ -154,6 +183,7 @@ export const getStayById = async (id: string): Promise<StayModel> => {
       },
       { $limit: 1 },
     ];
+
     const [stay] = await collection.aggregate<StayModel>(pipeline).toArray();
 
     if (!stay) throw new Error("Failed to fetch stay");

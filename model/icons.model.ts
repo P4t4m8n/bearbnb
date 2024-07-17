@@ -3,4 +3,9 @@ export interface SvgIconModel {
   viewBox: string;
 }
 
-export type SvgsNameTypes = "door" | "calendar" | "key";
+export type SvgsNameTypes =
+  | "door"
+  | "calendar"
+  | "key"
+  | "house"
+  | "sharedHouse";

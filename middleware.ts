@@ -1,15 +1,44 @@
 import { NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
 
 import type { NextRequest } from "next/server";
+import { getStayById } from "./actions/stay.action";
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
   const token = req.cookies.get("session");
-  // console.log("token:", token);
-  const { pathname } = req.nextUrl;
-  if (pathname === "/profile") {
-    // console.log("pathname:", pathname);
+  const { pathname, searchParams } = req.nextUrl;
+  const id = searchParams.get("_id");
+  let user: {
+    userId: string;
+    iat: number;
+    exp: number;
+  } | null = null;
+  if (token) {
+    user = jwt.decode(token.value) as {
+      userId: string;
+      iat: number;
+      exp: number;
+    };
   }
+
+  if (pathname.includes("/stay/edit")) {
+    if ( !user) {
+      const returnUrl = req.nextUrl.clone();
+      returnUrl.pathname = "/";
+      returnUrl.searchParams.set("showDialog", "y");
+      return NextResponse.redirect(returnUrl);
+    }
+  }
+  if (pathname === "/profile/myStays") {
+    if (!id || !user || user.userId !== id) {
+      const returnUrl = req.nextUrl.clone();
+      returnUrl.pathname = "/";
+      returnUrl.searchParams.delete("_id");
+      return NextResponse.redirect(returnUrl);
+    }
+  }
+
   if (pathname === "/login") {
     const returnUrl = req.nextUrl.clone();
     returnUrl.pathname = "/";

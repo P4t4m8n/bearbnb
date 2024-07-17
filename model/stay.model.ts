@@ -1,29 +1,28 @@
 import { LikeModel } from "./Like.model";
-import { AmenityTypes } from "./amenities.type";
 import { AmenityModel } from "./amenity.model";
 import { BedRoomModel } from "./bedroom.model";
-import { BookingModel, BookingSmallModel } from "./booking.model";
+import { BookingSmallModel } from "./booking.model";
 import { HighlightModel } from "./highlight.model";
 import { LabelsType } from "./labels.type";
 import { LocationModel, LocationSmallModel } from "./location.model";
 import { ReviewModel } from "./review.model";
-import { UserModel, UserSmallModel } from "./user.model";
+import { UserSmallModel } from "./user.model";
 
 export interface StaySmallModel {
-  _id?: string; 
+  _id?: string;
   name: string;
   images: string[];
   price: number;
   location: LocationSmallModel;
   firstAvailableDate: Date[] | null;
   rating: number;
-  type:string
+  type: StayType;
 }
 
 export interface StayModel extends StaySmallModel {
   summary: string;
+  guestStay?: GuestStayType;
   description: string;
-  entireHome: boolean;
   capacity: number;
   price: number;
   baths: number;
@@ -38,5 +37,21 @@ export interface StayModel extends StaySmallModel {
   bookings: BookingSmallModel[];
 }
 
+export type GuestStayType =
+  | "Entire place"
+  | "Shared place"
+  | "Private room"
+  | "Shared room";
 
-
+export type StayType =
+  | "House"
+  | "Apartment"
+  | "Bed & breakfast"
+  | "Cabin"
+  | "Houseboat"
+  | "Tiny home"
+  | "Hotel"
+  | "Farm"
+  | "Castle"
+  | "Mobile home"
+  | "Barn";

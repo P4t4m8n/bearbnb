@@ -1,0 +1,101 @@
+@import "../../styles/abstracts/mixin.scss";
+@import "../../styles/abstracts/variables.scss";
+
+.stayEdit {
+  width: 100%;
+  min-height: 100%;
+  @include base-flex-column;
+  align-items: center;
+  box-sizing: border-box;
+  justify-content: space-between;
+  padding-top: 6rem;
+  // padding-bottom:6rem;
+  &* > {
+    box-sizing: border-box;
+  }
+  .pageOne {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70%;
+    max-width: 100%;
+    .info {
+      height: fit-content;
+      grid-area: 1/1/-1/2;
+      max-width: 30%;
+      h2 {
+        font-size: $font-size-18;
+        font-weight: 700;
+      }
+      h1 {
+        padding-block: 1rem;
+        font-size: $font-size-48;
+      }
+      h3 {
+        font-size: $font-size-18;
+        font-weight: 400;
+      }
+    }
+    .imgCon {
+      position: relative;
+      object-fit: scale-down;
+      height: 100%;
+      aspect-ratio: 1/1;
+      align-self: center;
+      justify-self: center;
+    }
+  }
+
+  .editActions {
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .progressBar {
+      min-width: 100%;
+      height: 0.5rem;
+      display: flex;
+      gap: 1rem;
+      .barGray {
+        height: 100%;
+        width: 33%;
+        background-color: #dddddd;
+      }
+      .barDark {
+        width: 0;
+        height: 100%;
+        background-color: black;
+        transition: width 0.3s;
+      }
+    }
+
+    .actionBtns {
+      display: flex;
+      justify-content: space-between;
+      padding-inline: 2rem;
+
+      button {
+        width: fit-content;
+        padding-inline: 2rem;
+        padding-block: 0.75rem;
+        font-size: 1rem;
+        box-sizing: border-box;
+        font-weight: 700;
+
+        &:first-of-type {
+          text-decoration: underline;
+        }
+        &:last-of-type {
+          background-color: $model-button-black;
+          color: white;
+          border-radius: $border-radius-1-2;
+        }
+      }
+    }
+  }
+  .disabled{
+    opacity: .3;
+  }
+}

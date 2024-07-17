@@ -3,6 +3,7 @@ import { FilterByModel } from "@/model/filters.model";
 import { GuestsModel } from "@/model/guest.model";
 import { LabelsType } from "@/model/labels.type";
 import { getEmptyFilter } from "@/service/stay.service";
+import { AddressResponse } from "@/components/StaySearch/AddressSearch/AddressAutoComplete/AddressSearch";
 
 interface FilterState {
   filterBy: FilterByModel;
@@ -13,7 +14,7 @@ interface FilterState {
   onClear: () => void;
   handleDate: (date: Date | null) => void;
   clearDates: () => void;
-  handleLocation: ({ lat, lng }: { lat: number; lng: number }) => void;
+  handleLocation: ({ data }: { data: AddressResponse }) => void;
   handleGuests: (guests: GuestsModel) => void;
 }
 
@@ -102,11 +103,11 @@ export const useFilterStore = create<FilterState>((set, get) => ({
     });
   },
 
-  handleLocation: ({ lat, lng }) => {
+  handleLocation: ({ data }) => {
     set({
       filterBy: {
         ...get().filterBy,
-        location: { lat, lng },
+        location: { lat: data.lat, lng: data.lon },
       },
     });
   },

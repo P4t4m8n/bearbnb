@@ -38,8 +38,9 @@
   display: grid;
   position: absolute;
   background-color: white;
-  top: 120%;
+  top: 110%;
   width: 200%;
+  max-height: 28rem;
   max-width: calc(100vw - 4rem);
   left: 0;
   padding: 1rem;

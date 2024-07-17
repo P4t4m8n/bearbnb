@@ -25,7 +25,7 @@ export interface FilterByModel {
 }
 
 export interface SearchParamsModel {
-  location: string;
+  location?: string;
   distance?: string;
   startDate?: string;
   endDate?: string;
@@ -37,6 +37,7 @@ export interface SearchParamsModel {
   totalBeds?: string;
   baths?: string;
   label?: string;
+  host?: string;
 }
 
 export interface SearchParamsObject {

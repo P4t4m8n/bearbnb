@@ -1,5 +1,6 @@
 import { SvgIconModel, SvgsNameTypes } from "@/model/icons.model";
 import { CalendarSVG, DoorSVG, KeySVG } from "./amentiasSVG";
+import { HouseSVG } from "./stayTypeSvgs";
 
 interface Props {
   className: string;
@@ -133,7 +134,6 @@ export function FilterSVG() {
 export function ScrollBySVG({ className = "" }) {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       aria-hidden="true"
       role="presentation"
@@ -262,11 +262,8 @@ export function CheckSVG() {
 export const MessageSVG = () => {
   return (
     <svg fill="#000000" viewBox="0 -2.75 29.5 29.5">
-      <g  strokeWidth="0"></g>
-      <g
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      ></g>
+      <g strokeWidth="0"></g>
+      <g strokeLinecap="round" strokeLinejoin="round"></g>
       <g>
         <path
           d="M30.75,9.041A3.04,3.04,0,0,0,27.709,6H4.291A3.04,3.04,0,0,0,1.25,9.041V21.459A3.04,3.04,0,0,0,4.291,24.5h19.12a1.026,1.026,0,0,1,.725.3l4.907,4.907A1,1,0,0,0,30.75,29V9.041Zm-2,0V26.586l-3.2-3.2a3.024,3.024,0,0,0-2.139-.886H4.291A1.041,1.041,0,0,1,3.25,21.459V9.041A1.041,1.041,0,0,1,4.291,8H27.709A1.041,1.041,0,0,1,28.75,9.041Z"
@@ -310,6 +307,33 @@ export function DynamicSVG({ path, viewBox }: SvgIconModel) {
   );
 }
 
+export const SharedHouseSVG = () => {
+  return (
+    <svg viewBox="0 0 297 297">
+      <g strokeWidth="0"></g>
+      <g strokeLinecap="round" strokeLinejoin="round"></g>
+      <g>
+        <g>
+          <polygon points="149.367,22.541 276.86,165 297,165 149.167,0 82.167,73.846 82.167,33 49.167,33 49.167,110.307 0,165 20.435,165 "></polygon>{" "}
+          <path d="M149.134,46.459L41.167,165.568V297h213V165h1.222L149.134,46.459z M103.343,226.533c-1.989,2.591-3.695,5.421-5.139,8.467 H74.437c0-25,11.222-35.533,26.858-38.976c-7.738-4.54-12.938-13.063-12.938-22.683c0-14.439,11.705-26.206,26.144-26.206 c10.188,0,19.009,5.816,23.323,14.312c-18.084,4.739-31.467,21.219-31.467,40.77c0,6.025,1.309,11.895,3.72,17.247 C107.58,221.554,105.354,223.912,103.343,226.533z M135.295,225.024c-7.738-4.54-12.939-13.063-12.939-22.683 c0-14.439,11.705-26.269,26.144-26.269s26.144,11.704,26.144,26.144c0,9.623-5.204,18.274-12.947,22.814 c15.641,3.44,26.867,13.97,26.867,38.97h-80.127C108.437,239,119.658,228.467,135.295,225.024z M198.795,235 c-1.444-3.047-3.152-5.878-5.144-8.47c-2.012-2.619-4.251-4.975-6.744-7.062c2.411-5.354,3.729-11.225,3.729-17.252 c0-19.875-13.827-36.568-32.366-40.988c4.348-8.405,13.115-14.155,23.23-14.155c14.439,0,26.144,11.704,26.144,26.144 c0,9.623-5.204,18.274-12.947,22.814c15.641,3.44,26.867,13.97,26.867,38.97H198.795z"></path>{" "}
+        </g>
+      </g>
+    </svg>
+  );
+};
+
+export const HomeSVG = () => {
+  return (
+    <svg  viewBox="0 0 256 256">
+      <g ></g>
+      <g strokeLinecap="round" strokeLinejoin="round"></g>
+      <g strokeWidth="6">
+        <path d="M239.99414,212h-20V115.53882a12.02805,12.02805,0,0,0-3.92773-8.87915L136.06055,33.92456a11.9535,11.9535,0,0,0-16.14551.00073L39.92187,106.65967a12.02314,12.02314,0,0,0-3.92773,8.8789V212h-20a4,4,0,1,0,0,8h224a4,4,0,1,0,0-8Zm-196-96.46143a4.00859,4.00859,0,0,1,1.30957-2.95971l79.99316-72.73438a3.98534,3.98534,0,0,1,5.38282-.00049l80.00488,72.73438a4.01139,4.01139,0,0,1,1.30957,2.96045V212H155.98828V159.9917a12.01343,12.01343,0,0,0-12-12h-32a12.01343,12.01343,0,0,0-12,12V212H43.99414ZM147.98828,212h-40V159.9917a4.00427,4.00427,0,0,1,4-4h32a4.00426,4.00426,0,0,1,4,4Z"></path>{" "}
+      </g>
+    </svg>
+  );
+};
+
 export const DynamicSVGByName = ({ name }: { name: SvgsNameTypes }) => {
   switch (name) {
     case "door":
@@ -318,5 +342,9 @@ export const DynamicSVGByName = ({ name }: { name: SvgsNameTypes }) => {
       return <CalendarSVG />;
     case "key":
       return <KeySVG />;
+    case "house":
+      return <HomeSVG />;
+    case "sharedHouse":
+      return <SharedHouseSVG />;
   }
 };
