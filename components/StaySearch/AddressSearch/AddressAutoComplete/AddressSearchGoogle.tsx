@@ -15,7 +15,6 @@ export default function AddressSearchGoogle({
   placeHolder,
   value,
 }: Props) {
-  console.log("value:", value)
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLUListElement | null>(null);
   const [isSuggestionsOpen, setIsSuggestionsOpen] = useModal(suggestionsRef);
@@ -48,7 +47,6 @@ export default function AddressSearchGoogle({
         types: ["address"],
       },
       (predictions, status) => {
-        console.log("predictions:", predictions);
         if (
           status === google.maps.places.PlacesServiceStatus.OK &&
           predictions
@@ -69,7 +67,6 @@ export default function AddressSearchGoogle({
 
   const handleSuggestionClick = (placeId: string) => {
     if (!placesServiceRef.current) return;
-    console.log("placeId:", placeId);
 
     placesServiceRef.current.getDetails(
       {
@@ -118,15 +115,25 @@ export default function AddressSearchGoogle({
     );
   };
 
+
   return (
     <div className={styles.addressSearch}>
-      <input
-        ref={inputRef}
-        type="text"
-        value={value}
-        placeholder={placeHolder || "Enter an address"}
-        onChange={handleInputChange}
-      />
+      {!value && (
+        <input
+          ref={inputRef}
+          type="text"
+          placeholder={placeHolder || "Enter an address"}
+          onChange={handleInputChange}
+        />
+      )}
+      {value && (
+        <input
+          ref={inputRef}
+          type="text"
+          value={value}
+          onChange={handleInputChange}
+        />
+      )}
       {isSuggestionsOpen && (
         <ul ref={suggestionsRef} className={styles.suggestions}>
           {suggestions.map((suggestion) => (

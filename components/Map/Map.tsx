@@ -17,7 +17,6 @@ const GoogleMapComponent: React.FC<GoogleMapComponentProps> = ({
   location,
   isLoaded,
 }) => {
-  console.log("location:", location)
  
  
 
@@ -25,8 +24,6 @@ const GoogleMapComponent: React.FC<GoogleMapComponentProps> = ({
 
   const onLoad = useCallback(
     (map: google.maps.Map) => {
-      // const bounds = new window.google.maps.LatLngBounds(location);
-      console.log("location:", location)
       map.setCenter(location);
       map.setZoom(13);
       setMap(map);

@@ -1,0 +1,31 @@
+@import "../../../../styles/abstracts/variables.scss";
+@import "../../../../styles/abstracts/mixin.scss";
+.sortModelBtn {
+  position: absolute;
+  z-index: 0;
+  background-color: $gray-4;
+  width: 1.75rem;
+  aspect-ratio: 1/1;
+  border-radius: 100vw;
+  right: 1rem;
+  top: 1rem;
+  @include soft-box-shadow;
+}
+
+.imageSortModel {
+  position: absolute;
+  top: 3rem;
+  background-color: white;
+  right: 1rem;
+  @include flex-column-gap-padding(1rem, 1rem);
+  width: 10.5rem;
+  min-height: fit-content;
+  border-radius: $border-radius-1-2;
+  z-index: 4;
+  button {
+    text-align: left;
+    font-weight: 600;
+    color: $black-1;
+    opacity: 0.9;
+  }
+}

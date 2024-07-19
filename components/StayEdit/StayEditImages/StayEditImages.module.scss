@@ -1,0 +1,247 @@
+@import "../../../styles/abstracts/variables.scss";
+@import "../../../styles/abstracts/mixin.scss";
+
+.imageEdit {
+  position: relative;
+  .notImages {
+    h1 {
+      font-size: $font-size-32;
+    }
+    p {
+      font-size: $font-size-18;
+      color: $gray-1;
+      font-weight: 500;
+      margin-bottom: 2.5rem;
+    }
+    div {
+      border: 1px dashed $gray-2;
+      height: 35rem;
+      border-radius: $border-radius-1-2;
+      background-color: $gray-4;
+      @include flex-center;
+      flex-direction: column;
+      gap: 2rem;
+      img {
+        opacity: 0.9;
+      }
+      button {
+        @include border-solid-color-width($black-1, 1px);
+        border-radius: $border-radius-1-2;
+        padding: 0.5rem;
+        font-size: 1rem;
+        font-weight: 700;
+        &:hover {
+          background-color: $gray-3;
+        }
+      }
+    }
+  }
+
+  .uploadModel {
+    position: fixed;
+    animation: rise 2s ease-out forwards;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    background-color: $gray-4;
+    max-height: 48rem;
+    width: 37rem;
+    border-radius: $border-radius-1-2;
+    @include flex-column-gap-padding(1rem, 0);
+    @include model-boxShadow;
+    .uploadModelHeader {
+      @include flex-space-between-align-center;
+      padding: 1rem;
+      h3,
+      h5 {
+        text-align: center;
+      }
+      h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        line-height: 1.25;
+      }
+      h5 {
+        font-size: $font-size-12;
+        font-weight: 400;
+        color: $gray-1;
+      }
+      button,
+      label {
+        padding: 0;
+        width: 2rem;
+        padding: 0.5rem;
+        aspect-ratio: 1/1;
+        border-radius: 100vw;
+        opacity: 0.6;
+        svg {
+          width: 100%;
+          height: 100%;
+        }
+
+        &:hover {
+          background-color: $gray-4;
+          cursor: pointer;
+        }
+      }
+      button {
+        rotate: 45deg;
+      }
+    }
+
+    .uploadModelBody {
+      border-radius: $border-radius-1-2;
+      @include border-dashed-color-width($gray-2, 2px);
+      @include flex-column-gap-padding(1rem, 2rem);
+      margin: 1rem;
+      align-items: center;
+      svg {
+        width: 4rem;
+        fill: $black-1;
+      }
+      h2,
+      h6 {
+        color: $black-1;
+      }
+      h2 {
+        font-size: $font-size-22;
+      }
+      h6 {
+        font-size: $font-size-14;
+        font-weight: 400;
+      }
+      .labelBtn {
+        background-color: $black-1;
+        color: white;
+        padding-inline: 1.5rem;
+        padding-block: 0.75rem;
+        border-radius: $border-radius-1-2;
+        font-weight: 700;
+        cursor: pointer;
+      }
+    }
+    .uploadModelImages {
+      background-color: inherit;
+      @include grid-columns(2);
+      gap: 1rem;
+      margin: 1rem;
+      overflow-y: auto;
+      @include no-scrollBar;
+
+      li {
+        position: relative;
+        border-radius: $border-radius-1-2;
+        aspect-ratio: 1/1;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: $border-radius-1-2;
+        }
+        .deleteBtn {
+          position: absolute;
+          z-index: 1;
+          background-color: $black-1;
+          width: 2rem;
+          border-radius: 100vw;
+          aspect-ratio: 1/1;
+          padding: 0.5rem;
+          right: 0.5rem;
+          top: 0.5rem;
+          svg {
+            fill: white;
+          }
+        }
+      }
+    }
+
+    .actions {
+      @include flex-space-between-align-center;
+      border-top: 1px solid $gray-3;
+      padding: 1rem;
+      button {
+        font-weight: 700;
+        &:last-of-type {
+          background-color: $black-1;
+          color: white;
+          padding-inline: 1.5rem;
+          padding-block: 0.75rem;
+          border-radius: $border-radius-1-2;
+        }
+      }
+    }
+  }
+
+  .imageEditList {
+    height: 100%;
+    width: 45rem;
+    @include flex-column-gap-padding(1rem, 0);
+    .imageEditListHeader {
+      @include flex-space-between-align-center;
+    }
+    .imageEditListSort {
+      width: 100%;
+      @include grid-columns(2);
+      gap: 1rem;
+      height: 40rem;
+      overflow: auto;
+      @include no-scrollBar;
+      grid-template-rows: 30rem repeat(auto-fill, 14rem);
+
+      li {
+        border-radius: $border-radius-1-2;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        min-height: 14rem;
+        span {
+          position: absolute;
+          background-color: $gray-4;
+          z-index: 1;
+          font-weight: 700;
+          font-size: $font-size-14;
+          padding: 0.35rem;
+          border-radius: $border-radius-1-4;
+          top: 1rem;
+          left: 1rem;
+        }
+        img {
+          border-radius: $border-radius-1-2;
+        }
+        &:first-of-type {
+          grid-column: span 2;
+        }
+      }
+    }
+  }
+}
+
+@keyframes rise {
+  0% {
+    bottom: 0;
+  }
+
+  100% {
+    bottom: 50%;
+  }
+}
+
+body:has(.uploadModel) {
+  .uploadModel,
+  .uploadModel * {
+    pointer-events: all;
+  }
+  :not(.uploadModel, .uploadModel *) {
+    pointer-events: none;
+  }
+}
+
+.disabled {
+  opacity: 0.3;
+  pointer-events: none;
+  &:hover {
+    cursor: not-allowed;
+  }
+}
+.hidden {
+  display: none !important;
+}

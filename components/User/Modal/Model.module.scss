@@ -27,7 +27,7 @@
       text-align: left;
     }
     &:hover {
-      background-color: $main-gray;
+      background-color: $gray-3;
       border-radius: $border-radius-1-2;
     }
     a {
@@ -65,7 +65,7 @@
       svg {
         width: 1.5rem;
         height: 100%;
-        stroke: $svg-fill-gary;
+        stroke: $gray-1;
         fill: white;
         stroke-width: 2;
       }

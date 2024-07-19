@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { redirect } from "next/navigation";
 import StayEdit from "@/components/StayEdit/StayEdit";
+import { getAmenities, getSmallAmenities } from "@/actions/amenities.action";
 
 export default async function Page({
   searchParams,
@@ -46,6 +47,9 @@ export default async function Page({
       return redirect("/403");
     }
   }
+  const amenities = await getAmenities();
 
-  return <StayEdit stay={stay} />;
+  //TODO add  filter for amenities for edit
+
+  return <StayEdit stay={stay} dbAmenities={amenities} />;
 }

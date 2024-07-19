@@ -67,7 +67,6 @@ export const getGeocodeAddress = async (address: string): Promise<any> => {
         lat: results[0].geometry.location.lat(),
         lng: results[0].geometry.location.lng(),
       };
-      console.log("location:", location);
     } else {
       console.error(
         "Geocode was not successful for the following reason: " + status

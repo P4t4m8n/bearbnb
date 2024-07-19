@@ -22,7 +22,7 @@
     }
     p {
       font-size: $font-size-18;
-      color: $text-gray;
+      color: $gray-1;
     }
   }
   .address {
@@ -84,7 +84,7 @@
       }
 
       .formPlaceholder {
-        color: $text-gray;
+        color: $gray-1;
         position: absolute;
         top: 50%;
         left: 0.75rem;

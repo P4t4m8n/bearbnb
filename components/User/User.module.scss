@@ -14,7 +14,7 @@
     font-size: 1em;
     border-radius: $border-radius-2;
     &:hover {
-      background-color: $main-gray;
+      background-color: $gray-3;
     }
   }
 
@@ -39,12 +39,12 @@
     .svg {
       &:first-of-type {
         width: 1rem;
-        fill: $svg-fill-black;
+        fill: $black-1;
         stroke: currentcolor;
         stroke-width: 3;
       }
       &:nth-of-type(2) {
-        fill: $svg-fill-gary;
+        fill: $gray-1;
         width: 1.9rem;
       }
     }

@@ -16,5 +16,6 @@ export interface GroupedAmenities {
     isChecked?: boolean;
     path?: string;
     viewBox?: string;
+    category?: AmenityTypes;
   }[];
 }

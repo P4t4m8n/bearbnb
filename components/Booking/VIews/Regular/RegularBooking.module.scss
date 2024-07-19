@@ -32,7 +32,7 @@
     @include bookingBtn;
   }
   .bookingInfo {
-    @include border-1;
+    @include border-solid-color-width($gray-3, 1px);
     border-color: rgb(34, 34, 34);
     position: relative;
     z-index: auto;
@@ -136,7 +136,7 @@
       .calendarCon {
         position: fixed;
         right: 50%;
-        top:37rem;
+        top: 37rem;
         transform: translate(50%, -50%);
         width: 70vw;
       }

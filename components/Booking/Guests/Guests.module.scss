@@ -27,7 +27,7 @@
       h3 {
         font-size: $font-size-14;
         font-weight: 400;
-        color: $text-gray;
+        color: $gray-1;
       }
     }
 
@@ -42,9 +42,9 @@
         padding: 0.5rem;
         height: 2rem;
         aspect-ratio: 1/1;
-        border: 1px solid $main-gray;
+        border: 1px solid $gray-3;
         border-radius: 100vw;
-        fill: $svg-fill-gary;
+        fill: $gray-1;
         svg {
           opacity: 0.8;
         }

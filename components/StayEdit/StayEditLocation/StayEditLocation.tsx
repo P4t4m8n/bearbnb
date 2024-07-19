@@ -26,8 +26,6 @@ export default function StayEditLocation({
   stage,
   setStage,
 }: Props) {
-  console.log("stage:", stage);
-  console.log("location:", location);
   let { lat, lng, country } = location;
 
   const addressStr = `${location.streetAddress} ${
@@ -159,7 +157,7 @@ export default function StayEditLocation({
           <AddressSearchGoogle
             onSelect={onSetLocation}
             placeHolder={"Enter your address"}
-            value={addressStr}
+            value={location.streetAddress ? addressStr : ""}
           />
         </div>
       )}

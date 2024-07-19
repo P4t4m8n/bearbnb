@@ -1,0 +1,55 @@
+@import "../../../styles/abstracts/variables.scss";
+@import "../../../styles/abstracts/mixin.scss";
+
+.basics {
+  .basicsHeader {
+    h1 {
+      font-size: $font-size-32;
+    }
+    p {
+      font-size: $font-size-18;
+      color: $gray-1;
+    }
+    margin-bottom: 3rem;
+  }
+
+  .basicsList {
+    @include flex-column-gap-padding(0rem, 0);
+    li {
+      padding-block: 2rem;
+      &:not(:last-of-type) {
+        @include border-1-bottom-only;
+      }
+      @include flex-space-between-align-center;
+      h2 {
+        font-size: $font-size-18;
+        color: $black-1;
+        font-weight: 500;
+      }
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        color: $black-1;
+        h4 {
+          font-weight: 400;
+        }
+        button {
+          width: 2rem;
+          fill: rgb(106, 106, 106);
+          aspect-ratio: 1/1;
+          border-radius: 100vw;
+          @include flex-center;
+          @include border-1-full-color($gray-2);
+          svg {
+            width: 0.75rem;
+            height: 0.75rem;
+          }
+        }
+        .disable {
+          opacity: 0.3;
+        }
+      }
+    }
+  }
+}
