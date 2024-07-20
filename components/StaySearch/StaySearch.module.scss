@@ -138,7 +138,7 @@
   top: 100%;
   height: fit-content;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
-  @include border-1;
+  @include border-solid-color-width($gray-3, 1px);
   border-radius: $border-radius-1-2;
 
   section {
@@ -156,7 +156,7 @@
     justify-content: space-between !important;
     button {
       width: fit-content;
-      @include border-2;
+      @include border-solid-color-width($black-1, 1px);
       box-sizing: border-box;
       padding-inline: 0.5rem;
       padding-block: 0.25rem;

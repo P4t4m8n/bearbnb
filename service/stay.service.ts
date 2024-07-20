@@ -169,11 +169,11 @@ export const transformBedrooms = (
 // Returns a default StayModel object with all fields set to their initial empty or default values.
 export const getEmptyStay = (): StayModel => {
   return {
-    name: "",
+    name: "My shity home",
     type: "House",
     summary: "",
-    price: 0,
-    description: "",
+    price: 100,
+    description: "Your family will be close to everything when you stay at this centrally-located place",
     capacity: 1,
     baths: 0,
     guestStay: "Entire place",
@@ -213,6 +213,7 @@ export const getEmptyStay = (): StayModel => {
     },
     rating: 0,
     firstAvailableDate: [],
+    currency: "₪",
   };
 };
 // Calculate and return the average rating if reviews exist and are non-empty,

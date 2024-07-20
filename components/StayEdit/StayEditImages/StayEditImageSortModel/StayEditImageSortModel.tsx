@@ -31,27 +31,54 @@ export default function StayEditImageSortModel({
       {imageSortModelOpen && (
         <ul className={styles.imageSortModel} ref={imageSortModelRef}>
           {imgIdx > 0 && (
-            <button onClick={() => arrangeImages(imgIdx, 1)}>
+            <button
+              onClick={() => {
+                setImageSortModelOpen(false);
+                arrangeImages(imgIdx, 1);
+              }}
+            >
               Move backward
             </button>
           )}
           {!isLast && (
-            <button onClick={() => arrangeImages(imgIdx, -1)}>
+            <button
+              onClick={() => {
+                setImageSortModelOpen(false);
+                arrangeImages(imgIdx, -1);
+              }}
+            >
               Move forward
             </button>
           )}
 
           {imgIdx > 0 && (
-            <button onClick={() => arrangeImages(imgIdx, 0)}>
+            <button
+              onClick={() => {
+                setImageSortModelOpen(false);
+                arrangeImages(imgIdx, 0);
+              }}
+            >
               Make cover photo
             </button>
           )}
           {imgIdx > 0 && (
-            <button onClick={() => arrangeImages(imgIdx, 1)}>
+            <button
+              onClick={() => {
+                setImageSortModelOpen(false);
+                arrangeImages(imgIdx, 1);
+              }}
+            >
               Move backward
             </button>
           )}
-          <button onClick={() => setImages(imgUrl, true)}>Delete</button>
+          <button
+            onClick={() => {
+              setImageSortModelOpen(false);
+              setImages(imgUrl, true);
+            }}
+          >
+            Delete
+          </button>
         </ul>
       )}
     </>

@@ -65,7 +65,7 @@
   z-index: $z-index-tooltip;
 
   .closeModelBtn {
-    @include border-1;
+    @include border-solid-color-width($gray-3, 1px);
     width: 2rem;
     height: 2rem;
     font-size: 0.8rem;
@@ -90,7 +90,7 @@
     padding: 1rem;
     div {
       padding: 1rem;
-      @include border-1;
+      @include border-solid-color-width($gray-3, 1px);
       border-radius: $border-radius-1-2;
       span {
         display: none;

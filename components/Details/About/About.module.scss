@@ -6,7 +6,7 @@
   padding-block: 2rem;
   gap: 1rem;
   max-width: 100%;
-  @include bordered;
+  @include borderBottom-width-color-paddingBottom(1px, $gray-3, 1rem);
 
   p {
     // display: -webkit-box;

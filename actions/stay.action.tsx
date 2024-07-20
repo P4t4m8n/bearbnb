@@ -234,7 +234,7 @@ const _queryStayToSmallStay = (queryStay: any): StaySmallModel => {
     name: queryStay.name,
     images: queryStay.images,
     price: queryStay.price,
-    type: queryStay.entireHome ? "entireHome" : "privateRoom",
+    type: queryStay.type,
     location: {
       city: queryStay.location.city,
       country: queryStay.location.country,

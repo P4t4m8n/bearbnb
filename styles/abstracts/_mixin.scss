@@ -1,73 +1,35 @@
 @import "./variables";
 
-@mixin bordered-padding {
-  border-bottom: 1px solid gainsboro;
-  padding-block: 1rem;
+@mixin border-width-color-paddingBlock($width, $color, $padding) {
+  border-bottom: $width solid $color;
+  padding-block: $padding;
 }
-@mixin bordered {
-  border-bottom: 1px solid gainsboro;
-  padding-bottom: 1rem;
+@mixin borderBottom-width-color-paddingBottom($width, $color, $padding) {
+  border-bottom: $width solid $color;
+  padding-bottom: $padding;
 }
-@mixin border-1 {
-  border: 1px solid gainsboro;
-}
-@mixin border-2 {
-  border: 1px solid rgb(34, 34, 34);
-}
-
-@mixin border-1-full-color($color) {
-  border: 1px solid $color;
-}
-
 @mixin border-solid-color-width($color, $width) {
   border: $width solid $color;
 }
 @mixin border-dashed-color-width($color, $width) {
   border: $width dashed $color;
 }
-
-@mixin border-1-left-right-bottom-color($color) {
-  border-left: 1px solid $color;
-  border-right: 1px solid $color;
-  border-bottom: 1px solid $color;
+@mixin borderBottom-width-color($width, $color) {
+  border-bottom: $width solid $color;
 }
-@mixin border-1-top {
-  border: 1px solid gainsboro;
-  border-top: none;
+@mixin borderRight-width-color($width, $color) {
+  border-right: $width solid $color;
 }
-@mixin border-1-bottom {
-  border: 1px solid gainsboro;
-  border-bottom: none;
-}
-@mixin border-1-bottom-only {
-  border-bottom: 1px solid gainsboro;
-}
-
-@mixin border-1-left-only {
-  border-left: 1px solid gainsboro;
-}
-@mixin border-1-right-only {
-  border-right: 1px solid gainsboro;
-}
-
-@mixin border-radius-no-bottom {
-  border-radius: $border-radius-1-2 $border-radius-1-2 0 0;
-}
-@mixin border-radius-no-top {
-  border-radius: 0 0 $border-radius-1-2 $border-radius-1-2;
-}
-
-@mixin border-pseudo {
+@mixin borderPseudo-width-color($width, $color) {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  border: 1px solid #ccc; /* Full border around the element */
   box-sizing: border-box;
+  border: $width solid $color;
 }
-
 @mixin text-overflow-ellipsis {
   overflow: hidden;
   white-space: nowrap;
@@ -81,16 +43,13 @@
   overflow: visible;
   text-overflow: inherit;
 }
-
 @mixin soft-box-shadow {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
-
 @mixin grid-columns($cols) {
   display: grid;
   grid-template-columns: repeat($cols, minmax(0, 1fr));
 }
-
 @mixin bookingBtn() {
   background-color: $main-pink;
   width: 100%;
@@ -106,7 +65,6 @@
   );
   color: white;
 }
-
 @mixin skeleton {
   border-radius: $border-radius-1-2;
   overflow: hidden;
@@ -127,7 +85,6 @@
     );
   }
 }
-
 @mixin buttonBackground {
   background-image: linear-gradient(
     to bottom,
@@ -135,33 +92,39 @@
     rgba(255 255 255 / 0)
   );
 }
-
-@mixin base-flex-column {
-  padding: 1rem;
+@mixin base-flex-column-padding-gap($padding, $gap) {
+  padding: $padding;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: $gap;
 }
-
+@mixin base-flex-padding-gap($padding, $gap) {
+  padding: $padding;
+  display: flex;
+  gap: $gap;
+}
 @mixin flex-column-gap-padding($gap, $padding) {
   padding: $padding;
   display: flex;
   flex-direction: column;
   gap: $gap;
 }
-
 @mixin flex-space-between-align-center {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 @mixin flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
+@mixin flex-center-column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 @mixin no-scrollBar {
   &::-webkit-scrollbar {
     display: none;
@@ -169,7 +132,22 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
-
 @mixin model-boxShadow {
   box-shadow: 0px 10px 3000px 1500px rgba(0, 0, 0, 0.5);
+}
+@mixin edit-paragraph {
+  font-size: $font-size-18;
+  color: $gray-1;
+  font-weight: 500;
+  letter-spacing: -0.015rem;
+}
+@mixin model-shadow {
+  box-shadow: 0px 10px 3000px 1500px rgba(0, 0, 0, 0.5);
+}
+
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

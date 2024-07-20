@@ -3,6 +3,8 @@
 
 .imageEdit {
   position: relative;
+  width: 100%;
+  @include flex-center;
   .notImages {
     h1 {
       font-size: $font-size-32;
@@ -14,7 +16,7 @@
       margin-bottom: 2.5rem;
     }
     div {
-      border: 1px dashed $gray-2;
+      @include border-dashed-color-width($gray-2, 1px);
       height: 35rem;
       border-radius: $border-radius-1-2;
       background-color: $gray-4;
@@ -173,12 +175,41 @@
 
   .imageEditList {
     height: 100%;
-    width: 45rem;
+    width: 100%;
     @include flex-column-gap-padding(1rem, 0);
+    $padding: calc((100% - 43rem) / 2);
     .imageEditListHeader {
       @include flex-space-between-align-center;
+      padding-inline: $padding;
+      h1 {
+        font-size: $font-size-26;
+        line-height: $line-height-26;
+      }
+      p {
+        font-size: $font-size-18;
+        color: $gray-1;
+      }
+      label {
+        width: 2.5rem;
+        padding: 0.75rem;
+        aspect-ratio: 1/1;
+        border-radius: 100vw;
+        opacity: 0.6;
+        background-color: $gray-4;
+        svg {
+          width: 100%;
+          height: 100%;
+        }
+
+        &:hover {
+          background-color: $gray-2;
+          cursor: pointer;
+        }
+      }
     }
     .imageEditListSort {
+      padding-inline: $padding;
+      box-sizing: border-box;
       width: 100%;
       @include grid-columns(2);
       gap: 1rem;
@@ -209,6 +240,46 @@
         }
         &:first-of-type {
           grid-column: span 2;
+        }
+      }
+      .labelBox {
+        border-radius: $border-radius-1-2;
+        width: 100%;
+        height: 100%;
+        min-height: 14rem;
+        @include border-dashed-color-width($gray-2, 1px);
+        @include flex-center;
+        flex-direction: column;
+
+        svg {
+          width: 2rem;
+          stroke: white;
+          fill: $gray-1;
+        }
+        p {
+          color: $gray-1;
+          font-size: $font-size-14;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 700px) {
+  .imageEdit {
+    .imageEditList {
+      .imageEditListSort {
+        column-gap: 0;
+        @include grid-columns(1);
+        grid-auto-rows: auto;
+        grid-template-rows: none;
+        li {
+          min-height: auto;
+          max-height: 30rem;
+          aspect-ratio: 1.5/1;
+          &:first-of-type {
+            grid-column: span 1;
+          }
         }
       }
     }
@@ -242,6 +313,7 @@ body:has(.uploadModel) {
     cursor: not-allowed;
   }
 }
+
 .hidden {
   display: none !important;
 }

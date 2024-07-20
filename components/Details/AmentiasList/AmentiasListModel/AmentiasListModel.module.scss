@@ -3,7 +3,7 @@
 
 .openBtn {
   width: fit-content;
-  @include border-2;
+  @include border-solid-color-width($black-1, 1px);
   box-sizing: border-box;
   padding-inline: 1rem;
   padding-block: 0.75rem;
@@ -52,7 +52,7 @@
           gap: 1rem;
           padding-bottom: 2rem;
       
-            @include border-1-bottom-only;
+            @include borderBottom-width-color(1px, $gray-3);
           
           h4 {
             font-weight: 300;

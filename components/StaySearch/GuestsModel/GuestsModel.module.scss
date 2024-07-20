@@ -46,7 +46,7 @@
       display: flex;
       justify-content: space-between;
       &:not(:last-child) {
-        @include bordered-padding;
+        @include border-width-color-paddingBlock(1px, $gray-3, 1rem);
       }
       &:last-child {
         padding-top: 1rem;
@@ -71,7 +71,7 @@
           fill: rgb(121, 121, 121);
           aspect-ratio: 1/1;
           border-radius: 100vw;
-          @include border-1;
+          @include border-solid-color-width($gray-3, 1px);
         }
       }
     }

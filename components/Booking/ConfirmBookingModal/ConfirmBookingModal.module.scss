@@ -41,7 +41,7 @@
     .datesGuests {
       display: grid;
       gap: 0.25rem;
-      @include border-1-bottom-only;
+      @include borderBottom-width-color(1px, $gray-3);
       padding-bottom: 0.25rem;
       margin-bottom: 0.5rem;
       div {
@@ -52,7 +52,7 @@
     .priceDetails {
       display: grid;
       gap: 0.25rem;
-      @include border-1-bottom-only;
+      @include borderBottom-width-color(1px, $gray-3);
       padding-bottom: 0.5rem;
       margin-bottom: 0.25rem;
       h3 {

@@ -373,6 +373,39 @@ export const DotsSVG = () => {
   );
 };
 
+export const ErrorSVG = () => {
+  return (
+    <svg viewBox="0 0 16 16" aria-label="Error" role="img" focusable="false">
+      <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm0 10.2a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm.8-6.6H7.2v5.2h1.6z"></path>
+    </svg>
+  );
+};
+
+export const PencilSVG = () => {
+  return (
+    <svg
+      viewBox="0 0 32 32"
+      aria-hidden="true"
+      role="presentation"
+      focusable="false"
+    >
+      <path d="M20.8 4.8a4.54 4.54 0 0 1 6.57 6.24l-.16.17L9 29.4a2 2 0 0 1-1.24.58L7.6 30H2v-5.59a2 2 0 0 1 .47-1.28l.12-.13zM19 9.4l-15 15V28h3.59l15-15zm6.8-3.2a2.54 2.54 0 0 0-3.46-.13l-.13.13L20.4 8 24 11.59l1.8-1.8c.94-.94.98-2.45.12-3.45z"></path>
+    </svg>
+  );
+};
+
+export const GreetingSVG = () => {
+  return (
+    <svg
+      viewBox="0 0 32 32"
+      aria-hidden="true"
+      role="presentation"
+      focusable="false"
+    >
+      <path d="M11 31v-9.07a8 8 0 0 1 1.75-14.6 4 4 0 1 1 6.73-.35A6 6 0 0 0 25 1.23V1h2a8 8 0 0 1-7.75 8H17V6.73a2 2 0 1 0-2 0V9a6 6 0 0 0-4 10.47V13h2v16h2v-9h2v9h2V13h2v18H11z"></path>
+    </svg>
+  );
+};
 export const DynamicSVGByName = ({ name }: { name: SvgsNameTypes }) => {
   switch (name) {
     case "door":

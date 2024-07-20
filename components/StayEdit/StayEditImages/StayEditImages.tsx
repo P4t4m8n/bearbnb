@@ -170,6 +170,10 @@ export default function StayEditImages({
                 />
               </li>
             ))}
+            <label className={styles.labelBox} htmlFor="file-input">
+              <PlusSVG />
+              <p>Add more</p>
+            </label>
           </ul>
           <input
             id="file-input"

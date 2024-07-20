@@ -15,18 +15,15 @@ export const useModal = (
     };
   }, [open, ref.current]);
 
-  const checkClickOutside = useCallback(
-    (ev: any) => {
-      if (!ev.target) return;
-      if (!open) return;
+  const checkClickOutside = (ev: any) => {
+    if (!ev.target) return;
+    if (!open) return;
 
-      if (ref.current?.contains(ev.target as Node)) return;
+    if (ref.current?.contains(ev.target as Node)) return;
 
-      setOpen(false);
-      if (callBack) callBack();
-    },
-    [ref]
-  );
+    setOpen(false);
+    if (callBack) callBack();
+  };
 
   return [open, setOpen];
 };

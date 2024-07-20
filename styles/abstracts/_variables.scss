@@ -4,8 +4,10 @@ $main-pending: #9f4d9c;
 $main-link: #635696;
 $main-active: #d83c87;
 
-$black-1: rgb(34, 34, 34);
+$error-red-1: #c13515;
+$error-red-2: #fbdfd9;
 
+$black-1: rgb(34, 34, 34);
 $gray-1: rgb(106, 106, 106);
 $gray-2: rgb(176, 176, 176);
 $gray-3: rgb(221, 221, 221);
@@ -29,11 +31,20 @@ $z-index-tooltip: 1300;
 
 $latter-spacing-1: -0.05rem;
 
+$font-size-70: 4.375rem;
 $font-size-48: 3rem;
 $font-size-32: 2rem;
 $font-size-26: 1.625rem;
 $font-size-22: 1.375rem;
+$font-size-20: 1.25rem;
 $font-size-18: 1.125rem;
+$font-size-16: 1rem;
+$font-size-15: 0.9375rem;
 $font-size-14: 0.875rem;
 $font-size-12: 0.75rem;
 $font-size-10: 0.625rem;
+
+$line-height-26: 1.625rem;
+$line-height-20: 1.25rem;
+$line-height-18: 1.125rem;
+$line-height-15: 0.9375rem;

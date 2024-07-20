@@ -13,7 +13,7 @@
     grid-template-columns: 2% 9% 25% 15% 5% 5% 7% 15%;
     justify-content: space-between;
     &:not(:last-child) {
-      @include bordered;
+      @include borderBottom-width-color-paddingBottom(1px, $gray-3, 1rem);
     }
     align-items: center;
   

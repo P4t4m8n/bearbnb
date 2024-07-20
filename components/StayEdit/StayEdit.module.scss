@@ -4,7 +4,7 @@
 .stayEdit {
   width: 100%;
   min-height: 100%;
-  @include base-flex-column;
+  @include base-flex-column-padding-gap(1rem, 1rem);
   align-items: center;
   box-sizing: border-box;
   justify-content: space-between;
@@ -62,9 +62,21 @@
           border-radius: $border-radius-1-2;
         }
       }
+      .publish{
+        background-color: $main-pink !important;
+      
+      }
     }
   }
   .disabled{
     opacity: .3;
+  }
+ 
+}
+
+
+@media (max-width:400px){
+  .stayEdit{
+    padding-top: 2rem;
   }
 }

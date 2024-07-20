@@ -2,6 +2,7 @@ import { LikeModel } from "./Like.model";
 import { AmenityModel } from "./amenity.model";
 import { BedRoomModel } from "./bedroom.model";
 import { BookingSmallModel } from "./booking.model";
+import { CurrencyType } from "./currency.type";
 import { HighlightModel } from "./highlight.model";
 import { LabelsType } from "./labels.type";
 import { LocationModel, LocationSmallModel } from "./location.model";
@@ -35,6 +36,7 @@ export interface StayModel extends StaySmallModel {
   reviews: ReviewModel[];
   location: LocationModel;
   bookings: BookingSmallModel[];
+  currency: CurrencyType;
 }
 
 export type GuestStayType =

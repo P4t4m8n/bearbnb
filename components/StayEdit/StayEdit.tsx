@@ -1,6 +1,6 @@
 "use client";
 import { GuestStayType, StayModel, StayType } from "@/model/stay.model";
-import { useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import styles from "./StayEdit.module.scss";
 import StayEditType from "./StayEditType/StayEditType";
 import StayEditShared from "./StayEditShared/StayEditShared";
@@ -12,15 +12,20 @@ import TransitionPage from "./TransitionPage/TransitionPage";
 import { AmenityModel } from "@/model/amenity.model";
 import StayEditAmenities from "./StayEditAmenities/StayEditAmenities";
 import StayEditImages from "./StayEditImages/StayEditImages";
+import StayEditName from "./StayEditName/StayEditName";
+import StayEditPrice from "./StayEditPrice/StayEditPrice";
+import StayEditPreview from "./StayEditPreview/StayEditPreview";
+import { useUserStore } from "@/store/useUserStore";
 
 interface Props {
   stay: StayModel;
   dbAmenities: AmenityModel[];
 }
 export default function StayEdit({ stay, dbAmenities }: Props) {
-  const [stage, setStage] = useState(10);
+  const [stage, setStage] = useState(15);
   const [stateStay, setStateStay] = useState<StayModel>(stay);
-  console.log("stateStay:", stateStay);
+  const { user } = useUserStore();
+  console.log("user:", user);
 
   useEffect(() => {
     const { lat, lng } = stay.location;
@@ -28,6 +33,20 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
       loadUserCoord();
     }
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      const smallUser = {
+        _id: user._id as string,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        imgUrl: user.imgUrl,
+        ownerSince: user.ownerSince,
+      };
+      console.log("smallUser:", smallUser);
+      setStateStay({ ...stay, host: smallUser });
+    }
+  }, [user]);
 
   const loadUserCoord = async () => {
     const { lat, lng } = await getUserLocation();
@@ -87,14 +106,31 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
     setStateStay((prev) => ({ ...prev, images }));
   }, []);
 
-  const arrangeImages = useCallback((imgIdx: number, dir: number) => {
-    if (imgIdx + dir < 0 || imgIdx + dir >= stateStay.images.length) return;
-    const images = [...stateStay.images];
-    const temp = images[imgIdx];
-    images[imgIdx] = images[imgIdx + dir];
-    images[imgIdx + dir] = temp;
-    setStateStay((prev) => ({ ...prev, images }));
-  }, []);
+  const setText = (ev: ChangeEvent) => {
+    const target = ev.target as HTMLTextAreaElement;
+    const { name, type } = target;
+    let value: string | number = target.value;
+
+    if (type === "number") value = +value;
+    setStateStay((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const arrangeImages = useCallback(
+    (imgIdx: number, dir: number) => {
+      if (imgIdx + dir < 0 || imgIdx + dir >= stateStay.images.length) return;
+      const images = [...stateStay.images];
+      const temp = images[imgIdx];
+      if (dir === 0) {
+        images[imgIdx] = images[dir];
+        images[dir] = temp;
+      } else {
+        images[imgIdx] = images[imgIdx + dir];
+        images[imgIdx + dir] = temp;
+      }
+      setStateStay((prev) => ({ ...prev, images }));
+    },
+    [stateStay]
+  );
 
   const isDisabled =
     (stage === 4 && !stateStay.location.country) ||
@@ -104,7 +140,10 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
         !stateStay.location.countryCode ||
         !stateStay.location.city)) ||
     (stage === 7 && stateStay.capacity < 1) ||
-    (stage === 10 && stateStay.images.length < 5);
+    (stage === 10 && stateStay.images.length < 5) ||
+    (stage === 11 && (!stateStay.name || stateStay.name.length > 32)) ||
+    (stage === 12 &&
+      (!stateStay.description || stateStay.description.length > 500));
 
   const widthStyle = {
     width: `${(stage % 8) * 12.5}%`,
@@ -115,7 +154,13 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
     checkedAmenities = stateStay.amenities.map((amenity) => amenity.name);
   return (
     <section className={styles.stayEdit}>
-      {stage === 1 && <TransitionPage stage={stage} />}
+      {/* {stage === 1 && (
+        <TransitionPage
+          h1={"Tell us about your place"}
+          h2={"Step 1"}
+          h3={"In this step, we'll ask you which type of prop "}
+        />
+      )}
 
       {stage === 2 && (
         <StayEditType type={stateStay.type} handleStayType={handleStayType} />
@@ -146,7 +191,15 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
         />
       )}
 
-      {stage === 8 && <TransitionPage stage={stage} />}
+      {stage === 8 && (
+        <TransitionPage
+          h1={"Make your place stand out"}
+          h2={"Step 2"}
+          h3={
+            "In this step, you’ll add some of the amenities your place offers, plus 5 or more photos. Then, you’ll create a title and description."
+          }
+        />
+      )}
 
       {stage === 9 && (
         <StayEditAmenities
@@ -165,6 +218,51 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
         />
       )}
 
+      {stage === 11 && (
+        <StayEditName
+          value={stateStay.name}
+          name={"name"}
+          setText={setText}
+          h1={`Now, let's give your ${stateStay.type} a title`}
+          p={
+            "Short titles work best. Have fun with it—you can always change it later"
+          }
+          maxLength={32}
+          rows={4}
+        />
+      )}
+      {stage === 12 && (
+        <StayEditName
+          value={stateStay.description}
+          name={"description"}
+          setText={setText}
+          h1={"Create your description"}
+          p={"Share what makes your place special."}
+          maxLength={500}
+          rows={8}
+        />
+      )}
+
+      {stage === 13 && (
+        <TransitionPage
+          h1={"Finish up and publish"}
+          h2={"Step 3"}
+          h3={
+            "Finally, you'll choose booking settings, set up pricing, and publish your listing."
+          }
+        />
+      )}
+      {stage === 14 && (
+        <StayEditPrice
+          price={stateStay.price}
+          handleChange={setText}
+          serviceFee={0.14}
+          currency={stateStay.currency}
+        />
+      )} */}
+
+      {stage === 15 && <StayEditPreview stay={stateStay} />}
+
       <div className={styles.editActions}>
         <div className={styles.progressBar}>
           <div className={styles.barGray}>
@@ -175,7 +273,7 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
           </div>
           <div className={styles.barGray}>
             <div
-              style={stage > 8 ? widthStyle : {}}
+              style={stage < 13 && stage >= 8 ? widthStyle : { width: "100%" }}
               className={styles.barDark}
             ></div>
           </div>
@@ -195,11 +293,13 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
             Back
           </button>
           <button
-            className={isDisabled ? styles.disabled : ""}
+            className={`${isDisabled ? styles.disabled : ""} ${
+              stage === 15 ? styles.publish : ""
+            }`}
             disabled={isDisabled}
             onClick={() => setStage((prev) => prev + 1)}
           >
-            Next
+            {`${stage === 15 ? "Publish" : "Next"}`}
           </button>
         </div>
       </div>

@@ -18,7 +18,7 @@
     li {
       padding-block: 2rem;
       &:not(:last-of-type) {
-        @include border-1-bottom-only;
+        @include borderBottom-width-color(1px, $gray-3);
       }
       @include flex-space-between-align-center;
       h2 {
@@ -40,7 +40,7 @@
           aspect-ratio: 1/1;
           border-radius: 100vw;
           @include flex-center;
-          @include border-1-full-color($gray-2);
+          @include border-solid-color-width($gray-2, 1px);
           svg {
             width: 0.75rem;
             height: 0.75rem;

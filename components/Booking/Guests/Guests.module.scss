@@ -2,7 +2,7 @@
 @import "../../../styles/abstracts/mixin";
 
 .guestsFilter {
-  @include base-flex-column;
+  @include base-flex-column-padding-gap(1rem, 1rem);
   width: 100%;
 
   h1 {
@@ -16,7 +16,7 @@
     width: 100%;
     justify-content: space-between;
     &:not(:last-of-type) {
-      @include bordered;
+      @include borderBottom-width-color-paddingBottom(1px, $gray-3, 1rem);
     }
     div {
       h2 {
