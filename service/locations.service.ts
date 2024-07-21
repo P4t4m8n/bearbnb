@@ -1,4 +1,5 @@
-import { CoordsModel, LocationSmallModel } from "@/model/location.model";
+import { CoordsModel } from "@/model/location.model";
+import { Libraries } from "@react-google-maps/api";
 
 //Calculate distance between two locations using Haversine formula
 export const calculateDistance = (
@@ -274,3 +275,6 @@ export const countries = [
   { name: "Zambia", code: "ZM" },
   { name: "Zimbabwe", code: "ZW" },
 ];
+
+export const libraries: Libraries = ["places"];
+

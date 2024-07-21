@@ -11,6 +11,8 @@ import { filterToSearchParams } from "@/service/filter.service";
 import StaySearchMobile from "./StaySearchMobile/StaySearchMobile";
 import { useFilterStore } from "@/store/userFIlterStore";
 import AddressSearch from "./AddressSearch/AddressAutoComplete/AddressSearch";
+import { useJsApiLoader } from "@react-google-maps/api";
+import { libraries } from "@/service/locations.service";
 interface Props {
   isActive: boolean;
 }
@@ -24,6 +26,12 @@ export function StaySearch({ isActive }: Props) {
 
   const { handleLocation, filterBy, clearDates, handleDate, handleGuests } =
     useFilterStore();
+
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+    libraries,
+    id: "google-map-script",
+  });
 
   const onSearch = (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault();
@@ -39,7 +47,7 @@ export function StaySearch({ isActive }: Props) {
   return (
     <>
       <div className={scrollClass}>
-        <AddressSearch onSelect={handleLocation} />
+        {isLoaded && <AddressSearch onSelect={handleLocation} />}
         <div
           onClick={() => setIsCalenderOpen(true)}
           ref={calendarRef}

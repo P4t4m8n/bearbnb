@@ -1,7 +1,7 @@
 import { LocationModel, LocationModelKeys } from "@/model/location.model";
 import styles from "./StayEditLocation.module.scss";
 import StayMap from "@/components/Map/Map";
-import { countries, getGeocodeAddress } from "@/service/locations.service";
+import { countries, getGeocodeAddress, libraries } from "@/service/locations.service";
 import { ScrollBySVG } from "@/components/svgs/svgs";
 import { useJsApiLoader, Libraries } from "@react-google-maps/api";
 import { useEffect } from "react";
@@ -18,7 +18,6 @@ interface inputFields {
   placeholder: string;
   type: string;
 }
-const libraries: Libraries = ["places"];
 
 export default function StayEditLocation({
   location,
@@ -43,6 +42,7 @@ export default function StayEditLocation({
     }
   }, [stage]);
 
+  
   const handleChange = (
     ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
