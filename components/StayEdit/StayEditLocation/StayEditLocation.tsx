@@ -3,9 +3,9 @@ import styles from "./StayEditLocation.module.scss";
 import StayMap from "@/components/Map/Map";
 import { countries, getGeocodeAddress } from "@/service/locations.service";
 import { ScrollBySVG } from "@/components/svgs/svgs";
-import AddressSearchGoogle from "@/components/StaySearch/AddressSearch/AddressAutoComplete/AddressSearchGoogle";
 import { useJsApiLoader, Libraries } from "@react-google-maps/api";
 import { useEffect } from "react";
+import AddressSearch from "@/components/StaySearch/AddressSearch/AddressAutoComplete/AddressSearch";
 
 interface Props {
   location: LocationModel;
@@ -154,7 +154,7 @@ export default function StayEditLocation({
       )}
       {stage != 5 && isLoaded && (
         <div className={styles.address}>
-          <AddressSearchGoogle
+          <AddressSearch
             onSelect={onSetLocation}
             placeHolder={"Enter your address"}
             value={location.streetAddress ? addressStr : ""}

@@ -15,7 +15,6 @@ export default function StayEditPrice({
   serviceFee,
   currency,
 }: Props) {
-  console.log("price:", price)
   const [extendPrice, setExtendPrice] = useState(false);
   const totalPrice = (price + price * serviceFee).toFixed(0);
   return (

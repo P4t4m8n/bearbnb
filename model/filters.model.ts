@@ -1,4 +1,4 @@
-import { Amenity } from "./amenities.type";
+import { BookingStatus } from "./booking.model";
 import { GuestsModel } from "./guest.model";
 import { LabelsType } from "./labels.type";
 
@@ -59,4 +59,13 @@ export interface SearchParamsObject {
   baths: number;
 
   type: "AnyType" | "room" | "entireHome";
+}
+
+export interface BookingFilterModel {
+  dateRange?: { startDate: Date; endDate: Date };
+  status?: BookingStatus;
+  hostId?: string;
+  userId?: string;
+  stayId?: string;
+  _id?: string;
 }

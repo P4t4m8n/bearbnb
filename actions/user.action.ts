@@ -1,15 +1,31 @@
 "use server";
 import { dbService } from "@/db/db.service";
-import { UserCreateModel, UserModel } from "@/model/user.model";
+import {  UserFilterModel, UserModel, userSchema } from "@/model/user.model";
 
-export const createUser = async (user: UserCreateModel): Promise<UserModel> => {
-  const collection = await dbService.getCollection("users");
-  const newUser = (await collection.insertOne(user)) as unknown as UserModel;
-
-  return newUser;
+export const createUser = async (user: userSchema): Promise<userSchema> => {
+  const userToSave: userSchema = {
+    dob: user.dob,
+    email: user.email,
+    firstName: user.firstName,
+    isOwner: user.isOwner,
+    lastName: user.lastName,
+    imgUrl: user.imgUrl,
+    password: user.password,
+  };
+  try {
+    const collection = await dbService.getCollection("users");
+    const newUser = await collection.insertOne(userToSave);
+    return {
+      ...userToSave,
+      _id: newUser.insertedId,
+    };
+  } catch (error) {
+    throw new Error(`Failed to create user: ${error}`);
+  }
 };
+
 export const getUserByFilter = async (
-  filter: Partial<UserModel>
+  filter: UserFilterModel
 ): Promise<UserModel | null> => {
   const collection = await dbService.getCollection("users");
 

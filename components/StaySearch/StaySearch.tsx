@@ -6,11 +6,11 @@ import styles from "./StaySearch.module.scss";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useModal } from "@/hooks/useModal";
 import { Calendar } from "../Calendar/Calendar";
-import AddressSearch from "./AddressSearch/AddressAutoComplete/AddressSearch";
 import { GuestsWindow } from "./GuestsModel/GuestsModel";
 import { filterToSearchParams } from "@/service/filter.service";
 import StaySearchMobile from "./StaySearchMobile/StaySearchMobile";
 import { useFilterStore } from "@/store/userFIlterStore";
+import AddressSearch from "./AddressSearch/AddressAutoComplete/AddressSearch";
 interface Props {
   isActive: boolean;
 }
@@ -28,8 +28,6 @@ export function StaySearch({ isActive }: Props) {
   const onSearch = (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault();
 
-   
-
     filterToSearchParams(filterBy, params);
 
     const url = `/search?${params.toString()}`;
@@ -41,7 +39,7 @@ export function StaySearch({ isActive }: Props) {
   return (
     <>
       <div className={scrollClass}>
-        <AddressSearch handleLocation={handleLocation} />
+        <AddressSearch onSelect={handleLocation} />
         <div
           onClick={() => setIsCalenderOpen(true)}
           ref={calendarRef}

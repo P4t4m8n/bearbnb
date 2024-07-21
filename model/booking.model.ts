@@ -8,19 +8,26 @@ export interface BookingSmallModel extends Document {
   checkOut: Date;
 }
 export interface BookingModel extends BookingSmallModel {
-  bookingTime: Date;
+  bookingTime?: Date;
   price: number;
   adults: number;
   children: number;
   infants: number;
   pets: number;
-  stay?: StaySmallModel;
-  user?: UserSmallModel;
-  host?: UserSmallModel;
+  stay: {
+    _id: string;
+    name: string;
+    image: string;
+    price: number;
+    type: string;
+  };
+  user: UserSmallModel;
+  host: UserSmallModel;
   status: BookingStatus;
 }
+
 export interface BookingSchema {
-  _id: ObjectId;
+  _id?: ObjectId;
   checkIn: Date;
   checkOut: Date;
   price: number;
@@ -32,7 +39,6 @@ export interface BookingSchema {
   userId: ObjectId;
   hostId: ObjectId;
   status: BookingStatus;
-  bookingTime: Date;
 }
 
 export type BookingStatus = "pending" | "confirmed" | "canceled" | "completed";

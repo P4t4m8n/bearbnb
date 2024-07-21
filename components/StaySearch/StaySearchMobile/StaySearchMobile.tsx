@@ -4,16 +4,16 @@ import { SearchSVG } from "@/components/svgs/svgs";
 import { fixedDatesForMobile } from "@/service/stay.service";
 import { useModal } from "@/hooks/useModal";
 import { useRef, useState } from "react";
-import AddressSearch, {
-  AddressResponse,
-} from "../AddressSearch/AddressAutoComplete/AddressSearch";
 import { Calendar } from "@/components/Calendar/Calendar";
 import { Guests } from "@/components/Booking/Guests/Guests";
 import { GuestsModel } from "@/model/guest.model";
+import { LocationModel } from "@/model/location.model";
+import AddressSearch from "../AddressSearch/AddressAutoComplete/AddressSearch";
 
 interface Props {
   filterBy: FilterByModel;
-  handleLocation: ({ data }: { data: AddressResponse }) => void;
+  handleLocation: (location: LocationModel) => void;
+
   onDateClick: (date: Date) => void;
   clearDates: () => void;
   handleGuests: (guests: GuestsModel) => void;
@@ -79,7 +79,7 @@ export default function StaySearchMobile({
               }`}
             >
               <h1>Where to?</h1>
-              <AddressSearch handleLocation={handleLocation} />
+              <AddressSearch onSelect={handleLocation} />
             </div>
 
             <button

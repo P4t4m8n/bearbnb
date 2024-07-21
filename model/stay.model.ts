@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { LikeModel } from "./Like.model";
 import { AmenityModel } from "./amenity.model";
 import { BedRoomModel } from "./bedroom.model";
@@ -15,13 +16,12 @@ export interface StaySmallModel {
   images: string[];
   price: number;
   location: LocationSmallModel;
-  firstAvailableDate: Date[] | null;
-  rating: number;
   type: StayType;
+  firstAvailableDate?: Date[] | null;
+  rating: number;
 }
 
 export interface StayModel extends StaySmallModel {
-  summary: string;
   guestStay?: GuestStayType;
   description: string;
   capacity: number;
@@ -37,6 +37,7 @@ export interface StayModel extends StaySmallModel {
   location: LocationModel;
   bookings: BookingSmallModel[];
   currency: CurrencyType;
+  isPublished: boolean;
 }
 
 export type GuestStayType =
@@ -57,3 +58,23 @@ export type StayType =
   | "Castle"
   | "Mobile home"
   | "Barn";
+
+export interface StaySchema {
+  _id?: ObjectId;
+  name: string;
+  type: StayType;
+  guestStay: GuestStayType;
+  capacity: number;
+  images: string[];
+  price: number;
+  bedRooms: BedRoomModel[];
+  description: string;
+  baths: number;
+  highlights: ObjectId[];
+  hostId: ObjectId;
+  locationId: ObjectId;
+  amenities: ObjectId[];
+  labels: LabelsType[];
+  currency: CurrencyType;
+  isPublished: boolean;
+}

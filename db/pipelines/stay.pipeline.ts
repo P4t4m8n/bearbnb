@@ -84,7 +84,7 @@ const getReviewsLookupPipeline = () => ({
   },
 });
 
-export const buildPipeline = (
+export const buildStayPipeline = (
   page: number,
   itemsPerPage: number,
   searchParams?: SearchParamsModel

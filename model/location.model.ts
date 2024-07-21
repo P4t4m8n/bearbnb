@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 export interface CoordsModel {
   lat: number;
   lng: number;
@@ -8,7 +10,7 @@ export interface LocationSmallModel extends CoordsModel {
   city: string;
 }
 export interface LocationModel extends LocationSmallModel {
-  _id?: string; // ObjectId as string
+  _id?: string;
   countryCode: string;
   streetAddress: string;
   postalCode?: string;
@@ -19,3 +21,19 @@ export interface LocationModel extends LocationSmallModel {
 }
 
 export type LocationModelKeys = keyof LocationModel;
+
+export interface LocationSchema {
+  _id?: ObjectId;
+  country: string;
+  countryCode: string;
+  city: string;
+  streetAddress: string;
+  postalCode?: string;
+  entrance?: string;
+  apt?: string;
+  house?: string;
+  location: {
+    type: "Point";
+    coordinates: [number, number];
+  };
+}

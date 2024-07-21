@@ -1,3 +1,5 @@
+'use server'
+
 import { dbService } from "@/db/db.service";
 import { AmenityModel, AmenitySmallModel } from "@/model/amenity.model";
 
@@ -20,6 +22,7 @@ export const getAmenities = async (): Promise<AmenityModel[]> => {
     throw new Error(`Error while fetching amenities: ${error}`);
   }
 };
+
 export const getSmallAmenities = async (): Promise<AmenitySmallModel[]> => {
   try {
     const collection = await dbService.getCollection("amenities");

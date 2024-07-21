@@ -32,11 +32,8 @@ export function User({ isActive }: Props) {
     logout();
     setUser(null);
   };
-  let userId = user?._id;
 
-  if (userId && typeof userId !== "string") {
-    userId = userId.toString();
-  }
+
   return (
     <div className={`${styles.user} ${isActive ? styles.scroll : ""}`}>
       <Link href={{ pathname: "/stay/edit" }} className={styles.svgBtn}>
@@ -64,7 +61,7 @@ export function User({ isActive }: Props) {
         <div ref={modalRef} className={styles.modalCon}>
           <ProfileModel
             firstName={user?.firstName}
-            _id={userId}
+            _id={user?._id}
             isOwner={user?.isOwner}
             onLogout={onLogout}
           />
@@ -72,7 +69,7 @@ export function User({ isActive }: Props) {
       )}
       <MobileUserNav
         firstName={user?.firstName}
-        _id={userId}
+        _id={user?._id}
         isOwner={user?.isOwner}
         onLogout={onLogout}
         imgUrl={user?.imgUrl}

@@ -18,9 +18,9 @@ export const entertainmentAmenities: EntertainmentAmenities[] = [
 ];
 
 export const scenicViewAmenities: ScenicViewAmenities[] = [
-  "Sea view",
-  "Mountain view",
-  "Courtyard view",
+  "Courtyard Views",
+  "Mountain Views",
+  "Sea Views",
 ];
 
 export const bathroomAmenities: BathroomAmenities[] = [

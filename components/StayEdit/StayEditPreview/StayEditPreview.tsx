@@ -4,18 +4,17 @@ import { useRef } from "react";
 import { useModal } from "@/hooks/useModal";
 import Image from "next/image";
 import {
+  DynamicSVG,
   GreetingSVG,
   PencilSVG,
   PlusSVG,
   RatingSVG,
 } from "@/components/svgs/svgs";
 import { CalendarSVG } from "@/components/svgs/amentiasSVG";
-import StayEditPreviewAmenities from "./StayEditPreviewAmenities/StayEditPreviewAmenities";
 interface Props {
   stay: StayModel;
 }
 export default function StayEditPreview({ stay }: Props) {
- 
   const editPreviewModel = useRef(null);
   const [isEditPreviewModel, setIsEditPreviewModel] =
     useModal(editPreviewModel);
@@ -90,8 +89,9 @@ export default function StayEditPreview({ stay }: Props) {
           </div>
           <Image src={stay.images[0]} alt="stay" width={428} height={421} />
           <ul className={styles.editPreviewModelInfo}>
-            <li>{stay.name}</li>
-            <li>
+            <li className={styles.editPreviewList}>{stay.name}</li>
+
+            <li className={styles.editPreviewList}>
               <h2>{`${stay.guestStay} ${stay.type} hosted by ${stay.host.firstName}`}</h2>
               <span>
                 <p>{`${stay.capacity} guest${
@@ -109,10 +109,21 @@ export default function StayEditPreview({ stay }: Props) {
                 height={48}
               />
             </li>
-            <li>{stay.description}</li>
+            
+            <li className={styles.editPreviewList}>{stay.description}</li>
             <li>
               <h3>Amenities</h3>
-              <StayEditPreviewAmenities amenities={stay.amenities} />
+              <ul className={styles.amenitiesList}>
+                {stay.amenities.map((amenity) => (
+                  <li key={amenity._id}>
+                    <p>{amenity.name}</p>
+                    <DynamicSVG
+                      path={amenity.path!}
+                      viewBox={amenity.viewBox!}
+                    />
+                  </li>
+                ))}
+              </ul>
             </li>
             <li>
               <h3>Location</h3>

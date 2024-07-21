@@ -1,13 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StayModel } from "@/model/stay.model";
-import { useModal } from "@/hooks/useModal";
 import { useUserStore } from "@/store/useUserStore";
 import ConfirmBookingModal from "./ConfirmBookingModal/ConfrimBookingModal";
 import { daysBetweenDates, getEmptyBooking } from "@/service/booking-service";
 import RegularBooking from "./Views/Regular/RegularBooking";
-import MobileBooking from "../../rework/Mobile/MobileBooking";
 import { BookingModel } from "@/model/booking.model";
 import { GuestsModel } from "@/model/guest.model";
 import { getDefaultDates, stayToSmallStay } from "@/service/stay.service";
@@ -24,13 +22,29 @@ export default function Booking({ stay }: Props) {
   const [bookingModal, setBookingModal] = useState(false);
 
   useEffect(() => {
-    // Initialize booking dates
     setBooking({
       ...booking,
       checkIn: stay.firstAvailableDate![0],
       checkOut: stay.firstAvailableDate![2],
     });
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      setBooking((prev) => ({
+        ...prev,
+        stay: {
+          _id: stay._id!,
+          name: stay.name,
+          image: stay.images[0],
+          price: +stay.price,
+          type: stay.type,
+        },
+        user: userToSmallUser(user),
+        host: stay.host,
+      }));
+    }
+  }, [user]);
 
   const onDateClick = (date: Date) => {
     if (!date) return;
@@ -50,14 +64,8 @@ export default function Booking({ stay }: Props) {
   const onBook = () => {
     if (!user) return alert("No user");
 
-    const newBooking: BookingModel = {
-      ...booking,
-      user: userToSmallUser(user),
-      stay: stayToSmallStay(stay),
-      host: stay.host,
-      price: stay.price * diffInDays,
-    };
-    setBooking(newBooking);
+    const price = stay.price * diffInDays;
+    setBooking((prev) => ({ ...prev, price }));
     setBookingModal(true);
   };
 

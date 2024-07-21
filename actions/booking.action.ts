@@ -7,10 +7,11 @@ import {
   BookingStatus,
 } from "@/model/booking.model";
 import { z } from "zod";
+import { ObjectId } from "mongodb";
+import { buildBookingPipeline } from "@/db/pipelines/booking.pipeline";
+import { BookingFilterModel } from "@/model/filters.model";
 
-import { ObjectId, OptionalId, UpdateResult } from "mongodb";
-
-const bookingSchema = z
+const bookingValidation = z
   .object({
     id: z.string().optional(),
     stayId: z.string(),
@@ -35,67 +36,92 @@ const bookingSchema = z
   });
 
 export const getBookingByFilter = async (
-  filter: Partial<BookingModel>
+  filter: BookingFilterModel
 ): Promise<BookingModel[]> => {
   const collection = await dbService.getCollection("bookings");
-  const bookings = (await collection
-    .find({
-      filter,
-    })
-    .toArray()) as unknown as BookingModel[];
-  return bookings;
+  const pipeline = buildBookingPipeline(filter);
+
+  const bookings = await collection.aggregate(pipeline).toArray();
+
+  const bookingsToReturn: BookingModel[] = bookings.map((booking) => ({
+    _id: booking._id.toString(),
+    checkIn: booking.checkIn,
+    checkOut: booking.checkOut,
+    bookingTime: booking.bookingTime,
+    price: booking.price,
+    adults: booking.adults,
+    children: booking.children,
+    infants: booking.infants,
+    pets: booking.pets,
+    stay: { ...booking.stay, _id: booking.stay._id.toString() },
+    user: { ...booking.user, _id: booking.user._id.toString() },
+    host: { ...booking.host, _id: booking.host._id.toString() },
+    status: booking.status as BookingStatus,
+  }));
+
+  return bookingsToReturn;
 };
 
 export const saveBooking = async (
   booking: BookingModel
-): Promise<BookingModel | null> => {
+): Promise<BookingModel> => {
+  let bookingId: ObjectId;
   if (booking._id) {
-    return await _update(booking);
-  } else return await _create(booking);
+    bookingId = await _update(booking);
+  } else bookingId = await _create(booking);
+
+  return {
+    ...booking,
+    _id: bookingId.toString(),
+    bookingTime: bookingId.getTimestamp(),
+  };
 };
 
-export const getBookingById = async (
-  id: string
-): Promise<BookingModel | null> => {
+export const getBookingById = async (_id: string): Promise<BookingModel> => {
   const collection = await dbService.getCollection("bookings");
-  const data = await collection.findOne<BookingSchema>({
-    _id: new ObjectId(id),
-  });
-  if (!data) return null;
+  const pipeline = buildBookingPipeline({ _id });
+
+  const [result] = await collection.aggregate(pipeline).toArray();
+
+  if (!result) throw new Error("Booking not found.");
+
   return {
-    _id: data._id!.toString(),
-    stayId: data.stayId!.toString(),
-    userId: data.userId!.toString(),
-    hostId: data.hostId!.toString(),
-    status: data.status as BookingStatus,
-    price: data.price!,
-    adults: data.adults,
-    children: data.children,
-    infants: data.infants,
-    pets: data.pets,
-    checkIn: data.checkIn!,
-    checkOut: data.checkOut!,
-    bookingTime: data.bookingTime!,
+    _id: result._id.toString(),
+    stay: result.stay,
+    user: result.user,
+    host: result.host,
+    status: result.status as BookingStatus,
+    price: result.price,
+    adults: result.adults,
+    children: result.children,
+    infants: result.infants,
+    pets: result.pets,
+    checkIn: result.checkIn,
+    checkOut: result.checkOut,
+    bookingTime: result._id.getTimestamp(),
   };
 };
 
 ////////////////// Private functions //////////////////
-const _update = async (
-  booking: Partial<BookingModel>
-): Promise<BookingModel | null> => {
+const _update = async (booking: BookingModel): Promise<ObjectId> => {
   const collection = await dbService.getCollection("bookings");
+
   const result = await collection.updateOne(
     { _id: new ObjectId(booking._id) },
     { $set: booking }
   );
 
-  return result.modifiedCount === 1 ? (booking as BookingModel) : null;
+  if (!result.upsertedId) throw new Error("Update failed.");
+
+  return result.upsertedId;
 };
 
-const _create = async (booking: BookingModel): Promise<BookingModel | null> => {
+const _create = async (booking: BookingModel): Promise<ObjectId> => {
   const collection = await dbService.getCollection("bookings");
-  if (booking._id) delete booking._id;
-  const bookingToSave: Partial<BookingSchema> = {
+
+  bookingValidation.parse(booking);
+
+  const bookingToSave: BookingSchema = {
     checkIn: booking.checkIn,
     checkOut: booking.checkOut,
     price: booking.price,
@@ -104,15 +130,14 @@ const _create = async (booking: BookingModel): Promise<BookingModel | null> => {
     infants: booking.infants,
     pets: booking.pets,
     status: booking.status,
-    userId: new ObjectId(booking.user?._id),
-    stayId: new ObjectId(booking.stay?._id),
-    hostId: new ObjectId(booking.host?._id),
+    userId: new ObjectId(booking.user._id),
+    stayId: new ObjectId(booking.stay._id),
+    hostId: new ObjectId(booking.host._id),
   };
-  const data = await collection.insertOne(bookingToSave);
-  if (!data) return null;
-  return {
-    _id: data.insertedId.toString(),
-    ...booking,
-    bookingTime: data.insertedId.getTimestamp(),
-  };
+
+  const result = await collection.insertOne(bookingToSave);
+
+  if (!result.insertedId) throw new Error("Insert failed.");
+
+  return result.insertedId;
 };

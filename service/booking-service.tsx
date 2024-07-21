@@ -1,8 +1,5 @@
 import { BookingModel } from "@/model/booking.model";
-import { getEmptyStay } from "./stay.service";
-import { getEmptySmallUser } from "./user.service";
 
-// Create an empty booking object with default values.
 export const getEmptyBooking = (
   checkIn?: Date,
   checkOut?: Date
@@ -10,13 +7,31 @@ export const getEmptyBooking = (
   return {
     checkIn: checkIn || new Date(),
     checkOut: checkOut || new Date(),
-    bookingTime: new Date(),
     price: 0,
     adults: 1,
     children: 0,
     infants: 0,
     pets: 0,
     status: "pending",
+    stay: {
+      _id: "",
+      name: "",
+      image: "",
+      price: 0,
+      type: "",
+    },
+    user: {
+      _id: "",
+      firstName: "",
+      imgUrl: "",
+      lastName: "",
+    },
+    host: {
+      _id: "",
+      firstName: "",
+      imgUrl: "",
+      lastName: "",
+    },
   };
 };
 

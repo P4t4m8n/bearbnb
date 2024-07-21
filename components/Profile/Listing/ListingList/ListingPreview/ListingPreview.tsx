@@ -79,13 +79,13 @@ export default function ListingPreview({
     <li className={styles.listing}>
       <h3 className={styles.listNum}>{idx + 1}</h3>
       <h3 className={styles.bookingDate}>
-        {new Date(bookingTime).toLocaleDateString()}
+        {new Date(bookingTime!).toLocaleDateString()}
       </h3>
       <div className={styles.stayInfo}>
         <Image
           sizes="auto"
           className={styles.stayImg}
-          src={stay.images[0]}
+          src={stay.image}
           width={40}
           height={40}
           alt={stay.name}

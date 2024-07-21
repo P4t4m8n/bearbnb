@@ -1,6 +1,12 @@
 "use client";
 import { GuestStayType, StayModel, StayType } from "@/model/stay.model";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import styles from "./StayEdit.module.scss";
 import StayEditType from "./StayEditType/StayEditType";
 import StayEditShared from "./StayEditShared/StayEditShared";
@@ -16,6 +22,8 @@ import StayEditName from "./StayEditName/StayEditName";
 import StayEditPrice from "./StayEditPrice/StayEditPrice";
 import StayEditPreview from "./StayEditPreview/StayEditPreview";
 import { useUserStore } from "@/store/useUserStore";
+import { saveStay } from "@/actions/stay.action";
+import { useRouter } from "next/navigation";
 
 interface Props {
   stay: StayModel;
@@ -25,7 +33,7 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
   const [stage, setStage] = useState(15);
   const [stateStay, setStateStay] = useState<StayModel>(stay);
   const { user } = useUserStore();
-  console.log("user:", user);
+  const router = useRouter();
 
   useEffect(() => {
     const { lat, lng } = stay.location;
@@ -43,7 +51,6 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
         imgUrl: user.imgUrl,
         ownerSince: user.ownerSince,
       };
-      console.log("smallUser:", smallUser);
       setStateStay({ ...stay, host: smallUser });
     }
   }, [user]);
@@ -132,6 +139,15 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
     [stateStay]
   );
 
+  const onSaveStay = async (ev: MouseEvent) => {
+    try {
+      const stay = await saveStay(stateStay);
+      router.push(`/profile/${stay._id}`);
+    } catch (error) {
+      console.error("Failed to save stay:", error);
+    }
+  };
+
   const isDisabled =
     (stage === 4 && !stateStay.location.country) ||
     (stage === 5 &&
@@ -154,7 +170,7 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
     checkedAmenities = stateStay.amenities.map((amenity) => amenity.name);
   return (
     <section className={styles.stayEdit}>
-      {/* {stage === 1 && (
+      {stage === 1 && (
         <TransitionPage
           h1={"Tell us about your place"}
           h2={"Step 1"}
@@ -259,7 +275,7 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
           serviceFee={0.14}
           currency={stateStay.currency}
         />
-      )} */}
+      )}
 
       {stage === 15 && <StayEditPreview stay={stateStay} />}
 
@@ -292,15 +308,20 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
           >
             Back
           </button>
-          <button
-            className={`${isDisabled ? styles.disabled : ""} ${
-              stage === 15 ? styles.publish : ""
-            }`}
-            disabled={isDisabled}
-            onClick={() => setStage((prev) => prev + 1)}
-          >
-            {`${stage === 15 ? "Publish" : "Next"}`}
-          </button>
+          {stage < 15 && (
+            <button
+              className={`${isDisabled ? styles.disabled : ""} `}
+              disabled={isDisabled}
+              onClick={() => setStage((prev) => prev + 1)}
+            >
+              Next
+            </button>
+          )}
+          {stage >= 15 && (
+            <button className={styles.publish} onClick={onSaveStay}>
+              Publish
+            </button>
+          )}
         </div>
       </div>
     </section>

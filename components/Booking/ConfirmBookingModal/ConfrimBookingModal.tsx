@@ -117,7 +117,7 @@ export default function ConfirmBookingModal({
             <div className={styles.imgCon}>
               <Image
                 sizes="auto"
-                src={booking.stay!.images[0]}
+                src={booking.stay.image}
                 fill={true}
                 alt=""
               ></Image>

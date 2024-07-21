@@ -1,7 +1,7 @@
 "use server";
 
 import { SearchParamsModel } from "@/model/filters.model";
-import { StayModel, StaySmallModel } from "@/model/stay.model";
+import { StayModel, StaySchema, StaySmallModel } from "@/model/stay.model";
 import StayPreview from "@/components/StayPreview/StayPreview";
 import {
   findFirstConsecutiveDaysAfterDate,
@@ -9,7 +9,9 @@ import {
 } from "@/service/stay.service";
 import { dbService } from "@/db/db.service";
 import { ObjectId } from "mongodb";
-import { buildPipeline } from "@/db/pipelines";
+import { saveHighlights } from "./highlight.action";
+import { saveLocation } from "./location.action";
+import { buildStayPipeline } from "@/db/pipelines/stay.pipeline";
 
 const NUMBER_PER_PAGE = 12;
 
@@ -18,7 +20,11 @@ export const getSmallStaysJSX = async (
   page?: number
 ): Promise<React.JSX.Element[]> => {
   try {
-    const pipeline = buildPipeline(page || 1, NUMBER_PER_PAGE, searchParams);
+    const pipeline = buildStayPipeline(
+      page || 1,
+      NUMBER_PER_PAGE,
+      searchParams
+    );
     const stays = await _getSmallStaysData(pipeline);
 
     if (!stays) throw new Error("Failed to fetch stays");
@@ -36,7 +42,11 @@ export const getSmallStays = async (
   page?: number
 ): Promise<StaySmallModel[]> => {
   try {
-    const pipeline = buildPipeline(page || 1, NUMBER_PER_PAGE, searchParams);
+    const pipeline = buildStayPipeline(
+      page || 1,
+      NUMBER_PER_PAGE,
+      searchParams
+    );
 
     const stays = await _getSmallStaysData(pipeline);
 
@@ -211,7 +221,53 @@ export const getSmallStayById = async (id: string): Promise<StaySmallModel> => {
   }
 };
 
+export const saveStay = async (stay: StayModel): Promise<StayModel> => {
+  try {
+    const highlights = await saveHighlights(stay.highlights);
+    const location = await saveLocation(stay.location);
+
+    const highlightsIds = highlights.map(
+      (highlight) => new ObjectId(highlight._id)
+    );
+    const amenitiesIds = stay.amenities.map(
+      (amenity) => new ObjectId(amenity._id)
+    );
+
+    const stayToSave: StaySchema = {
+      name: stay.name,
+      type: stay.type,
+      description: stay.description,
+      price: +stay.price,
+      capacity: +stay.capacity,
+      baths: +stay.baths,
+      bedRooms: stay.bedRooms,
+      guestStay: stay.guestStay || "Entire place",
+      images: stay.images,
+      labels: stay.labels,
+      currency: stay.currency,
+      locationId: new ObjectId(location._id),
+      hostId: new ObjectId(stay.host._id),
+      amenities: amenitiesIds,
+      highlights: highlightsIds,
+      isPublished: stay.isPublished ? stay.isPublished : false,
+    };
+
+    const collection = await dbService.getCollection("stays");
+    const result = await collection.insertOne(stayToSave);
+
+    return {
+      ...stay,
+      highlights,
+      location,
+      _id: result.insertedId.toString(),
+    };
+  } catch (error) {
+    throw new Error(`Failed to save stay: ${error}`);
+  }
+};
+
 ///////////////////// Private Functions /////////////////////
+
 const _queryStayToStallSmallJSXArr = (
   queryStay: any[]
 ): React.JSX.Element[] => {

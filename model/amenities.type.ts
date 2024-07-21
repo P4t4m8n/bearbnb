@@ -1,9 +1,9 @@
 export type EntertainmentAmenities = "TV" | "Smart TV";
 
 export type ScenicViewAmenities =
-  | "Sea view"
-  | "Mountain view"
-  | "Courtyard view";
+  | "Sea Views"
+  | "Mountain Views"
+  | "Courtyard Views";
 
 export type BathroomAmenities = "Hair Dryer" | "Hot Water" | "HotTub";
 
@@ -55,7 +55,7 @@ export type MiscellaneousAmenities =
 
 export type AmenityTypes =
   | "Entertainment"
-  | "Scenic View"
+  | "Scenic Views"
   | "Bathroom"
   | "Bedroom And Laundry"
   | "Essentials"

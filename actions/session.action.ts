@@ -3,7 +3,7 @@
 import { dbService } from "@/db/db.service";
 import { SessionModel } from "@/model/session.model";
 import { cryptr } from "@/service/auth.service";
-import { ObjectId } from "mongodb";
+import { DeleteResult, ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
 
 const ONE_DAY_IN_SECONDS = 24 * 60 * 60;
@@ -46,9 +46,9 @@ export const validateSession = async (
   return session;
 };
 
-export const removeSession = async (token: string) => {
+export const removeSession = async (token: string): Promise<DeleteResult> => {
   const collection = await dbService.getCollection("sessions");
-  await collection.deleteOne({
+  return await collection.deleteOne({
     token,
   });
 };

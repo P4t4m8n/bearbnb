@@ -1,5 +1,7 @@
 export interface BedRoomModel {
-  beds: Beds[];
+  beds: BedsTypes[];
   image: string;
 }
-export type Beds = "double" | "single" | "crib";
+
+export const bedsType = ["double", "single", "crib"];
+export type BedsTypes = (typeof bedsType)[number];
