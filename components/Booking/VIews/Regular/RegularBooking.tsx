@@ -61,10 +61,10 @@ export default function RegularBooking({
 
   return (
     <section className={styles.booking}>
-      <header>
+      <div className={styles.bookingHeader}>
         <h1>{diffInDays < 0 ? "Add dates for prices" : `$${price}`}</h1>
         <h3>night</h3>
-      </header>
+      </div>
       <div className={styles.bookingInfo}>
         <button onClick={() => setCalenderOpen(true)} className={styles.dates}>
           <div className={styles.datesBig}>

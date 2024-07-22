@@ -7,14 +7,16 @@ import { AmenitySmallModel } from "@/model/amenity.model";
 
 interface Props {
   amenities: AmenitySmallModel[];
+  isActive: boolean;
 }
-export default function StayFilter({ amenities }: Props) {
+export default function StayFilter({ amenities, isActive }: Props) {
   const { handleChange, handleLabelClick, filterBy, onClear, submit } =
     useFilter();
 
+  const filterClass = `${styles.filter} ${isActive ? styles.scroll : ""}`;
   return (
-    <>
-      <div className={styles.filter}>
+   
+      <div className={filterClass}>
         <IconList handleLabelClick={handleLabelClick} />
         <FilterModal
           filterBy={filterBy}
@@ -24,6 +26,6 @@ export default function StayFilter({ amenities }: Props) {
           amenities={amenities}
         />
       </div>
-    </>
+   
   );
 }

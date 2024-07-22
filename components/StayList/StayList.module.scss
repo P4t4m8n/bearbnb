@@ -8,6 +8,10 @@
   position: relative;
   width: 100%;
   z-index: 0;
+  padding-inline: 4rem;
+
+
+  @include no-scrollBar;
   @media (max-width: 1700px) {
     @include grid-columns(5);
   }
@@ -19,9 +23,11 @@
   }
   @media (max-width: 905px) {
     @include grid-columns(2);
+    padding: 1.5rem;
+
   }
-  @media (max-width: 680px) {
+  @media (max-width: 570px) {
     @include grid-columns(1);
-    padding: 0.1rem;
+    padding: 1rem;
   }
 }

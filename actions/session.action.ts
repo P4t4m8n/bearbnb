@@ -1,4 +1,5 @@
 "use server";
+import "server-only";
 
 import { dbService } from "@/db/db.service";
 import { SessionModel } from "@/model/session.model";

@@ -73,14 +73,14 @@ export default function ConfirmBookingModal({
     <>
       {isBookingConfirm ? (
         <section className={styles.bookingModal} ref={bookingConfirmModalRef}>
-          <header>
+          <div className={styles.bookingModalHeader}>
             <h1>One last step</h1>
             <p>
               Dear guest, <br />
               In order to complete your reservation,please confirm you trip
               details
             </p>
-          </header>
+          </div>
           <div className={styles.bookingInfo}>
             <h2>Reservation details:</h2>
             <div className={styles.datesGuests}>

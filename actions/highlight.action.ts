@@ -1,20 +1,16 @@
-import { z } from "zod";
+"use server";
+import "server-only";
 import { dbService } from "@/db/db.service";
-import { SvgsNameTypes } from "@/model/icons.model";
 import { HighlightModel } from "@/model/highlight.model";
+import { highlightValidate } from "@/db/dataValidation/validation";
 
-const HighlightValidate = z.object({
-  _id: z.string().optional(),
-  title: z.string(),
-  description: z.string(),
-  icon: z.enum(SvgsNameTypes),
-});
+
 export const saveHighlights = async (
   highlights: HighlightModel[]
 ): Promise<HighlightModel[]> => {
   try {
     highlights.forEach((highlight) => {
-      HighlightValidate.parse(highlight);
+      highlightValidate.parse(highlight);
     });
 
     const collection = await dbService.getCollection("highlights");

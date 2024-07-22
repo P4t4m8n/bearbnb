@@ -22,6 +22,8 @@ export function StaySearch({ isActive }: Props) {
   const params = new URLSearchParams(searchParams);
 
   const calendarRef = useRef<HTMLDivElement | null>(null);
+  const searchAsModelRef = useRef<HTMLDivElement | null>(null);
+  const [isSearchAsModel, setIsSearchAsModel] = useModal(searchAsModelRef);
   const [isCalendarOpen, setIsCalenderOpen] = useModal(calendarRef, null);
 
   const { handleLocation, filterBy, clearDates, handleDate, handleGuests } =
@@ -42,12 +44,20 @@ export function StaySearch({ isActive }: Props) {
     router.push(url);
   };
 
-  const scrollClass = `${styles.search} ${isActive ? styles.scroll : ""}`;
+  const scrollClass = `${styles.search} ${isActive ? styles.scroll : ""} ${
+    isSearchAsModel ? styles.searchAsModel : ""
+  }`;
 
   return (
     <>
-      <div className={scrollClass}>
-        {isLoaded && <AddressSearch onSelect={handleLocation} />}
+      <div ref={searchAsModelRef} className={scrollClass}>
+        {isLoaded && (
+          <AddressSearch
+            span={"Where"}
+            placeHolder={"Search destinations"}
+            onSelect={handleLocation}
+          />
+        )}
         <div
           onClick={() => setIsCalenderOpen(true)}
           ref={calendarRef}
@@ -95,6 +105,17 @@ export function StaySearch({ isActive }: Props) {
           <SearchSVG />
         </button>
       </div>
+        <button
+          className={`${styles.searchAsModelBtn} ${!isActive || isSearchAsModel ? styles.hide : ""}`}
+          onClick={() => setIsSearchAsModel(true)}
+        >
+          <span>Anywhere</span>
+          <span>Any week</span>
+          <h5>Add guests</h5>
+          <div className={styles.svgCon}>
+            <SearchSVG />
+          </div>
+        </button>
 
       <StaySearchMobile
         handleLocation={handleLocation}

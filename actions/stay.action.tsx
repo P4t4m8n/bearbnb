@@ -1,4 +1,5 @@
 "use server";
+import "server-only";
 
 import { SearchParamsModel } from "@/model/filters.model";
 import { StayModel, StaySchema, StaySmallModel } from "@/model/stay.model";

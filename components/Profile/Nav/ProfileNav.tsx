@@ -33,7 +33,7 @@ export default function ProfileNav() {
       </Link>
       <Link
         className={currentPath === "/mystays" ? styles.active : ""}
-        href={{ pathname: "/myStays", query: { userId, authId } }}
+        href={{ pathname: "/hosting", query: { userId, authId } }}
       >
         assets
       </Link>

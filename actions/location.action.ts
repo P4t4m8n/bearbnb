@@ -1,26 +1,14 @@
-import { z } from "zod";
+"use server";
+import "server-only";
 import { dbService } from "@/db/db.service";
 import { LocationModel, LocationSchema } from "@/model/location.model";
-
-export const LocationValidate = z.object({
-  _id: z.string().optional(),
-  lat: z.number(),
-  lng: z.number(),
-  country: z.string(),
-  city: z.string(),
-  countryCode: z.string(),
-  streetAddress: z.string(),
-  postalCode: z.string().optional(),
-  entrance: z.string().optional(),
-  apt: z.string().optional(),
-  house: z.string().optional(),
-});
+import { locationValidate } from "@/db/dataValidation/validation";
 
 export const saveLocation = async (
   location: LocationModel
 ): Promise<LocationModel> => {
   try {
-    LocationValidate.parse(location);
+    locationValidate.parse(location);
 
     const locationToSave: LocationSchema = {
       country: location.country,

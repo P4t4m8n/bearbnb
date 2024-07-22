@@ -1,7 +1,6 @@
 .main {
   height: 100vh;
   box-sizing: border-box;
-  padding-inline: 4rem;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -9,6 +8,6 @@
   z-index: auto;
   width: 100%;
   @media (max-width: 750px) {
-    padding-inline: 1rem;
+   
   }
 }

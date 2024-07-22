@@ -6,9 +6,17 @@ import styles from "./Header.module.scss";
 import { StaySearch } from "../StaySearch/StaySearch";
 import Link from "next/link";
 import { throttle } from "@/util/throttle";
+import { AmenitySmallModel } from "@/model/amenity.model";
+import { usePathname } from "next/navigation";
+import StayFilter from "../StayFilter/StayFilter";
 
-export default function Header() {
+interface Props {
+  amenities: AmenitySmallModel[];
+}
+
+export default function Header({ amenities }: Props) {
   const [isActive, setIsActive] = useState(false);
+  const pathname = usePathname();
   const sentinelRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -40,20 +48,16 @@ export default function Header() {
     <>
       <section ref={sentinelRef} className={styles.sentinel}></section>
 
-      <section className={headerClass}>
+      <header className={headerClass}>
         <Link href={"/"} className={styles.logo}>
           <LogoSVG />
-          <h2>bearbnb</h2>
+          <h2>airbnb</h2>
         </Link>
-        <div className={styles.placeHolder}>
-          <span>Stays</span>
-          <span>Experiences</span>
-        </div>
+
         <User isActive={isActive} />
-        <Suspense fallback={<div>Loading...</div>}>
-          <StaySearch isActive={isActive} />
-        </Suspense>
-      </section>
+        <StaySearch isActive={isActive} />
+        <StayFilter amenities={amenities} isActive={isActive}  />
+      </header>
     </>
   );
 }

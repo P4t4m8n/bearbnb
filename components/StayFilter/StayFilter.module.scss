@@ -1,16 +1,16 @@
 @import "../../styles/abstracts/variables";
 
 .filter {
+  grid-area: 3/1/-1/-1;
+
   display: flex;
-  position: sticky;
-  top: 12rem;
   gap: 1rem;
   background-color: white;
   height: 5rem;
   align-items: center;
   justify-content: space-between;
   z-index: 1;
-  width: 100%;
+  max-width: 100%;
 
   button {
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
@@ -36,6 +36,10 @@
       stroke: currentcolor;
     }
   }
+
+  &.scroll {
+    grid-area: 2/1/-1/-1;
+  }
 }
 
 @media (max-width: 900px) {
@@ -46,8 +50,8 @@
   }
 }
 
-@media (max-width: 750px) {
+@media (max-width: 780px) {
   .filter {
-    top: 6rem !important;
+    display: contents;
   }
 }

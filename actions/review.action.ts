@@ -1,3 +1,5 @@
+"use server";
+import "server-only";
 import { dbService } from "@/db/db.service";
 import { ReviewModel, ReviewToSaveModel } from "@/model/review.model";
 import { ObjectId } from "mongodb";

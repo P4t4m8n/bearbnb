@@ -1,5 +1,5 @@
-'use server'
-
+"use server";
+import "server-only";
 import { dbService } from "@/db/db.service";
 import { AmenityModel, AmenitySmallModel } from "@/model/amenity.model";
 

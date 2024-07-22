@@ -9,12 +9,9 @@ interface Props {
 }
 
 export default async function Home({ searchParams }: Props) {
-
-  const amenities = await getSmallAmenities();
   return (
-    <section >
+    <section>
       <Suspense fallback={<StayListSkeleton />}>
-        <StayFilter amenities={amenities} />
         <StayList searchParams={searchParams} />
       </Suspense>
     </section>

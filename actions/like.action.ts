@@ -1,5 +1,5 @@
 "use server";
-
+import "server-only";
 import { dbService } from "@/db/db.service";
 import { LikeDTO, LikeExtendedModel, LikeModel } from "@/model/Like.model";
 import { ObjectId } from "mongodb";

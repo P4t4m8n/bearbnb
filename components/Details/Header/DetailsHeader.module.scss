@@ -1,6 +1,6 @@
 @import "../../../styles/abstracts/variables";
 
-.header {
+.detailsHeader {
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
@@ -31,7 +31,7 @@
 }
 
 @media (max-width: 650px) {
-  .header {
+  .detailsHeader {
     position: absolute;
     min-width: calc(100svw - 2rem);
     top: 2%;

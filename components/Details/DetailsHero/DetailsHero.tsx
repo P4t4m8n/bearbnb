@@ -24,10 +24,10 @@ export function DetailsHero({
 }: Props) {
   return (
     <div className={styles.detailsHero}>
-      <header>
+      <div className={styles.detailsHeroHeader}>
         <h2>{city}</h2>
         <h2>{", " + country}</h2>
-      </header>
+      </div>
       <div className={styles.stayInfo}>
         <h3>{capacity} guests</h3>
         <h3>{numOfBedrooms} bedroom</h3>

@@ -8,7 +8,7 @@ interface Props {
 }
 export function DetailsHeader({ name, stayId }: Props) {
   return (
-    <header className={styles.header}>
+    <div className={styles.detailsHeader}>
       <h1>{name}</h1>
       <div>
         <button>
@@ -17,6 +17,6 @@ export function DetailsHeader({ name, stayId }: Props) {
         </button>
         <LikeButton stayId={stayId} />
       </div>
-    </header>
+    </div>
   );
 }

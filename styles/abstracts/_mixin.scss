@@ -150,3 +150,16 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+@mixin side-pseudoBorder() {
+  content: "";
+  display: block;
+  height: 60%;
+  width: 2px;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='100%25' width='1'%3E%3Cline x1='0' y1='0' x2='0' y2='100%25' style='stroke%3Argb(0%2C0%2C0)%3Bstroke-width%3A1' /%3E%3C/svg%3E");
+  position: absolute;
+  right: 0;
+  top: 20%;
+  opacity: 1;
+  transform: translateX(50%);
+}

@@ -8,12 +8,14 @@ interface Props {
   onSelect: (location: LocationModel) => void;
   placeHolder?: string;
   value?: string;
+  span?: string;
 }
 
 export default function AddressSearch({
   onSelect,
   placeHolder,
   value,
+  span,
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLUListElement | null>(null);
@@ -115,9 +117,9 @@ export default function AddressSearch({
     );
   };
 
-
   return (
     <div className={styles.addressSearch}>
+      {span && <span>{span}</span>}
       {!value && (
         <input
           ref={inputRef}

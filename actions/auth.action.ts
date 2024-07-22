@@ -1,4 +1,5 @@
 "use server";
+import "server-only";
 
 import { UserModel, userSchema } from "@/model/user.model";
 import bcrypt from "bcrypt";
@@ -7,16 +8,9 @@ import { createUser, getUserByFilter } from "./user.action";
 import { createSession, removeSession } from "./session.action";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
-import { z } from "zod";
+import { userValidate } from "@/db/dataValidation/validation";
 
-const userValidate = z.object({
-  email: z.string().email(),
-  password: z.string().min(4),
-  firstName: z.string(),
-  lastName: z.string(),
-  dob: z.date(),
-  isOwner: z.boolean(),
-});
+
 
 export const login = async (formData: FormData): Promise<UserModel> => {
   const email = formData.get("email") as string;

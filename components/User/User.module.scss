@@ -1,20 +1,22 @@
 @import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/mixin";
 
 .user {
-  display: flex;
-  grid-area: 1/3/2/-1;
+  @include base-flex-padding-gap(0, 1rem);
   align-items: center;
   justify-self: flex-end;
-  gap: 1rem;
+  grid-area: 1/3/2/-1;
   position: relative;
   box-sizing: border-box;
 
-  .svgBtn {
-    padding: 0.7rem;
-    font-size: 1em;
+  .hostingLink {
+    font-weight: 700;
+    font-size: $font-size-15;
+    padding: 0.75rem;
     border-radius: $border-radius-2;
+    min-width: fit-content;
     &:hover {
-      background-color: $gray-3;
+      background-color: $gray-4;
     }
   }
 
@@ -70,28 +72,14 @@
   }
 }
 
-@media (max-width: 1025px) {
-  .user {
-    .svgBtn {
-      display: none;
-    }
-  }
-}
-
-@media (max-width: 930px) {
-  .scroll {
-    grid-area: 1/2/-1/-1;
-  }
-}
-
-@media (max-width: 750px) {
+@media (max-width: 780px) {
   .user {
     position: fixed;
     bottom: 0;
-    width: calc(100% - 2rem);
-    right: calc(-50% + 1rem);
+    width: 100%;
+    right: -50%;
     height: fit-content;
-    transform: translateX(calc(-50% - 1rem));
+    transform: translateX(-50%);
     background-color: white;
     border-top: 1px solid rgb(235, 235, 235);
     justify-self: start;
@@ -101,6 +89,9 @@
       display: none;
     }
     .modalCon {
+      display: none;
+    }
+    .hostingLink {
       display: none;
     }
   }

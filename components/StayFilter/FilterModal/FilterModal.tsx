@@ -58,7 +58,7 @@ export default function FilterModal({
   };
 
   return (
-    <div>
+    <>
       <button
         onClick={() => setIsFiltersOpen(true)}
         className={styles.filterBtn}
@@ -69,10 +69,10 @@ export default function FilterModal({
 
       {isFiltersOpen && (
         <section ref={modelRef} className={styles.filterModal}>
-          <header>
+          <div  className={styles.filterModalHeader}>
             <button onClick={() => setIsFiltersOpen(false)}>X</button>
             <h1>Filters</h1>
-          </header>
+          </div>
 
           <section className={styles.container}>
             <div className={styles.type}>
@@ -159,6 +159,6 @@ export default function FilterModal({
           </div>
         </section>
       )}
-    </div>
+    </>
   );
 }

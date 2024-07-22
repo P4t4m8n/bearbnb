@@ -50,10 +50,10 @@ export default function LoginModel() {
   if (!openModal) return null;
   return (
     <section className={styles.modal} ref={modalRef}>
-      <header>
+      <div className={styles.loginModelHeader}>
         <button onClick={onClose}>X</button>
         <h3>Log in or sign up</h3>
-      </header>
+      </div>
       {isLogin ? (
         <form onSubmit={onSubmit}>
           <input type="email" name="email" placeholder="Email" />

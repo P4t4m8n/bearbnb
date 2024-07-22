@@ -3,7 +3,6 @@
 
 .addressSearch {
   min-height: 100%;
-  padding: 6px 12px 4px 10px;
   border-radius: $border-radius-2;
   min-width: 100%;
   position: relative;
@@ -12,6 +11,8 @@
   flex-direction: column;
   justify-content: center;
   padding-left: 1.5rem;
+  padding-top: .25rem;
+ 
   input {
     outline: none;
   }

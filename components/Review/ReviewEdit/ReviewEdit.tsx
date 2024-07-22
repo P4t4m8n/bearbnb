@@ -39,10 +39,10 @@ export default function ReviewEdit({
 
   return (
     <section className={styles.reviewEdit}>
-      <header>
+      <div className={styles.reviewEditHeader}>
         <LogoSVG />
         <h3>Step {page}</h3>
-      </header>
+      </div>
       {page === 1 && (
         <section className={styles.overallRating}>
           <div>

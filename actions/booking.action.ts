@@ -1,39 +1,17 @@
 "use server";
-
+import "server-only";
 import { dbService } from "@/db/db.service";
 import {
   BookingModel,
   BookingSchema,
   BookingStatus,
 } from "@/model/booking.model";
-import { z } from "zod";
 import { ObjectId } from "mongodb";
 import { buildBookingPipeline } from "@/db/pipelines/booking.pipeline";
 import { BookingFilterModel } from "@/model/filters.model";
+import { bookingValidation } from "@/db/dataValidation/validation";
 
-const bookingValidation = z
-  .object({
-    id: z.string().optional(),
-    stayId: z.string(),
-    userId: z.string(),
-    hostId: z.string(),
-    status: z.enum(["pending", "confirmed", "canceled", "completed"]),
-    price: z
-      .number()
-      .min(0, { message: "Price must be a non-negative number." }),
-    adults: z
-      .number()
-      .min(1, { message: "At least one adult must be specified." }),
-    children: z.number().min(0).default(0),
-    infants: z.number().min(0).default(0),
-    pets: z.number().min(0).default(0),
-    checkIn: z.date(),
-    checkOut: z.date(),
-    bookingTime: z.date(),
-  })
-  .refine((data) => data.checkIn < data.checkOut, {
-    message: "Check-in date must be before check-out date.",
-  });
+
 
 export const getBookingByFilter = async (
   filter: BookingFilterModel

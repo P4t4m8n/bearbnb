@@ -18,7 +18,7 @@ export default function IconList({ handleLabelClick }: Props) {
   const labels = createPresentableObjects(fileNames);
 
   return (
-    <>
+    <div className={styles.iconList}>
       {backVisible && (
         <button
           style={{ transform: "rotate(180deg)" }}
@@ -46,6 +46,6 @@ export default function IconList({ handleLabelClick }: Props) {
       <button className={styles.scrollBtn} onClick={() => onScrollBy(1)}>
         <ScrollBySVG className={styles.svg} />
       </button>
-    </>
+    </div>
   );
 }

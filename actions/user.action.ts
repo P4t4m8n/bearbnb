@@ -1,4 +1,5 @@
 "use server";
+import "server-only";
 import { dbService } from "@/db/db.service";
 import {  UserFilterModel, UserModel, userSchema } from "@/model/user.model";
 

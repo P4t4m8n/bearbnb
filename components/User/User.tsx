@@ -33,12 +33,21 @@ export function User({ isActive }: Props) {
     setUser(null);
   };
 
-
   return (
     <div className={`${styles.user} ${isActive ? styles.scroll : ""}`}>
-      <Link href={{ pathname: "/stay/edit" }} className={styles.svgBtn}>
-        Airbnb your home
-      </Link>
+      {!user?.isOwner && (
+        <Link href={{ pathname: "/stay/edit" }} className={styles.hostingLink}>
+          Airbnb your home
+        </Link>
+      )}
+      {user?.isOwner && (
+        <Link
+          href={{ pathname: "/profile/hosting", query: { _id: user._id } }}
+          className={styles.hostingLink}
+        >
+          Switch to hosting
+        </Link>
+      )}
 
       <button onClick={() => setModal(true)} className={styles.userProfile}>
         {user ? (
