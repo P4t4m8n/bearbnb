@@ -1,87 +1,82 @@
 import { BookingFilterModel } from "@/model/filters.model";
-import { ObjectId } from "mongodb";
+import { ObjectId } from "mongodb"; // Ensure this import is present
 
 export const buildBookingPipeline = (filter: BookingFilterModel) => {
-  const matchStage: {
-    checkIn?: { $gte: Date; $lt: Date };
-    status?: string;
-    "host._id"?: ObjectId;
-    "user._id"?: ObjectId;
-    "stay._id"?: ObjectId;
-    _id?: ObjectId;
-  } = {};
+  const pipeline = [];
 
   if (filter.dateRange) {
-    matchStage.checkIn = {
-      $gte: filter.dateRange.startDate,
-      $lt: filter.dateRange.endDate,
-    };
+    pipeline.push({
+      $match: {
+        checkIn: { $gte: new Date(filter.dateRange.startDate) },
+        checkOut: { $lt: new Date(filter.dateRange.endDate) },
+      },
+    });
   }
 
   if (filter.status) {
-    matchStage.status = filter.status;
+    pipeline.push({ $match: { status: filter.status } });
   }
 
   if (filter.hostId) {
-    matchStage["host._id"] = new ObjectId(filter.hostId);
+    pipeline.push({ $match: { hostId: new ObjectId(filter.hostId) } });
   }
 
   if (filter.userId) {
-    matchStage["user._id"] = new ObjectId(filter.userId);
+    pipeline.push({ $match: { userId: new ObjectId(filter.userId) } });
   }
 
   if (filter.stayId) {
-    matchStage["stay._id"] = new ObjectId(filter.stayId);
-  }
-  if (filter._id) {
-    matchStage._id = new ObjectId(filter._id);
+    pipeline.push({ $match: { stayId: new ObjectId(filter.stayId) } });
   }
 
-  const pipeline = [
-    {
-      $match: matchStage,
-    },
+  if (filter._id) {
+    pipeline.push({ $match: { _id: new ObjectId(filter._id) } });
+  }
+
+  pipeline.push(
     {
       $lookup: {
         from: "stays",
-        localField: "stay._id",
+        localField: "stayId",
         foreignField: "_id",
-        as: "stayDetails",
-      },
-    },
-    {
-      $unwind: {
-        path: "$stayDetails",
-        preserveNullAndEmptyArrays: true,
+        as: "stay",
       },
     },
     {
       $lookup: {
         from: "users",
-        localField: "user._id",
+        localField: "userId",
         foreignField: "_id",
-        as: "userDetails",
-      },
-    },
-    {
-      $unwind: {
-        path: "$userDetails",
-        preserveNullAndEmptyArrays: true,
+        as: "user",
       },
     },
     {
       $lookup: {
         from: "users",
-        localField: "host._id",
+        localField: "hostId",
         foreignField: "_id",
-        as: "hostDetails",
+        as: "host",
       },
     },
     {
-      $unwind: {
-        path: "$hostDetails",
-        preserveNullAndEmptyArrays: true,
+      $unwind: "$stay",
+    },
+    {
+      $unwind: "$user",
+    },
+    {
+      $unwind: "$host",
+    },
+    {
+      $lookup: {
+        from: "locations",
+        localField: "stay.locationId",
+        foreignField: "_id",
+        as: "stay.location",
       },
+    },
+    {
+      $unwind: "$stay.location",
     },
     {
       $project: {
@@ -96,31 +91,34 @@ export const buildBookingPipeline = (filter: BookingFilterModel) => {
         pets: 1,
         status: 1,
         stay: {
-          _id: "$stayDetails._id",
-          name: "$stayDetails.name",
-          images: "$stayDetails.images",
-          price: "$stayDetails.price",
-          type: "$stayDetails.type",
+          _id: "$stay._id",
+          name: "$stay.name",
+          image: { $arrayElemAt: ["$stay.images", 0] },
+          price: "$stay.price",
+          type: "$stay.type",
+          location: {
+            city: "$stay.location.city",
+          },
         },
         user: {
-          _id: "$userDetails._id",
-          firstName: "$userDetails.firstName",
-          lastName: "$userDetails.lastName",
-          email: "$userDetails.email",
-          isOwner: "$userDetails.isOwner",
-          imgUrl: "$userDetails.imgUrl",
+          _id: "$user._id",
+          firstName: "$user.firstName",
+          lastName: "$user.lastName",
+          email: "$user.email",
+          isOwner: "$user.isOwner",
+          imgUrl: "$user.imgUrl",
         },
         host: {
-          _id: "$hostDetails._id",
-          email: "$hostDetails.email",
-          isOwner: "$hostDetails.isOwner",
-          imgUrl: "$hostDetails.imgUrl",
-          firstName: "$hostDetails.firstName",
-          lastName: "$hostDetails.lastName",
+          _id: "$host._id",
+          email: "$host.email",
+          isOwner: "$host.isOwner",
+          imgUrl: "$host.imgUrl",
+          firstName: "$host.firstName",
+          lastName: "$host.lastName",
         },
       },
-    },
-  ];
+    }
+  );
 
   return pipeline;
 };

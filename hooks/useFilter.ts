@@ -18,6 +18,7 @@ export const useFilter = () => {
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>): void => {
     const { target } = ev;
     const { value, name, type } = target;
+  
 
     if (type === "checkbox") {
       let amenities: string[] = [];

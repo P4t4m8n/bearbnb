@@ -20,6 +20,9 @@ export interface BookingModel extends BookingSmallModel {
     image: string;
     price: number;
     type: string;
+    location:{
+      city: string;
+    }
   };
   user: UserSmallModel;
   host: UserSmallModel;

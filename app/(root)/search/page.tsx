@@ -7,7 +7,6 @@ export default function StaySearchPage({ searchParams }: Props) {
   return (
     <section>
       <StayList searchParams={searchParams} />
-      <div>Placeholder</div>
     </section>
   );
 }

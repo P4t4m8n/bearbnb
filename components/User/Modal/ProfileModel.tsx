@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { MouseEvent, useEffect, useState } from "react";
 import styles from "./Model.module.scss";
-import { UserModel } from "@/model/user.model";
 import {
   AvatarSVG,
   LikeSVG,
@@ -36,9 +35,9 @@ export default function ProfileModel({
   }, [pathname]);
   return (
     <>
-      {isMobile ? (
+      {isMobile && (
         <ul className={styles.modalUserMobile}>
-          {!_id ? (
+          {!_id && (
             <>
               <li className={isFocused === "/login" ? styles.focused : ""}>
                 <Link href={{ pathname: "/login", query: "login" }}>
@@ -58,7 +57,8 @@ export default function ProfileModel({
                 </Link>
               </li>
             </>
-          ) : (
+          )}
+          {_id && (
             <>
               <li>
                 <div className={styles.logoutBtn}>
@@ -117,9 +117,10 @@ export default function ProfileModel({
             </Link>
           </li>
         </ul>
-      ) : (
+      )}
+      {!isMobile && (
         <ul className={styles.modalUser}>
-          {!_id ? (
+          {!_id && (
             <>
               <li>
                 <Link href={{ pathname: "/login", query: "login" }}>
@@ -137,7 +138,8 @@ export default function ProfileModel({
                 </Link>
               </li>
             </>
-          ) : (
+          )}
+          {_id && (
             <>
               <li>
                 <Link href={{ pathname: "/profile", query: { _id } }}>

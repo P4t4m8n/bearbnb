@@ -3,11 +3,11 @@ import { Suspense } from "react";
 import MyStayListSkeleton from "../../skeletons/MyStayListsSkeleton/MyStayListSkeleton";
 import { BookingModel } from "@/model/booking.model";
 import { StatusType } from "@/model/status.type";
-import { getBookingByFilter, saveBooking } from "@/actions/booking.action";
+import { getBookings, saveBooking } from "@/actions/booking.action";
 
 export default async function ListingIndex({ hostId }: { hostId: string }) {
   //Server component to manage functions
-  const bookings = await getBookingByFilter({ hostId });
+  const bookings = await getBookings({ hostId });
   const onSaveBooking = async (booking: BookingModel, status: StatusType) => {
     "use server";
     const bookingDTO = { ...booking, status };

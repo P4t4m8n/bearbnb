@@ -50,6 +50,11 @@
   display: grid;
   grid-template-columns: repeat($cols, minmax(0, 1fr));
 }
+@mixin grid-columns-gap($cols, $gap) {
+  display: grid;
+  grid-template-columns: repeat($cols, minmax(0, 1fr));
+  gap: $gap;
+}
 @mixin bookingBtn() {
   background-color: $main-pink;
   width: 100%;
@@ -102,6 +107,12 @@
   padding: $padding;
   display: flex;
   gap: $gap;
+}
+@mixin base-flex-padding-gap-align($padding, $gap, $align) {
+  padding: $padding;
+  display: flex;
+  gap: $gap;
+  align-items: $align;
 }
 @mixin flex-column-gap-padding($gap, $padding) {
   padding: $padding;
@@ -159,6 +170,12 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+@mixin center-position($position) {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: $position;
 }
 @mixin side-pseudoBorder() {
   content: "";

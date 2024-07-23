@@ -5,12 +5,12 @@ import TripSkeleton from "@/components/skeletons/TripSkeleton/TripSkeleton";
 export default async function Trips({
   searchParams,
 }: {
-  searchParams: { userId: string };
+  searchParams: { _id: string };
 }) {
-  const { userId } = searchParams;
+  const { _id } = searchParams;
   return (
     <Suspense fallback={<TripSkeleton />}>
-      <TripList userId={userId} />;
+      <TripList userId={_id} />;
     </Suspense>
   );
 }

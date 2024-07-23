@@ -196,7 +196,7 @@ export async function seed() {
           "This apartment is located in the heart of the city, close to all amenities.",
         baths: 2,
         highlights: insertedIds,
-        hostId: new ObjectId("667d23b8d71c9238f15ac90d"),
+        hostId: new ObjectId("667d23b8d71c9238f15ac910"),
         locationId: new ObjectId(locations[i]._id),
         amenities: amenitiesIds,
         labels: labels.slice(

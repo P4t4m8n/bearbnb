@@ -23,15 +23,16 @@ export async function middleware(req: NextRequest) {
   }
 
   if (pathname.includes("/stay/edit")) {
-    if ( !user) {
+    if (!user) {
       const returnUrl = req.nextUrl.clone();
       returnUrl.pathname = "/";
       returnUrl.searchParams.set("showDialog", "y");
       return NextResponse.redirect(returnUrl);
     }
   }
-  if (pathname === "/profile/myStays") {
+  if (pathname.includes("hosting" || "listing" || "trips" || "wishlist")) {
     if (!id || !user || user.userId !== id) {
+    
       const returnUrl = req.nextUrl.clone();
       returnUrl.pathname = "/";
       returnUrl.searchParams.delete("_id");

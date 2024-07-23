@@ -24,10 +24,10 @@ const getGeoWithinPipeline = (location: string, distance: number) => {
     $match: {
       "location.location.coordinates": {
         $geoWithin: {
-          $centerSphere: [[lng, lat], distanceInRadians]
-        }
-      }
-    }
+          $centerSphere: [[lng, lat], distanceInRadians],
+        },
+      },
+    },
   };
 };
 
@@ -158,9 +158,10 @@ export const buildStayPipeline = (
 
   if (searchParams?.amenities) {
     const amenities = searchParams.amenities.split(",");
+    const fixedAmenities = amenities.map((amenity) => new ObjectId(amenity));
     pipeline.push({
       $match: {
-        amenities: { $all: amenities },
+        amenities: { $all: fixedAmenities },
       },
     });
   }

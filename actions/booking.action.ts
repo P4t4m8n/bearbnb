@@ -11,9 +11,7 @@ import { buildBookingPipeline } from "@/db/pipelines/booking.pipeline";
 import { BookingFilterModel } from "@/model/filters.model";
 import { bookingValidation } from "@/db/dataValidation/validation";
 
-
-
-export const getBookingByFilter = async (
+export const getBookings = async (
   filter: BookingFilterModel
 ): Promise<BookingModel[]> => {
   const collection = await dbService.getCollection("bookings");
@@ -25,7 +23,7 @@ export const getBookingByFilter = async (
     _id: booking._id.toString(),
     checkIn: booking.checkIn,
     checkOut: booking.checkOut,
-    bookingTime: booking.bookingTime,
+    bookingTime: booking._id.getTimestamp(),
     price: booking.price,
     adults: booking.adults,
     children: booking.children,

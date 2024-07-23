@@ -2,19 +2,16 @@
 @import "../../../styles/abstracts/mixin";
 
 .filterBtn {
-  display: flex;
+  @include base-flex-padding-gap-align(1rem, 0.5rem, center);
   border-radius: 0.5rem;
   height: 3rem;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.725rem;
+  font-size: $font-size-12;
   font-weight: 700;
-  padding: 1rem;
   svg {
     stroke-width: 3;
     min-width: 0.9rem;
     display: block;
-    aspect-ratio: 1;
+    aspect-ratio: 1/1;
     fill: none;
     stroke: currentcolor;
   }
@@ -22,57 +19,45 @@
 
 .filterModal {
   background-color: white;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  display: flex;
-  flex-direction: column;
-  max-width: 48rem;
-  width: 100%;
-  min-width: 41rem;
-  transform: translate(-50%, -50%);
+  @include center-position(fixed);
+  width: clamp(41rem, 90%, 48rem);
   height: 90vh;
+  @include base-flex-column-padding-gap(0, 1rem);
   justify-content: space-between;
   border-radius: $border-radius-1;
-  box-shadow: 0px 10px 3000px 1500px rgba(0, 0, 0, 0.5);
+  @include model-boxShadow;
   animation: slide-up 0.5s ease-out forwards;
-  gap: 1rem;
-  z-index: 5000;
+  z-index: $z-index-overlay;
 
   .filterModalHeader {
     border-top-left-radius: $border-radius-1;
     border-top-right-radius: $border-radius-1;
-    display: flex;
+    @include flex-alignCenter-gap(calc(50% - 2rem));
     max-height: 4rem;
-    gap: 45%;
-    align-items: center;
     padding: 1rem 1rem 0 1rem;
     @include border-width-color-paddingBlock(1px, $gray-3, 1rem);
     button {
       box-shadow: none;
-      font-size: 1rem;
+      font-size: $font-size-16;
       font-weight: 700;
     }
     h1 {
-      font-size: 1rem;
+      font-size: $font-size-16;
       font-weight: 800;
     }
   }
 
   .container {
-    padding-inline: 2rem;
-    margin-block: 1rem;
     max-height: calc(100% - 12rem);
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    @include base-flex-column-padding-gap(1rem 2rem 1rem 2rem, 2rem);
+
     h2 {
-      font-size: 1.3rem;
+      font-size: $font-size-20;
       font-weight: 700;
     }
     p {
-      font-size: 1rem;
+      font-size: $font-size-16;
       font-weight: 400;
     }
     > *:not(:last-child) {
@@ -80,9 +65,7 @@
     }
 
     .type {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      @include base-flex-column-padding-gap(1rem, 1rem);
       .typeRadio {
         display: flex;
         width: 100%;
@@ -92,11 +75,9 @@
           label {
             width: 100%;
             text-align: center;
+            @include flex-center;
             color: $black-1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
+            font-size: $font-size-16;
             min-height: 4rem;
             @include border-solid-color-width($gray-3, 1px);
             font-weight: 700;
@@ -134,31 +115,27 @@
 
     .priceRange {
       width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
+      @include base-flex-column-padding-gap(1rem, 0.5rem);
       input {
         width: calc(100% - 4rem);
         align-self: center;
       }
       .price {
         width: calc(100% - 4rem);
-        display: flex;
+        @include flex-center;
         gap: 1rem;
         align-self: center;
-        justify-content: center;
-        align-items: center;
         div {
           @include border-solid-color-width($gray-3, 1px);
           width: 50%;
           border-radius: $border-radius-1-2;
           padding: 0.5rem;
           h6 {
-            font-size: 0.7rem;
+            font-size: $font-size-12;
             font-weight: 400;
           }
           h3 {
-            font-size: 1rem;
+            font-size: $font-size-16;
             font-weight: 300;
           }
         }
@@ -170,23 +147,17 @@
         display: none;
       }
       min-height: fit-content;
-      display: flex;
-      gap: 1rem;
-      flex-direction: column;
+      @include base-flex-column-padding-gap(1rem, 1rem);
       div {
         min-height: fit-content;
-        display: flex;
-        gap: 1rem;
+        @include base-flex-padding-gap(0, 1rem);
       }
       label {
         border-radius: $border-radius-2;
         min-height: 2rem;
         min-width: 3rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.9rem;
-
+        @include flex-center;
+        font-size: $font-size-15;
         @include border-solid-color-width($gray-3, 1px);
       }
     }
@@ -195,13 +166,10 @@
       display: grid;
       gap: 1rem;
       ul {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1.5rem;
+        @include grid-columns-gap(3, 1.5rem);
         label {
-          display: flex;
-          gap: 0.5rem;
-          font-size: 1rem;
+          @include base-flex-padding-gap(0, 0.5rem);
+          font-size: $font-size-16;
           font-weight: 300;
           input[type="checkbox"] {
             width: 2rem;
@@ -226,7 +194,7 @@
         color: $black-1;
         width: 6rem;
         &:hover {
-          background-color: rgb(233, 233, 233);
+          background-color: $gray-3;
         }
       }
       &:last-of-type {
@@ -254,14 +222,13 @@
     border-radius: 100vw;
     padding: 0rem;
     @include flex-center;
- 
-      width: 2.5rem;
-      height: 2.5rem;
-      
+    width: 2.5rem;
+    height: 2.5rem;
+
     p {
       display: none;
     }
-    svg{
+    svg {
       width: 1.15rem;
     }
   }
@@ -272,6 +239,7 @@
     width: 100vw;
     max-width: none;
     min-width: 100vw;
+    width: clamp(100vw, 100%, 100vw);
 
     .container {
       padding-inline: 1rem;

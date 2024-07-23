@@ -69,7 +69,7 @@ export default function FilterModal({
 
       {isFiltersOpen && (
         <section ref={modelRef} className={styles.filterModal}>
-          <div  className={styles.filterModalHeader}>
+          <div className={styles.filterModalHeader}>
             <button onClick={() => setIsFiltersOpen(false)}>X</button>
             <h1>Filters</h1>
           </div>
