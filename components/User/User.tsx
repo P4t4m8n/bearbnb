@@ -9,11 +9,9 @@ import Image from "next/image";
 import MobileUserNav from "./MobileUserNav/MobileUserNav";
 import Link from "next/link";
 
-interface Props {
-  isActive: boolean;
-}
 
-export function User({ isActive }: Props) {
+
+export function User() {
   const { user, setUser } = useUserStore();
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [open, setModal] = useModal(modalRef, null);
@@ -34,7 +32,7 @@ export function User({ isActive }: Props) {
   };
 
   return (
-    <div className={`${styles.user} ${isActive ? styles.scroll : ""}`}>
+    <div className={styles.user}>
       {!user?.isOwner && (
         <Link href={{ pathname: "/stay/edit" }} className={styles.hostingLink}>
           Airbnb your home

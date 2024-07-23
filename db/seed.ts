@@ -71,7 +71,7 @@ export async function seed() {
 
   const collocationA = await dbService.getCollection("amenities");
   const amenitiesData = await collocationA.find().toArray();
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < locations.length; i++) {
     const imgIdx = i % (imgUrls.length - 10);
 
     const random = randomNumber(1, 5);

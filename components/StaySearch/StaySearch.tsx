@@ -15,18 +15,23 @@ import { useJsApiLoader } from "@react-google-maps/api";
 import { libraries } from "@/service/locations.service";
 interface Props {
   isActive: boolean;
+  setIsHeaderAsModel: (isHeaderAsModel: boolean) => void;
+  isHeaderAsModel: boolean;
 }
-export function StaySearch({ isActive }: Props) {
+export function StaySearch({
+  isActive,
+  isHeaderAsModel,
+  setIsHeaderAsModel,
+}: Props) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const params = new URLSearchParams(searchParams);
 
   const calendarRef = useRef<HTMLDivElement | null>(null);
   const searchAsModelRef = useRef<HTMLDivElement | null>(null);
-  const [isSearchAsModel, setIsSearchAsModel] = useModal(searchAsModelRef);
   const [isCalendarOpen, setIsCalenderOpen] = useModal(calendarRef, null);
 
-  const { handleLocation, filterBy, clearDates, handleDate, handleGuests } =
+  const { handleLocation, filterBy, clearDates, handleDate, handleGuests,onClear } =
     useFilterStore();
 
   const { isLoaded, loadError } = useJsApiLoader({
@@ -45,7 +50,7 @@ export function StaySearch({ isActive }: Props) {
   };
 
   const scrollClass = `${styles.search} ${isActive ? styles.scroll : ""} ${
-    isSearchAsModel ? styles.searchAsModel : ""
+    isHeaderAsModel ? styles.searchAsModel : ""
   }`;
 
   return (
@@ -105,17 +110,19 @@ export function StaySearch({ isActive }: Props) {
           <SearchSVG />
         </button>
       </div>
-        <button
-          className={`${styles.searchAsModelBtn} ${!isActive || isSearchAsModel ? styles.hide : ""}`}
-          onClick={() => setIsSearchAsModel(true)}
-        >
-          <span>Anywhere</span>
-          <span>Any week</span>
-          <h5>Add guests</h5>
-          <div className={styles.svgCon}>
-            <SearchSVG />
-          </div>
-        </button>
+      <button
+        className={`${styles.searchAsModelBtn} ${
+          !isActive || isHeaderAsModel ? styles.hide : ""
+        }`}
+        onClick={() => setIsHeaderAsModel(true)}
+      >
+        <span>Anywhere</span>
+        <span>Any week</span>
+        <h5>Add guests</h5>
+        <div className={styles.svgCon}>
+          <SearchSVG />
+        </div>
+      </button>
 
       <StaySearchMobile
         handleLocation={handleLocation}
@@ -124,6 +131,7 @@ export function StaySearch({ isActive }: Props) {
         onDateClick={handleDate}
         handleGuests={handleGuests}
         onSearch={onSearch}
+        onClear={onClear}
       />
     </>
   );

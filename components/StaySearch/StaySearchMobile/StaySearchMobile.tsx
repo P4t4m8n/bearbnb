@@ -1,6 +1,6 @@
 import { FilterByModel } from "@/model/filters.model";
 import styles from "./StaySearchMobile.module.scss";
-import { SearchSVG } from "@/components/svgs/svgs";
+import { PlusSVG, SearchSVG } from "@/components/svgs/svgs";
 import { fixedDatesForMobile } from "@/service/stay.service";
 import { useModal } from "@/hooks/useModal";
 import { useRef, useState } from "react";
@@ -20,6 +20,7 @@ interface Props {
   clearDates: () => void;
   handleGuests: (guests: GuestsModel) => void;
   onSearch: (ev: React.MouseEvent<HTMLButtonElement>) => void;
+  onClear: () => void;
 }
 
 export default function StaySearchMobile({
@@ -29,6 +30,7 @@ export default function StaySearchMobile({
   clearDates,
   handleGuests,
   onSearch,
+  onClear,
 }: Props) {
   const modelRef = useRef<HTMLDivElement | null>(null);
   const [isModelOpen, setIsModelOpen] = useModal(modelRef);
@@ -39,7 +41,6 @@ export default function StaySearchMobile({
       setPartInFocus("who");
     }
   };
- 
 
   const fixedDates = fixedDatesForMobile(filterBy.dates);
   const totalGuests =
@@ -72,7 +73,7 @@ export default function StaySearchMobile({
             onClick={() => setIsModelOpen(false)}
             className={styles.closeModelBtn}
           >
-            X
+            <PlusSVG/>
           </button>
 
           <section className={styles.where}>
@@ -148,6 +149,16 @@ export default function StaySearchMobile({
             >
               <p>Who</p>
               <h4>Add guests</h4>
+            </button>
+          </section>
+
+          <section className={styles.actions}>
+            <button onClick={onClear} className={styles.clearBtn}>
+              Clear all
+            </button>
+            <button onClick={onSearch} className={styles.searchBtn}>
+              <SearchSVG />
+              <p>Search</p>
             </button>
           </section>
         </section>

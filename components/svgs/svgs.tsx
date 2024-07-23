@@ -406,6 +406,9 @@ export const GreetingSVG = () => {
     </svg>
   );
 };
+
+
+
 export const DynamicSVGByName = ({ name }: { name: SvgsNameTypes }) => {
   switch (name) {
     case "door":

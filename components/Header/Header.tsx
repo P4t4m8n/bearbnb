@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LogoSVG } from "../svgs/svgs";
 import { User } from "../User/User";
 import styles from "./Header.module.scss";
@@ -9,6 +9,7 @@ import { throttle } from "@/util/throttle";
 import { AmenitySmallModel } from "@/model/amenity.model";
 import { usePathname } from "next/navigation";
 import StayFilter from "../StayFilter/StayFilter";
+import { useModal } from "@/hooks/useModal";
 
 interface Props {
   amenities: AmenitySmallModel[];
@@ -16,6 +17,8 @@ interface Props {
 
 export default function Header({ amenities }: Props) {
   const [isActive, setIsActive] = useState(false);
+  const headerModelRef = useRef<HTMLDivElement | null>(null);
+  const [isHeaderAsModel, setIsHeaderAsModel] = useModal(headerModelRef);
   const pathname = usePathname();
   const sentinelRef = useRef<HTMLElement | null>(null);
 
@@ -42,21 +45,32 @@ export default function Header({ amenities }: Props) {
     }
   }, []);
 
-  const headerClass = `${styles.header} ${isActive ? styles.scroll : ""}`;
+  const headerClass = `${styles.header} ${isActive ? styles.scroll : ""} ${
+    isHeaderAsModel ? styles.headerAsModel : ""
+  }`;
 
   return (
     <>
       <section ref={sentinelRef} className={styles.sentinel}></section>
 
-      <header className={headerClass}>
+      <header ref={headerModelRef} className={headerClass}>
         <Link href={"/"} className={styles.logo}>
           <LogoSVG />
           <h2>airbnb</h2>
         </Link>
 
-        <User isActive={isActive} />
-        <StaySearch isActive={isActive} />
-        <StayFilter amenities={amenities} isActive={isActive}  />
+        <User />
+        <StaySearch
+          setIsHeaderAsModel={setIsHeaderAsModel}
+          isHeaderAsModel={isHeaderAsModel}
+          isActive={isActive}
+        />
+        {!isHeaderAsModel && (
+          <StayFilter
+            amenities={amenities}
+            isActive={isActive}
+          />
+        )}
       </header>
     </>
   );

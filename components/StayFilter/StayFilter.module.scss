@@ -9,7 +9,7 @@
   height: 5rem;
   align-items: center;
   justify-content: space-between;
-  z-index: 1;
+  z-index: $z-index-modal;
   max-width: 100%;
 
   button {

@@ -16,27 +16,18 @@ const getLocationLookupPipeline = () => [
 const getGeoWithinPipeline = (location: string, distance: number) => {
   const [lat, lng] = location.split(",").map(Number);
 
-  // Calculate the bounding box for the given distance
-  const earthRadius = 6378137;
-  const latDelta = distance / earthRadius;
-  const lonDelta = distance / (earthRadius * Math.cos((Math.PI * lat) / 180));
-
-  const minLat = lat - (latDelta * 180) / Math.PI;
-  const maxLat = lat + (latDelta * 180) / Math.PI;
-  const minLon = lng - (lonDelta * 180) / Math.PI;
-  const maxLon = lng + (lonDelta * 180) / Math.PI;
+  // Convert distance from kilometers to radians
+  const earthRadiusInKm = 6378.137;
+  const distanceInRadians = distance / earthRadiusInKm;
 
   return {
     $match: {
       "location.location.coordinates": {
         $geoWithin: {
-          $box: [
-            [minLon, minLat],
-            [maxLon, maxLat],
-          ],
-        },
-      },
-    },
+          $centerSphere: [[lng, lat], distanceInRadians]
+        }
+      }
+    }
   };
 };
 
@@ -95,7 +86,7 @@ export const buildStayPipeline = (
     pipeline.push(
       getGeoWithinPipeline(
         searchParams.location,
-        searchParams?.distance ? +searchParams.distance : 1000000
+        searchParams?.distance ? +searchParams.distance : 100
       )
     );
   }

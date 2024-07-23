@@ -15,7 +15,7 @@
   padding-block: 1rem;
   padding-inline: 4rem;
   background-color: white;
-  transition: height 0.2s;
+  // transition: all .5s ease-in;
   color: $black-1;
   &::after {
     border-top: 1px solid gainsboro;
@@ -44,15 +44,23 @@
       fill: $main-pink;
     }
   }
-}
+  &.scroll {
+    height: 12rem;
+    grid-template-rows: 3rem 5rem;
+    gap: 1rem;
 
-.scroll {
-  grid-template-rows: 3rem 5rem;
-  height: 12rem;
-  gap: 1rem;
-  &::after {
-    bottom: 6rem;
-    z-index: 10;
+    &::after {
+      bottom: 6rem;
+      z-index: 10;
+    }
+  }
+
+  &.headerAsModel {
+    height: 17rem;
+    @include model-boxShadow;
+    &:after {
+      display: none;
+    }
   }
 }
 

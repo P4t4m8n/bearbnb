@@ -46,8 +46,8 @@ export const getUserLocation = (): Promise<CoordsModel> => {
     if (typeof window !== "undefined" && "geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         const location: CoordsModel = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
+          lng: position.coords.latitude,
+          lat: position.coords.longitude,
         };
         // Resolve the promise with the location
         resolve(location);
