@@ -2,19 +2,15 @@ import styles from "./StayList.module.scss";
 import LoadMore from "../LoadMore/LoadMore";
 import { getSmallStaysJSX } from "@/actions/stay.action";
 import { Suspense } from "react";
-import { FilterByModel, SearchParamsModel } from "@/model/filters.model";
 
-interface Props {
-  searchParams: SearchParamsModel;
-}
-export default async function StayList({ searchParams }: Props) {
-  const stays = await getSmallStaysJSX(searchParams);
+export default async function StayList() {
+  const stays = await getSmallStaysJSX({});
 
   return (
     <ul className={styles.stayList}>
+      <Suspense fallback={<div>Loading more...</div>}>
       {stays}
-      <Suspense fallback={<div>Loading...</div>}>
-        <LoadMore />
+      <LoadMore />
       </Suspense>
     </ul>
   );

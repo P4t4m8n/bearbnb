@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { redirect } from "next/navigation";
 import StayEdit from "@/components/StayEdit/StayEdit";
-import { getAmenities, getSmallAmenities } from "@/actions/amenities.action";
+import { getAmenities } from "@/actions/amenities.action";
 
 export default async function Page({
   searchParams,

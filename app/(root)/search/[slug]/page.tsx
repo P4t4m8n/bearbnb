@@ -5,11 +5,13 @@ import SearchStayList from "@/components/SearchPage/SearchStayList/SearchStayLis
 import { SearchParamsModel } from "@/model/filters.model";
 import { calculateDaysBetweenDates } from "@/service/stay.service";
 import styles from "./StaySearchPage.module.scss";
+import { parseSlug } from "@/service/filter.service";
 
 interface Props {
-  searchParams: SearchParamsModel;
+  params: { slug: string };
 }
-export default async function StaySearchPage({ searchParams }: Props) {
+export default async function StaySearchPage({ params }: Props) {
+  const searchParams = parseSlug(params.slug);
   const stays = await getSmallStays(searchParams);
 
   let lat = 0;

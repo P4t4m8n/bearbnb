@@ -1,4 +1,5 @@
 import ProfileNav from "@/components/Profile/Nav/ProfileNav";
+import { Suspense } from "react";
 
 export default async function layout({
   children,
@@ -6,9 +7,11 @@ export default async function layout({
   children: React.ReactNode;
 }) {
   return (
-    <section >
-      <ProfileNav />
-      {children}
+    <section>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProfileNav />
+        {children}
+      </Suspense>
     </section>
   );
 }

@@ -3,11 +3,11 @@ import MyStayListSkeleton from "@/components/skeletons/MyStayListsSkeleton/MySta
 import { Suspense } from "react";
 
 export default async function Stays({
-  searchParams,
+  params,
 }: {
-  searchParams: { _id: string };
+  params: { _id: string };
 }) {
-  const { _id } = searchParams;
+  const { _id } = params;
 
   return (
     <Suspense fallback={<MyStayListSkeleton />}>

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { LogoSVG } from "../svgs/svgs";
 import { User } from "../User/User";
 import styles from "./Header.module.scss";
@@ -34,7 +34,7 @@ export default function Header({ amenities }: Props) {
   useEffect(() => {
     const sentinel = sentinelRef.current;
 
-    if (sentinel  ) {
+    if (sentinel) {
       const observer = new IntersectionObserver(
         throttle((entries) => {
           setIsActive(!entries[0].isIntersecting);
@@ -69,13 +69,18 @@ export default function Header({ amenities }: Props) {
         </Link>
 
         <User />
-        <StaySearch
-          setIsHeaderAsModel={setIsHeaderAsModel}
-          isHeaderAsModel={isHeaderAsModel}
-          isActive={isActive||isSmallHeader}
-        />
+        <Suspense fallback={<div>Loading...</div>}>
+          <StaySearch
+            setIsHeaderAsModel={setIsHeaderAsModel}
+            isHeaderAsModel={isHeaderAsModel}
+            isActive={isActive || isSmallHeader}
+          />
+        </Suspense>
         {!isHeaderAsModel && (
-          <StayFilter amenities={amenities} isActive={isActive||isSmallHeader} />
+          <StayFilter
+            amenities={amenities}
+            isActive={isActive || isSmallHeader}
+          />
         )}
       </header>
     </>

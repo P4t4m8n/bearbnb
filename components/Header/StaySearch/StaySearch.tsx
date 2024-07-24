@@ -45,7 +45,7 @@ export function StaySearch({
 
     filterToSearchParams(filterBy, params);
 
-    const url = `/search?${params.toString()}`;
+    const url = `/search/${params.toString()}`;
     router.push(url);
   };
 

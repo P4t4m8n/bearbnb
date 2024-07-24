@@ -1,4 +1,4 @@
-import { FilterByModel } from "@/model/filters.model";
+import { FilterByModel, SearchParamsModel } from "@/model/filters.model";
 
 export const filterToSearchParams = (
   filterBy: FilterByModel,
@@ -56,4 +56,31 @@ export const filterToSearchParams = (
   }
 
   return params;
+};
+
+export const parseSlug = (slug: string): SearchParamsModel => {
+  // Decode the URL-encoded string
+  const decodedString = decodeURIComponent(slug);
+
+  // Split the string into key-value pairs
+  const pairs = decodedString.split("&");
+
+  // Convert key-value pairs into an object
+  const searchParams: SearchParamsModel = {};
+
+  pairs.forEach((pair) => {
+    const [key, value] = pair.split("=");
+
+    // Ensure the key is part of SearchParamsModel
+    if (key) {
+      if (key === "guests") {
+        // Parse nested JSON for guests
+        searchParams[key as keyof SearchParamsModel] = JSON.parse(value);
+      } else {
+        searchParams[key as keyof SearchParamsModel] = value;
+      }
+    }
+  });
+
+  return searchParams;
 };

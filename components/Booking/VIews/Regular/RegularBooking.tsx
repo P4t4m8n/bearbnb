@@ -5,7 +5,7 @@ import { BookingModel, BookingSmallModel } from "@/model/booking.model";
 import { GuestsModel } from "@/model/guest.model";
 import { Calendar } from "@/components/Calendar/Calendar";
 import { useModal } from "@/hooks/useModal";
-import { GuestsWindow } from "@/components/StaySearch/GuestsModel/GuestsModel";
+import { GuestsWindow } from "@/components/Header/StaySearch/GuestsModel/GuestsModel";
 
 interface Props {
   data: {

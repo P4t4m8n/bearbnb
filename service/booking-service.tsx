@@ -19,6 +19,7 @@ export const getEmptyBooking = (
       image: "",
       price: 0,
       type: "",
+      location: { city: "" },
     },
     user: {
       _id: "",

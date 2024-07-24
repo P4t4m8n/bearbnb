@@ -1,18 +1,17 @@
-
 import ListingIndex from "@/components/Profile/Listing/ListingIndex";
 import MyStayListSkeleton from "@/components/skeletons/MyStayListsSkeleton/MyStayListSkeleton";
 import { Suspense } from "react";
 
 export default async function Listings({
-  searchParams,
+  params,
 }: {
-  searchParams: { userId: string; authId: string };
+  params: { _id: string };
 }) {
-  const { userId } = searchParams;
+  const { _id } = params;
 
   return (
-    <Suspense fallback={<MyStayListSkeleton/>}>
-      <ListingIndex hostId={userId} />
+    <Suspense fallback={<MyStayListSkeleton />}>
+      <ListingIndex hostId={_id} />
     </Suspense>
   );
 }

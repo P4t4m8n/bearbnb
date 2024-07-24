@@ -3,15 +3,15 @@ import StayListSkeleton from "@/components/skeletons/StayListSkeleton/StayListSk
 import { Suspense } from "react";
 
 export default async function Wishlist({
-  searchParams,
+  params,
 }: {
-  searchParams: { userId: string; authId: string };
+  params: { _id: string };
 }) {
-  const { userId } = searchParams;
+  const { _id } = params;
 
   return (
     <Suspense fallback={<StayListSkeleton />}>
-      <WishlistIndex userId={userId} />
+      <WishlistIndex userId={_id} />
     </Suspense>
   );
 }

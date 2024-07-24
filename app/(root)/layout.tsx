@@ -12,9 +12,9 @@ export default async function layout({
 
   return (
     <main className={styles.main}>
+      <Suspense fallback={<div>Loading...</div>}>
       <HeaderServer />
       {children}
-      <Suspense fallback={<div>Loading...</div>}>
         <LoginModel />
       </Suspense>
     </main>

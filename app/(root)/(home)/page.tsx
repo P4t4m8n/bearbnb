@@ -1,17 +1,12 @@
-import { getSmallAmenities } from "@/actions/amenities.action";
 import StayList from "@/components/StayList/StayList";
-import StayListSkeleton from "@/components/skeletons/StayListSkeleton/StayListSkeleton";
-import { SearchParamsModel } from "@/model/filters.model";
 import { Suspense } from "react";
-interface Props {
-  searchParams: SearchParamsModel;
-}
 
-export default async function Home({ searchParams }: Props) {
+
+export default async function Home() {
   return (
     <section>
-      <Suspense fallback={<StayListSkeleton />}>
-        <StayList searchParams={searchParams} />
+      <Suspense fallback={<div>Loading more...</div>}>
+      <StayList  />
       </Suspense>
     </section>
   );

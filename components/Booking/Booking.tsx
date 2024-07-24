@@ -39,6 +39,7 @@ export default function Booking({ stay }: Props) {
           image: stay.images[0],
           price: +stay.price,
           type: stay.type,
+          location: { city: stay.location.city },
         },
         user: userToSmallUser(user),
         host: stay.host,

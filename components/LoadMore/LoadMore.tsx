@@ -1,20 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import StayPreviewSkeleton from "../skeletons/StayPreviewSkeleton/StayPreviewSkeleton";
-import { FilterByModel } from "@/model/filters.model";
-import { getEmptyFilter } from "@/service/stay.service";
 import { getSmallStaysJSX } from "@/actions/stay.action";
 
-interface Props {
-  searchParams: any;
-}
 let page = 2;
 
 export default function LoadMore() {
   const containerRef = useRef<HTMLDivElement>(null);
-  let filterBy: FilterByModel = getEmptyFilter();
   const [stays, setStays] = useState<React.JSX.Element[]>([]);
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
