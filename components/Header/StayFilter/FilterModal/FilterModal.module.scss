@@ -1,5 +1,5 @@
-@import "../../../styles/abstracts/variables";
-@import "../../../styles/abstracts/mixin";
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixin";
 
 .filterBtn {
   @include base-flex-padding-gap-align(1rem, 0.5rem, center);
@@ -22,7 +22,7 @@
   @include center-position(fixed);
   width: clamp(41rem, 90%, 48rem);
   height: 90vh;
-  @include base-flex-column-padding-gap(0, 1rem);
+  @include flex-column-gap-padding(1rem, 0);
   justify-content: space-between;
   border-radius: $border-radius-1;
   @include model-boxShadow;
@@ -50,7 +50,7 @@
   .container {
     max-height: calc(100% - 12rem);
     overflow-y: auto;
-    @include base-flex-column-padding-gap(1rem 2rem 1rem 2rem, 2rem);
+    @include flex-column-gap-padding(2rem, 1rem 2rem 1rem 2rem);
 
     h2 {
       font-size: $font-size-20;
@@ -65,7 +65,7 @@
     }
 
     .type {
-      @include base-flex-column-padding-gap(1rem, 1rem);
+      @include flex-column-gap-padding(1rem, 1rem);
       .typeRadio {
         display: flex;
         width: 100%;
@@ -115,7 +115,7 @@
 
     .priceRange {
       width: 100%;
-      @include base-flex-column-padding-gap(1rem, 0.5rem);
+      @include flex-column-gap-padding(0.5rem, 1rem);
       input {
         width: calc(100% - 4rem);
         align-self: center;
@@ -147,7 +147,7 @@
         display: none;
       }
       min-height: fit-content;
-      @include base-flex-column-padding-gap(1rem, 1rem);
+      @include flex-column-gap-padding(1rem, 1rem);
       div {
         min-height: fit-content;
         @include base-flex-padding-gap(0, 1rem);

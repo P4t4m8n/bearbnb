@@ -1,0 +1,7 @@
+@function total-grid-width($column-width, $num-columns, $gap-width) {
+  $column-width-px: $column-width * 16;
+  $gap-width-px: $gap-width * 16;
+  $total-width: ($num-columns * $column-width-px) +
+    (($num-columns - 1) * $gap-width-px);
+  @return $total-width + px;
+}

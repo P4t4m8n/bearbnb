@@ -2,7 +2,7 @@
 @import "../../../styles/abstracts/mixin.scss";
 
 .editPrice {
-  @include base-flex-column-padding-gap(0, 3.5rem);
+  @include flex-column-gap-padding(3.5rem, 0);
   padding-inline: calc((100% - 40rem) / 2);
   height: 100%;
   width: 100%;
@@ -80,7 +80,7 @@
 
       .extendPriceDetails {
         @include border-solid-color-width($black-1, 2px);
-        @include base-flex-column-padding-gap(1rem, 1rem);
+        @include flex-column-gap-padding(1rem, 1rem);
         border-radius: $border-radius-1-2;
         width: 100%;
         span {

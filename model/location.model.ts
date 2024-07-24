@@ -6,11 +6,11 @@ export interface CoordsModel {
 }
 
 export interface LocationSmallModel extends CoordsModel {
+  _id?: string;
   country: string;
   city: string;
 }
 export interface LocationModel extends LocationSmallModel {
-  _id?: string;
   countryCode: string;
   streetAddress: string;
   postalCode?: string;

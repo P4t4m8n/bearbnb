@@ -2,14 +2,11 @@
 @import "../../styles/abstracts/mixin";
 
 .stayList {
-  display: grid;
-  @include grid-columns(6);
-  gap: 1.5rem;
+  @include grid-columns-gap(6, 1.5rem);
   position: relative;
   width: 100%;
   z-index: 0;
   padding-inline: 4rem;
-
 
   @include no-scrollBar;
   @media (max-width: 1700px) {
@@ -24,7 +21,6 @@
   @media (max-width: 905px) {
     @include grid-columns(2);
     padding: 1.5rem;
-
   }
   @media (max-width: 570px) {
     @include grid-columns(1);

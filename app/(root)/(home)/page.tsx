@@ -1,5 +1,4 @@
 import { getSmallAmenities } from "@/actions/amenities.action";
-import StayFilter from "@/components/StayFilter/StayFilter";
 import StayList from "@/components/StayList/StayList";
 import StayListSkeleton from "@/components/skeletons/StayListSkeleton/StayListSkeleton";
 import { SearchParamsModel } from "@/model/filters.model";

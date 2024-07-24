@@ -9,8 +9,7 @@ import { Guests } from "@/components/Booking/Guests/Guests";
 import { GuestsModel } from "@/model/guest.model";
 import { LocationModel } from "@/model/location.model";
 import AddressSearch from "../AddressSearch/AddressAutoComplete/AddressSearch";
-import { useJsApiLoader } from "@react-google-maps/api";
-import { libraries } from "@/service/locations.service";
+
 
 interface Props {
   filterBy: FilterByModel;

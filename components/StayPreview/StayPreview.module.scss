@@ -6,9 +6,8 @@
   border-radius: $border-radius-1-2;
   min-width: 15rem;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  font-size: 1rem;
+  @include flex-column-gap-padding(0, 0);
+  font-size: $font-size-16;
   z-index: -1;
 
   &:hover {
@@ -22,21 +21,21 @@
     }
   }
   h6 {
-    padding-inline: 2px;
+    padding-inline: 0.125rem;
   }
   h5 {
     font-weight: lighter;
-    font-size: 1rem;
+    font-size: $font-size-16;
   }
   h3 {
     font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
       "Helvetica Neue", sans-serif;
-    font-weight: 600;
-    font-size: 1rem;
+    font-weight: 500;
+    font-size: $font-size-16;
   }
   .imgCon {
     position: relative;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
     width: 100%;
 
     box-sizing: border-box;
@@ -50,10 +49,7 @@
     display: flex;
     justify-content: space-between;
     .rating {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-
+      @include base-flex-padding-gap-align(0, 0.3rem, center);
       .ratingSvg {
         width: 0.8rem;
         aspect-ratio: 1;
@@ -62,14 +58,12 @@
   }
   h6 {
     display: flex;
-    font-size: 0.95rem;
+    font-size: $font-size-15;
     font-weight: lighter;
-    color: rgb(81, 81, 81);
+    color: $gray-1;
   }
   .price {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
+    @include base-flex-padding-gap-align(0, 0.5rem, center);
   }
 }
 

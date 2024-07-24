@@ -1,0 +1,32 @@
+@import "../../../styles/abstracts/imports.scss";
+
+
+.con {
+  container-type: inline-size;
+  container-name: stay-list;
+  width: 60%;
+  height: calc(100vh - 13rem);
+  padding-bottom:1rem;
+  overflow-y: auto;
+  @include no-scrollBar;
+
+h1{
+    font-size: $font-size-18;
+    padding-bottom: 1rem;
+    font-weight: 700;
+}
+  .searchStayList {
+    width: 100%;
+    @include grid-columns-gap(3, 1.5rem);
+  }
+  @container stay-list (width< #{total-grid-width(15, 3, 1.5)}) {
+    .searchStayList {
+      @include grid-columns-gap(2, 1.5rem);
+    }
+  }
+  @container stay-list (width< #{ total-grid-width(15, 2, 1.5)}) {
+    .searchStayList {
+      @include grid-columns-gap(1, 1.5rem);
+    }
+  }
+}

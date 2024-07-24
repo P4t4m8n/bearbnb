@@ -1,11 +1,11 @@
 "use client";
 
 import { useRef } from "react";
-import { SearchSVG } from "../svgs/svgs";
+import { SearchSVG } from "../../svgs/svgs";
 import styles from "./StaySearch.module.scss";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useModal } from "@/hooks/useModal";
-import { Calendar } from "../Calendar/Calendar";
+import { Calendar } from "../../Calendar/Calendar";
 import { GuestsWindow } from "./GuestsModel/GuestsModel";
 import { filterToSearchParams } from "@/service/filter.service";
 import StaySearchMobile from "./StaySearchMobile/StaySearchMobile";

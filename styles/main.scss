@@ -1,5 +1,8 @@
 //Abstracts
-@import "./abstracts/_variables";
+@import "./abstracts/variables";
+@import "./abstracts/mixin";
+@import "./abstracts/functions";
+
 
 //Setup
 @import "./base/base";

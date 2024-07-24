@@ -1,4 +1,4 @@
-@import "../../styles/abstracts/variables";
+@import "../../../styles/abstracts/variables";
 
 .filter {
   grid-area: 3/1/-1/-1;
@@ -9,7 +9,6 @@
   height: 5rem;
   align-items: center;
   justify-content: space-between;
-  z-index: $z-index-modal;
   max-width: 100%;
 
   button {

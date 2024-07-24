@@ -292,6 +292,7 @@ const _queryStayToSmallStay = (queryStay: any): StaySmallModel => {
     images: queryStay.images,
     price: queryStay.price,
     type: queryStay.type,
+    currency: queryStay.currency || "$",
     location: {
       city: queryStay.location.city,
       country: queryStay.location.country,

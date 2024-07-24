@@ -396,7 +396,16 @@ export const stayToSmallStay = (stay: StayModel): StaySmallModel => {
     city: stay.location.city,
   };
 
-  const { _id, type, name, images, price, rating, firstAvailableDate } = stay;
+  const {
+    _id,
+    type,
+    name,
+    images,
+    price,
+    rating,
+    firstAvailableDate,
+    currency,
+  } = stay;
 
   return {
     _id,
@@ -407,6 +416,7 @@ export const stayToSmallStay = (stay: StayModel): StaySmallModel => {
     location,
     rating,
     firstAvailableDate,
+    currency,
   };
 };
 
@@ -512,4 +522,27 @@ export const fixedDatesForMobile = (
       : `${monthNameStart} ${dates?.start?.getDate()} - ${monthNameEnd} ${dates?.end?.getDate()}`;
 
   return fixedDates;
+};
+
+//V
+export const calculateDaysBetweenDates = (
+  checkIn: string | undefined | null,
+  checkOut: string | undefined | null
+): number => {
+  const DEFAULT_DAYS = 3;
+  const MILLISECONDS_IN_A_DAY = 1000 * 3600 * 24;
+
+  if (!checkIn || !checkOut) {
+    return DEFAULT_DAYS;
+  }
+
+  const checkInDate = new Date(checkIn);
+  const checkOutDate = new Date(checkOut);
+
+  if (isNaN(checkInDate.getTime()) || isNaN(checkOutDate.getTime())) {
+    return DEFAULT_DAYS;
+  }
+
+  const timeDiff = Math.abs(checkOutDate.getTime() - checkInDate.getTime());
+  return Math.ceil(timeDiff / MILLISECONDS_IN_A_DAY);
 };

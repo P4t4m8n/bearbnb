@@ -1,5 +1,5 @@
-import { MouseEvent, useRef, useState } from "react";
-import { MinusSVG, PlusSVG, ScrollBySVG } from "../../svgs/svgs";
+import { MouseEvent, useRef } from "react";
+import { MinusSVG, PlusSVG } from "../../../svgs/svgs";
 import styles from "./GuestsModel.module.scss";
 import { useModal } from "@/hooks/useModal";
 import { GuestsModel } from "@/model/guest.model";

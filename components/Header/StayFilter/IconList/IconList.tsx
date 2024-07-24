@@ -2,7 +2,7 @@
 import { useScroll } from "@/hooks/useScroll";
 import { useRef } from "react";
 import styles from "./IconList.module.scss";
-import { ScrollBySVG } from "../../svgs/svgs";
+import { ScrollBySVG } from "../../../svgs/svgs";
 import Image from "next/image";
 import { createPresentableObjects, filenames } from "@/util/createLabels";
 import { LabelsType } from "@/model/labels.type";

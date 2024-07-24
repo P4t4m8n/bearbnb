@@ -97,12 +97,7 @@
     rgba(255 255 255 / 0)
   );
 }
-@mixin base-flex-column-padding-gap($padding, $gap) {
-  padding: $padding;
-  display: flex;
-  flex-direction: column;
-  gap: $gap;
-}
+
 @mixin base-flex-padding-gap($padding, $gap) {
   padding: $padding;
   display: flex;

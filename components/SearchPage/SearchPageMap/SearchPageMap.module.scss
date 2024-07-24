@@ -1,0 +1,14 @@
+@import "../../../styles/abstracts/mixin";
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/functions.scss";
+
+.mapContainer {
+  width: 40%;
+  height: calc(100vh - 13rem);
+  border-radius: $border-radius-1-2;
+  * {
+    border-radius: $border-radius-1-2;
+  }
+}
+
+

@@ -1,0 +1,51 @@
+@import "../../../../styles/abstracts/imports.scss";
+.markerCon {
+  width: 1rem;
+  height: 1rem;
+  position: relative;
+}
+.previewModel {
+  position: absolute !important;
+  min-width: 18.75rem;
+  height: 15rem;
+  box-sizing: border-box;
+  z-index: 15;
+  top: 3rem;
+  left: 50%;
+  transform: translateX(-35%);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 6px 20px 0px;
+  li {
+    padding-bottom: 0.5rem;
+    a {
+      h6 {
+        padding-inline: 0.5rem !important;
+        padding-block: 0.1rem;
+      }
+      div {
+        &:first-of-type {
+          max-width: 18.75rem !important;
+          max-height: 13rem !important;
+          img {
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+          }
+        }
+        &:not(:first-of-type) {
+          padding-inline: 0.5rem !important;
+
+          h6 {
+            padding-block: 0.1rem;
+          }
+          h3,
+          h5,
+          h6 {
+            font-size: $font-size-14;
+          }
+          h3 {
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+}

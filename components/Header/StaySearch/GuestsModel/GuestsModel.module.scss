@@ -1,12 +1,12 @@
-@import "../../../styles/abstracts/variables";
-@import "../../../styles/abstracts/mixin";
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixin";
 .guestsSearch {
   height: 4rem;
   max-height: 100%;
   box-sizing: border-box;
   position: relative;
   border-radius: $border-radius-2;
-  z-index: $z-index-header;
+  z-index: $z-index-modal;
   width: 100%;
 
   .total {

@@ -3,12 +3,12 @@ import { useEffect, useRef, useState } from "react";
 import { LogoSVG } from "../svgs/svgs";
 import { User } from "../User/User";
 import styles from "./Header.module.scss";
-import { StaySearch } from "../StaySearch/StaySearch";
+import { StaySearch } from "./StaySearch/StaySearch";
 import Link from "next/link";
 import { throttle } from "@/util/throttle";
 import { AmenitySmallModel } from "@/model/amenity.model";
 import { usePathname } from "next/navigation";
-import StayFilter from "../StayFilter/StayFilter";
+import StayFilter from "./StayFilter/StayFilter";
 import { useModal } from "@/hooks/useModal";
 
 interface Props {
@@ -17,15 +17,24 @@ interface Props {
 
 export default function Header({ amenities }: Props) {
   const [isActive, setIsActive] = useState(false);
+  const [isSmallHeader, setIsSmallHeader] = useState(false);
   const headerModelRef = useRef<HTMLDivElement | null>(null);
   const [isHeaderAsModel, setIsHeaderAsModel] = useModal(headerModelRef);
   const pathname = usePathname();
   const sentinelRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
+    if (pathname.includes("search")) {
+      setIsSmallHeader(true);
+    } else {
+      setIsSmallHeader(false);
+    }
+  }, [pathname]);
+
+  useEffect(() => {
     const sentinel = sentinelRef.current;
 
-    if (sentinel) {
+    if (sentinel  ) {
       const observer = new IntersectionObserver(
         throttle((entries) => {
           setIsActive(!entries[0].isIntersecting);
@@ -45,9 +54,9 @@ export default function Header({ amenities }: Props) {
     }
   }, []);
 
-  const headerClass = `${styles.header} ${isActive ? styles.scroll : ""} ${
-    isHeaderAsModel ? styles.headerAsModel : ""
-  }`;
+  const headerClass = `${styles.header} ${
+    isActive || isSmallHeader ? styles.scroll : ""
+  } ${isHeaderAsModel ? styles.headerAsModel : ""}`;
 
   return (
     <>
@@ -63,13 +72,10 @@ export default function Header({ amenities }: Props) {
         <StaySearch
           setIsHeaderAsModel={setIsHeaderAsModel}
           isHeaderAsModel={isHeaderAsModel}
-          isActive={isActive}
+          isActive={isActive||isSmallHeader}
         />
         {!isHeaderAsModel && (
-          <StayFilter
-            amenities={amenities}
-            isActive={isActive}
-          />
+          <StayFilter amenities={amenities} isActive={isActive||isSmallHeader} />
         )}
       </header>
     </>

@@ -2,7 +2,7 @@
 import styles from "./FilterModal.module.scss";
 import { useRef } from "react";
 import { useModal } from "@/hooks/useModal";
-import { FilterSVG } from "../../svgs/svgs";
+import { FilterSVG } from "../../../svgs/svgs";
 import { FilterByModel } from "@/model/filters.model";
 import { AmenitySmallModel } from "@/model/amenity.model";
 import AmenitiesFilter from "./AmenitiesFilter/AmenitiesFilter";

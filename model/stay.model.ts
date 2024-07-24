@@ -19,6 +19,7 @@ export interface StaySmallModel {
   type: StayType;
   firstAvailableDate?: Date[] | null;
   rating: number;
+  currency: CurrencyType;
 }
 
 export interface StayModel extends StaySmallModel {
@@ -36,7 +37,6 @@ export interface StayModel extends StaySmallModel {
   reviews: ReviewModel[];
   location: LocationModel;
   bookings: BookingSmallModel[];
-  currency: CurrencyType;
   isPublished: boolean;
 }
 

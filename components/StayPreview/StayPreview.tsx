@@ -11,9 +11,18 @@ const Distance = dynamic(() => import("./Distance/Distance"), { ssr: false });
 
 interface Props {
   stay: StaySmallModel;
+  isSearch?: boolean;
+  isMap?: boolean;
+  daysAmount?: number;
 }
-export default function StayPreview({ stay }: Props) {
-  const { rating, price, location, images, _id, firstAvailableDate } = stay;
+export default function StayPreview({
+  stay,
+  isSearch,
+  isMap,
+  daysAmount,
+}: Props) {
+  const { rating, price, location, images, _id, firstAvailableDate, currency } =
+    stay;
   const { city, country } = location;
   const roundNum = Number(rating.toFixed(2));
 
@@ -38,13 +47,23 @@ export default function StayPreview({ stay }: Props) {
           </h3>
           <div className={styles.rating}>
             <RatingSVG className={styles.ratingSvg} />
-            <h5>{roundNum}</h5>
+            <h5>{roundNum > 0 ? roundNum : "New"}</h5>
           </div>
         </div>
-        <Distance location={stay.location} /> <h6>{availableDate}</h6>
+        {!isSearch && isMap && <Distance location={stay.location} />}
+        <h6>{availableDate}</h6>
         <div className={styles.price}>
-          <h3>{price}$</h3>
+          <h3>
+            {currency}
+            {price}
+          </h3>
           <h5>night</h5>
+          {daysAmount && (
+            <p>
+              {currency}
+              {daysAmount * price} total
+            </p>
+          )}
         </div>
       </Link>
     </li>

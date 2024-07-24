@@ -5,7 +5,7 @@ import { countries, getGeocodeAddress, libraries } from "@/service/locations.ser
 import { ScrollBySVG } from "@/components/svgs/svgs";
 import { useJsApiLoader, Libraries } from "@react-google-maps/api";
 import { useEffect } from "react";
-import AddressSearch from "@/components/StaySearch/AddressSearch/AddressAutoComplete/AddressSearch";
+import AddressSearch from "@/components/Header/StaySearch/AddressSearch/AddressAutoComplete/AddressSearch";
 
 interface Props {
   location: LocationModel;

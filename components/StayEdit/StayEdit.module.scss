@@ -4,7 +4,7 @@
 .stayEdit {
   width: 100%;
   min-height: 100%;
-  @include base-flex-column-padding-gap(1rem, 1rem);
+  @include flex-column-gap-padding(1rem, 1rem);
   align-items: center;
   box-sizing: border-box;
   justify-content: space-between;
