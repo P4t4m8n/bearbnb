@@ -33,8 +33,7 @@
       box-sizing: border-box;
       height: 9rem;
       padding: 1.5rem;
-      @include border-solid-color-width($gray-3, 1px);
-      border-radius: $border-radius-2;
+      @include border-solid-color-width-radius($gray-1, 1px, $border-radius-2);
       display: flex;
       flex-direction: column;
       justify-content: center;

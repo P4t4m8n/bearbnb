@@ -2,8 +2,7 @@
 @import "../../styles/abstracts/mixin";
 
 .user {
-  @include base-flex-padding-gap(0, 1rem);
-  align-items: center;
+  @include flex-direction-alignItems-gap-padding(row, center, 1rem, 0);
   justify-self: flex-end;
   grid-area: 1/3/2/-1;
   position: relative;

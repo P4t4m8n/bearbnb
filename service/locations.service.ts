@@ -1,4 +1,4 @@
-import { CoordsModel } from "@/model/location.model";
+import { CoordsModel, LocationModel } from "@/model/location.model";
 import { Libraries } from "@react-google-maps/api";
 
 //Calculate distance between two locations using Haversine formula
@@ -59,25 +59,58 @@ export const getUserLocation = (): Promise<CoordsModel> => {
   });
 };
 
-export const getGeocodeAddress = async (address: string): Promise<any> => {
+export const getGeocodeAddress = async (
+  address: string
+): Promise<CoordsModel> => {
   const geocoder = new google.maps.Geocoder();
   let location: CoordsModel = { lat: 0, lng: 0 };
-   await geocoder.geocode({ address }, async (results, status) => {
+  await geocoder.geocode({ address }, async (results, status) => {
     if (status === google.maps.GeocoderStatus.OK && results && results[0]) {
       location = {
         lat: results[0].geometry.location.lat(),
         lng: results[0].geometry.location.lng(),
       };
     } else {
-      console.error(
-        "Geocode was not successful for the following reason: " + status
+      throw new Error(
+        `Geocode was not successful for the following reason: ${status}`
       );
-      throw new Error(" Geocode was not successful");
     }
   });
   return location;
 };
 
+export const parseLocationIntoString = (location: LocationModel): string => {
+  return `${location.streetAddress} ${
+    location?.entrance ? location.entrance : ""
+  } ${location.apt ? location.apt : ""} ${
+    location.house ? location.house : ""
+  } ${location.postalCode ? location.postalCode : ""} ${
+    location.city ? location.city : ""
+  } ${location.country}`;
+};
+
+//Constants
+
+export const locationInputFields = [
+  { name: "streetAddress", placeholder: "Street address", type: "text" },
+  {
+    name: "entrance",
+    placeholder: "Entrance (if applicable)",
+    type: "text",
+  },
+  {
+    name: "apt",
+    placeholder: "Apartment number (if applicable)",
+    type: "text",
+  },
+  {
+    name: "house",
+    placeholder: "House number (if applicable)",
+    type: "text",
+  },
+  { name: "postalCode", placeholder: "Postal Code", type: "text" },
+  { name: "city", placeholder: "City", type: "text" },
+];
 export const countries = [
   { name: "Afghanistan", code: "AF" },
   { name: "Albania", code: "AL" },
@@ -277,4 +310,3 @@ export const countries = [
 ];
 
 export const libraries: Libraries = ["places"];
-

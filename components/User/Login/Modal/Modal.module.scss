@@ -36,8 +36,11 @@
     input {
       padding-left: 0.5rem;
       cursor: text;
-      @include border-solid-color-width($gray-3, 1px);
-      border-radius: $border-radius-1-2;
+      @include border-solid-color-width-radius(
+        $gray-3,
+        1px,
+        $border-radius-1-2
+      );
       min-height: 3rem;
       position: relative;
 
@@ -46,9 +49,8 @@
         margin-top: 1rem;
       }
       &:nth-of-type(2) {
-        @include border-solid-color-width($gray-3, 1px);
+        @include border-solid-color-width-radius($gray-3, 1px, 0 0 $border-radius-1-2 $border-radius-1-2);
         border-top: none;
-        border-radius: 0 0 $border-radius-1-2 $border-radius-1-2;
         margin-bottom: 1rem;
       }
       &:nth-of-type(3) {

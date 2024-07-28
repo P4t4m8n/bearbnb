@@ -32,8 +32,8 @@
     @include bookingBtn;
   }
   .bookingInfo {
-    @include border-solid-color-width($gray-3, 1px);
-    border-color: rgb(34, 34, 34);
+    @include border-solid-color-width-radius($gray-3, 1px, $border-radius-1-2);
+    border-color: $black-1;
     position: relative;
     z-index: auto;
 
@@ -41,16 +41,15 @@
     display: grid;
     grid-template-rows: 50% 50%;
     justify-items: start;
-    border-radius: $border-radius-1-2;
     .dates {
       display: grid;
       grid-template-columns: 50% 50%;
+      @include borderBottom-width-color-paddingBottom(1px, $gray-3, 0);
       padding: 0.5rem;
       text-align: left;
       width: 100%;
       align-content: center;
-      @include borderBottom-width-color(1px, $gray-3);
-      border-color: rgb(34, 34, 34);
+      border-color: $black-1;
       div {
         span {
           font-weight: 700;
@@ -60,8 +59,8 @@
           font-size: 0.9rem;
         }
         &:first-of-type {
-          @include borderRight-width-color(1px, $gray-3);
-          border-color: rgb(34, 34, 34);
+          border-right: 1px solid $gray-3;
+          border-color: $black-1;
         }
         &:last-of-type {
           padding-left: 0.5rem;
@@ -80,8 +79,11 @@
       width: 110%;
       height: fit-content;
       box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
-      @include border-solid-color-width($gray-3, 1px);
-      border-radius: $border-radius-1-2;
+      @include border-solid-color-width-radius(
+        $gray-3,
+        1px,
+        $border-radius-1-2
+      );
     }
   }
   .price {
@@ -89,7 +91,7 @@
     font-size: 1rem;
     justify-content: space-between;
     &:nth-of-type(3) {
-      @include border-width-color-paddingBlock(1px, $gray-3, 1rem);
+      @include borderBottom-width-color-paddingBottom(1px, $gray-3, 1rem);
     }
   }
 }

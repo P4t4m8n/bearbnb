@@ -3,5 +3,17 @@ export interface BedRoomModel {
   image: string;
 }
 
-export const bedsType = ["double", "single", "crib"];
+export interface BedroomMap {
+  [key: string]: number;
+}
+
+export const bedsType = [
+  "double",
+  "single",
+  "crib",
+  "king",
+  "queen",
+  "sofa",
+  "bunk",
+];
 export type BedsTypes = (typeof bedsType)[number];

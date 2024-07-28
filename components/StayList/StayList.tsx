@@ -9,8 +9,8 @@ export default async function StayList() {
   return (
     <ul className={styles.stayList}>
       <Suspense fallback={<div>Loading more...</div>}>
-      {stays}
-      <LoadMore />
+        {stays}
+        <LoadMore />
       </Suspense>
     </ul>
   );

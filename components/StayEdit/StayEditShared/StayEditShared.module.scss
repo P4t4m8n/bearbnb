@@ -1,8 +1,7 @@
 @import "../../../styles/abstracts/variables.scss";
-.pageThree {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
+@import "../../../styles/abstracts/mixin.scss";
+.stayEditSharedContainer {
+  @include flex-direction-gap-padding(column, 3rem, 2rem);
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;
@@ -11,28 +10,26 @@
   scrollbar-width: none; /* Firefox */
 
   h1 {
-    font-size: $font-size-32;
-    font-weight: 700;
+    font-size: $font-size-36;
+    font-weight: 600;
   }
 
   .btns {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
+    @include flex-direction-gap-padding(column, 1rem, 0);
     button {
       display: grid;
       grid-template-columns: 80% 3rem;
       justify-content: space-between;
       grid-template-rows: auto auto;
+      align-items: center;
+      padding: 1rem;
+
+      @include border-solid-color-width-radius($gray-3, 1px, $border-radius-1);
+
       height: 100%;
-      border: 2px solid rgb(221, 221, 221);
-      border-radius: $border-radius-1;
       width: 100%;
       height: fit-content;
       min-height: 6rem;
-      padding: 1rem;
-      align-items: center;
       h3,
       p {
         justify-self: flex-start;
@@ -40,7 +37,7 @@
       }
       h3 {
         grid-area: 1/1/2/2;
-        font-size: 1rem;
+        font-size: $font-size-16;
         font-weight: 700;
       }
       p {
@@ -50,19 +47,29 @@
         grid-area: 1/2/-1/-1;
         height: 2.5rem;
         width: 2.5rem;
-        stroke: black;
-        fill: black;
+        stroke: $black-1;
+        fill: $black-1;
         stroke-width: 0.2;
       }
       &:hover {
-        border-color: black;
+        border-color: $black-1;
         border-width: 2px;
         transition: border-color 0.3s;
+        padding: calc(1rem - 1px);
       }
     }
     .selected {
-      border-color: black;
+      border-color: $black-1;
       border-width: 2px;
+    }
+  }
+}
+
+@media (max-width: 40rem) {
+  .stayEditSharedContainer {
+    padding: 1rem;
+    h1 {
+      font-size: $font-size-26;
     }
   }
 }

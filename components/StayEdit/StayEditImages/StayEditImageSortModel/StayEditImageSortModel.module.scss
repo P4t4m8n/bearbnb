@@ -17,7 +17,8 @@
   top: 3rem;
   background-color: white;
   right: 1rem;
-  @include flex-column-gap-padding(1rem, 1rem);
+  @include flex-direction-gap-padding(column, 1rem, 1rem);
+
   width: 12rem;
   min-height: fit-content;
   border-radius: $border-radius-1-2;

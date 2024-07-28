@@ -1,7 +1,8 @@
-import { BedRoomModel } from "@/model/bedroom.model";
+import { BedroomMap, BedRoomModel } from "@/model/bedroom.model";
 import { FilterByModel } from "@/model/filters.model";
+import { SvgsNameTypes } from "@/model/icons.model";
 import { ReviewModel } from "@/model/review.model";
-import { StayModel, StaySmallModel } from "@/model/stay.model";
+import { GuestStayType, StayModel, StaySmallModel } from "@/model/stay.model";
 
 export const getEmptyFilter = (isDates: boolean = true): FilterByModel => {
   const today = new Date();
@@ -166,6 +167,35 @@ export const transformBedrooms = (
     return bedCounts;
   });
 };
+
+export function getBedroomMap(bedroom: BedRoomModel): BedroomMap {
+  const bedroomMap: BedroomMap = {};
+
+  bedroom.beds.forEach((bed) => {
+    if (bedroomMap[bed]) {
+      bedroomMap[bed]++;
+    } else {
+      bedroomMap[bed] = 1;
+    }
+  });
+
+  return bedroomMap;
+}
+export function getBedroomsMap(bedrooms: BedRoomModel[]): BedroomMap {
+  const bedroomMap: BedroomMap = {};
+
+  bedrooms.forEach((bedroom) => {
+    bedroom.beds.forEach((bed) => {
+      if (bedroomMap[bed]) {
+        bedroomMap[bed]++;
+      } else {
+        bedroomMap[bed] = 1;
+      }
+    });
+  });
+
+  return bedroomMap;
+}
 // Returns a default StayModel object with all fields set to their initial empty or default values.
 export const getEmptyStay = (): StayModel => {
   return {
@@ -365,13 +395,21 @@ export const getEmptyStay = (): StayModel => {
     bookings: [],
     highlights: [],
     location: {
-      country: "Japan",
-      countryCode: "JP",
-      city: "Tokyo",
-      streetAddress: "Tokyo Midtown 9-7-1 Akasaka",
-      lat: 35.6654,
-      lng: 139.7297,
+      country: "",
+      countryCode: "",
+      city: "",
+      streetAddress: "",
+      lat: 0,
+      lng: 0,
     },
+    // location: {
+    //   country: "Japan",
+    //   countryCode: "JP",
+    //   city: "Tokyo",
+    //   streetAddress: "Tokyo Midtown 9-7-1 Akasaka",
+    //   lat: 35.6654,
+    //   lng: 139.7297,
+    // },
     rating: 0,
     firstAvailableDate: [],
     currency: "₪",
@@ -524,7 +562,6 @@ export const fixedDatesForMobile = (
   return fixedDates;
 };
 
-//V
 export const calculateDaysBetweenDates = (
   checkIn: string | undefined | null,
   checkOut: string | undefined | null
@@ -546,3 +583,28 @@ export const calculateDaysBetweenDates = (
   const timeDiff = Math.abs(checkOutDate.getTime() - checkInDate.getTime());
   return Math.ceil(timeDiff / MILLISECONDS_IN_A_DAY);
 };
+
+// Constants
+export const sharedOptions: {
+  option: GuestStayType;
+  svg: SvgsNameTypes;
+  paragraph: string;
+}[] = [
+  {
+    option: "Entire place",
+    svg: "house",
+    paragraph: "Guests have the whole place to themselves",
+  },
+  {
+    option: "Private room",
+    svg: "door",
+    paragraph:
+      "Guests have their own room in a home, plus access to shared spaces",
+  },
+  {
+    option: "Shared room",
+    svg: "sharedHouse",
+    paragraph:
+      "Guests sleep in a room or common area that may be shared with you or others",
+  },
+];

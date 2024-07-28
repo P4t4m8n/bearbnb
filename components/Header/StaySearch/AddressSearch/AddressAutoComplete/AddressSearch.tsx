@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { LocationModel } from "@/model/location.model";
 import { useModal } from "@/hooks/useModal";
 import styles from "./AddressSearch.module.scss";
 import { SuggestionPin } from "@/components/svgs/svgs";
+import { debounce } from "@/util/debounce";
 
 interface Props {
   onSelect: (location: LocationModel) => void;
@@ -40,32 +41,35 @@ export default function AddressSearch({
     );
   }, []);
 
-  const handleInputChange = () => {
-    if (!inputRef.current || !autocompleteServiceRef.current) return;
+  const handleInputChange = useCallback(
+    debounce(() => {
+      if (!inputRef.current || !autocompleteServiceRef.current) return;
 
-    autocompleteServiceRef.current.getPlacePredictions(
-      {
-        input: inputRef.current.value,
-        types: ["address"],
-      },
-      (predictions, status) => {
-        if (
-          status === google.maps.places.PlacesServiceStatus.OK &&
-          predictions
-        ) {
-          setSuggestions(
-            predictions.map((prediction) => ({
-              description: prediction.description,
-              place_id: prediction.place_id,
-            }))
-          );
-          setIsSuggestionsOpen(true);
-        } else {
-          console.error("Autocomplete failed with status:", status);
+      autocompleteServiceRef.current.getPlacePredictions(
+        {
+          input: inputRef.current.value,
+          types: ["address"],
+        },
+        (predictions, status) => {
+          if (
+            status === google.maps.places.PlacesServiceStatus.OK &&
+            predictions
+          ) {
+            setSuggestions(
+              predictions.map((prediction) => ({
+                description: prediction.description,
+                place_id: prediction.place_id,
+              }))
+            );
+            setIsSuggestionsOpen(true);
+          } else {
+            console.error("Autocomplete failed with status:", status);
+          }
         }
-      }
-    );
-  };
+      );
+    }, 300),
+    []
+  );
 
   const handleSuggestionClick = (placeId: string) => {
     if (!placesServiceRef.current) return;

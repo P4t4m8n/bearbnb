@@ -1,9 +1,5 @@
 @import "./variables";
 
-@mixin border-width-color-paddingBlock($width, $color, $padding) {
-  border-bottom: $width solid $color;
-  padding-block: $padding;
-}
 @mixin borderBottom-width-color-paddingBottom($width, $color, $padding) {
   border-bottom: $width solid $color;
   padding-bottom: $padding;
@@ -11,25 +7,25 @@
 @mixin border-solid-color-width($color, $width) {
   border: $width solid $color;
 }
-@mixin border-dashed-color-width($color, $width) {
-  border: $width dashed $color;
-}
-@mixin borderBottom-width-color($width, $color) {
-  border-bottom: $width solid $color;
-}
-@mixin borderRight-width-color($width, $color) {
-  border-right: $width solid $color;
-}
-@mixin borderPseudo-width-color($width, $color) {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  box-sizing: border-box;
+@mixin border-solid-color-width-radius($color, $width, $radius) {
   border: $width solid $color;
+  border-radius: $radius;
 }
+@mixin border-dashed-color-width-radius($color, $width, $radius) {
+  border: $width dashed $color;
+  border-radius: $radius;
+}
+
+// @mixin borderPseudo-width-color($width, $color) {
+//   content: "";
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   box-sizing: border-box;
+//   border: $width solid $color;
+// }
 @mixin text-overflow-ellipsis {
   overflow: hidden;
   white-space: nowrap;
@@ -43,13 +39,11 @@
   overflow: visible;
   text-overflow: inherit;
 }
+
 @mixin soft-box-shadow {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
-@mixin grid-columns($cols) {
-  display: grid;
-  grid-template-columns: repeat($cols, minmax(0, 1fr));
-}
+
 @mixin grid-columns-gap($cols, $gap) {
   display: grid;
   grid-template-columns: repeat($cols, minmax(0, 1fr));
@@ -98,23 +92,52 @@
   );
 }
 
-@mixin base-flex-padding-gap($padding, $gap) {
+
+
+
+@mixin flex-direction-gap-padding($direction, $gap, $padding) {
   padding: $padding;
   display: flex;
+  flex-direction: $direction;
   gap: $gap;
 }
-@mixin base-flex-padding-gap-align($padding, $gap, $align) {
+@mixin flex-direction-alignItems-gap-padding(
+  $direction,
+  $align,
+  $gap,
+  $padding
+) {
   padding: $padding;
   display: flex;
+  flex-direction: $direction;
   gap: $gap;
   align-items: $align;
 }
-@mixin flex-column-gap-padding($gap, $padding) {
+@mixin flex-direction-align-justify-padding-gap(
+  $direction,
+  $align,
+  $justify,
+  $padding,
+  $gap
+) {
+  @if index($allowed-directions, $direction) == null {
+    @error "Invalid direction value: #{$direction}. Allowed values are: #{$allowed-directions}";
+  }
+  @if index($allowed-align-items, $align) == null {
+    @error "Invalid align-items value: #{$align}. Allowed values are: #{$allowed-align-items}";
+  }
+  @if index($allowed-justify-content, $justify) == null {
+    @error "Invalid justify-content value: #{$justify}. Allowed values are: #{$allowed-justify-content}";
+  }
+
   padding: $padding;
   display: flex;
-  flex-direction: column;
+  justify-content: $justify;
+  flex-direction: $direction;
   gap: $gap;
+  align-items: $align;
 }
+
 @mixin flex-space-between-align-center {
   display: flex;
   justify-content: space-between;
@@ -136,6 +159,7 @@
   align-items: center;
   gap: $gap;
 }
+
 @mixin no-scrollBar {
   &::-webkit-scrollbar {
     display: none;
@@ -162,6 +186,13 @@
   transform: translate(-50%, -50%);
 }
 @mixin center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin position-center($position) {
+  position: $position;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

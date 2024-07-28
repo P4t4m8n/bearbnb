@@ -3,11 +3,11 @@
 
 .openBtn {
   width: fit-content;
-  @include border-solid-color-width($black-1, 1px);
+  @include border-solid-color-width-radius($black-1, 1px, $border-radius-1-2);
+
   box-sizing: border-box;
   padding-inline: 1rem;
   padding-block: 0.75rem;
-  border-radius: $border-radius-1-2;
   font-weight: 600;
   &:hover {
     background-color: rgb(255, 246, 247);
@@ -39,7 +39,7 @@
     li {
       display: grid;
       gap: 1rem;
-      
+
       h3 {
         font-weight: 600;
         font-size: 1.1rem;
@@ -50,10 +50,7 @@
         li {
           display: flex;
           gap: 1rem;
-          padding-bottom: 2rem;
-      
-            @include borderBottom-width-color(1px, $gray-3);
-          
+          @include borderBottom-width-color-paddingBottom(1px, $gray-3, 2rem);
           h4 {
             font-weight: 300;
           }
@@ -73,7 +70,7 @@
 }
 
 body:has(.amenitiesModel) {
-    overflow: hidden;
+  overflow: hidden;
 
   .amenitiesModel,
   .amenitiesModel * {

@@ -46,7 +46,7 @@
       display: flex;
       justify-content: space-between;
       &:not(:last-child) {
-        @include border-width-color-paddingBlock(1px, $gray-3, 1rem);
+        @include borderBottom-width-color-paddingBottom(1px, $gray-3, 1rem);
       }
       &:last-child {
         padding-top: 1rem;
@@ -68,7 +68,7 @@
         button {
           width: 1.75rem;
           padding: 0.5rem;
-          fill: rgb(121, 121, 121);
+          fill: $gray-2;
           aspect-ratio: 1/1;
           border-radius: 100vw;
           @include border-solid-color-width($gray-3, 1px);

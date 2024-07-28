@@ -2,7 +2,7 @@
 @import "../../../styles/abstracts/mixin";
 
 .guestsFilter {
-  @include flex-column-gap-padding(1rem, 1rem);
+  @include flex-direction-gap-padding("column", 1rem, 1rem);
   width: 100%;
 
   h1 {

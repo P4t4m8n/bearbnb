@@ -23,11 +23,10 @@
     justify-content: space-between !important;
     button {
       width: fit-content;
-      @include border-solid-color-width($black-1, 1px);
+      @include border-solid-color-width-radius($black-1, 1px, $border-radius-1-2);
       box-sizing: border-box;
       padding-inline: 0.5rem;
       padding-block: 0.25rem;
-      border-radius: $border-radius-1-2;
       font-weight: 600;
       &:hover {
         background-color: rgb(210, 210, 210);

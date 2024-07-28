@@ -2,7 +2,7 @@
 @import "../../../../styles/abstracts/mixin";
 
 .filterBtn {
-  @include base-flex-padding-gap-align(1rem, 0.5rem, center);
+  @include flex-direction-alignItems-gap-padding(row, center, 0.5rem, 1rem);
   border-radius: 0.5rem;
   height: 3rem;
   font-size: $font-size-12;
@@ -22,8 +22,13 @@
   @include center-position(fixed);
   width: clamp(41rem, 90%, 48rem);
   height: 90vh;
-  @include flex-column-gap-padding(1rem, 0);
-  justify-content: space-between;
+  @include flex-direction-align-justify-padding-gap(
+    column,
+    flex-start,
+    space-between,
+    0,
+    1rem
+  );
   border-radius: $border-radius-1;
   @include model-boxShadow;
   animation: slide-up 0.5s ease-out forwards;
@@ -35,7 +40,7 @@
     @include flex-alignCenter-gap(calc(50% - 2rem));
     max-height: 4rem;
     padding: 1rem 1rem 0 1rem;
-    @include border-width-color-paddingBlock(1px, $gray-3, 1rem);
+    @include borderBottom-width-color-paddingBottom(1px, $gray-3, 1rem);
     button {
       box-shadow: none;
       font-size: $font-size-16;
@@ -50,7 +55,7 @@
   .container {
     max-height: calc(100% - 12rem);
     overflow-y: auto;
-    @include flex-column-gap-padding(2rem, 1rem 2rem 1rem 2rem);
+    @include flex-direction-gap-padding(column, 1rem, 1rem 2rem 1rem 2rem);
 
     h2 {
       font-size: $font-size-20;
@@ -65,7 +70,8 @@
     }
 
     .type {
-      @include flex-column-gap-padding(1rem, 1rem);
+      @include flex-direction-gap-padding(column, 1rem, 1rem);
+
       .typeRadio {
         display: flex;
         width: 100%;
@@ -115,7 +121,8 @@
 
     .priceRange {
       width: 100%;
-      @include flex-column-gap-padding(0.5rem, 1rem);
+      @include flex-direction-gap-padding(column, 0.5rem, 1rem);
+
       input {
         width: calc(100% - 4rem);
         align-self: center;
@@ -126,9 +133,13 @@
         gap: 1rem;
         align-self: center;
         div {
-          @include border-solid-color-width($gray-3, 1px);
+          @include border-solid-color-width-radius(
+            $gray-3,
+            1px,
+            $border-radius-1-2
+          );
+
           width: 50%;
-          border-radius: $border-radius-1-2;
           padding: 0.5rem;
           h6 {
             font-size: $font-size-12;
@@ -147,18 +158,22 @@
         display: none;
       }
       min-height: fit-content;
-      @include flex-column-gap-padding(1rem, 1rem);
+      @include flex-direction-gap-padding(column, 1rem, 1rem);
+
       div {
         min-height: fit-content;
-        @include base-flex-padding-gap(0, 1rem);
+        @include flex-direction-gap-padding(row, 1rem, 0);
       }
       label {
-        border-radius: $border-radius-2;
         min-height: 2rem;
         min-width: 3rem;
         @include flex-center;
         font-size: $font-size-15;
-        @include border-solid-color-width($gray-3, 1px);
+        @include border-solid-color-width-radius(
+          $gray-3,
+          1px,
+          $border-radius-2
+        );
       }
     }
 
@@ -168,7 +183,7 @@
       ul {
         @include grid-columns-gap(3, 1.5rem);
         label {
-          @include base-flex-padding-gap(0, 0.5rem);
+          @include flex-direction-gap-padding(row, 0.5rem, 0);
           font-size: $font-size-16;
           font-weight: 300;
           input[type="checkbox"] {

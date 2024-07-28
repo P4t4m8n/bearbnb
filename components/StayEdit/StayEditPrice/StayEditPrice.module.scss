@@ -2,7 +2,7 @@
 @import "../../../styles/abstracts/mixin.scss";
 
 .editPrice {
-  @include flex-column-gap-padding(3.5rem, 0);
+  @include flex-direction-gap-padding(column, 3.5rem, 0);
   padding-inline: calc((100% - 40rem) / 2);
   height: 100%;
   width: 100%;
@@ -79,9 +79,12 @@
       padding-bottom: 2rem;
 
       .extendPriceDetails {
-        @include border-solid-color-width($black-1, 2px);
-        @include flex-column-gap-padding(1rem, 1rem);
-        border-radius: $border-radius-1-2;
+        @include border-solid-color-width-radius(
+          $black-1,
+          2px,
+          $border-radius-1-2
+        );
+        @include flex-direction-gap-padding(column, 1rem, 1rem);
         width: 100%;
         span {
           @include flex-space-between-align-center;
@@ -98,9 +101,11 @@
       }
       .stayEarn {
         @include flex-space-between-align-center;
-        @include border-solid-color-width($gray-3, 1px);
-        border-radius: $border-radius-1-2;
-
+        @include border-solid-color-width-radius(
+          $gray-3,
+          1px,
+          $border-radius-1-2
+        );
         padding: 1rem;
         width: 100%;
       }

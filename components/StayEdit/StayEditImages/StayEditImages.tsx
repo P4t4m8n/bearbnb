@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useRef } from "react";
+import { ChangeEvent, useCallback, useRef } from "react";
 import styles from "./StayEditImages.module.scss";
 import { StayType } from "@/model/stay.model";
 import Image from "next/image";

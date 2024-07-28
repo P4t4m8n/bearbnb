@@ -129,9 +129,8 @@
   height: 3rem;
   width: 23rem;
   box-sizing: border-box;
-  border-radius: $border-radius-2;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 2px 0px;
-  @include border-solid-color-width($gray-3, 1px);
+  @include border-solid-color-width-radius($gray-3, 1px, $border-radius-2);
   @include flex-center;
 
   span,
@@ -183,8 +182,7 @@
   top: 100%;
   height: fit-content;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
-  @include border-solid-color-width($gray-3, 1px);
-  border-radius: $border-radius-1-2;
+  @include border-solid-color-width-radius($gray-3, 1px, $border-radius-1-2);
 
   section {
     section {
@@ -201,11 +199,10 @@
     justify-content: space-between !important;
     button {
       width: fit-content;
-      @include border-solid-color-width($black-1, 1px);
+      @include border-solid-color-width-radius($black-1, 1px, $border-radius-1-2);
       box-sizing: border-box;
       padding-inline: 0.5rem;
       padding-block: 0.25rem;
-      border-radius: $border-radius-1-2;
       font-weight: 600;
       &:hover {
         background-color: rgb(210, 210, 210);

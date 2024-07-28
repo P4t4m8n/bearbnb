@@ -2,12 +2,10 @@
 @import "../../../styles/abstracts/mixin.scss";
 
 .locationEdit {
-  height: calc(100% - 8rem);
-  width: 40rem;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  width: clamp(20rem, 100%, 40rem);
+
+  @include flex-direction-gap-padding(column, 2rem, 2rem);
   overflow: auto;
   overflow-y: auto;
   &::-webkit-scrollbar {
@@ -15,35 +13,47 @@
   }
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+
   .text {
-    height: 6.25rem;
     h1 {
-      font-size: $font-size-32;
+      font-size: $font-size-36;
+      font-weight: 600;
     }
     p {
       font-size: $font-size-18;
       color: $gray-1;
     }
   }
+  .map {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1/1;
+    div {
+      border-radius: $border-radius-1;
+    }
+  }
+
   .address {
     box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px 0px;
     height: 4rem;
     min-height: 0;
     position: absolute;
-    top: 10.25rem;
-    width: 80%;
+    top: 2rem;
+    width: calc(100% - 4rem);
     left: 50%;
     transform: translateX(-50%);
     background-color: white;
     z-index: 1;
     border-radius: $border-radius-2;
     div {
-      width: 100%;
+      border-radius: $border-radius-2;
+      padding: 0 1rem 0 1rem;
+      width: calc(100% - 4rem);
       height: 100%;
       input {
-        border-radius: $border-radius-2;
         width: 100%;
         height: 100%;
+        padding: 0;
       }
       span {
         display: none;
@@ -56,19 +66,18 @@
       }
     }
   }
-  .map {
-    div {
-      border-radius: $border-radius-1;
-    }
-    height: 33.75rem;
-  }
+
   .mapConfirm {
-    min-height: 17.5rem;
+    min-height: 30rem;
   }
 
+  &.locationEdit:has(.confirmLocationForm) {
+    .locationEdit {
+      background-color: red;
+    }
+  }
   .confirmLocationForm {
-    display: flex;
-    flex-direction: column;
+    @include flex-direction-gap-padding(column, 0, 0);
     .selectCon,
     .inputCon {
       width: 100%;
@@ -88,7 +97,6 @@
         top: 50%;
         left: 0.75rem;
         z-index: -1;
-
         transform: translateY(-50%);
         transition: font-size 0.2s, transform 0.2s, top 0.2s;
       }
@@ -114,7 +122,6 @@
       @include border-solid-color-width($gray-2, 1px);
       border-top: none;
       border-radius: 0;
-      border-top: none;
       input {
         width: 100%;
         height: 100%;
@@ -131,8 +138,11 @@
     }
 
     .selectCon {
-      border-radius: $border-radius-1-2;
-      border: 1px solid $gray-2;
+      @include border-solid-color-width-radius(
+        $gray-2,
+        1px,
+        $border-radius-1-2
+      );
       margin-bottom: 1rem;
       select {
         border-radius: $border-radius-1-2;
@@ -156,8 +166,36 @@
         z-index: -1;
         stroke-width: 4;
         rotate: 90deg;
-        stroke: black;
+        stroke: $black-1;
       }
+    }
+  }
+}
+
+body:has(.confirmLocationForm) {
+  .locationEdit {
+    width: 100%;
+    height: calc(100% - 6rem);
+    padding-inline: max(3rem, calc(100vw - (clamp(20rem, 100%, 40rem) * 2)));
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 37rem) {
+  .locationEdit {
+    padding-inline: 1rem !important;
+    .text {
+      h1 {
+        font-size: $font-size-26;
+        font-weight: 600;
+      }
+      p {
+        font-size: $font-size-14;
+        color: $gray-1;
+      }
+    }
+    .map {
+      aspect-ratio: 1/2;
     }
   }
 }

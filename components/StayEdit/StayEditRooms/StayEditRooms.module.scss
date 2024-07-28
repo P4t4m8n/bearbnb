@@ -1,0 +1,124 @@
+@import "../../../styles/abstracts/variables.scss";
+@import "../../../styles/abstracts/mixin.scss";
+
+.basics {
+  width: clamp(20rem, 100%, 40rem);
+  padding: 2rem;
+  .basicsHeader {
+    h1 {
+      font-size: $font-size-36;
+      line-height: $line-height-36;
+      padding-bottom: 1rem;
+      font-weight: 600;
+    }
+    p {
+      font-size: $font-size-18;
+      color: $gray-1;
+    }
+    margin-bottom: 1rem;
+  }
+
+  .basicsList {
+    @include flex-direction-gap-padding(column, 0, 0);
+
+    .basics {
+      padding-block: 2rem;
+      &:not(:last-of-type) {
+        @include border-solid-color-width-radius($gray-3, 1px, 0);
+      }
+      @include flex-space-between-align-center;
+      h2 {
+        font-size: $font-size-18;
+        color: $black-1;
+        font-weight: 500;
+      }
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        color: $black-1;
+        h4 {
+          font-weight: 400;
+        }
+        button {
+          width: 2rem;
+          fill: $gray-2;
+          aspect-ratio: 1/1;
+          @include border-solid-color-width-radius($gray-2, 1px, 100vw);
+          @include flex-center;
+          svg {
+            width: 0.75rem;
+            height: 0.75rem;
+          }
+        }
+        .disable {
+          opacity: 0.3;
+        }
+      }
+    }
+
+    .bedRooms {
+      height: 18rem;
+      .bedRoomsList {
+        height: 100%;
+        width: 100%;
+        @include flex-direction-gap-padding(row, 1rem, 1rem);
+        overflow-x: auto;
+        box-sizing: border-box;
+        .bedRoomCon {
+          box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 4px 0px;
+          height: 100%;
+          min-width: 12rem;
+          border-radius: $border-radius-1-2;
+          @include flex-direction-align-justify-padding-gap(
+            column,
+            center,
+            space-between,
+            0.5rem,
+            0
+          );
+          .deleteBtn {
+            width: 1.75rem;
+            aspect-ratio: 1/1;
+            padding: 0.25rem;
+            background-color: $gray-3;
+            border-radius: 100vw;
+            &:hover {
+              background-color: $black-1;
+              svg {
+                fill: $gray-3;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 40rem) {
+  .basics {
+    padding: 1rem;
+    width: 100%;
+    .basicsHeader {
+      h1 {
+        font-size: $font-size-26;
+        line-height: $line-height-26;
+        padding-bottom: 0.25rem;
+      }
+      p {
+        font-size: $font-size-14;
+      }
+    }
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+}

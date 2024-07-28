@@ -1,11 +1,18 @@
 import { LocationModel, LocationModelKeys } from "@/model/location.model";
 import styles from "./StayEditLocation.module.scss";
 import StayMap from "@/components/Map/Map";
-import { countries, getGeocodeAddress, libraries } from "@/service/locations.service";
-import { ScrollBySVG } from "@/components/svgs/svgs";
-import { useJsApiLoader, Libraries } from "@react-google-maps/api";
-import { useEffect } from "react";
+import {
+  countries,
+  getGeocodeAddress,
+  libraries,
+  locationInputFields,
+  parseLocationIntoString,
+} from "@/service/locations.service";
+import { AnimatedLogoSVG, ScrollBySVG } from "@/components/svgs/svgs";
+import { useJsApiLoader } from "@react-google-maps/api";
+import { ChangeEvent, useEffect, useMemo } from "react";
 import AddressSearch from "@/components/Header/StaySearch/AddressSearch/AddressAutoComplete/AddressSearch";
+import { handleError } from "@/service/util.service";
 
 interface Props {
   location: LocationModel;
@@ -27,24 +34,29 @@ export default function StayEditLocation({
 }: Props) {
   let { lat, lng, country } = location;
 
-  const addressStr = `${location.streetAddress} ${
-    location?.entrance ? location.entrance : ""
-  } ${location.apt ? location.apt : ""} ${
-    location.house ? location.house : ""
-  } ${location.postalCode ? location.postalCode : ""} ${
-    location.city ? location.city : ""
-  } ${location.country}`;
+  const addressStr = useMemo(
+    () => parseLocationIntoString(location),
+    [location]
+  );
+  const inputFields: inputFields[] = useMemo(() => locationInputFields, []);
+
   useEffect(() => {
     if (stage === 6) {
-      const coords = getGeocodeAddress(addressStr).then((coords) => {
-        setLocation({ ...location, lat: coords.lat, lng: coords.lng });
-      });
+      setLocationFromGeocode();
     }
-  }, [stage]);
+  }, [stage, addressStr]);
 
-  
+  const setLocationFromGeocode = async () => {
+    try {
+      const coords = await getGeocodeAddress(addressStr);
+      setLocation({ ...location, lat: coords.lat, lng: coords.lng });
+    } catch (error) {
+      handleError(`Failed to get geocode address: ${error}`);
+    }
+  };
+
   const handleChange = (
-    ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ev: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = ev.target;
 
@@ -65,28 +77,15 @@ export default function StayEditLocation({
     setLocation(location);
   };
 
-  const inputFields: inputFields[] = [
-    { name: "streetAddress", placeholder: "Street address", type: "text" },
-    { name: "entrance", placeholder: "Entrance (if applicable)", type: "text" },
-    {
-      name: "apt",
-      placeholder: "Apartment number (if applicable)",
-      type: "text",
-    },
-    {
-      name: "house",
-      placeholder: "House number (if applicable)",
-      type: "text",
-    },
-    { name: "postalCode", placeholder: "Postal Code", type: "text" },
-    { name: "city", placeholder: "City", type: "text" },
-  ];
-
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
     libraries,
     id: "google-map-script",
   });
+
+  if (loadError) {
+    return <div>Map cannot be loaded right now, please try again later</div>;
+  }
 
   return (
     <div className={styles.locationEdit}>
@@ -150,17 +149,19 @@ export default function StayEditLocation({
           className={`${styles.map} ${stage === 5 ? styles.mapConfirm : ""}`}
         >
           <StayMap location={{ lat, lng }} isLoaded={isLoaded} />
+          {stage != 5 && isLoaded && (
+            <section className={styles.address}>
+              <AddressSearch
+                onSelect={onSetLocation}
+                placeHolder={"Enter your address"}
+                value={location.streetAddress ? addressStr : ""}
+              />
+            </section>
+          )}
         </div>
       )}
-      {stage != 5 && isLoaded && (
-        <div className={styles.address}>
-          <AddressSearch
-            onSelect={onSetLocation}
-            placeHolder={"Enter your address"}
-            value={location.streetAddress ? addressStr : ""}
-          />
-        </div>
-      )}
+
+      {!isLoaded && <AnimatedLogoSVG />}
     </div>
   );
 }

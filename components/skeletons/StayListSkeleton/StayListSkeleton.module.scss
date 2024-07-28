@@ -3,20 +3,16 @@
 
 .skeleton {
   display: grid;
-  @include grid-columns(4);
-  gap: 1.5rem;
+  @include grid-columns-gap(4, 1.5rem);
   width: $max-width-padding;
 
-  @media (max-width: 1212px) {
-    @include grid-columns(3);
+  @media (max-width: 75.75rem) {
+    @include grid-columns-gap(3, 1.5rem);
   }
-  @media (max-width: 940px) {
-    @include grid-columns(2);
+  @media (max-width: 58.75rem) {
+    @include grid-columns-gap(2, 1.5rem);
   }
-  @media (max-width: 680px) {
-    @include grid-columns(1);
-    padding: 0.1rem;
+  @media (max-width: 42.5rem) {
+    @include grid-columns-gap(4, 0.1rem);
   }
 }
-
-

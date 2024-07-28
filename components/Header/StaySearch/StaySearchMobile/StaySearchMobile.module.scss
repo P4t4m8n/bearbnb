@@ -57,21 +57,22 @@
   width: 100vw;
   z-index: $z-index-tooltip;
   @include center;
-  @include flex-column-gap-padding(1rem, 1rem);
+  @include flex-direction-gap-padding(column, 1rem, 1rem);
+
 
   .closeModelBtn {
-    @include border-solid-color-width($gray-2, 1px);
+    @include border-solid-color-width-radius($gray-2, 1px, 100vw);
     padding: 0.55rem;
     width: 2rem;
     height: 2rem;
     font-size: $font-size-14;
     font-weight: 800;
-    border-radius: 100vw;
     rotate: 45deg;
-    &:hover{
+    &:hover {
       background-color: white;
       border: none;
-      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 4px, rgba(0, 0, 0, 0.12) 0px 6px 16px 0px
+      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 1px,
+        rgba(0, 0, 0, 0) 0px 0px 0px 4px, rgba(0, 0, 0, 0.12) 0px 6px 16px 0px;
     }
   }
 
@@ -86,11 +87,16 @@
   }
 
   .whereFocus {
-    @include flex-column-gap-padding(1rem, 1rem);
+    @include flex-direction-gap-padding(column, 1rem, 1rem);
+
     div {
       padding: 1rem;
-      @include border-solid-color-width($gray-3, 1px);
-      border-radius: $border-radius-1-2;
+      @include border-solid-color-width-radius(
+        $gray-3,
+        1px,
+        $border-radius-1-2
+      );
+
       span {
         display: none;
       }
@@ -101,7 +107,8 @@
   }
 
   .whenFocus {
-    @include flex-column-gap-padding(1rem, 1rem);
+    @include flex-direction-gap-padding(column, 1rem, 1rem);
+
     h1 {
       font-size: $font-size-22;
       font-weight: 700;

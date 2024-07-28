@@ -4,6 +4,7 @@
 .imageEdit {
   position: relative;
   width: 100%;
+  padding-top: 2rem;
   @include flex-center;
   .notImages {
     h1 {
@@ -16,21 +17,31 @@
       margin-bottom: 2.5rem;
     }
     div {
-      @include border-dashed-color-width($gray-2, 1px);
+      @include border-dashed-color-width-radius(
+        $gray-2,
+        1px,
+        $border-radius-1-2
+      );
       height: 35rem;
-      border-radius: $border-radius-1-2;
       background-color: $gray-4;
-      @include flex-center;
-      flex-direction: column;
-      gap: 2rem;
+      @include flex-direction-align-justify-padding-gap(
+        column,
+        center,
+        center,
+        0,
+        2rem
+      );
       img {
         opacity: 0.9;
       }
       button {
-        @include border-solid-color-width($black-1, 1px);
-        border-radius: $border-radius-1-2;
+        @include border-solid-color-width-radius(
+          $black-1,
+          1px,
+          $border-radius-1-2
+        );
         padding: 0.5rem;
-        font-size: 1rem;
+        font-size: $font-size-16;
         font-weight: 700;
         &:hover {
           background-color: $gray-3;
@@ -40,27 +51,30 @@
   }
 
   .uploadModel {
-    position: fixed;
+    @include flex-direction-gap-padding(column, 1rem, 0);
+    @include model-boxShadow;
+    @include center-position(fixed);
     animation: rise 2s ease-out forwards;
-    left: 50%;
-    transform: translate(-50%, 50%);
     background-color: $gray-4;
     max-height: 48rem;
     width: 37rem;
     border-radius: $border-radius-1-2;
-    @include flex-column-gap-padding(1rem, 0);
-    @include model-boxShadow;
     .uploadModelHeader {
-      @include flex-space-between-align-center;
-      padding: 1rem;
+      @include flex-direction-align-justify-padding-gap(
+        row,
+        center,
+        space-between,
+        1rem,
+        0
+      );
       h3,
       h5 {
         text-align: center;
       }
       h3 {
-        font-size: 1rem;
+        font-size: $font-size-16;
         font-weight: 700;
-        line-height: 1.25;
+        line-height: $line-height-20;
       }
       h5 {
         font-size: $font-size-12;
@@ -69,7 +83,6 @@
       }
       button,
       label {
-        padding: 0;
         width: 2rem;
         padding: 0.5rem;
         aspect-ratio: 1/1;
@@ -91,11 +104,18 @@
     }
 
     .uploadModelBody {
-      border-radius: $border-radius-1-2;
-      @include border-dashed-color-width($gray-2, 2px);
-      @include flex-column-gap-padding(1rem, 2rem);
+      @include border-dashed-color-width-radius(
+        $gray-2,
+        2px,
+        $border-radius-1-2
+      );
       margin: 1rem;
-      align-items: center;
+      @include flex-direction-alignItems-gap-padding(
+        column,
+        center,
+        1rem,
+        2rem
+      );
       svg {
         width: 4rem;
         fill: $black-1;
@@ -123,8 +143,7 @@
     }
     .uploadModelImages {
       background-color: inherit;
-      @include grid-columns(2);
-      gap: 1rem;
+      @include grid-columns-gap(2, 1rem);
       margin: 1rem;
       overflow-y: auto;
       @include no-scrollBar;
@@ -157,9 +176,14 @@
     }
 
     .actions {
-      @include flex-space-between-align-center;
       border-top: 1px solid $gray-3;
-      padding: 1rem;
+      @include flex-direction-align-justify-padding-gap(
+        row,
+        center,
+        space-between,
+        1rem,
+        0
+      );
       button {
         font-weight: 700;
         &:last-of-type {
@@ -176,7 +200,7 @@
   .imageEditList {
     height: 100%;
     width: 100%;
-    @include flex-column-gap-padding(1rem, 0);
+    @include flex-direction-gap-padding(column, 1rem, 0);
     $padding: calc((100% - 43rem) / 2);
     .imageEditListHeader {
       @include flex-space-between-align-center;
@@ -211,8 +235,7 @@
       padding-inline: $padding;
       box-sizing: border-box;
       width: 100%;
-      @include grid-columns(2);
-      gap: 1rem;
+      @include grid-columns-gap(2, 1rem);
       height: 40rem;
       overflow: auto;
       @include no-scrollBar;
@@ -243,11 +266,14 @@
         }
       }
       .labelBox {
-        border-radius: $border-radius-1-2;
         width: 100%;
         height: 100%;
         min-height: 14rem;
-        @include border-dashed-color-width($gray-2, 1px);
+        @include border-dashed-color-width-radius(
+          $gray-2,
+          1px,
+          $border-radius-1-2
+        );
         @include flex-center;
         flex-direction: column;
 
@@ -269,8 +295,9 @@
   .imageEdit {
     .imageEditList {
       .imageEditListSort {
+        // @include grid-columns(1);
+        @include grid-columns-gap(1, 1.5rem);
         column-gap: 0;
-        @include grid-columns(1);
         grid-auto-rows: auto;
         grid-template-rows: none;
         li {

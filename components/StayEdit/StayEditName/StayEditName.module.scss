@@ -22,8 +22,7 @@
   .editNameInput {
     padding-top: 2rem;
     textArea {
-      @include border-solid-color-width($gray-2, 1px);
-      border-radius: $border-radius-1-2;
+      @include border-solid-color-width-radius($gray-2, 1px, $border-radius-1-2);
       font-size: $font-size-20;
       color: $black-1;
       height: auto;

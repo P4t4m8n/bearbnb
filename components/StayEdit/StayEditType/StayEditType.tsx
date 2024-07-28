@@ -1,40 +1,48 @@
 import { StayType } from "@/model/stay.model";
 import styles from "./StayEditType.module.scss";
 import { StayTypeSVG } from "@/components/svgs/stayTypeSvgs";
+import { useMemo } from "react";
 
 interface Props {
-  type: StayType;
-  handleStayType: (type: StayType) => void;
+  selectedType: StayType;
+  onStayTypeChange: (type: StayType) => void;
 }
-export default function StayEditType({ type, handleStayType }: Props) {
-  const stayTypes: StayType[] = [
-    "House",
-    "Apartment",
-    "Barn",
-    "Bed & breakfast",
-    "Cabin",
-    "Mobile home",
-    "Castle",
-    "Houseboat",
-    "Tiny home",
-    "Hotel",
-    "Farm",
-  ];
+
+export default function StayEditType({
+  selectedType,
+  onStayTypeChange,
+}: Props) {
+  const stayTypes: StayType[] = useMemo(
+    () => [
+      "House",
+      "Apartment",
+      "Barn",
+      "Bed & breakfast",
+      "Cabin",
+      "Mobile home",
+      "Castle",
+      "Houseboat",
+      "Tiny home",
+      "Hotel",
+      "Farm",
+    ],
+    []
+  );
 
   return (
-    <div className={styles.pageTwo}>
+    <div className={styles.stayTypeContainer}>
       <h1>Which of these best describes your place?</h1>
       <ul className={styles.stayTypeList}>
-        {stayTypes.map((_type, idx) => (
-          <li key={idx}>
+        {stayTypes.map((stayType) => (
+          <li key={stayType}>
             <button
               className={`${styles.typeBtn} ${
-                type === _type ? styles.typeSelected : ""
+                selectedType === stayType ? styles.typeSelected : ""
               }`}
-              onClick={() => handleStayType(_type)}
+              onClick={() => onStayTypeChange(stayType)}
             >
-              <StayTypeSVG stayType={_type} />
-              <h3>{_type}</h3>
+              <StayTypeSVG stayType={stayType} />
+              <h3>{stayType}</h3>
             </button>
           </li>
         ))}

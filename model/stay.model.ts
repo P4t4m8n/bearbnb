@@ -16,26 +16,26 @@ export interface StaySmallModel {
   images: string[];
   price: number;
   location: LocationSmallModel;
-  type: StayType;
+  type: StayType; //
   firstAvailableDate?: Date[] | null;
   rating: number;
   currency: CurrencyType;
 }
 
 export interface StayModel extends StaySmallModel {
-  guestStay?: GuestStayType;
+  guestStay?: GuestStayType;//
   description: string;
-  capacity: number;
+  capacity: number;//
   price: number;
-  baths: number;
+  baths: number;//
   labels: LabelsType[];
-  bedRooms: BedRoomModel[];
+  bedRooms: BedRoomModel[];//
   host: UserSmallModel;
   amenities: AmenityModel[];
   likes: LikeModel[];
   highlights: HighlightModel[];
   reviews: ReviewModel[];
-  location: LocationModel;
+  location: LocationModel;//
   bookings: BookingSmallModel[];
   isPublished: boolean;
 }

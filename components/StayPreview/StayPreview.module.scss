@@ -6,7 +6,7 @@
   border-radius: $border-radius-1-2;
   min-width: 15rem;
   position: relative;
-  @include flex-column-gap-padding(0, 0);
+  @include flex-direction-gap-padding(column, 0, 0);
   font-size: $font-size-16;
   z-index: -1;
 
@@ -49,7 +49,8 @@
     display: flex;
     justify-content: space-between;
     .rating {
-      @include base-flex-padding-gap-align(0, 0.3rem, center);
+      @include flex-direction-alignItems-gap-padding(row, center, 0, 0.3rem);
+
       .ratingSvg {
         width: 0.8rem;
         aspect-ratio: 1;
@@ -63,7 +64,7 @@
     color: $gray-1;
   }
   .price {
-    @include base-flex-padding-gap-align(0, 0.5rem, center);
+    @include flex-direction-alignItems-gap-padding(row, center, 0, 0.5rem);
   }
 }
 

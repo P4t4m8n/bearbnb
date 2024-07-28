@@ -1,0 +1,41 @@
+@import "../../styles/abstracts/mixin";
+@import "../../styles/abstracts/variables";
+
+.conList {
+  position: relative;
+
+  .conItem {
+    @include position-center(absolute);
+    animation: fadeInAndOut 100s linear infinite;
+    list-style: none;
+
+    svg {
+      opacity: inherit;
+      width: 5rem;
+      aspect-ratio: 1 / 1;
+      fill: $main-pink;
+      stroke: $main-pink;
+    }
+
+    @for $i from 1 through 10 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{($i - 1) * 20s};
+      }
+    }
+  }
+}
+
+@keyframes fadeInAndOut {
+  0%,
+  10% {
+    opacity: 0;
+  }
+  15%,
+  25% {
+    opacity: 1;
+  }
+  30%,
+  100% {
+    opacity: 0;
+  }
+}

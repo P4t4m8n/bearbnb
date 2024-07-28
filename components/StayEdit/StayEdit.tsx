@@ -13,7 +13,6 @@ import StayEditShared from "./StayEditShared/StayEditShared";
 import StayEditLocation from "./StayEditLocation/StayEditLocation";
 import { LocationModel } from "@/model/location.model";
 import { getUserLocation } from "@/service/locations.service";
-import StayEditBasics from "./StayEditBasics/StayEditBasics";
 import TransitionPage from "./TransitionPage/TransitionPage";
 import { AmenityModel } from "@/model/amenity.model";
 import StayEditAmenities from "./StayEditAmenities/StayEditAmenities";
@@ -24,13 +23,15 @@ import StayEditPreview from "./StayEditPreview/StayEditPreview";
 import { useUserStore } from "@/store/useUserStore";
 import { saveStay } from "@/actions/stay.action";
 import { useRouter } from "next/navigation";
+import StayEditRooms from "./StayEditRooms/StayEditRooms";
+import { BedRoomModel } from "@/model/bedroom.model";
 
 interface Props {
   stay: StayModel;
   dbAmenities: AmenityModel[];
 }
 export default function StayEdit({ stay, dbAmenities }: Props) {
-  const [stage, setStage] = useState(15);
+  const [stage, setStage] = useState(10);
   const [stateStay, setStateStay] = useState<StayModel>(stay);
   const { user } = useUserStore();
   const router = useRouter();
@@ -63,7 +64,7 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
     });
   };
 
-  const handleStayType = (type: StayType) => {
+  const onStayTypeChange = (type: StayType) => {
     setStateStay((prev) => ({ ...prev, type }));
   };
 
@@ -75,16 +76,27 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
     setStateStay((prev) => ({ ...prev, location }));
   };
 
-  const handleBasics = (
+  const handleBedroom = (idx: number, bedRoom?: BedRoomModel) => {
+    const bedRooms = stateStay.bedRooms;
+    if (bedRoom) {
+      bedRooms[idx] = bedRoom;
+    } else {
+      bedRooms.splice(idx, 1);
+    }
+    setStateStay((prev) => ({ ...prev, bedRooms }));
+  };
+
+  const handleRooms = (
     type: "capacity" | "bedRooms" | "baths",
     value: number
   ) => {
+    console.log("value:", value);
     if (type !== "bedRooms") {
       setStateStay((prev) => ({ ...prev, [type]: value }));
       return;
     }
     let bedRooms;
-    if (value) {
+    if (value > stateStay.bedRooms.length) {
       bedRooms = [...stateStay.bedRooms, { beds: [], image: "" }];
     } else {
       bedRooms = stateStay.bedRooms.slice(0, -1);
@@ -103,7 +115,7 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
     setStateStay((prev) => ({ ...prev, amenities }));
   };
 
-  const handleImages = useCallback((imgUrl: string, isDelete: boolean) => {
+  const handleImages = (imgUrl: string, isDelete: boolean) => {
     let images;
     if (isDelete) {
       images = stateStay.images.filter((img) => img !== imgUrl);
@@ -111,7 +123,7 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
       images = [...stateStay.images, imgUrl];
     }
     setStateStay((prev) => ({ ...prev, images }));
-  }, []);
+  };
 
   const setText = (ev: ChangeEvent) => {
     const target = ev.target as HTMLTextAreaElement;
@@ -172,14 +184,19 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
     <section className={styles.stayEdit}>
       {stage === 1 && (
         <TransitionPage
-          h1={"Tell us about your place"}
-          h2={"Step 1"}
-          h3={"In this step, we'll ask you which type of prop "}
+          heading1={"Tell us about your place"}
+          heading2={"Step 1"}
+          heading3={
+            "In this step, we'll ask you which type of property you have and if guests will book the entire place or just a room. Then let us know the location and how many guests can stay."
+          }
         />
       )}
 
       {stage === 2 && (
-        <StayEditType type={stateStay.type} handleStayType={handleStayType} />
+        <StayEditType
+          selectedType={stateStay.type}
+          onStayTypeChange={onStayTypeChange}
+        />
       )}
 
       {stage === 3 && (
@@ -199,20 +216,21 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
       )}
 
       {stage === 7 && (
-        <StayEditBasics
+        <StayEditRooms
           capacity={stateStay.capacity}
-          bedRooms={stateStay.bedRooms.length}
+          bedRooms={stateStay.bedRooms}
           baths={stateStay.baths}
-          handleBasic={handleBasics}
+          handleRooms={handleRooms}
+          saveBedRoom={handleBedroom}
         />
       )}
 
       {stage === 8 && (
         <TransitionPage
-          h1={"Make your place stand out"}
-          h2={"Step 2"}
-          h3={
-            "In this step, you’ll add some of the amenities your place offers, plus 5 or more photos. Then, you’ll create a title and description."
+          heading1={"Make your place stand out"}
+          heading2={"Step 2"}
+          heading3={
+            "In this step, you’ll add some of the amenities and highlights your place offers, plus 5 or more photos. Then, you’ll create a title and description."
           }
         />
       )}
@@ -261,9 +279,9 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
 
       {stage === 13 && (
         <TransitionPage
-          h1={"Finish up and publish"}
-          h2={"Step 3"}
-          h3={
+          heading1={"Finish up and publish"}
+          heading2={"Step 3"}
+          heading3={
             "Finally, you'll choose booking settings, set up pricing, and publish your listing."
           }
         />

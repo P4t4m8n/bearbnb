@@ -3,7 +3,7 @@
 .amentiasList {
   width: 100%;
   box-sizing: border-box;
-  @include borderBottom-width-color(1px, $gray-3);
+  @include borderBottom-width-color-paddingBottom(1px, $gray-3, 0);
   padding-block: 1.5rem;
   margin-bottom: 1rem;
   display: grid;

@@ -1,6 +1,7 @@
 import { AmenityModel, GroupedAmenities } from "@/model/amenity.model";
 import styles from "./StayEditAmenities.module.scss";
 import { DynamicSVG } from "@/components/svgs/svgs";
+import { useMemo } from "react";
 
 interface Props {
   amenities: AmenityModel[];
@@ -33,6 +34,7 @@ export default function StayEditAmenities({
     },
     {}
   );
+
   return (
     <section className={styles.editAmenities}>
       <div className={styles.editAmenitiesHeader}>
@@ -46,7 +48,7 @@ export default function StayEditAmenities({
             <ul className={styles.editAmenityList}>
               {groupedAmenities[category].map((amenity) => (
                 <button
-                className={amenity.isChecked ? styles.selected : ""}
+                  className={amenity.isChecked ? styles.selected : ""}
                   onClick={() => handleAmenity(amenity)}
                   key={amenity._id}
                 >

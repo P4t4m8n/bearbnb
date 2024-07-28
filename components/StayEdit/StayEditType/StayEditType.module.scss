@@ -1,8 +1,7 @@
 @import "../../../styles/abstracts/variables.scss";
-.pageTwo {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+@import "../../../styles/abstracts/mixin.scss";
+.stayTypeContainer {
+  @include flex-direction-gap-padding(column, 1rem, 2rem);
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;
@@ -11,47 +10,75 @@
   scrollbar-width: none; /* Firefox */
 
   h1 {
-    font-size: $font-size-32;
+    font-size: $font-size-36;
     font-weight: 600;
   }
 
   .stayTypeList {
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(3, minmax(11rem, 1fr));
-    max-height: 700px;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    max-height: calc(100vh - 14rem);
     li {
       height: 6rem;
       .typeBtn {
         height: 100%;
-        border: 2px solid rgb(221, 221, 221);
-        padding: 1rem;
-        border-radius: $border-radius-1-2;
+        @include border-solid-color-width-radius(
+          $gray-3,
+          1px,
+          $border-radius-1-2
+        );
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
 
+        @include flex-direction-align-justify-padding-gap(
+          column,
+          flex-start,
+          center,
+          0.5rem,
+          0
+        );
         h3 {
-          font-size: 1rem;
+          font-size: $font-size-16;
           font-weight: 700;
           padding-left: 0.375rem;
         }
         svg {
           height: 2.5rem;
-          stroke: black;
-          fill: black;
+          stroke: $black-1;
+          fill: $black-1;
           stroke-width: 0.2;
         }
         &:hover {
-          border-color: black;
+          border-color: $black-1;
           border-width: 2px;
           transition: border-color 0.3s;
+          padding: calc(0.5rem - 1px);
         }
       }
       .typeSelected {
-        border-color: black;
+        border-color: $black-1;
         border-width: 2px;
+      }
+    }
+  }
+}
+
+@media (max-width: 40rem) {
+  .stayTypeContainer {
+    padding: 1rem;
+    h1 {
+      font-size: $font-size-26;
+    }
+    .stayTypeList {
+      li {
+        .typeBtn {
+          h3 {
+            font-size: $font-size-15;
+          }
+          svg {
+            height: 2rem;
+          }
+        }
       }
     }
   }

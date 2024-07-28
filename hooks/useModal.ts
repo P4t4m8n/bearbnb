@@ -1,8 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
-
 export const useModal = (
+
   ref: React.RefObject<
-    HTMLDivElement | HTMLButtonElement | HTMLFormElement | HTMLUListElement
+    | HTMLDivElement
+    | HTMLButtonElement
+    | HTMLFormElement
+    | HTMLUListElement
+    | HTMLLIElement
   >,
   callBack?: null | (() => void)
 ): [boolean, React.Dispatch<React.SetStateAction<boolean>>] => {
