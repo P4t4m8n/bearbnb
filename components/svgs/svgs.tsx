@@ -1,5 +1,5 @@
 import { SvgIconModel, SvgsNameTypes } from "@/model/icons.model";
-import { CalendarSVG, DoorSVG, KeySVG } from "./amentiasSVG";
+import { CalendarSVG, CarSVG, DoorSVG, KeySVG } from "./amentiasSVG";
 import { HouseSVG } from "./stayTypeSvgs";
 
 interface Props {
@@ -353,7 +353,7 @@ export const HomeSVG = () => {
     <svg viewBox="0 0 256 256">
       <g></g>
       <g strokeLinecap="round" strokeLinejoin="round"></g>
-      <g strokeWidth="6">
+      <g >
         <path d="M239.99414,212h-20V115.53882a12.02805,12.02805,0,0,0-3.92773-8.87915L136.06055,33.92456a11.9535,11.9535,0,0,0-16.14551.00073L39.92187,106.65967a12.02314,12.02314,0,0,0-3.92773,8.8789V212h-20a4,4,0,1,0,0,8h224a4,4,0,1,0,0-8Zm-196-96.46143a4.00859,4.00859,0,0,1,1.30957-2.95971l79.99316-72.73438a3.98534,3.98534,0,0,1,5.38282-.00049l80.00488,72.73438a4.01139,4.01139,0,0,1,1.30957,2.96045V212H155.98828V159.9917a12.01343,12.01343,0,0,0-12-12h-32a12.01343,12.01343,0,0,0-12,12V212H43.99414ZM147.98828,212h-40V159.9917a4.00427,4.00427,0,0,1,4-4h32a4.00426,4.00426,0,0,1,4,4Z"></path>{" "}
       </g>
     </svg>
@@ -433,6 +433,18 @@ export const GreetingSVG = () => {
   );
 };
 
+export const PlaceholderSVG = () => {
+  return (
+    <svg viewBox="0 0 256 256" id="Flat">
+      <g strokeWidth="0"></g>
+      <g strokeLinecap="round" strokeLinejoin="round"></g>
+      <g>
+        <path d="M220,48a12.01343,12.01343,0,0,0-12-12H48a11.95851,11.95851,0,0,0-8.4043,3.44824c-.02539.02442-.05566.041-.081.06641s-.042.05517-.06641.081A11.95851,11.95851,0,0,0,36,48V208a12.01343,12.01343,0,0,0,12,12H208a11.95851,11.95851,0,0,0,8.4043-3.44824c.02539-.02442.05566-.041.08105-.06641s.042-.05517.06641-.08105A11.95851,11.95851,0,0,0,220,208Zm-8,0V206.34375L49.65674,44H208A4.00427,4.00427,0,0,1,212,48ZM44,208V49.65625L206.34326,212H48A4.00427,4.00427,0,0,1,44,208Z"></path>{" "}
+      </g>
+    </svg>
+  );
+};
+
 export const DynamicSVGByName = ({ name }: { name: SvgsNameTypes }) => {
   switch (name) {
     case "door":
@@ -445,5 +457,11 @@ export const DynamicSVGByName = ({ name }: { name: SvgsNameTypes }) => {
       return <HomeSVG />;
     case "sharedHouse":
       return <SharedHouseSVG />;
+    case "car":
+      return <CarSVG />;
+    case "message":
+      return <MessageSVG />;
+    default:
+      return <PlaceholderSVG />;
   }
 };

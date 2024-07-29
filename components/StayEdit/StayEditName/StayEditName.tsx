@@ -1,4 +1,3 @@
-import { StayType } from "@/model/stay.model";
 import styles from "./StayEditName.module.scss";
 import { ErrorSVG } from "@/components/svgs/svgs";
 import { ChangeEvent } from "react";
@@ -7,8 +6,8 @@ interface Props {
   value: string;
   name: "name" | "description";
   setText: (ev: ChangeEvent) => void;
-  h1: string;
-  p: string;
+  heading1: string;
+  paragraph: string;
   maxLength: number;
   rows: number;
 }
@@ -17,16 +16,16 @@ export default function StayEditText({
   value,
   name,
   setText,
-  h1,
-  p,
+  heading1,
+  paragraph,
   maxLength,
   rows,
 }: Props) {
   return (
     <section className={styles.stayEditName}>
       <div className={styles.editNameHeader}>
-        <h1>{h1}</h1>
-        <p>{p}</p>
+        <h1>{heading1}</h1>
+        <p>{paragraph}</p>
       </div>
       <div className={styles.editNameInput}>
         <textarea

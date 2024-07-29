@@ -5,7 +5,7 @@
   position: relative;
 
   .conItem {
-    @include position-center(absolute);
+    @include center-position(absolute);
     animation: fadeInAndOut 100s linear infinite;
     list-style: none;
 

@@ -6,9 +6,9 @@
   width: 100%;
   padding-top: 2rem;
   @include flex-center;
-  .notImages {
+  .text {
     h1 {
-      font-size: $font-size-32;
+      font-size: $font-size-36;
     }
     p {
       font-size: $font-size-18;
@@ -142,11 +142,11 @@
       }
     }
     .uploadModelImages {
-      background-color: inherit;
       @include grid-columns-gap(2, 1rem);
+      @include no-scrollBar;
+      background-color: inherit;
       margin: 1rem;
       overflow-y: auto;
-      @include no-scrollBar;
 
       li {
         position: relative;
@@ -176,7 +176,7 @@
     }
 
     .actions {
-      border-top: 1px solid $gray-3;
+      @include border-solid-color-width($gray-3, 1px);
       @include flex-direction-align-justify-padding-gap(
         row,
         center,
@@ -198,15 +198,22 @@
   }
 
   .imageEditList {
+    @include flex-direction-gap-padding(column, 1rem, 0);
     height: 100%;
     width: 100%;
-    @include flex-direction-gap-padding(column, 1rem, 0);
     $padding: calc((100% - 43rem) / 2);
     .imageEditListHeader {
       @include flex-space-between-align-center;
+      @include flex-direction-align-justify-padding-gap(
+        row,
+        center,
+        space-between,
+        0,
+        0
+      );
       padding-inline: $padding;
       h1 {
-        font-size: $font-size-26;
+        font-size: $font-size-36;
         line-height: $line-height-26;
       }
       p {
@@ -232,13 +239,13 @@
       }
     }
     .imageEditListSort {
+      @include grid-columns-gap(2, 1rem);
+      @include no-scrollBar;
       padding-inline: $padding;
       box-sizing: border-box;
       width: 100%;
-      @include grid-columns-gap(2, 1rem);
-      height: 40rem;
+      height: calc(100vh - 13rem);
       overflow: auto;
-      @include no-scrollBar;
       grid-template-rows: 30rem repeat(auto-fill, 14rem);
 
       li {
@@ -274,9 +281,13 @@
           1px,
           $border-radius-1-2
         );
-        @include flex-center;
-        flex-direction: column;
-
+        @include flex-direction-align-justify-padding-gap(
+          column,
+          center,
+          center,
+          0,
+          0
+        );
         svg {
           width: 2rem;
           stroke: white;
@@ -291,18 +302,27 @@
     }
   }
 }
-@media (max-width: 700px) {
+@media (max-width: 40rem) {
   .imageEdit {
+    padding-inline: 0.25rem;
     .imageEditList {
+      .imageEditListHeader {
+        .text {
+          h1 {
+            font-size: $font-size-26;
+          }
+          p {
+            font-size: $font-size-14;
+          }
+        }
+      }
       .imageEditListSort {
-        // @include grid-columns(1);
         @include grid-columns-gap(1, 1.5rem);
         column-gap: 0;
         grid-auto-rows: auto;
         grid-template-rows: none;
         li {
-          min-height: auto;
-          max-height: 30rem;
+          height: clamp(auto, 100%, 30rem);
           aspect-ratio: 1.5/1;
           &:first-of-type {
             grid-column: span 1;

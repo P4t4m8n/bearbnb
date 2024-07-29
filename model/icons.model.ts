@@ -3,5 +3,14 @@ export interface SvgIconModel {
   viewBox: string;
 }
 
-export const SvgsNameTypes = ["door", "calendar", "key", "house", "sharedHouse"] as const;
+export const SvgsNameTypes = [
+  "door",
+  "calendar",
+  "key",
+  "house",
+  "sharedHouse",
+  "placeholder",
+  "car",
+  "message",
+] as const;
 export type SvgsNameTypes = (typeof SvgsNameTypes)[number];

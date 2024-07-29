@@ -114,7 +114,7 @@
     box-sizing: border-box;
     border-radius: $border-radius-1;
     @include absolute-center;
-    @include model-shadow;
+    @include model-boxShadow;
     justify-items: center;
     align-items: center;
     display: grid;

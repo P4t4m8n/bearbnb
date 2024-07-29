@@ -65,7 +65,7 @@ export default function StayEditImages({
   return (
     <section className={styles.imageEdit}>
       {(!images.length || isUploadModelOpen) && (
-        <div className={styles.notImages}>
+        <div className={styles.text}>
           <h1>{`Add some photos of you ${type.toLowerCase()}`}</h1>
           <p>{`You'll need 5 photos to get started. You can add more or make change later`}</p>
           <div>
@@ -148,7 +148,7 @@ export default function StayEditImages({
       {!isUploadModelOpen && !!images.length && (
         <div className={styles.imageEditList}>
           <div className={styles.imageEditListHeader}>
-            <div>
+            <div className={styles.text}>
               <h1>Choose at least 5 photos</h1>
               <p>You can re-order your photos</p>
             </div>

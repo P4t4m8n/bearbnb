@@ -35,8 +35,12 @@ export default function StayEditPrice({
             onChange={handleChange}
           />
         </div>
-        {extendPrice && (
-          <div className={styles.extendPrice}>
+        <div
+          className={`${styles.extendPrice} ${
+            extendPrice ? styles.full : styles.hidden
+          }`}
+        >
+          <>
             <div className={styles.extendPriceDetails}>
               <span>
                 <h4>Base price</h4>
@@ -67,8 +71,8 @@ export default function StayEditPrice({
                 {(price - price * 0.03).toFixed(0)}
               </h4>
             </div>
-          </div>
-        )}
+          </>
+        </div>
         <button
           className={`${styles.extendPriceBtn} ${extendPrice && styles.active}`}
           onClick={() => setExtendPrice(!extendPrice)}

@@ -25,13 +25,17 @@ import { saveStay } from "@/actions/stay.action";
 import { useRouter } from "next/navigation";
 import StayEditRooms from "./StayEditRooms/StayEditRooms";
 import { BedRoomModel } from "@/model/bedroom.model";
+import { HighlightModel } from "@/model/highlight.model";
+import StayEditHighlights from "./StayEditHighlights/StayEditHighlights";
+import Link from "next/link";
+import { LogoSVG } from "../svgs/svgs";
 
 interface Props {
   stay: StayModel;
   dbAmenities: AmenityModel[];
 }
 export default function StayEdit({ stay, dbAmenities }: Props) {
-  const [stage, setStage] = useState(10);
+  const [stage, setStage] = useState(1);
   const [stateStay, setStateStay] = useState<StayModel>(stay);
   const { user } = useUserStore();
   const router = useRouter();
@@ -41,9 +45,6 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
     if (lat === 0 && lng === 0) {
       loadUserCoord();
     }
-  }, []);
-
-  useEffect(() => {
     if (user) {
       const smallUser = {
         _id: user._id as string,
@@ -57,11 +58,15 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
   }, [user]);
 
   const loadUserCoord = async () => {
-    const { lat, lng } = await getUserLocation();
-    setStateStay((prev) => {
-      const location = { ...prev.location, lat, lng };
-      return { ...prev, location };
-    });
+    try {
+      const { lat, lng } = await getUserLocation();
+      setStateStay((prev) => {
+        const location = { ...prev.location, lat, lng };
+        return { ...prev, location };
+      });
+    } catch (error) {
+      console.error("Failed to get user location:", error);
+    }
   };
 
   const onStayTypeChange = (type: StayType) => {
@@ -90,7 +95,6 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
     type: "capacity" | "bedRooms" | "baths",
     value: number
   ) => {
-    console.log("value:", value);
     if (type !== "bedRooms") {
       setStateStay((prev) => ({ ...prev, [type]: value }));
       return;
@@ -160,6 +164,27 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
     }
   };
 
+  const handleHighlights = (
+    highlight: HighlightModel,
+    isAdd: boolean,
+    idx?: number
+  ) => {
+    if (isAdd && idx !== undefined) {
+      const highlights = [...stateStay.highlights];
+      highlights[idx] = highlight;
+      setStateStay((prev) => ({ ...prev, highlights }));
+      return;
+    }
+    if (isAdd) {
+      const highlights = [...stateStay.highlights, highlight];
+      setStateStay((prev) => ({ ...prev, highlights }));
+      return;
+    }
+
+    const highlights = stateStay.highlights.filter((_, index) => index !== idx);
+    setStateStay((prev) => ({ ...prev, highlights }));
+  };
+
   const isDisabled =
     (stage === 4 && !stateStay.location.country) ||
     (stage === 5 &&
@@ -167,21 +192,32 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
         !stateStay.location.city ||
         !stateStay.location.countryCode ||
         !stateStay.location.city)) ||
-    (stage === 7 && stateStay.capacity < 1) ||
-    (stage === 10 && stateStay.images.length < 5) ||
-    (stage === 11 && (!stateStay.name || stateStay.name.length > 32)) ||
-    (stage === 12 &&
+    (stage === 8 && stateStay.capacity < 1) ||
+    (stage === 11 && stateStay.images.length < 5) ||
+    (stage === 13 && (!stateStay.name || stateStay.name.length > 32)) ||
+    (stage === 14 &&
       (!stateStay.description || stateStay.description.length > 500));
 
-  const widthStyle = {
-    width: `${(stage % 8) * 12.5}%`,
+  const widthStyleOne = {
+    width: `${(stage % 6) * 14.285}%`,
+  };
+  const widthStyleTwo = {
+    width: stage < 13 && stage >= 7 ? `${(stage % 5) * 20}%` : "",
+  };
+  const widthStyleThree = {
+    width: stage >= 13 ? `${(stage % 5) * 20}%` : "",
   };
 
-  let checkedAmenities: string[] = [];
-  if (stage === 9)
-    checkedAmenities = stateStay.amenities.map((amenity) => amenity.name);
+  // let checkedAmenities: string[] = [];
+  // if (stage === 9)
+  //   checkedAmenities = stateStay.amenities.map((amenity) => amenity.name);
   return (
     <section className={styles.stayEdit}>
+      <div className={styles.editHeader}>
+        <Link href={"/"} className={styles.logo}>
+          <LogoSVG />
+        </Link>
+      </div>
       {stage === 1 && (
         <TransitionPage
           heading1={"Tell us about your place"}
@@ -216,22 +252,22 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
       )}
 
       {stage === 7 && (
-        <StayEditRooms
-          capacity={stateStay.capacity}
-          bedRooms={stateStay.bedRooms}
-          baths={stateStay.baths}
-          handleRooms={handleRooms}
-          saveBedRoom={handleBedroom}
-        />
-      )}
-
-      {stage === 8 && (
         <TransitionPage
           heading1={"Make your place stand out"}
           heading2={"Step 2"}
           heading3={
             "In this step, you’ll add some of the amenities and highlights your place offers, plus 5 or more photos. Then, you’ll create a title and description."
           }
+        />
+      )}
+
+      {stage === 8 && (
+        <StayEditRooms
+          capacity={stateStay.capacity}
+          bedRooms={stateStay.bedRooms}
+          baths={stateStay.baths}
+          handleRooms={handleRooms}
+          saveBedRoom={handleBedroom}
         />
       )}
 
@@ -242,8 +278,13 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
           handleAmenity={handleAmenities}
         />
       )}
-
       {stage === 10 && (
+        <StayEditHighlights
+          highlights={stateStay.highlights}
+          handleHighlights={handleHighlights}
+        />
+      )}
+      {stage === 11 && (
         <StayEditImages
           images={stateStay.images}
           setImages={handleImages}
@@ -252,41 +293,41 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
         />
       )}
 
-      {stage === 11 && (
+      {stage === 12 && (
+        <TransitionPage
+          heading1={"Finish up and publish"}
+          heading2={"Step 3"}
+          heading3={
+            "Finally, you'll choose name and description, set up pricing, and publish your listing."
+          }
+        />
+      )}
+      {stage === 13 && (
         <StayEditName
           value={stateStay.name}
           name={"name"}
           setText={setText}
-          h1={`Now, let's give your ${stateStay.type} a title`}
-          p={
+          heading1={`Now, let's give your ${stateStay.type} a title`}
+          paragraph={
             "Short titles work best. Have fun with it—you can always change it later"
           }
           maxLength={32}
           rows={4}
         />
       )}
-      {stage === 12 && (
+      {stage === 14 && (
         <StayEditName
           value={stateStay.description}
           name={"description"}
           setText={setText}
-          h1={"Create your description"}
-          p={"Share what makes your place special."}
+          heading1={"Create your description"}
+          paragraph={"Share what makes your place special."}
           maxLength={500}
           rows={8}
         />
       )}
 
-      {stage === 13 && (
-        <TransitionPage
-          heading1={"Finish up and publish"}
-          heading2={"Step 3"}
-          heading3={
-            "Finally, you'll choose booking settings, set up pricing, and publish your listing."
-          }
-        />
-      )}
-      {stage === 14 && (
+      {stage === 15 && (
         <StayEditPrice
           price={stateStay.price}
           handleChange={setText}
@@ -295,27 +336,24 @@ export default function StayEdit({ stay, dbAmenities }: Props) {
         />
       )}
 
-      {stage === 15 && <StayEditPreview stay={stateStay} />}
+      {stage === 16 && <StayEditPreview stay={stateStay} />}
 
       <div className={styles.editActions}>
         <div className={styles.progressBar}>
           <div className={styles.barGray}>
             <div
-              style={stage < 8 ? widthStyle : { width: "100%" }}
+              style={stage < 7 ? widthStyleOne : { width: "100%" }}
               className={styles.barDark}
             ></div>
           </div>
           <div className={styles.barGray}>
             <div
-              style={stage < 13 && stage >= 8 ? widthStyle : { width: "100%" }}
+              style={stage < 13 ? widthStyleTwo : { width: "100%" }}
               className={styles.barDark}
             ></div>
           </div>
           <div className={styles.barGray}>
-            <div
-              style={stage > 16 ? widthStyle : {}}
-              className={styles.barDark}
-            ></div>
+            <div style={widthStyleThree} className={styles.barDark}></div>
           </div>
         </div>
         <div className={styles.actionBtns}>

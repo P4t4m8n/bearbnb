@@ -1,0 +1,73 @@
+@import "../../../styles/abstracts/mixin";
+@import "../../../styles/abstracts/variables";
+
+.editHighlight {
+  @include flex-direction-alignItems-gap-padding(column, center, 2rem, 2rem);
+  color: $black-1;
+  width: 100%;
+  .header {
+    h1 {
+      font-size: $font-size-36;
+      font-weight: 600;
+      line-height: $line-height-48;
+    }
+    p {
+      font-size: $font-size-18;
+      color: $gray-2;
+    }
+  }
+
+  .highlightList {
+    width: 100%;
+    @include flex-direction-alignItems-gap-padding(column, center, 1rem, 0);
+  }
+  .add {
+    @include border-solid-color-width-radius($gray-2, 1px, $border-radius-1-2);
+    @include flex-direction-alignItems-gap-padding(column, center, 0, 1rem);
+    width: clamp(15rem, 100%, 40rem);
+    height: 6rem;
+    padding: calc(1rem - 1px);
+    position: relative;
+    overflow: hidden;
+    h2 {
+      font-size: $font-size-20;
+      font-weight: 500;
+      color: $gray-1;
+      position: relative;
+      z-index: 1;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $pink-2;
+      transform: translateX(-100%);
+      transition: transform 0.4s ease-in-out;
+      z-index: -1;
+    }
+
+    &:hover::before {
+      transform: translateX(0);
+    }
+  }
+}
+
+@media (max-width: 40rem) {
+  .editHighlight {
+    .header {
+      h1 {
+        font-size: $font-size-26;
+        line-height: $line-height-26;
+        padding-bottom: 0.5rem;
+      }
+      p {
+        font-size: $font-size-14;
+        line-height: $line-height-18;
+      }
+    }
+  }
+}

@@ -11,6 +11,17 @@
     0,
     0
   );
+  .editHeader {
+    height: 4rem;
+    width: 100%;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 1px;
+    padding: 1rem;
+    svg {
+      height: 2rem;
+      aspect-ratio: 1/1;
+      fill: $main-pink;
+    }
+  }
 
   .editActions {
     width: 100%;
@@ -77,8 +88,14 @@
   }
 }
 
-@media (max-width: 400px) {
-  .stayEdit {
-    padding-top: 2rem;
+// @media (max-width: 400px) {
+//   .stayEdit {
+//     padding-top: 2rem;
+//   }
+// }
+
+body:has(.stayEdit) {
+  header {
+    display: none;
   }
 }

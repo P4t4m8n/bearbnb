@@ -51,14 +51,12 @@
 }
 
 .searchModelMobile {
-  position: fixed;
   background-color: $gray-3;
   height: 100vh;
   width: 100vw;
   z-index: $z-index-tooltip;
-  @include center;
+  @include center-position(fixed);
   @include flex-direction-gap-padding(column, 1rem, 1rem);
-
 
   .closeModelBtn {
     @include border-solid-color-width-radius($gray-2, 1px, 100vw);
