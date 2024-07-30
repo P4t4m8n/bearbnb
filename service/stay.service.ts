@@ -1,4 +1,10 @@
-import { BedroomMap, BedRoomModel } from "@/model/bedroom.model";
+import {
+  BedroomMap,
+  BedRoomMapDTO,
+  BedRoomModel,
+  bedsType,
+  BedsTypes,
+} from "@/model/bedroom.model";
 import { FilterByModel } from "@/model/filters.model";
 import { SvgsNameTypes } from "@/model/icons.model";
 import { ReviewModel } from "@/model/review.model";
@@ -96,75 +102,6 @@ export const formatDatesToRange = (
 
   // Build the final string
   return `${month} ${startDay}-${endDay}`;
-};
-// Transforms bedroom data to include counts of each bed type and list of image URLs.
-export const transformBedrooms = (
-  bedrooms: BedRoomModel[]
-): {
-  double: { count: number };
-  single: { count: number };
-  crib: { count: number };
-  description: string;
-}[] => {
-  return bedrooms.map((room) => {
-    // Initialize an object to store the counts  for each bed type
-    const bedCounts: {
-      double: { count: number };
-      single: { count: number };
-      crib: { count: number };
-      description: string;
-    } = {
-      double: { count: 0 },
-      single: { count: 0 },
-      crib: { count: 0 },
-      description: "",
-    };
-
-    // Loop through the beds in the current room
-    for (const bed of room.beds) {
-      // Update the counts based on the bed type
-      switch (bed) {
-        case "double":
-          bedCounts.double.count++; // Increment the count of double beds
-          break;
-        case "single":
-          bedCounts.single.count++; // Increment the count of single beds
-          break;
-        case "crib":
-          bedCounts.crib.count++; // Increment the count of cribs
-          break;
-        default:
-          // Handle unknown bed types if needed
-          break;
-      }
-    }
-
-    // Construct the description based on the counts and plural information
-    const descriptions = [];
-    if (bedCounts.double.count > 0) {
-      descriptions.push(
-        `${bedCounts.double.count} double bed${
-          bedCounts.double.count > 1 ? "s" : ""
-        }`
-      );
-    }
-    if (bedCounts.single.count > 0) {
-      descriptions.push(
-        `${bedCounts.single.count} single bed${
-          bedCounts.single.count > 1 ? "s" : ""
-        }`
-      );
-    }
-    if (bedCounts.crib.count > 0) {
-      descriptions.push(
-        `${bedCounts.crib.count} crib${bedCounts.crib.count > 1 ? "s" : ""}`
-      );
-    }
-    // Combine descriptions into a single string
-    bedCounts.description = descriptions.join(", ");
-
-    return bedCounts;
-  });
 };
 
 export function getBedroomMap(bedroom: BedRoomModel): BedroomMap {
@@ -434,7 +371,7 @@ export const sharedOptions: {
   },
 ];
 
-//Check and Tested
+//Check and Tested***************************************************************************************************
 export const calculateYearsSinceOwnership = (
   ownerSince: Date | null | undefined
 ): number => {
@@ -463,4 +400,43 @@ export const calculateTotalBeds = (bedrooms: BedRoomModel[] = []): number => {
       total + (Array.isArray(bedroom.beds) ? bedroom.beds.length : 0),
     0
   );
+};
+
+// Transforms bedroom data to include counts of each bed type and list of svgs name.
+export const transformBedrooms = (
+  bedrooms: BedRoomModel[]
+): BedRoomMapDTO[] => {
+  return bedrooms.map((room) => {
+    const bedCounts: BedroomMap = {
+      double: 0,
+      single: 0,
+      crib: 0,
+      king: 0,
+      queen: 0,
+      sofa: 0,
+      bunk: 0,
+    };
+
+    room.beds.forEach((bed) => {
+      if (bed in bedCounts) {
+        bedCounts[bed]++;
+      }
+    });
+
+    const descriptions: string[] = [];
+    const icons: BedsTypes[] = [];
+
+    bedsType.forEach((type) => {
+      if (bedCounts[type] > 0) {
+        descriptions.push(
+          `${bedCounts[type]} ${type} bed${bedCounts[type] > 1 ? "s" : ""}`
+        );
+        icons.push(type as BedsTypes);
+      }
+    });
+
+    const description = descriptions.join(", ");
+
+    return { icons, description, image: room.image };
+  });
 };

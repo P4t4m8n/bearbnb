@@ -7,6 +7,12 @@ export interface BedroomMap {
   [key: string]: number;
 }
 
+export interface BedRoomMapDTO {
+  icons: BedsTypes[];
+  image: string;  
+  description: string;
+}
+
 export const bedsType = [
   "double",
   "single",
