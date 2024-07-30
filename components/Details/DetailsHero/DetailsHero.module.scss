@@ -2,58 +2,54 @@
 @import "../../../styles/abstracts/variables";
 
 .detailsHero {
-  @include borderBottom-width-color-paddingBottom(1px, $gray-3, 0);
+  @include borderBottom-width-color-paddingBottom(1px, $gray-3, 2rem);
+  color: $black-1;
   display: grid;
   max-width: 100%;
-  .detailsHeroHeader {
-    h2 {
-      font-size: 1.4rem;
-      font-weight: 400;
-      @include text-overflow-ellipsis;
-    }
-    display: flex;
-    gap: 0.2rem;
-  }
-  div {
-    &:first-of-type {
-      display: flex;
-      gap: 1rem;
-      line-height: 1;
-      h3 {
-        position: relative;
-        font-weight: 300;
-        font-size: 1.1rem;
 
-        &:not(:first-of-type)::before {
-          font-size: 0.5rem;
-          position: absolute;
-          left: -0.5rem;
-          top: 50%;
-          transform: translateY(-50%);
-          content: "•";
-        }
+  .detailsHeroHeader {
+    font-size: $font-size-22;
+    font-weight: 400;
+    @include text-overflow-ellipsis;
+    font-weight: 600;
+  }
+
+  .stayInfo {
+    @include flex-direction-gap-padding(row, 0.5rem, 0);
+    h3 {
+      position: relative;
+      font-weight: 500;
+      font-size: $font-size-16;
+
+      &:not(:first-of-type)::before {
+        font-size: 0.35rem;
+        position: absolute;
+        left: -0.25rem;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        content: "•";
       }
     }
-    &:last-of-type {
-      display: flex;
-      gap: 0.5rem;
-      line-height: 2.5;
-      font-weight: 700;
-      svg {
-        width: 1rem;
-      }
-      a {
-        margin-left: 0.3rem;
-        position: relative;
-        text-decoration: underline;
-        &::before {
-          font-size: 0.5rem;
-          position: absolute;
-          left: -0.5rem;
-          top: 50%;
-          transform: translateY(-50%);
-          content: "•";
-        }
+  }
+
+  .rating {
+    @include flex-direction-gap-padding(row, 0.5rem, 0);
+    font-size: $font-size-16;
+    font-weight: 700;
+    svg {
+      width: 1rem;
+    }
+    a {
+      margin-left: 0.3rem;
+      position: relative;
+      text-decoration: underline;
+      &::before {
+        font-size: 0.5rem;
+        position: absolute;
+        left: -0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        content: "•";
       }
     }
   }

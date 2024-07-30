@@ -19,14 +19,13 @@ export function LikeSVG() {
   );
 }
 
-export function RatingSVG({ className }: Props) {
+export function RatingSVG() {
   return (
     <svg
       viewBox="0 0 32 32"
       aria-hidden="true"
       role="presentation"
       focusable="false"
-      className={className}
     >
       <path
         fillRule="evenodd"

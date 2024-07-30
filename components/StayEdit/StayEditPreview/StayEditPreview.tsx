@@ -47,7 +47,7 @@ export default function StayEditPreview({ stay }: Props) {
           </div>
           <div className={styles.rating}>
             <p>New</p>
-            <RatingSVG className="" />
+            <RatingSVG  />
           </div>
         </button>
 

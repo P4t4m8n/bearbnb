@@ -111,6 +111,7 @@ export const locationInputFields = [
   { name: "postalCode", placeholder: "Postal Code", type: "text" },
   { name: "city", placeholder: "City", type: "text" },
 ];
+
 export const countries = [
   { name: "Afghanistan", code: "AF" },
   { name: "Albania", code: "AL" },

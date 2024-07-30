@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { LogoSVG } from "../svgs/svgs";
 import { User } from "../User/User";
 import styles from "./Header.module.scss";
@@ -23,8 +23,11 @@ export default function Header({ amenities }: Props) {
   const pathname = usePathname();
   const sentinelRef = useRef<HTMLElement | null>(null);
 
+  const isSearch = useMemo(() => pathname.includes("search"), [pathname]);
+  const isStay = useMemo(() => pathname.includes("stay"), [pathname]);
+
   useEffect(() => {
-    if (pathname.includes("search")) {
+    if (isSearch || isStay) {
       setIsSmallHeader(true);
     } else {
       setIsSmallHeader(false);
@@ -76,7 +79,7 @@ export default function Header({ amenities }: Props) {
             isActive={isActive || isSmallHeader}
           />
         </Suspense>
-        {!isHeaderAsModel && (
+        {(!isHeaderAsModel && !isStay) && (
           <StayFilter
             amenities={amenities}
             isActive={isActive || isSmallHeader}

@@ -9,6 +9,7 @@
   @include flex-direction-gap-padding(column, 0, 0);
   font-size: $font-size-16;
   z-index: -1;
+  color: $black-1;
 
   &:hover {
     .imgCon {
@@ -20,17 +21,13 @@
       }
     }
   }
-  h6 {
-    padding-inline: 0.125rem;
-  }
+
   h5 {
-    font-weight: lighter;
-    font-size: $font-size-16;
+    font-size: $font-size-15;
+    font-weight: 500;
   }
   h3 {
-    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
-      "Helvetica Neue", sans-serif;
-    font-weight: 500;
+    font-weight: 700;
     font-size: $font-size-16;
   }
   .imgCon {
@@ -46,25 +43,36 @@
   }
 
   .infoHead {
-    display: flex;
-    justify-content: space-between;
+    @include flex-direction-align-justify-padding-gap(
+      row,
+      baseline,
+      space-between,
+      0,
+      0
+    );
     .rating {
-      @include flex-direction-alignItems-gap-padding(row, center, 0, 0.3rem);
-
-      .ratingSvg {
-        width: 0.8rem;
-        aspect-ratio: 1;
+      @include flex-direction-alignItems-gap-padding(row, center, 0.25rem, 0);
+      svg {
+        width: 0.75rem;
+        aspect-ratio: 1/1;
       }
     }
   }
   h6 {
     display: flex;
     font-size: $font-size-15;
-    font-weight: lighter;
     color: $gray-1;
+    font-weight: 400;
   }
   .price {
-    @include flex-direction-alignItems-gap-padding(row, center, 0, 0.5rem);
+    @include flex-direction-alignItems-gap-padding(row, center, 0.25rem, 0);
+    h3 {
+      font-size: $font-size-15;
+    }
+    h5 {
+      font-weight: 300;
+      color: $black-1;
+    }
   }
 }
 

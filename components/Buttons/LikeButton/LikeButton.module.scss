@@ -2,19 +2,27 @@
 @import "../../../styles/abstracts/mixin";
 
 .likeButton {
+  @include flex-direction-alignItems-gap-padding(row, center, 0.5rem, 0);
   position: absolute;
-  width: 1.5rem;
-  aspect-ratio: 1;
+  width: fit-content;
+  aspect-ratio: 1/1;
   right: 3%;
   top: 3%;
   stroke-width: 0.15rem;
-  padding: 0;
   stroke: white;
-  fill: gray;
+  fill: $gray-1;
   z-index: 1;
   &:hover {
-    border-color: pink;
-    stroke: pink;
+    border-color: $pink-2;
+    stroke: $pink-2;
+  }
+  svg {
+    width: 1.25rem;
+  }
+  span {
+    text-decoration: underline;
+    font-size: $font-size-14;
+    font-weight: 700;
   }
 }
 

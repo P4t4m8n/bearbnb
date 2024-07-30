@@ -10,7 +10,7 @@ interface Props {
 export function HostSmall({ imgUrl, lastName, firstName, years }: Props) {
   return (
     <div className={styles.host}>
-      <div>
+      <div className={styles.imgCon}>
         <Image sizes="auto" src={imgUrl} fill={true} alt=""></Image>
       </div>
       <p>

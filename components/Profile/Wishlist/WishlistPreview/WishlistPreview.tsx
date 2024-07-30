@@ -65,7 +65,7 @@ export default function WishlistPreview({
             {type} in {city}
           </h3>
           <div className={styles.rating}>
-            <RatingSVG className={styles.ratingSvg} />
+            <RatingSVG  />
             <h5>{roundNum}</h5>
           </div>
         </div>

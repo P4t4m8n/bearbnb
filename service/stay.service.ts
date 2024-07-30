@@ -29,7 +29,6 @@ export const getEmptyFilter = (isDates: boolean = true): FilterByModel => {
     labels: [],
   };
 };
-
 // Generates formatted check-in and check-out dates based on provided booking
 // data or fallbacks to the stay's available dates.
 export const getDefaultDates = (
@@ -434,3 +433,34 @@ export const sharedOptions: {
       "Guests sleep in a room or common area that may be shared with you or others",
   },
 ];
+
+//Check and Tested
+export const calculateYearsSinceOwnership = (
+  ownerSince: Date | null | undefined
+): number => {
+  if (!ownerSince || isNaN(ownerSince.getTime())) {
+    return 0;
+  }
+
+  const currentDate = new Date();
+  const ownerYear = ownerSince.getFullYear();
+  const currentYear = currentDate.getFullYear();
+
+  // Check if the owner anniversary this year has been reached
+  const hasAnniversaryPassedThisYear =
+    currentDate.getMonth() > ownerSince.getMonth() ||
+    (currentDate.getMonth() === ownerSince.getMonth() &&
+      currentDate.getDate() >= ownerSince.getDate());
+
+  return hasAnniversaryPassedThisYear
+    ? currentYear - ownerYear
+    : currentYear - ownerYear - 1;
+};
+
+export const calculateTotalBeds = (bedrooms: BedRoomModel[] = []): number => {
+  return bedrooms.reduce(
+    (total, bedroom) =>
+      total + (Array.isArray(bedroom.beds) ? bedroom.beds.length : 0),
+    0
+  );
+};

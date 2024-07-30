@@ -30,7 +30,6 @@ export default function StayEditRooms({
     ],
     [capacity, bedRooms, baths]
   );
-  console.log("bedRooms:", bedRooms.length);
   return (
     <section className={styles.basics}>
       <div className={styles.basicsHeader}>

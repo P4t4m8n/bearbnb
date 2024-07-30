@@ -148,7 +148,7 @@ export default function ReviewEdit({
                           : ""
                       }
                     >
-                      <RatingSVG className="" />
+                      <RatingSVG  />
                     </label>
                   </li>
                 ))}

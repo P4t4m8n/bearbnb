@@ -12,6 +12,7 @@ import {
   MiscellaneousAmenities,
 } from "@/model/amenities.type";
 
+//Constants for amenities
 export const entertainmentAmenities: EntertainmentAmenities[] = [
   "TV",
   "Smart TV",

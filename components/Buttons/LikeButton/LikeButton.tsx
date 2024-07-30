@@ -8,9 +8,10 @@ import { removeLike, saveLike } from "@/actions/like.action";
 
 interface Props {
   stayId: string;
+  isDetails?: boolean;
 }
 
-export default function LikeButton({ stayId }: Props) {
+export default function LikeButton({ stayId, isDetails }: Props) {
   const [isLiked, setIsLiked] = useState(false); //State for optimistic update
   const likeIdRef = useRef<string>("");
 
@@ -63,6 +64,7 @@ export default function LikeButton({ stayId }: Props) {
   return (
     <button className={buttonClass} onClick={onLike}>
       <LikeSVG />
+      {isDetails && <span>Like</span>}
     </button>
   );
 }

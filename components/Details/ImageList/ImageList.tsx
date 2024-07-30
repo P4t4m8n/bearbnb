@@ -6,9 +6,10 @@ interface Props {
 }
 
 export function ImageList({ images }: Props) {
+  const slicedImages = images.slice(0, 5);
   return (
     <ul className={styles.imageList}>
-      {images.map((img, idx) => (
+      {slicedImages.map((img, idx) => (
         <li key={idx}>
           <Image sizes="auto" src={img} fill={true} alt=""></Image>
         </li>

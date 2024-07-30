@@ -3,7 +3,7 @@ import styles from "./StayListSkeleton.module.scss";
 import StayPreviewSkeleton from "../StayPreviewSkeleton/StayPreviewSkeleton";
 
 export default function StayListSkeleton() {
-  const skeletonCount = 8;
+  const skeletonCount = 12;
 
   return (
     <ul className={styles.skeleton}>

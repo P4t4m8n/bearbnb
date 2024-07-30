@@ -46,7 +46,7 @@ export default function StayPreview({
             {city}, {country}
           </h3>
           <div className={styles.rating}>
-            <RatingSVG className={styles.ratingSvg} />
+            <RatingSVG  />
             <h5>{roundNum > 0 ? roundNum : "New"}</h5>
           </div>
         </div>

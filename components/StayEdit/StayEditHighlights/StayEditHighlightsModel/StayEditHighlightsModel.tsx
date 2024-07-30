@@ -21,7 +21,6 @@ export default function StayEditHighlightsModel({
   idx,
 }: Props) {
   const highlightModelRef = useRef<HTMLDivElement>(null);
-  console.log("highlight:", highlight);
   const [isModelOpen, setIsModelOpen] = useModal(highlightModelRef);
   const [highlightState, setHighlightState] =
     useState<HighlightModel>(highlight);

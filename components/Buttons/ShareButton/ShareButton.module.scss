@@ -1,0 +1,17 @@
+@import "../../../styles/abstracts/mixin";
+@import "../../../styles/abstracts/variables";
+
+.shareBtn {
+  @include flex-direction-alignItems-gap-padding(row, center, 0.5rem, 0);
+  svg {
+    width: 1rem;
+    aspect-ratio: 1/1;
+    stroke: $black-1;
+    stroke-width: 2;
+  }
+  span {
+    text-decoration: underline;
+    font-size: $font-size-14;
+    font-weight: 700;
+  }
+}

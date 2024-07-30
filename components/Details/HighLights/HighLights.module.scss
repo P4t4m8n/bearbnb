@@ -2,12 +2,10 @@
 @import "../../../styles/abstracts/mixin";
 
 .highlights {
-  border-bottom: 1px solid gainsboro;
-  padding-block: 1rem;
+  @include borderBottom-width-color-paddingBottom(1px, $gray-3, 2rem);
   display: grid;
   gap: 1rem;
-
-
+  color: $black-1;
   li {
     display: grid;
     grid-template-columns: 1.5rem auto;
@@ -17,15 +15,15 @@
       grid-area: 1/1/-1/2;
       align-self: center;
       width: 1.5rem;
-      aspect-ratio: 1;
+      aspect-ratio: 1/1;
     }
     p {
       &:first-of-type {
         font-weight: 700;
       }
       &:last-of-type {
-        font-size: 0.9rem;
-        opacity: 0.7;
+        font-size: $font-size-15;
+        color: $gray-1;
       }
     }
   }

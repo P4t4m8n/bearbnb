@@ -1,32 +1,23 @@
 @import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixin";
 
 .detailsHeader {
-  display: flex;
-  justify-content: space-between;
-  box-sizing: border-box;
-  width: 100%;
+  @include flex-direction-align-justify-padding-gap(
+    row,
+    center,
+    space-between,
+    0,
+    0
+  );
   h1 {
-    font-size: 1.5rem;
+    font-size: $font-size-26;
   }
-  svg {
-    width: 1rem;
-    aspect-ratio: 1;
-    stroke: currentcolor;
-    stroke-width: 2;
-    fill: white;
-  }
-  div {
-    display: flex;
-    gap: 1rem;
-  }
-  button {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    position: relative !important;
-  }
-  span {
-    text-decoration: underline;
+
+  .actions {
+    @include flex-direction-gap-padding(row, 1rem, 0);
+    button {
+      position: relative;
+    }
   }
 }
 

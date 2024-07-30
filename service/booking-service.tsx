@@ -36,7 +36,6 @@ export const getEmptyBooking = (
   };
 };
 
-// Calculate the number of days between two dates.
 export const daysBetweenDates = (date1: Date, date2: Date) => {
   if (!date1 || !date2) return 0;
   const oneDay = 1000 * 60 * 60 * 24;

@@ -1,6 +1,6 @@
+"use server";
 import { getStayById } from "@/actions/stay.action";
 import styles from "./Details.module.scss";
-import DetailsSkeleton from "@/components/skeletons/DetailsSkeleton/DetailsSkeleton";
 import { DetailsHeader } from "@/components/Details/Header/DetailsHeader";
 import { ImageList } from "@/components/Details/ImageList/ImageList";
 import { DetailsHero } from "@/components/Details/DetailsHero/DetailsHero";
@@ -10,17 +10,25 @@ import About from "@/components/Details/About/About";
 import RoomList from "@/components/Details/RoomList/RoomLIst";
 import AmentiasList from "@/components/Details/AmentiasList/AmentiasList";
 import Booking from "@/components/Booking/Booking";
+import { redirect } from "next/navigation";
+import {
+  calculateTotalBeds,
+  calculateYearsSinceOwnership,
+} from "@/service/stay.service";
+import { GuestStayType } from "@/model/stay.model";
 
 interface Props {
   params: { id: string };
 }
 
 export default async function StayDetails({ params }: Props) {
+  // const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+  // await delay(3000);
   const { id } = params;
 
   const stay = await getStayById(id);
 
-  if (!stay) return <DetailsSkeleton />;
+  if (!stay) redirect("/page-not-found");
 
   const {
     _id,
@@ -38,16 +46,14 @@ export default async function StayDetails({ params }: Props) {
   } = stay;
   const { firstName, imgUrl, lastName, ownerSince } = host;
 
-  const _ownerSince = new Date(ownerSince!);
+  const numberOfBeds = calculateTotalBeds(bedRooms);
 
-  const numberOfBeds = bedRooms.reduce(
-    (acc, currValue) => acc + currValue.beds.length,
-    0
-  );
-  const currentDate = new Date();
-  const years = ownerSince
-    ? currentDate.getFullYear() - _ownerSince.getFullYear()
-    : 0;
+  const years = calculateYearsSinceOwnership(ownerSince);
+
+  const guestStay: GuestStayType = "Entire place";
+  // | "Shared place"
+  // | "Private room"
+  // | "Shared room";
 
   return (
     <section className={styles.details}>
@@ -64,6 +70,7 @@ export default async function StayDetails({ params }: Props) {
             reviewsLength={reviews?.length || 0}
             country={location.country}
             city={location.city}
+            guestStay={guestStay!}
           />
           <HostSmall
             imgUrl={imgUrl || ""}
@@ -78,9 +85,8 @@ export default async function StayDetails({ params }: Props) {
           {/* TODO reimplement calender with booking in a global state */}
           {/* <Calendar bookings={stay.bookings} date={new Date()} /> */}
         </section>
-      
-          <Booking stay={stay} />
-      
+
+        <Booking stay={stay} />
       </div>
     </section>
   );
