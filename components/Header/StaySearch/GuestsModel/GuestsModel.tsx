@@ -36,7 +36,7 @@ export function GuestsWindow({ guests, setGuests, isBooking = false }: Props) {
   ];
 
   return (
-    <div className={`${styles.guestsSearch} ${!isBooking ? styles.hover : ""}`}>
+    <div className={`${styles.guestsSearch} ${!isBooking ? styles.hover : styles.booking}`}>
       <button
         onClick={() => setIsGuestsSearchOpen(true)}
         className={styles.total}

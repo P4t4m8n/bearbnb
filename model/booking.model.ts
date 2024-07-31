@@ -42,6 +42,21 @@ export interface BookingSchema {
   hostId: ObjectId;
   status: BookingStatus;
 }
+
+export interface BookingDTO {
+  _id?: string;
+  checkIn: Date;
+  checkOut: Date;
+  price: number;
+  adults: number;
+  children: number;
+  infants: number;
+  pets: number;
+  stayId: string;
+  userId: string;
+  hostId: string;
+  status: BookingStatus;
+}
 export interface FormattedDate {
   day: string;
   month: string;

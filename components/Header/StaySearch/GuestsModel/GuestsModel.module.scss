@@ -56,7 +56,7 @@
   .guestsBookingModel {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 6px 0px;
     border-radius: $border-radius-1-2;
-    width: 100%;
+    width: fit-content;
     top: 110%;
     right: -3.5rem;
     position: absolute;
@@ -116,5 +116,11 @@
   &:hover {
     background-color: rgb(245, 245, 240);
     cursor: pointer;
+  }
+}
+
+.booking {
+  @media (max-width: 53rem) {
+    display: none !important;
   }
 }

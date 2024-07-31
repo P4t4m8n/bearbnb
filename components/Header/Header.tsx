@@ -59,7 +59,9 @@ export default function Header({ amenities }: Props) {
 
   const headerClass = `${styles.header} ${
     isActive || isSmallHeader ? styles.scroll : ""
-  } ${isHeaderAsModel ? styles.headerAsModel : ""}`;
+  } ${isHeaderAsModel ? styles.headerAsModel : ""} ${
+    isStay ? styles.details : ""
+  }`;
 
   return (
     <>
@@ -79,7 +81,7 @@ export default function Header({ amenities }: Props) {
             isActive={isActive || isSmallHeader}
           />
         </Suspense>
-        {(!isHeaderAsModel && !isStay) && (
+        {!isHeaderAsModel && !isStay && (
           <StayFilter
             amenities={amenities}
             isActive={isActive || isSmallHeader}

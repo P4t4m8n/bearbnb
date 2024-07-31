@@ -54,31 +54,35 @@
       text-decoration: underline;
     }
   }
-  .bookBtn {
-    @include bookingBtn;
-  }
 }
 
-@media (max-width: 850px) {
+@media (max-width: 53rem) {
   .booking {
-    position: sticky;
+    position: fixed;
     bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     gap: 0;
     background-color: white;
     height: 5rem;
+    width: 100%;
+    border-radius: 0;
+    display: grid;
+    grid-template-columns: 14rem auto;
     grid-template-rows: 50% 50%;
-    grid-template-columns: 25% 25%;
-    padding: 0.5rem;
     justify-content: space-between;
     align-items: center;
-    border-radius: 0;
-    box-shadow: none;
-    border: none;
-    border-top: 1px solid rgb(221, 221, 221);
+    row-gap: 0.25rem;
+    border-top: 1px solid $gray-3;
     z-index: 1;
 
-    header {
+    .bookingHeader {
       grid-area: 1/1/2/2;
+      gap: 0.25rem;
+      h1 {
+        font-size: $font-size-16;
+        font-weight: 700;
+      }
     }
 
     .bookingInfo {

@@ -53,3 +53,20 @@
     box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
   }
 }
+
+@media (max-width: 53rem) {
+  .con {
+    .dates {
+      border-bottom: none;
+      .datesBig {
+        display: none;
+      }
+      .datesMobile {
+        display: block;
+        font-size: $font-size-14;
+        font-weight: 700;
+        text-decoration: underline;
+      }
+    }
+  }
+}

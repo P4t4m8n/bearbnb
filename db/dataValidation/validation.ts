@@ -42,7 +42,6 @@ export const bookingValidation = z
     pets: z.number().min(0).default(0),
     checkIn: z.date(),
     checkOut: z.date(),
-    bookingTime: z.date(),
   })
   .refine((data) => data.checkIn < data.checkOut, {
     message: "Check-in date must be before check-out date.",

@@ -1,43 +1,50 @@
 "use client";
 import { useModal } from "@/hooks/useModal";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import styles from "./ConfirmBookingModal.module.scss";
-import { daysBetweenDates } from "@/service/booking.service";
+import {
+  bookingToBookingDTO,
+  daysBetweenDates,
+} from "@/service/booking.service";
 import { getDefaultDates } from "@/service/stay.service";
 import { BookingModel } from "@/model/booking.model";
 import { saveBooking } from "@/actions/booking.action";
 import { usePathname, useRouter } from "next/navigation";
 interface Props {
   booking: BookingModel;
-  confirmModalHelper: () => void;
+  setBooking: Dispatch<SetStateAction<BookingModel>>;
+  diffInDays: number;
+  pricePerNight: number;
 }
 
 export default function ConfirmBookingModal({
   booking,
-  confirmModalHelper,
+  setBooking,
+  diffInDays,
+  pricePerNight,
 }: Props) {
   const bookingConfirmModalRef = useRef<HTMLDivElement | null>(null);
   const [isBookingConfirm, setIsBookingConfirm] = useModal(
-    bookingConfirmModalRef,
-    confirmModalHelper
+    bookingConfirmModalRef
   );
 
   const router = useRouter();
   const path = usePathname();
-  useEffect(() => {
-    setIsBookingConfirm(true);
-  }, []);
 
-  const onBack = () => {
-    setIsBookingConfirm(false);
-    confirmModalHelper();
+  const onBook = () => {
+    if (!booking.user) return alert("No user");
+
+    const price = pricePerNight * diffInDays;
+    setBooking((prev) => ({ ...prev, price }));
+    setIsBookingConfirm(true);
   };
 
   const onSaveBooking = async () => {
     try {
-      const response = await saveBooking(booking);
-      router.push(`/booking/${response?._id}`);
+      const bookingDto = bookingToBookingDTO(booking);
+      const bookingId = await saveBooking(bookingDto);
+      router.push(`/booking/${bookingId}`);
     } catch (error) {
       console.error("error:", error);
     }
@@ -71,6 +78,9 @@ export default function ConfirmBookingModal({
 
   return (
     <>
+      <button onClick={() => onBook()} className={styles.bookBtn}>
+        Reserve
+      </button>
       {isBookingConfirm ? (
         <section className={styles.bookingModal} ref={bookingConfirmModalRef}>
           <div className={styles.bookingModalHeader}>
@@ -125,7 +135,7 @@ export default function ConfirmBookingModal({
             <h5>{booking.stay?.name || ""}</h5>
           </div>
           <div className={styles.actions}>
-            <button onClick={onBack}>back</button>
+            <button onClick={() => setIsBookingConfirm(false)}>back</button>
             <button onClick={() => onSaveBooking()}>Confirm</button>
           </div>
         </section>

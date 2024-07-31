@@ -20,8 +20,7 @@ interface Props {
 export default function Booking({ stay }: Props) {
   const { user } = useUserStore();
   const [booking, setBooking] = useState<BookingModel>(getEmptyBooking());
-  const [bookingModal, setBookingModal] = useState(false);
-
+  const bookingRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     setBooking({
       ...booking,
@@ -48,20 +47,8 @@ export default function Booking({ stay }: Props) {
     }
   }, [user]);
 
-  const onBook = () => {
-    if (!user) return alert("No user");
-
-    const price = stay.price * diffInDays;
-    setBooking((prev) => ({ ...prev, price }));
-    setBookingModal(true);
-  };
-
   const setGuests = (guests: GuestsModel) => {
     setBooking((prevBooking) => ({ ...prevBooking, ...guests }));
-  };
-
-  const confirmModalHelper = () => {
-    setBookingModal(false);
   };
 
   // Calculate difference in days between check-in and check-out dates
@@ -105,9 +92,13 @@ export default function Booking({ stay }: Props) {
             isBooking={true}
           />
         </div>
-        <button onClick={() => onBook()} className={styles.bookBtn}>
-          Reserve
-        </button>
+        <ConfirmBookingModal
+          pricePerNight={price}
+          booking={booking}
+          setBooking={setBooking}
+          diffInDays={diffInDays}
+        />
+
         <div className={styles.price}>
           <h3
             className={styles.underline}
@@ -123,13 +114,6 @@ export default function Booking({ stay }: Props) {
           <h1>${diffInDays * price + 42}</h1>
         </div>
       </section>
-
-      {bookingModal && (
-        <ConfirmBookingModal
-          confirmModalHelper={confirmModalHelper}
-          booking={booking}
-        />
-      )}
     </>
   );
 }

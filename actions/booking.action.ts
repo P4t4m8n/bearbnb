@@ -2,6 +2,7 @@
 import "server-only";
 import { dbService } from "@/db/db.service";
 import {
+  BookingDTO,
   BookingModel,
   BookingSchema,
   BookingStatus,
@@ -38,19 +39,12 @@ export const getBookings = async (
   return bookingsToReturn;
 };
 
-export const saveBooking = async (
-  booking: BookingModel
-): Promise<BookingModel> => {
+export const saveBooking = async (booking: BookingDTO): Promise<string> => {
   let bookingId: ObjectId;
-  if (booking._id) {
-    bookingId = await _update(booking);
-  } else bookingId = await _create(booking);
+  if (booking._id) bookingId = await _update(booking);
+  else bookingId = await _create(booking);
 
-  return {
-    ...booking,
-    _id: bookingId.toString(),
-    bookingTime: bookingId.getTimestamp(),
-  };
+  return bookingId.toString();
 };
 
 export const getBookingById = async (_id: string): Promise<BookingModel> => {
@@ -79,7 +73,7 @@ export const getBookingById = async (_id: string): Promise<BookingModel> => {
 };
 
 ////////////////// Private functions //////////////////
-const _update = async (booking: BookingModel): Promise<ObjectId> => {
+const _update = async (booking: BookingDTO): Promise<ObjectId> => {
   const collection = await dbService.getCollection("bookings");
 
   const result = await collection.updateOne(
@@ -92,7 +86,7 @@ const _update = async (booking: BookingModel): Promise<ObjectId> => {
   return result.upsertedId;
 };
 
-const _create = async (booking: BookingModel): Promise<ObjectId> => {
+const _create = async (booking: BookingDTO): Promise<ObjectId> => {
   const collection = await dbService.getCollection("bookings");
 
   bookingValidation.parse(booking);
@@ -106,9 +100,9 @@ const _create = async (booking: BookingModel): Promise<ObjectId> => {
     infants: booking.infants,
     pets: booking.pets,
     status: booking.status,
-    userId: new ObjectId(booking.user._id),
-    stayId: new ObjectId(booking.stay._id),
-    hostId: new ObjectId(booking.host._id),
+    userId: new ObjectId(booking.userId),
+    stayId: new ObjectId(booking.stayId),
+    hostId: new ObjectId(booking.hostId),
   };
 
   const result = await collection.insertOne(bookingToSave);
