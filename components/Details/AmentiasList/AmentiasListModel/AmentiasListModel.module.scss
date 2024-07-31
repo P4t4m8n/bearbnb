@@ -4,52 +4,65 @@
 .openBtn {
   width: fit-content;
   @include border-solid-color-width-radius($black-1, 1px, $border-radius-1-2);
-
   box-sizing: border-box;
   padding-inline: 1rem;
   padding-block: 0.75rem;
   font-weight: 600;
-  &:hover {
-    background-color: rgb(255, 246, 247);
+  position: relative;
+  overflow: hidden;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $gray-3;
+    transform: translateX(-100%);
+    transition: transform 0.4s ease-in-out;
+    z-index: -1;
+  }
+
+  &:hover::before {
+    transform: translateX(0);
   }
 }
 
 .amenitiesModel {
-  position: fixed;
-  top: 50%;
-  left: 50%;
+  @include center-position(fixed);
+  @include model-boxShadow;
+  @include flex-direction-gap-padding(column, 1.5rem, 0);
+  z-index: $z-index-tooltip;
   height: 90vh;
-  width: 45rem;
+  width: clamp(15rem, 100%, 50rem);
   overflow: auto;
-  border-radius: $border-radius-1-2;
-  padding: 1rem;
+  border-radius: $border-radius-1;
   box-sizing: border-box;
   background-color: white;
-  transform: translate(-50%, -50%);
-  box-shadow: 0px 10px 3000px 1500px rgba(0, 0, 0, 0.5);
-  z-index: $z-index-tooltip;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  ul {
+
+  h2 {
+    font-size: $font-size-22;
+    padding-inline: 2rem;
+  }
+  .amenitiesGroupList {
     display: grid;
     gap: 1rem;
-    padding-bottom: 1.5rem;
+    padding: 2rem;
+    overflow: auto;
 
-    li {
+    .amenitiesGroupCon {
       display: grid;
       gap: 1rem;
-
       h3 {
-        font-weight: 600;
-        font-size: 1.1rem;
+        font-weight: 700;
+        font-size: $font-size-18;
+        padding-bottom: 1rem;
       }
-      ul {
+      .amenitiesList {
         display: grid;
         gap: 2rem;
-        li {
-          display: flex;
-          gap: 1rem;
+        .amenity {
+          @include flex-direction-gap-padding(row, 1rem, 0);
           @include borderBottom-width-color-paddingBottom(1px, $gray-3, 2rem);
           h4 {
             font-weight: 300;
@@ -64,8 +77,15 @@
   }
 
   .closeBtn {
-    height: fit-content;
-    width: fit-content;
+    width: 1rem;
+    height: 1rem;
+    rotate: 45deg;
+    padding: 0;
+    margin: 2rem;
+
+    svg {
+      fill: $gray-1;
+    }
   }
 }
 

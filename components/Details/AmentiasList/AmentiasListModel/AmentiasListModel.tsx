@@ -1,9 +1,10 @@
 "use client";
 import { AmenityModel, GroupedAmenities } from "@/model/amenity.model";
 import styles from "./AmentiasListModel.module.scss";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { useModal } from "@/hooks/useModal";
-import { DynamicSVG } from "@/components/svgs/svgs";
+import { DynamicSVG, PlusSVG } from "@/components/svgs/svgs";
+import { groupAmenitiesByCategory } from "@/service/amenities.service";
 
 interface Props {
   amenities: AmenityModel[];
@@ -13,27 +14,11 @@ export default function AmentiasListModel({ amenities }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isModelOpen, setIsModelOpen] = useModal(modalRef, null);
 
-  const groupedAmenities: GroupedAmenities = amenities.reduce<GroupedAmenities>(
-    (acc, amenity) => {
-      const { category } = amenity;
-      if (!acc[category]) {
-        acc[category] = [];
-      }
-
-      acc[category].push({
-        name: amenity.name,
-        _id: amenity._id,
-        path: amenity.path,
-        viewBox: amenity.viewBox,
-      });
-      return acc;
-    },
-    {}
+  const groupedAmenities: GroupedAmenities = useMemo(
+    () => groupAmenitiesByCategory(amenities),
+    [amenities]
   );
 
-  for (const category in groupedAmenities) {
-    groupedAmenities[category].sort((a, b) => a.name.localeCompare(b.name));
-  }
   return (
     <>
       <button className={styles.openBtn} onClick={() => setIsModelOpen(true)}>
@@ -45,16 +30,16 @@ export default function AmentiasListModel({ amenities }: Props) {
             className={styles.closeBtn}
             onClick={() => setIsModelOpen(false)}
           >
-            X
+            <PlusSVG/>
           </button>
           <h2>What this place offers</h2>
-          <ul>
+          <ul className={styles.amenitiesGroupList}>
             {Object.keys(groupedAmenities).map((category) => (
-              <li key={category}>
+              <li className={styles.amenitiesGroupCon} key={category}>
                 <h3>{category}</h3>
-                <ul>
+                <ul className={styles.amenitiesList}>
                   {groupedAmenities[category].map((amenity) => (
-                    <li key={amenity._id}>
+                    <li className={styles.amenity} key={amenity._id}>
                       <DynamicSVG
                         path={amenity.path!}
                         viewBox={amenity.viewBox!}

@@ -1,0 +1,55 @@
+@import "../../../styles/abstracts/mixin";
+@import "../../../styles/abstracts/variables";
+
+.con {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  .dates {
+    @include borderBottom-width-color-paddingBottom(1px, $gray-2, 0);
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding: 0;
+    text-align: left;
+    height: 100%;
+    width: 100%;
+    .datesBig {
+      min-height: 100%;
+      width: 100%;
+      @include flex-direction-align-justify-padding-gap(
+        column,
+        baseline,
+        center,
+        0,
+        0
+      );
+      padding-left: 0.75rem;
+      span {
+        font-size: $font-size-10;
+      }
+      p {
+        font-size: $font-size-14;
+      }
+    }
+
+    .left {
+      border-right: 1px solid $gray-2;
+    }
+
+    .datesMobile {
+      display: none;
+    }
+  }
+
+  .calendarCon {
+    padding: 0.5rem;
+    position: absolute;
+    z-index: 20;
+    background-color: white;
+    right: -5%;
+    top: 50%;
+    width: 110%;
+    height: fit-content;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
+  }
+}

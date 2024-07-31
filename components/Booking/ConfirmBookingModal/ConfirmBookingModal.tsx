@@ -3,7 +3,7 @@ import { useModal } from "@/hooks/useModal";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import styles from "./ConfirmBookingModal.module.scss";
-import { daysBetweenDates } from "@/service/booking-service";
+import { daysBetweenDates } from "@/service/booking.service";
 import { getDefaultDates } from "@/service/stay.service";
 import { BookingModel } from "@/model/booking.model";
 import { saveBooking } from "@/actions/booking.action";

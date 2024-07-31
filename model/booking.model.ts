@@ -20,15 +20,14 @@ export interface BookingModel extends BookingSmallModel {
     image: string;
     price: number;
     type: string;
-    location:{
+    location: {
       city: string;
-    }
+    };
   };
   user: UserSmallModel;
   host: UserSmallModel;
   status: BookingStatus;
 }
-
 export interface BookingSchema {
   _id?: ObjectId;
   checkIn: Date;
@@ -42,6 +41,11 @@ export interface BookingSchema {
   userId: ObjectId;
   hostId: ObjectId;
   status: BookingStatus;
+}
+export interface FormattedDate {
+  day: string;
+  month: string;
+  year: number;
 }
 
 export type BookingStatus = "pending" | "confirmed" | "canceled" | "completed";

@@ -5,6 +5,7 @@ import {
   bedsType,
   BedsTypes,
 } from "@/model/bedroom.model";
+import { FormattedDate } from "@/model/booking.model";
 import { FilterByModel } from "@/model/filters.model";
 import { SvgsNameTypes } from "@/model/icons.model";
 import { ReviewModel } from "@/model/review.model";
@@ -39,34 +40,31 @@ export const getEmptyFilter = (isDates: boolean = true): FilterByModel => {
 // data or fallbacks to the stay's available dates.
 export const getDefaultDates = (
   firstAvailableDate: Date[] | null | undefined,
-  booking: { checkIn: Date; checkOut: Date }
+  booking: { checkIn: Date | null; checkOut: Date | null }
 ): {
-  formatCheckIn: { day: string; month: string; year: number };
-  formatCheckOut: { day: string; month: string; year: number };
+  formatCheckIn: FormattedDate;
+  formatCheckOut: FormattedDate;
 } => {
-  // Format check-in and check-out dates
-  const formatCheckIn = {
-    day: booking.checkIn
-      ? booking.checkIn.getDate().toString().padStart(2, "0")
-      : firstAvailableDate![0].getDate().toString().padStart(2, "0"),
-    month: booking.checkIn
-      ? (booking.checkIn?.getMonth() + 1).toString().padStart(2, "0")
-      : (firstAvailableDate![0].getMonth() + 1).toString().padStart(2, "0"),
-    year: booking.checkIn
-      ? booking.checkIn.getFullYear()
-      : firstAvailableDate![0].getFullYear(),
-  };
-  const formatCheckOut = {
-    day: booking.checkOut
-      ? booking.checkOut.getDate().toString().padStart(2, "0")
-      : firstAvailableDate![2].getDate().toString().padStart(2, "0"),
-    month: booking.checkOut
-      ? (booking.checkOut?.getMonth() + 1).toString().padStart(2, "0")
-      : (firstAvailableDate![2].getMonth() + 1).toString().padStart(2, "0"),
-    year: booking.checkOut
-      ? booking.checkOut.getFullYear()
-      : firstAvailableDate![2].getFullYear(),
-  };
+  const formatDate = (date: Date): FormattedDate => ({
+    day: date.getDate().toString().padStart(2, "0"),
+    month: (date.getMonth() + 1).toString().padStart(2, "0"),
+    year: date.getFullYear(),
+  });
+
+  const defaultCheckIn = firstAvailableDate && firstAvailableDate[0];
+  const defaultCheckOut = firstAvailableDate && firstAvailableDate[2];
+
+  const formatCheckIn = booking.checkIn
+    ? formatDate(booking.checkIn)
+    : defaultCheckIn
+    ? formatDate(defaultCheckIn)
+    : { day: "", month: "", year: 0 };
+
+  const formatCheckOut = booking.checkOut
+    ? formatDate(booking.checkOut)
+    : defaultCheckOut
+    ? formatDate(defaultCheckOut)
+    : { day: "", month: "", year: 0 };
 
   return { formatCheckIn, formatCheckOut };
 };
@@ -311,15 +309,19 @@ export const fixedDatesForMobile = (
   } | null
 ): string | null => {
   if (!dates || !dates.start || !dates.end) return null;
-  const monthNameStart =
-    dates?.start!.toLocaleString("default", { month: "long" }) || "";
-  const monthNameEnd =
-    dates?.end!.toLocaleString("default", { month: "long" }) || "";
+
+  const formatDate = (date: Date) => ({
+    month: date.toLocaleString("default", { month: "long" }),
+    day: date.getDate(),
+  });
+
+  const startDate = formatDate(dates.start);
+  const endDate = formatDate(dates.end);
 
   const fixedDates =
-    monthNameStart === monthNameEnd
-      ? `${monthNameStart} ${dates?.start?.getDate()} - ${dates?.end?.getDate()}`
-      : `${monthNameStart} ${dates?.start?.getDate()} - ${monthNameEnd} ${dates?.end?.getDate()}`;
+    startDate.month === endDate.month
+      ? `${startDate.month} ${startDate.day} - ${endDate.day}`
+      : `${startDate.month} ${startDate.day} - ${endDate.month} ${endDate.day}`;
 
   return fixedDates;
 };

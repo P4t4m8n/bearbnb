@@ -10,75 +10,99 @@
   width: 100%;
 
   .total {
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-    height: 4rem;
     width: 100%;
-    span {
-      text-align: start;
-      font-size: $font-size-10;
-      font-weight: 800;
-    }
-    p {
-      font-size: $font-size-14;
-    }
-    @media (max-width: 930px) {
-      justify-content: center;
+    height: 100%;
+    @include flex-direction-align-justify-padding-gap(
+      row,
+      center,
+      space-between,
+      0,
+      0
+    );
+    padding-inline: 0.75rem;
+
+    .text {
+      @include flex-direction-align-justify-padding-gap(
+        column,
+        baseline,
+        center,
+        0,
+        0
+      );
       height: 100%;
+      span {
+        text-align: start;
+        font-size: $font-size-10;
+        font-weight: 800;
+      }
+      p {
+        font-size: $font-size-14;
+      }
+    }
+    .svgCon {
+      width: 1rem;
+      stroke: $black-1;
+      stroke-width: 4;
+      transition: rotate 0.1s ease-in;
+      rotate: 90deg;
+
+      &.rotate {
+        rotate: -90deg;
+      }
     }
   }
 
   .guestsSearchModel,
   .guestsBookingModel {
-    @include soft-box-shadow;
-    padding: 1.5rem;
-    border-radius: $border-radius-1;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 6px 0px;
+    border-radius: $border-radius-1-2;
     width: 100%;
-    min-width: 20rem;
     top: 110%;
     right: -3.5rem;
     position: absolute;
+
+    padding: 1.5rem;
     background-color: white;
     display: grid;
-    z-index: 150000;
+    gap: 1rem;
+    z-index: 1;
     li {
-      display: flex;
-      justify-content: space-between;
+      @include flex-direction-align-justify-padding-gap(
+        row,
+        center,
+        space-between,
+        0,
+        0
+      );
       &:not(:last-child) {
         @include borderBottom-width-color-paddingBottom(1px, $gray-3, 1rem);
       }
-      &:last-child {
-        padding-top: 1rem;
-      }
       .type {
         h2 {
-          font-size: 1rem;
+          font-size: $font-size-16;
         }
         h3 {
-          font-size: 0.8rem;
-          color: rgb(121, 121, 121);
+          font-size: $font-size-14;
+          color: $gray-1;
           font-weight: 400;
         }
       }
       .actions {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
+        @include flex-direction-alignItems-gap-padding(row, center, 1rem, 0);
         button {
           width: 1.75rem;
           padding: 0.5rem;
-          fill: $gray-2;
+          fill: $gray-1;
           aspect-ratio: 1/1;
-          border-radius: 100vw;
-          @include border-solid-color-width($gray-3, 1px);
+          @include border-solid-color-width-radius($gray-3, 1px, 100vw);
         }
       }
     }
   }
   .guestsBookingModel {
-    width: 110%;
-    right: -5%;
+    width: 105%;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 

@@ -2,6 +2,7 @@
 @import "../../../styles/abstracts/mixin";
 
 .rooms {
+  @include borderBottom-width-color-paddingBottom(1px, $gray-3, 2rem);
   display: grid;
   position: relative;
   width: 100%;

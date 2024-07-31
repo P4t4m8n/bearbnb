@@ -1,15 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { StayModel } from "@/model/stay.model";
 import { useUserStore } from "@/store/useUserStore";
-import ConfirmBookingModal from "./ConfirmBookingModal/ConfrimBookingModal";
-import { daysBetweenDates, getEmptyBooking } from "@/service/booking-service";
-import RegularBooking from "./Views/Regular/RegularBooking";
+import ConfirmBookingModal from "./ConfirmBookingModal/ConfirmBookingModal";
+import { daysBetweenDates, getEmptyBooking } from "@/service/booking.service";
 import { BookingModel } from "@/model/booking.model";
 import { GuestsModel } from "@/model/guest.model";
-import { getDefaultDates, stayToSmallStay } from "@/service/stay.service";
+
 import { userToSmallUser } from "@/service/user.service";
+import styles from "./Booking.module.scss";
+import { GuestsWindow } from "../Header/StaySearch/GuestsModel/GuestsModel";
+import BookingCalendar from "./BookingCalendar/BookingCalendar";
 
 interface Props {
   stay: StayModel;
@@ -18,7 +20,6 @@ interface Props {
 export default function Booking({ stay }: Props) {
   const { user } = useUserStore();
   const [booking, setBooking] = useState<BookingModel>(getEmptyBooking());
-  const isStart = useRef(true);
   const [bookingModal, setBookingModal] = useState(false);
 
   useEffect(() => {
@@ -47,21 +48,6 @@ export default function Booking({ stay }: Props) {
     }
   }, [user]);
 
-  const onDateClick = (date: Date) => {
-    if (!date) return;
-    if (isStart.current) {
-      if (booking.checkOut && date >= booking.checkOut)
-        setBooking({ ...booking, checkIn: date, checkOut: date });
-      else setBooking({ ...booking, checkIn: date });
-      isStart.current = false;
-    } else {
-      if (date < booking.checkIn)
-        setBooking({ ...booking, checkIn: date, checkOut: date });
-      else setBooking({ ...booking, checkOut: date });
-      isStart.current = true;
-    }
-  };
-
   const onBook = () => {
     if (!user) return alert("No user");
 
@@ -74,27 +60,21 @@ export default function Booking({ stay }: Props) {
     setBooking((prevBooking) => ({ ...prevBooking, ...guests }));
   };
 
-  const clearDates = () => {
-    setBooking({
-      ...booking,
-      checkIn: stay.firstAvailableDate![0],
-      checkOut: stay.firstAvailableDate![2],
-    });
-  };
-
-  // Close booking modal
   const confirmModalHelper = () => {
     setBookingModal(false);
   };
 
   // Calculate difference in days between check-in and check-out dates
-  const diffInDays =
-    booking.checkIn && booking.checkOut
-      ? daysBetweenDates(booking.checkIn, booking.checkOut)
-      : daysBetweenDates(
-          stay.firstAvailableDate![0],
-          stay.firstAvailableDate![2]
-        );
+  const diffInDays = useMemo(
+    () =>
+      booking.checkIn && booking.checkOut
+        ? daysBetweenDates(booking.checkIn, booking.checkOut)
+        : daysBetweenDates(
+            stay.firstAvailableDate![0],
+            stay.firstAvailableDate![2]
+          ),
+    [booking.checkIn, booking.checkOut]
+  );
 
   const guests = {
     adults: booking.adults,
@@ -103,36 +83,46 @@ export default function Booking({ stay }: Props) {
     pets: booking.pets,
   };
 
-  const { checkIn, checkOut } = booking;
-  const { formatCheckIn, formatCheckOut } = getDefaultDates(
-    stay.firstAvailableDate,
-    {
-      checkIn,
-      checkOut,
-    }
-  );
-
-  const bookingComponentData = {
-    price: stay.price,
-    checkIn,
-    checkOut,
-    formatCheckIn,
-    formatCheckOut,
-    guests,
-    bookings: stay.bookings,
-    booking: booking,
-    diffInDays,
-  };
+  const { price, bookings } = stay;
 
   return (
     <>
-      <RegularBooking
-        data={bookingComponentData}
-        onBook={onBook}
-        setGuests={setGuests}
-        onDateClick={onDateClick}
-        clearDates={clearDates}
-      />
+      <section className={styles.booking}>
+        <div className={styles.bookingHeader}>
+          <h1>{diffInDays < 0 ? "Add dates for prices" : `$${price}`}</h1>
+          <h3>night</h3>
+        </div>
+        <div className={styles.bookingInfo}>
+          <BookingCalendar
+            booking={booking}
+            bookings={stay.bookings}
+            setBooking={setBooking}
+            firstAvailableDate={stay.firstAvailableDate}
+          />
+          <GuestsWindow
+            setGuests={setGuests}
+            guests={guests}
+            isBooking={true}
+          />
+        </div>
+        <button onClick={() => onBook()} className={styles.bookBtn}>
+          Reserve
+        </button>
+        <div className={styles.price}>
+          <h3
+            className={styles.underline}
+          >{`$${price} x ${diffInDays} nights`}</h3>
+          <h3>${diffInDays * price}</h3>
+        </div>
+        <div className={styles.price}>
+          <h3 className={styles.underline}>Bearbnb honey fee</h3>
+          <h3>$42</h3>
+        </div>
+        <div className={styles.price}>
+          <h1>Total</h1>
+          <h1>${diffInDays * price + 42}</h1>
+        </div>
+      </section>
 
       {bookingModal && (
         <ConfirmBookingModal

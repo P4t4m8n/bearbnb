@@ -1,8 +1,8 @@
-import { MouseEvent, useRef } from "react";
-import { MinusSVG, PlusSVG } from "../../../svgs/svgs";
+import { useRef } from "react";
+import { MinusSVG, PlusSVG, ScrollBySVG } from "../../../svgs/svgs";
 import styles from "./GuestsModel.module.scss";
 import { useModal } from "@/hooks/useModal";
-import { GuestsModel } from "@/model/guest.model";
+import { GuestsKey, GuestsModel } from "@/model/guest.model";
 
 interface Props {
   guests: GuestsModel;
@@ -13,26 +13,47 @@ export function GuestsWindow({ guests, setGuests, isBooking = false }: Props) {
   const modalRef = useRef<HTMLUListElement>(null);
   const [isGuestsSearchOpen, setIsGuestsSearchOpen] = useModal(modalRef);
 
-  const onClickGuests = (
-    key: "adults" | "children" | "infants",
-    dir: number
-  ) => {
+  const onClickGuests = (key: GuestsKey, dir: number) => {
     const value = guests[key] + dir;
-    const updatedGuests = { ...guests, [key]: value };
-    setGuests(updatedGuests);
+    if (value >= 0) {
+      const updatedGuests = { ...guests, [key]: value };
+      setGuests(updatedGuests);
+    }
   };
 
-  const onSetGuests = (ev: MouseEvent) => {
-    setIsGuestsSearchOpen(true);
-  };
-
+  const { adults, children, infants } = guests;
   const numOfGuests = guests.adults + guests.children + guests.infants;
+
+  const options: {
+    key: GuestsKey;
+    title: string;
+    age: string;
+    value: number;
+  }[] = [
+    { key: "adults", title: "Adults", age: "Age 13+", value: adults },
+    { key: "children", title: "Children", age: "Ages 2-12", value: children },
+    { key: "infants", title: "Infants", age: "Under 2", value: infants },
+  ];
 
   return (
     <div className={`${styles.guestsSearch} ${!isBooking ? styles.hover : ""}`}>
-      <button onClick={onSetGuests} className={styles.total}>
-        <span>GUESTS</span>
-        {numOfGuests ? <p>{numOfGuests} guests</p> : <p>Add guests</p>}
+      <button
+        onClick={() => setIsGuestsSearchOpen(true)}
+        className={styles.total}
+      >
+        <div className={styles.text}>
+          <span>GUESTS</span>
+          {numOfGuests ? <p>{numOfGuests} guests</p> : <p>Add guests</p>}
+        </div>
+        {isBooking && (
+          <div
+            className={`${styles.svgCon} ${
+              isGuestsSearchOpen ? styles.rotate : ""
+            }`}
+          >
+            <ScrollBySVG />
+          </div>
+        )}
       </button>
       {isGuestsSearchOpen && (
         <ul
@@ -41,63 +62,31 @@ export function GuestsWindow({ guests, setGuests, isBooking = false }: Props) {
             isBooking ? styles.guestsBookingModel : styles.guestsSearchModel
           }
         >
-          <li>
-            <div className={styles.type}>
-              <h2>Adults</h2>
-              <h3>Age 13+</h3>
-            </div>
-            <div className={styles.actions}>
-              <button
-                onClick={() => onClickGuests("adults", -1)}
-                disabled={guests.adults <= 1}
-                style={{ opacity: guests.adults <= 1 ? 0.5 : 1 }}
-              >
-                <MinusSVG />
-              </button>
-              <h4>{guests.adults}</h4>
-              <button onClick={() => onClickGuests("adults", 1)}>
-                <PlusSVG />
-              </button>
-            </div>
-          </li>
-          <li>
-            <div className={styles.type}>
-              <h2>Children</h2>
-              <h3>Ages 2-12</h3>
-            </div>
-            <div className={styles.actions}>
-              <button
-                onClick={() => onClickGuests("children", -1)}
-                disabled={guests.children <= 0}
-                style={{ opacity: guests.children <= 0 ? 0.5 : 1 }}
-              >
-                <MinusSVG />
-              </button>
-              <h4>{guests.children}</h4>
-              <button onClick={() => onClickGuests("children", 1)}>
-                <PlusSVG />
-              </button>
-            </div>
-          </li>
-          <li>
-            <div className={styles.type}>
-              <h2>Infants</h2>
-              <h3>Under 2</h3>
-            </div>
-            <div className={styles.actions}>
-              <button
-                onClick={() => onClickGuests("infants", -1)}
-                disabled={guests.infants <= 0}
-                style={{ opacity: guests.infants <= 0 ? 0.5 : 1 }}
-              >
-                <MinusSVG />
-              </button>
-              <h4>{guests.infants}</h4>
-              <button onClick={() => onClickGuests("infants", 1)}>
-                <PlusSVG />
-              </button>
-            </div>
-          </li>
+          {options.map((option) => (
+            <li key={option.key}>
+              <div className={styles.type}>
+                <h2>{option.title}</h2>
+                <h3>{option.age}</h3>
+              </div>
+              <div className={styles.actions}>
+                <button
+                  onClick={() => onClickGuests(option.key, -1)}
+                  disabled={option.value <= 0}
+                  style={{ opacity: option.value <= 0 ? 0.5 : 1 }}
+                  aria-label={`Decrease ${option.title}`}
+                >
+                  <MinusSVG />
+                </button>
+                <h4>{option.value}</h4>
+                <button
+                  aria-label={`Increase ${option.title}`}
+                  onClick={() => onClickGuests(option.key, 1)}
+                >
+                  <PlusSVG />
+                </button>
+              </div>
+            </li>
+          ))}
         </ul>
       )}
     </div>

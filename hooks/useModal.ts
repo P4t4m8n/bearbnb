@@ -1,6 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 export const useModal = (
-
   ref: React.RefObject<
     | HTMLDivElement
     | HTMLButtonElement
@@ -9,7 +13,7 @@ export const useModal = (
     | HTMLLIElement
   >,
   callBack?: null | (() => void)
-): [boolean, React.Dispatch<React.SetStateAction<boolean>>] => {
+): [boolean, Dispatch<SetStateAction<boolean>>] => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {

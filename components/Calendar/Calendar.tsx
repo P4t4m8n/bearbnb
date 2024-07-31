@@ -14,7 +14,6 @@ interface Props {
   };
   onDateClick: (date: Date) => void;
   clearDates: () => void;
-  closeCalendarModel: (close: boolean) => void;
 }
 
 export function Calendar({
@@ -23,7 +22,6 @@ export function Calendar({
   bookingDate,
   onDateClick,
   clearDates,
-  closeCalendarModel,
 }: Props) {
   // State to keep track of the user selected month
   const [anchorDate, setAnchorDate] = useState<Date>(date || new Date());

@@ -6,7 +6,7 @@
   gap: 1rem;
   max-width: 100%;
   position: relative;
-  @include borderBottom-width-color-paddingBottom(1px, $gray-3, 1rem);
+  @include borderBottom-width-color-paddingBottom(1px, $gray-3, 2rem);
 
   p {
     line-height: $line-height-24;

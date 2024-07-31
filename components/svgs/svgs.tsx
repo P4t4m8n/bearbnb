@@ -1,6 +1,5 @@
 import { SvgIconModel, SvgsNameTypes } from "@/model/icons.model";
 import { CalendarSVG, CarSVG, DoorSVG, KeySVG } from "./amentiasSVG";
-import { HouseSVG } from "./stayTypeSvgs";
 import { BedsTypes } from "@/model/bedroom.model";
 
 interface Props {
@@ -250,7 +249,6 @@ export function PlusSVG() {
   return (
     <svg
       viewBox="0 0 12 12"
-      xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
       role="presentation"
       focusable="false"
@@ -346,20 +344,6 @@ export const LogoutSVG = () => {
     </svg>
   );
 };
-
-export function DynamicSVG({ path, viewBox }: SvgIconModel) {
-  return (
-    <svg
-      viewBox={viewBox}
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      role="presentation"
-      focusable="false"
-    >
-      <path d={path}></path>
-    </svg>
-  );
-}
 
 export const SharedHouseSVG = () => {
   return (
@@ -530,4 +514,15 @@ export const DynamicBedsSVG = ({ name }: { name: BedsTypes }) => {
   }
 };
 
-
+export function DynamicSVG({ path, viewBox }: SvgIconModel) {
+  return (
+    <svg
+      viewBox={viewBox}
+      aria-hidden="true"
+      role="presentation"
+      focusable="false"
+    >
+      <path d={path}></path>
+    </svg>
+  );
+}

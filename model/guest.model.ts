@@ -3,3 +3,5 @@ export interface GuestsModel {
   children: number;
   infants: number;
 }
+
+export type GuestsKey = keyof GuestsModel ;

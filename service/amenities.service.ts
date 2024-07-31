@@ -11,6 +11,35 @@ import {
   OutdoorAmenities,
   MiscellaneousAmenities,
 } from "@/model/amenities.type";
+import { AmenityModel, GroupedAmenities } from "@/model/amenity.model";
+
+export const groupAmenitiesByCategory = (
+  amenities: AmenityModel[]
+): GroupedAmenities => {
+  const groupedAmenities = amenities.reduce<GroupedAmenities>(
+    (acc, amenity) => {
+      if (!acc[amenity.category]) {
+        acc[amenity.category] = [];
+      }
+
+      acc[amenity.category].push({
+        name: amenity.name,
+        _id: amenity._id,
+        path: amenity.path,
+        viewBox: amenity.viewBox,
+      });
+
+      return acc;
+    },
+    {}
+  );
+
+  Object.values(groupedAmenities).forEach((group) =>
+    group.sort((a, b) => a.name.localeCompare(b.name))
+  );
+
+  return groupedAmenities;
+};
 
 //Constants for amenities
 export const entertainmentAmenities: EntertainmentAmenities[] = [

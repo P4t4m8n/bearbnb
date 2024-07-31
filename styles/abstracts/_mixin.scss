@@ -52,15 +52,15 @@
   width: 100%;
   min-height: 3rem;
   border-radius: $border-radius-1-2;
-  background-image: radial-gradient(
-    rgb(255, 56, 92) 0%,
-    rgb(230, 30, 77) 27.5%,
-    rgb(227, 28, 95) 40%,
-    rgb(215, 4, 102) 57.5%,
-    rgb(189, 30, 89) 75%,
-    rgb(189, 30, 89) 100%
+  background-image: linear-gradient(
+    to right,
+    rgb(230, 30, 77) 0%,
+    rgb(227, 28, 95) 50%,
+    rgb(215, 4, 102) 100%
   );
   color: white;
+  font-size: $font-size-16;
+  font-weight: 700;
 }
 @mixin skeleton {
   border-radius: $border-radius-1-2;

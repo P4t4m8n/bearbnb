@@ -52,7 +52,7 @@ body:has(.details) {
       padding-inline: max(1rem, calc((100vw - 70rem) / 2));
       width: 100%;
       grid-template-rows: 100% !important;
-      height: 5rem !important;
+
       &:after {
         bottom: 0 !important;
       }

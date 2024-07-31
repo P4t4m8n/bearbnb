@@ -1,0 +1,129 @@
+@import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/mixin";
+.booking {
+  @include flex-direction-gap-padding(column, 1rem, 1.5rem);
+  @include border-solid-color-width-radius($gray-3, 1px, $border-radius-1-2);
+  height: fit-content;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
+  color: $black-1;
+
+  .bookingHeader {
+    @include flex-direction-alignItems-gap-padding(row, center, 0.5rem, 0);
+    h1 {
+      font-size: $font-size-22;
+    }
+    h3 {
+      font-size: $font-size-16;
+      font-weight: 400;
+    }
+  }
+
+  .bookingInfo {
+    @include border-solid-color-width-radius($gray-2, 1px, $border-radius-1-2);
+    position: relative;
+    z-index: auto;
+    max-height: 7rem;
+    display: grid;
+    grid-template-rows: 50% 50%;
+    justify-items: start;
+  }
+  .price {
+    font-size: $font-size-16;
+    @include flex-direction-align-justify-padding-gap(
+      row,
+      baseline,
+      space-between,
+      0,
+      0
+    );
+    &:nth-of-type(4) {
+      @include borderBottom-width-color-paddingBottom(1px, $gray-3, 1.5rem);
+    }
+    h3,
+    h1 {
+      font-weight: 400;
+      font-size: $font-size-16;
+      line-height: $line-height-20;
+    }
+    h1 {
+      padding-top: 0.5rem;
+      font-weight: 700;
+    }
+    .underline {
+      text-decoration: underline;
+    }
+  }
+  .bookBtn {
+    @include bookingBtn;
+  }
+}
+
+@media (max-width: 850px) {
+  .booking {
+    position: sticky;
+    bottom: 0;
+    gap: 0;
+    background-color: white;
+    height: 5rem;
+    grid-template-rows: 50% 50%;
+    grid-template-columns: 25% 25%;
+    padding: 0.5rem;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    border-top: 1px solid rgb(221, 221, 221);
+    z-index: 1;
+
+    header {
+      grid-area: 1/1/2/2;
+    }
+
+    .bookingInfo {
+      border: none;
+      display: block;
+      grid-area: 2/1/-1/2;
+      .dates {
+        display: block;
+        width: fit-content;
+        padding: 0;
+        .datesBig {
+          display: none;
+        }
+        .datesSmall {
+          display: block;
+          font-size: 0.9rem;
+          width: fit-content;
+        }
+      }
+      .calendarCon {
+        position: fixed;
+        right: 50%;
+        top: 37rem;
+        transform: translate(50%, -50%);
+        width: 70vw;
+      }
+    }
+
+    .price {
+      display: none;
+    }
+
+    .bookBtn {
+      grid-area: 1/2/-1/-1;
+      height: fit-content;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 400;
+    }
+  }
+}
